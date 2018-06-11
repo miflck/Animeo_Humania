@@ -63,6 +63,7 @@ void ApplicationBase::addListeners() {
     ofAddListener(ofEvents().draw, this, &ApplicationBase::_draw);
     ofAddListener(ofEvents().exit, this, &ApplicationBase::_exit);
     ofAddListener(ofEvents().keyPressed, this, &ApplicationBase::keyPressed);
+        ofRegisterMouseEvents(this);
 
     }
     bAddedListeners = true;
@@ -74,6 +75,7 @@ void ApplicationBase::removeListeners() {
     ofRemoveListener(ofEvents().draw, this, &ApplicationBase::_draw);
     ofRemoveListener(ofEvents().exit, this, &ApplicationBase::_exit);
     ofRemoveListener(ofEvents().keyPressed, this, &ApplicationBase::keyPressed);
+    ofUnregisterMouseEvents(this);
 
     bAddedListeners = false;
 }
@@ -132,3 +134,20 @@ void ApplicationBase::reset(){
 void ApplicationBase::keyPressed(ofKeyEventArgs &e){
     int key=e.key;
 }
+
+void ApplicationBase::mouseMoved(ofMouseEventArgs &e){
+}
+void ApplicationBase::mouseDragged(ofMouseEventArgs &e){
+    
+}
+void ApplicationBase::mousePressed(ofMouseEventArgs &e){
+}
+void ApplicationBase::mouseReleased(ofMouseEventArgs &e){
+}
+void ApplicationBase::mouseScrolled(ofMouseEventArgs &e){
+}
+void ApplicationBase::mouseEntered(ofMouseEventArgs &e){
+}
+void ApplicationBase::mouseExited(ofMouseEventArgs &e){
+}
+

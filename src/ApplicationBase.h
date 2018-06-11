@@ -26,6 +26,14 @@ public:
     virtual void _draw(ofEventArgs &e);
     virtual void _exit(ofEventArgs &e);
     virtual void keyPressed(ofKeyEventArgs &e);
+    
+    virtual void mouseMoved(ofMouseEventArgs &a );
+    virtual void mouseDragged(ofMouseEventArgs &a);
+    virtual void mousePressed(ofMouseEventArgs &a);
+    virtual void mouseReleased(ofMouseEventArgs &a);
+    virtual void mouseScrolled(ofMouseEventArgs &a);
+    virtual void mouseEntered(ofMouseEventArgs &a);
+    virtual void mouseExited(ofMouseEventArgs &a);
 
     
     virtual bool isRunning();
@@ -42,6 +50,8 @@ public:
    virtual void update();
    virtual void draw();
    virtual void exit();
+    
+    
     
     bool bAddedListeners;
     bool bIsRunning;
