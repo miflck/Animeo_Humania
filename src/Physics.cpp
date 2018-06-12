@@ -31,9 +31,9 @@ void Physics::init(){
     anchor.setup(box2d.getWorld(), xPos, 0, 10);
     anchor2.setup(box2d.getWorld(), xPos, ofGetHeight(), 10);
     
+    
     int num=30;
     int jointlength=(ofGetHeight()/(num+1));
-    
     
     // first we add just a few circles
     for(int i=0; i<num; i++) {
@@ -43,7 +43,7 @@ void Physics::init(){
         //   circle.get()->setPhysics(10.0, 0.53, 0.9);
         
         // }else{
-        circle.get()->setPhysics(3.0, 0.53, 10);
+        circle.get()->setPhysics(3, 0.53, 5);
         
         // }
         circle.get()->setup(box2d.getWorld(), xPos, (ofGetHeight()/(num+1))+(ofGetHeight()/(num+1))*i, 5);
@@ -56,17 +56,17 @@ void Physics::init(){
         auto joint = std::make_shared<ofxBox2dJoint>();
         // if this is the first point connect to the top anchor.
         if(i == 0) {
-            joint.get()->setup(box2d.getWorld(), anchor.body, circles[i].get()->body,10,1);
+            joint.get()->setup(box2d.getWorld(), anchor.body, circles[i].get()->body,20,1);
         }
         else {
-            joint.get()->setup(box2d.getWorld(), circles[i-1].get()->body, circles[i].get()->body,20,1);
+            joint.get()->setup(box2d.getWorld(), circles[i-1].get()->body, circles[i].get()->body,10,10);
         }
         joint.get()->setLength(jointlength);
         joints.push_back(joint);
     }
     
     auto joint = std::make_shared<ofxBox2dJoint>();
-    joint.get()->setup(box2d.getWorld(), circles[circles.size()-1].get()->body, anchor2.body,20,1);
+    joint.get()->setup(box2d.getWorld(), circles[circles.size()-1].get()->body, anchor2.body,20,0.1);
     joint.get()->setLength(jointlength);
     
     joints.push_back(joint);
@@ -78,20 +78,21 @@ void Physics::update(){
     box2d.update();
     
     ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
-    float minDis = ofGetMousePressed() ? 300 : 200;
+    float minDis = ofGetMousePressed() ? 100 : 50;
     
     for(int i=0; i<circles.size(); i++) {
         float dis = mouse.distance(circles[i].get()->getPosition());
-    //    if(dis < minDis) circles[i].get()->addRepulsionForce(mouse, 9);
-        // else circles[i].get()->addAttractionPoint(mouse, 4.0);
-        circles[i].get()->setDamping(0.99);
+     //   if(bIsMouseActive)circles[i].get()->addRepulsionForce(mouse, 9);
+       if(dis < minDis && bIsMouseActive) circles[i].get()->addRepulsionForce(mouse,10);
+       //  else circles[i].get()->addAttractionPoint(mouse, 4.0);
+       // circles[i].get()->setDamping(0.98);
         
     }
     
     anchor.addAttractionPoint(mouse,40);
 
     
-    //anchor2.setDamping(0.9);
+    anchor2.setDamping(0.9);
 
     //ofVec2f distance=mouse-anchor.getPosition();
   //  anchor2.setVelocity(distance.normalize()*-1);
@@ -114,22 +115,29 @@ void Physics::draw(){
     ofDrawRectangle(0,0,ofGetWidth(),ofGetHeight());
     
     ofSetHexColor(0xf2ab01);
-    //anchor.draw();
-    //anchor2.draw();
-    
-    for(int i=0; i<circles.size(); i++) {
-        ofFill();
-        ofSetHexColor(0x01b1f2);
-         circles[i].get()->draw();
-    }
-    
-    for(int i=0; i<joints.size(); i++) {
-        ofSetHexColor(0x444342);
-          joints[i].get()->draw();
+
+
+    if(APPC->debug){
+        
+        anchor.draw();
+        anchor2.draw();
+        
+       ofDrawRectangle(anchor.getPosition().x,anchor.getPosition().y,10,10);
+        
+            for(int i=0; i<circles.size(); i++) {
+            ofFill();
+            ofSetHexColor(0x01b1f2);
+             circles[i].get()->draw();
+        }
+        
+        for(int i=0; i<joints.size(); i++) {
+            ofSetHexColor(0x444342);
+              joints[i].get()->draw();
+        }
     }
     
     line=line.getResampledBySpacing(2);
-    line=line.getSmoothed(30);
+   // line=line.getSmoothed(5);
     
     ofSetColor(255);
     ofSetLineWidth(3);
@@ -154,14 +162,14 @@ void Physics::exit(){
 //--------------------------------------------------------------
 void Physics::keyPressed(ofKeyEventArgs &e){
     if(e.key=='r'){
-        anchor.setPhysics(1, 0.5, 0.9);
+        anchor.setPhysics(10, 0.5, 0.9);
         anchor.body->SetType(b2_dynamicBody);
         
     }
     
     
     if(e.key=='R'){
-        anchor2.setPhysics(1, 1, 10);
+        anchor2.setPhysics(10, 1, 10);
         anchor2.body->SetType(b2_dynamicBody);
         
     }
@@ -199,7 +207,7 @@ void Physics::keyPressed(ofKeyEventArgs &e){
         cout<<joints[0].get()->getFrequency()<<endl;
     }
     
-    if(e.key=='d'){
+   /* if(e.key=='d'){
         for(int i=0; i<joints.size(); i++) {
             joints[i].get()->setDamping( joints[i].get()->getDamping()+0.01);
         }
@@ -210,6 +218,11 @@ void Physics::keyPressed(ofKeyEventArgs &e){
             joints[i].get()->setDamping( joints[i].get()->getDamping()-0.01);
         }
         cout<<joints[0].get()->getDamping()<<endl;
+    }
+    */
+    
+    if(e.key=='m'){
+        toggleMouseActive();
     }
     
     
@@ -253,6 +266,11 @@ void Physics::mouseEntered(ofMouseEventArgs &a){
 //--------------------------------------------------------------
 void Physics::mouseExited(ofMouseEventArgs &a){
     
+}
+
+
+void Physics::toggleMouseActive(){
+    bIsMouseActive=!bIsMouseActive;
 }
 
 

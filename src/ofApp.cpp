@@ -36,6 +36,11 @@ void ofApp::keyPressed(int key){
             APPC->setAppById("physics");
     break;
             
+    case 'd':
+            APPC->toggleDebug();
+    break;
+ 
+            
     }
 
 }

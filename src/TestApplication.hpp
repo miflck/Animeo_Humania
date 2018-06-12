@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "ApplicationBase.h"
+#include "MovingObject.hpp"
 class TestApplication:public ApplicationBase{
 public:
     TestApplication();
@@ -18,6 +19,13 @@ public:
     
     
     void keyPressed(ofKeyEventArgs &e);
+    void mouseMoved(ofMouseEventArgs &a );
+    void mouseDragged(ofMouseEventArgs &a);
+    void mousePressed(ofMouseEventArgs &a);
+    void mouseReleased(ofMouseEventArgs &a);
+    void mouseScrolled(ofMouseEventArgs &a);
+    void mouseEntered(ofMouseEventArgs &a);
+    void mouseExited(ofMouseEventArgs &a);
 
     
     void turnOn();
@@ -35,6 +43,9 @@ public:
     bool bAddedListeners;
     bool bIsRunning;
     
+    
+    
+    MovingObject mover;
     
 };
 

@@ -99,10 +99,15 @@ void ApplicationController::_update(ofEventArgs &e) {
 
 void ApplicationController::_draw(ofEventArgs &e) {
    
-   
     }
 
 
+
+ApplicationBase* ApplicationController::getAppByName(string _identifier){
+    map<string,ApplicationBase*>::iterator a;
+    a=applications.find(_identifier);
+    return (*a).second;
+}
 
 void ApplicationController::setAppById(string _identifier){
 	
@@ -140,4 +145,7 @@ void ApplicationController::gotMessage(ofMessage &msg){
 }
 
 
+void ApplicationController::toggleDebug(){
+    debug=!debug;
+}
 

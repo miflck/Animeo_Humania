@@ -48,6 +48,7 @@ public:
     bool bAddedListeners;
     bool bIsRunning;
     
+    void toggleMouseActive();
     
     
 private:
@@ -60,7 +61,8 @@ private:
 
     ofPolyline line;
     
-    
+    ofxBox2dJoint mousejoint;
+    bool bIsMouseActive=false;
     
 };
 

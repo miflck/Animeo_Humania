@@ -49,12 +49,14 @@ public:
     void setAppById(string _identifier);
     void gotMessage(ofMessage &msg);
     
+    void toggleDebug();
 
      
-    
+    bool debug=true;
     
 
-	
+    ApplicationBase* getAppByName(string _identifier);
+
 	
 private:
 	ApplicationController();
@@ -65,6 +67,8 @@ private:
     ApplicationBase* activeApplication;
 	map<string, ApplicationBase*>applications;
 	map<string,ApplicationBase*>::iterator app;
+    
+    
     
 };
 
