@@ -23,6 +23,8 @@ void Physics::init(){
     
     box2d.init();
     box2d.setGravity(0, 0);
+    box2d.createGround();
+
     box2d.setFPS(60.0);
     box2d.registerGrabbing();
     

@@ -5,8 +5,8 @@
 //  Created by Flückiger Michael on 11.06.18.
 //
 
-#ifndef PhysicsWorld_hpp
-#define PhysicsWorld_hpp
+#ifndef KinectV2_hpp
+#define KinectV2_hpp
 
 #include <stdio.h>
 #include "ofMain.h"
@@ -15,10 +15,10 @@
 
 
 
-class PhysicsWorld:public ApplicationBase{
+class KinectV2:public ApplicationBase{
 public:
-    PhysicsWorld();
-    virtual ~PhysicsWorld();
+    KinectV2();
+    virtual ~KinectV2();
     
     
 

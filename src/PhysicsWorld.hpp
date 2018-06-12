@@ -5,8 +5,8 @@
 //  Created by Flückiger Michael on 11.06.18.
 //
 
-#ifndef Physics_hpp
-#define Physics_hpp
+#ifndef PhysicsWorld_hpp
+#define PhysicsWorld_hpp
 
 #include <stdio.h>
 #include "ofMain.h"
@@ -15,10 +15,10 @@
 
 
 
-class Physics:public ApplicationBase{
+class PhysicsWorld:public ApplicationBase{
 public:
-    Physics();
-    virtual ~Physics();
+    PhysicsWorld();
+    virtual ~PhysicsWorld();
     
     
 
@@ -56,6 +56,9 @@ private:
     ofxBox2dCircle                            anchor;  // fixed anchor
     vector      <shared_ptr<ofxBox2dCircle> > circles; // default box2d circles
     vector      <shared_ptr<ofxBox2dJoint> >  joints;  // joints
+    vector    <shared_ptr<ofxBox2dRect> >   boxes;           // default box2d rects
+    
+    
     ofxBox2dCircle                            anchor2;  // fixed anchor
     vector      <ofVec2f>   positions;  // joints
 

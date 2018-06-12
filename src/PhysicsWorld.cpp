@@ -1,28 +1,29 @@
 //
-//  Physics.cpp
+//  PhysicsWorld.cpp
 //  appswitcher
 //
 //  Created by Flückiger Michael on 11.06.18.
 //
 
-#include "Physics.hpp"
+#include "PhysicsWorld.hpp"
 #include "ApplicationController.h"
 
-Physics::Physics(){
+PhysicsWorld::PhysicsWorld(){
     init();
 }
 
 
-Physics::~Physics(){
+PhysicsWorld::~PhysicsWorld(){
     
 }
 
-void Physics::init(){
-    cout<<"init Physics"<<endl;
+void PhysicsWorld::init(){
+    cout<<"init PhysicsWorld"<<endl;
     bAddedListeners = false;
     
     box2d.init();
-    box2d.setGravity(0, 0);
+    box2d.setGravity(0, 3);
+    box2d.createGround();
     box2d.setFPS(60.0);
     box2d.registerGrabbing();
     
@@ -40,7 +41,7 @@ void Physics::init(){
         auto circle = std::make_shared<ofxBox2dCircle>();
         
         // if(i%2==0){
-        //   circle.get()->setPhysics(10.0, 0.53, 0.9);
+        //   circle.get()->setPhysicsWorld(10.0, 0.53, 0.9);
         
         // }else{
         circle.get()->setPhysics(3, 0.53, 5);
@@ -74,7 +75,7 @@ void Physics::init(){
     
 }
 
-void Physics::update(){
+void PhysicsWorld::update(){
     box2d.update();
     
     ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
@@ -110,7 +111,7 @@ void Physics::update(){
 }
 
 
-void Physics::draw(){
+void PhysicsWorld::draw(){
     ofSetColor(0);
     ofDrawRectangle(0,0,ofGetWidth(),ofGetHeight());
     
@@ -152,95 +153,38 @@ void Physics::draw(){
     
 }
 
-void Physics::exit(){
-    cout<<"exit Physics"<<endl;
+void PhysicsWorld::exit(){
+    cout<<"exit PhysicsWorld"<<endl;
 }
 
 
 
 //KEY LISTENER
 //--------------------------------------------------------------
-void Physics::keyPressed(ofKeyEventArgs &e){
-    if(e.key=='r'){
-        anchor.setPhysics(10, 0.5, 0.9);
-        anchor.body->SetType(b2_dynamicBody);
+void PhysicsWorld::keyPressed(ofKeyEventArgs &e){
+    if(e.key == 'c') {
+        cout<<"Add Circles"<<endl;
+        float r = ofRandom(4, 20);        // a random radius 4px - 20px
+        circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
+        circles.back().get()->setPhysics(3.0, 0.53, 0.1);
+        circles.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
         
     }
-    
-    
-    if(e.key=='R'){
-        anchor2.setPhysics(10, 1, 10);
-        anchor2.body->SetType(b2_dynamicBody);
-        
-    }
-    
-    
-    
-    if(e.key=='h'){
-        anchor.setPosition(0, ofGetHeight()/2);
-        anchor.setPhysics(0, 0.5, 0.9);
-        anchor.body->SetType(b2_staticBody);
-
-        anchor2.setPosition(ofGetWidth(), ofGetHeight()/2);
-        anchor2.setPhysics(0, 0.5, 0.9);
-        anchor2.body->SetType(b2_staticBody);
-        
-    }
-    
-    
-    if(e.key=='a'){
-        anchor.setPosition(0, ofGetMouseY());
-        
-    }
-    
-    if(e.key=='-'){
-        for(int i=0; i<joints.size(); i++) {
-            joints[i].get()->setFrequency(joints[i].get()->getFrequency()-0.1);
-        }
-        cout<<joints[0].get()->getFrequency()<<endl;
-    }
-    
-    if(e.key=='+'){
-        for(int i=0; i<joints.size(); i++) {
-            joints[i].get()->setFrequency(joints[i].get()->getFrequency()+0.1);
-        }
-        cout<<joints[0].get()->getFrequency()<<endl;
-    }
-    
-   /* if(e.key=='d'){
-        for(int i=0; i<joints.size(); i++) {
-            joints[i].get()->setDamping( joints[i].get()->getDamping()+0.01);
-        }
-        cout<<joints[0].get()->getDamping()<<endl;
-    }
-    if(e.key=='D'){
-        for(int i=0; i<joints.size(); i++) {
-            joints[i].get()->setDamping( joints[i].get()->getDamping()-0.01);
-        }
-        cout<<joints[0].get()->getDamping()<<endl;
-    }
-    */
-    
-    if(e.key=='m'){
-        toggleMouseActive();
-    }
-    
-    
 }
 
 
 //--------------------------------------------------------------
-void Physics::mouseMoved(ofMouseEventArgs &a){
+void PhysicsWorld::mouseMoved(ofMouseEventArgs &a){
 
 }
 
 //--------------------------------------------------------------
-void Physics::mouseDragged(ofMouseEventArgs &a){
+void PhysicsWorld::mouseDragged(ofMouseEventArgs &a){
     
 }
 
 //--------------------------------------------------------------
-void Physics::mousePressed(ofMouseEventArgs &a){
+void PhysicsWorld::mousePressed(ofMouseEventArgs &a){
     cout<<"Mouse"<< anchor.isFixed()<<endl;
     anchor.setPhysics(0, 0.5, 0.9);
     anchor.body->SetType(b2_staticBody);
@@ -250,38 +194,38 @@ void Physics::mousePressed(ofMouseEventArgs &a){
 }
 
 //--------------------------------------------------------------
-void Physics::mouseReleased(ofMouseEventArgs &a){
+void PhysicsWorld::mouseReleased(ofMouseEventArgs &a){
     
 }
 
-void Physics::mouseScrolled(ofMouseEventArgs &a){
-    
-}
-
-//--------------------------------------------------------------
-void Physics::mouseEntered(ofMouseEventArgs &a){
+void PhysicsWorld::mouseScrolled(ofMouseEventArgs &a){
     
 }
 
 //--------------------------------------------------------------
-void Physics::mouseExited(ofMouseEventArgs &a){
+void PhysicsWorld::mouseEntered(ofMouseEventArgs &a){
+    
+}
+
+//--------------------------------------------------------------
+void PhysicsWorld::mouseExited(ofMouseEventArgs &a){
     
 }
 
 
-void Physics::toggleMouseActive(){
+void PhysicsWorld::toggleMouseActive(){
     bIsMouseActive=!bIsMouseActive;
 }
 
 
-void Physics::turnOn(){
+void PhysicsWorld::turnOn(){
     if(!bAddedListeners){
         addListeners();
     }
     bAddedListeners=true;
 }
 
-void Physics::turnOff(){
+void PhysicsWorld::turnOff(){
     if(bAddedListeners){
         removeListeners();
     }

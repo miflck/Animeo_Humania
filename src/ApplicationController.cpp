@@ -11,6 +11,8 @@
 #include "TestApplication.hpp"
 #include "Line.hpp"
 #include "Physics.hpp"
+#include "PhysicsWorld.hpp"
+#include "KinectV2.hpp"
 
 
 
@@ -29,6 +31,9 @@ ApplicationController::ApplicationController() {
 }
 
 void ApplicationController::initialize() {
+    
+    oscmanager.setup();
+
  
 	initialized=true;
     cout<<"init ApplicationController"<<endl;
@@ -63,6 +68,11 @@ void ApplicationController::initialize() {
     applications["physics"]=new Physics();
     applications["physics"]->setId("physics");
     
+    applications["physicsworld"]=new PhysicsWorld();
+    applications["physicsworld"]->setId("physicsworld");
+    
+    applications["kinectV2"]=new KinectV2();
+    applications["kinectV2"]->setId("kinectV2");
 	
         
 	/*applications["testClass"]=new TestClassController();

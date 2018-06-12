@@ -16,6 +16,7 @@
 
 #include "ApplicationBase.h"
 
+#include "OscManager.hpp"
 
 
 
@@ -57,7 +58,7 @@ public:
 
     ApplicationBase* getAppByName(string _identifier);
 
-	
+	    OscManager oscmanager;
 private:
 	ApplicationController();
 	static ApplicationController* instance;

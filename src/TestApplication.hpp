@@ -43,7 +43,8 @@ public:
     bool bAddedListeners;
     bool bIsRunning;
     
-    
+    bool bSendOSCPosition=false;
+    int m8layer=1;
     
     MovingObject mover;
     

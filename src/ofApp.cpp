@@ -6,6 +6,7 @@ void ofApp::setup(){
     APPC->initialize();
     ofSetVerticalSync(true);
     ofEnableAntiAliasing();
+    ofBackground(0);
 
 }
 
@@ -35,6 +36,18 @@ void ofApp::keyPressed(int key){
             cout<<"set app"<<endl;
             APPC->setAppById("physics");
     break;
+            
+        case '4':
+            cout<<"set app"<<endl;
+            APPC->setAppById("physicsworld");
+            break;
+            
+            
+        case '5':
+            cout<<"set app"<<endl;
+            APPC->setAppById("kinectV2");
+            break;
+            
             
     case 'd':
             APPC->toggleDebug();

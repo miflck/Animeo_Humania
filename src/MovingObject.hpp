@@ -32,7 +32,8 @@ public:
     
     ofVec2f seek(ofVec2f t, float f);
 
-    
+    bool bSeekTarget=false;
+    bool bSeekMouse=false;
 private:
     ofVec2f position;
     int radius;

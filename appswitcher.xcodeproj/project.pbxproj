@@ -99,6 +99,9 @@
 		FA7300BAC71DAC1ABAF6EE15 /* b2Fixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774DDD1B3F05D3FDF0D37794 /* b2Fixture.cpp */; };
 		FA91622A20CF16AF00DD99C6 /* Agent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91622920CF16AE00DD99C6 /* Agent.cpp */; };
 		FA91622E20CF184000DD99C6 /* MovingObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91622C20CF183F00DD99C6 /* MovingObject.cpp */; };
+		FA91623220CFC3AB00DD99C6 /* PhysicsWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91623120CFC3AB00DD99C6 /* PhysicsWorld.cpp */; };
+		FA91623920CFEF7F00DD99C6 /* OscManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91623720CFEF7E00DD99C6 /* OscManager.cpp */; };
+		FA91624020D00C8E00DD99C6 /* KinectV2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91623F20D00C8E00DD99C6 /* KinectV2.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -332,6 +335,12 @@
 		FA91622920CF16AE00DD99C6 /* Agent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Agent.cpp; sourceTree = "<group>"; };
 		FA91622C20CF183F00DD99C6 /* MovingObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovingObject.cpp; sourceTree = "<group>"; };
 		FA91622D20CF183F00DD99C6 /* MovingObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MovingObject.hpp; sourceTree = "<group>"; };
+		FA91623020CFC3AB00DD99C6 /* PhysicsWorld.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PhysicsWorld.hpp; sourceTree = "<group>"; };
+		FA91623120CFC3AB00DD99C6 /* PhysicsWorld.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsWorld.cpp; sourceTree = "<group>"; };
+		FA91623720CFEF7E00DD99C6 /* OscManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OscManager.cpp; sourceTree = "<group>"; };
+		FA91623820CFEF7E00DD99C6 /* OscManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OscManager.hpp; sourceTree = "<group>"; };
+		FA91623E20D00C8E00DD99C6 /* KinectV2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KinectV2.hpp; sourceTree = "<group>"; };
+		FA91623F20D00C8E00DD99C6 /* KinectV2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KinectV2.cpp; sourceTree = "<group>"; };
 		FD20B1FFE795860DB1C68BF2 /* b2ChainAndCircleContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2ChainAndCircleContact.cpp; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp; sourceTree = SOURCE_ROOT; };
 		FF2B018E24837032A4878576 /* ofxEasing.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasing.h; path = ../../../addons/ofxEasing/src/ofxEasing.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -776,10 +785,16 @@
 				7C4FF8B03B11358FCEC183A2 /* ApplicationController.h */,
 				E26359B3F76DB6C94AF4C692 /* Line.cpp */,
 				96BA0B8C7C9921D2BCA4E6C1 /* Line.hpp */,
-				1CF27802FBF26F2CCDE62C9F /* Physics.cpp */,
 				0A0E98542D36D3AC7A7B1465 /* Physics.hpp */,
+				1CF27802FBF26F2CCDE62C9F /* Physics.cpp */,
+				FA91623020CFC3AB00DD99C6 /* PhysicsWorld.hpp */,
+				FA91623120CFC3AB00DD99C6 /* PhysicsWorld.cpp */,
+				FA91623E20D00C8E00DD99C6 /* KinectV2.hpp */,
+				FA91623F20D00C8E00DD99C6 /* KinectV2.cpp */,
 				D02B304990972A5ADF178C68 /* TestApplication.cpp */,
 				E0EF46E0B4F3388921961F35 /* TestApplication.hpp */,
+				FA91623720CFEF7E00DD99C6 /* OscManager.cpp */,
+				FA91623820CFEF7E00DD99C6 /* OscManager.hpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -956,6 +971,7 @@
 				71C677669B75120425DE19D4 /* b2DynamicTree.cpp in Sources */,
 				19894C344A6861A26A61D2C0 /* b2TimeOfImpact.cpp in Sources */,
 				453D704CD216672147B2EEC2 /* b2ChainShape.cpp in Sources */,
+				FA91624020D00C8E00DD99C6 /* KinectV2.cpp in Sources */,
 				DA846513DA696B1E8921BBC3 /* b2CircleShape.cpp in Sources */,
 				6DEA36329DE746459C62983F /* b2EdgeShape.cpp in Sources */,
 				981EA7C2357295AE8501F4C6 /* b2PolygonShape.cpp in Sources */,
@@ -969,6 +985,7 @@
 				3E76A164B41BCEB11B15C175 /* b2Body.cpp in Sources */,
 				C3D8EF14A387EA959014AD91 /* b2ContactManager.cpp in Sources */,
 				FA7300BAC71DAC1ABAF6EE15 /* b2Fixture.cpp in Sources */,
+				FA91623220CFC3AB00DD99C6 /* PhysicsWorld.cpp in Sources */,
 				6FCE95D2EF10ACCEC2724688 /* b2Island.cpp in Sources */,
 				AC527216645D66921FB3E36F /* b2World.cpp in Sources */,
 				5146AEB9E58FB1B388820C2A /* b2WorldCallbacks.cpp in Sources */,
@@ -996,6 +1013,7 @@
 				684CFB2E4AC045640B3A61F8 /* b2WheelJoint.cpp in Sources */,
 				370CDDF0DD53C5453DBD3F22 /* b2Rope.cpp in Sources */,
 				4CC0FD96DE77FF40BBCF8DD8 /* del_impl.cpp in Sources */,
+				FA91623920CFEF7F00DD99C6 /* OscManager.cpp in Sources */,
 				08C23182D394C53F6ECE6CCC /* easing_terms_of_use.html in Sources */,
 				856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */,
 				5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */,

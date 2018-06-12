@@ -33,20 +33,27 @@ void MovingObject::move(){
 
     */
     
-    applyForce(seek(target,0.5));
+   if(bSeekTarget) applyForce(seek(target,0.5));
+    if(bSeekMouse) applyForce(seek(ofVec2f(ofGetMouseX(),ofGetMouseY()),0.5));
+
 
     velocity+=acceleration;
     velocity*=0.98;
     position+= velocity;
     acceleration.set(0,0);
     
-    
+
 }
 
+
+
+
+
 void MovingObject::draw(){
+    
     ofPushMatrix();
     ofPushStyle();
-    ofSetColor(255, 0, 0);
+    ofSetColor(255);
     ofDrawEllipse(position.x, position.y, radius, radius);
     ofPopStyle();
     ofPopMatrix();
@@ -82,6 +89,12 @@ void MovingObject::setTarget(ofVec2f _target){
 void MovingObject::applyForce(ofVec2f _force){
     acceleration+= _force;
 }
+
+
+ofVec2f MovingObject::getPosition(){
+    return position;
+}
+
 
 ofVec2f MovingObject::seek(ofVec2f t, float f){
     ofVec2f p(position);

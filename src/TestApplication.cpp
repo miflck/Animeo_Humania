@@ -6,6 +6,8 @@
 //
 
 #include "TestApplication.hpp"
+#include "ApplicationController.h"
+
 TestApplication::TestApplication(){
     init();
 }
@@ -25,11 +27,13 @@ void TestApplication::init(){
 void TestApplication::update(){
     cout<<"update TestApplication"<<endl;
     mover.update();
+    
+  if(bSendOSCPosition)APPC->oscmanager.sendPositionToLayer(m8layer,mover.getPosition().x-ofGetWidth()/2,-mover.getPosition().y+ofGetHeight()/2);
+
 }
 
 
 void TestApplication::draw(){
-    ofDrawRectangle(0,0,10,10);
     mover.draw();
 }
 
@@ -42,7 +46,42 @@ void TestApplication::exit(){
 //KEY LISTENER
 //--------------------------------------------------------------
 void TestApplication::keyPressed(ofKeyEventArgs &e){
-   
+    if(e.key==OF_KEY_LEFT){
+        mover.applyForce(ofVec2f(-1,0));
+    }
+    if(e.key==OF_KEY_RIGHT){
+        mover.applyForce(ofVec2f(1,0));
+    }
+    
+    if(e.key==OF_KEY_UP){
+        mover.applyForce(ofVec2f(0,-1));
+    }
+    if(e.key==OF_KEY_DOWN){
+        mover.applyForce(ofVec2f(0,1));
+    }
+    if(e.key=='t'){
+        mover.bSeekTarget=!mover.bSeekTarget;
+    }
+    if(e.key=='m'){
+        mover.bSeekMouse=!mover.bSeekMouse;
+    }
+
+    if(e.key=='o'){
+        bSendOSCPosition=!bSendOSCPosition;
+    }
+    
+    
+    if(e.key=='+'){
+        m8layer++;
+        
+    }
+    
+    if(e.key=='-'){
+        m8layer--;
+        
+    }
+    
+    
 }
 
 
