@@ -23,27 +23,27 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     switch (key) {
-    case '1':
+    case OF_KEY_F1:
         cout<<"set app"<<endl;
         APPC->setAppById("testApp");
         break;
-    case '2':
+    case OF_KEY_F2:
             cout<<"set app"<<endl;
             APPC->setAppById("line");
     break;
 
-    case '3':
+    case OF_KEY_F3:
             cout<<"set app"<<endl;
             APPC->setAppById("physics");
     break;
             
-        case '4':
+        case OF_KEY_F4:
             cout<<"set app"<<endl;
             APPC->setAppById("physicsworld");
             break;
             
             
-        case '5':
+        case OF_KEY_F5:
             cout<<"set app"<<endl;
             APPC->setAppById("kinectV2");
             break;

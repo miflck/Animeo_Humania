@@ -11,8 +11,23 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "ApplicationBase.h"
-#include "ofxBox2d.h"
 
+#include "ofxKinectV2OSC.h"
+
+
+#include "Grid.h"
+#include "OrthoCamera.h"
+
+
+#define N_CAMERAS 6
+
+struct Plane {
+    ofVec3f n; // normal
+    float d; // distance from origin
+    
+    Plane(); // default constructor
+    Plane(ofVec3f a, ofVec3f b, ofVec3f c); // plane from 3 points
+};
 
 
 class KinectV2:public ApplicationBase{
@@ -51,20 +66,83 @@ public:
     void toggleMouseActive();
     
     
-private:
-    ofxBox2d                                  box2d;   // the box2d world
-    ofxBox2dCircle                            anchor;  // fixed anchor
-    vector      <shared_ptr<ofxBox2dCircle> > circles; // default box2d circles
-    vector      <shared_ptr<ofxBox2dJoint> >  joints;  // joints
-    vector    <shared_ptr<ofxBox2dRect> >   boxes;           // default box2d rects
+    ofxKinectV2OSC kinect;
+    Skeleton* skeleton;
+    vector<Skeleton>* skeletons;
+    ofTrueTypeFont smallFont, largeFont;
+    
+    BodyRenderer renderer;
+    
+    ofEasyCam camEasyCam;
+    ofCamera kinectCam;
+    ofCamera beamerCam;
+    orthoCamera camFront;
+    orthoCamera camTop;
+    orthoCamera camLeft;
     
     
-    ofxBox2dCircle                            anchor2;  // fixed anchor
-    vector      <ofVec2f>   positions;  // joints
+    
+    
+    //cameras have parent?
+    bool bCamParent;
+    
+    //camera pointers
+    ofCamera * cameras[N_CAMERAS];
+    int iMainCamera;
+    
+    //viewports
+    ofRectangle viewMain;
+    ofRectangle viewGrid[N_CAMERAS];
+    ofRectangle stage;
+    
+    bool draw_sidecameras=true;
+    int myfov;
+    int beamerlookat;
+    ofVec3f beamerposition;
+    int beamerdistance;
+    int beamerheight;
+    
+    
+    int kinectdistance;
+    int kinectheight;
+    int kinectxoffset;
+    int kinectfov;
 
-    ofPolyline line;
+    void setupViewports();
+    void drawScene(int iCameraDraw);
+    grid nodeGrid;
     
-    ofxBox2dJoint mousejoint;
+    
+    ofNode sweetspot;
+    
+    ofNode hand;
+
+
+    
+    
+    ofPlanePrimitive plane;
+    
+    ofVboMesh window;
+
+    
+    ofVec3f windowTopLeft;
+    ofVec3f windowBottomLeft;
+    ofVec3f windowBottomRight;
+
+    
+    bool usePreview;
+    float windowWidth;
+    float windowHeight;
+    float viewerDistance;
+    
+    
+    ofVec3f intersectLine(ofVec3f a, ofVec3f b, ofVec3f n, float d); // we'll get to this later
+
+    ofVec3f screenpos;
+    
+private:
+   
+    
     bool bIsMouseActive=false;
     
 };

@@ -59,6 +59,8 @@ public:
     ApplicationBase* getAppByName(string _identifier);
 
 	    OscManager oscmanager;
+    bool bUseOSC=false;
+    
 private:
 	ApplicationController();
 	static ApplicationController* instance;

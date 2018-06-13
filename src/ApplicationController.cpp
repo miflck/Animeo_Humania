@@ -32,7 +32,7 @@ ApplicationController::ApplicationController() {
 
 void ApplicationController::initialize() {
     
-    oscmanager.setup();
+    if(bUseOSC)oscmanager.setup();
 
  
 	initialized=true;
