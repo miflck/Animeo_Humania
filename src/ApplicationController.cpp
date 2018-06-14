@@ -16,7 +16,6 @@
 
 
 
-
 ApplicationController* ApplicationController::instance = 0;
 
 ApplicationController* ApplicationController::getInstance() {
@@ -88,6 +87,9 @@ void ApplicationController::initialize() {
     ofAddListener(ofEvents().update, this, &ApplicationController::_update);
     ofAddListener(ofEvents().draw, this, &ApplicationController::_draw);
 
+    
+    
+    
 }
 
 bool ApplicationController::isInitialized(){

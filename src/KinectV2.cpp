@@ -43,6 +43,7 @@ void KinectV2::init(){
     
     
     beamerposition.set(0,0,500);
+    kinectposition.set(100,100,100);
 
     
     
@@ -51,13 +52,14 @@ void KinectV2::init(){
     
     myfov=60;
     sweetspot.setPosition(0, 0, 0);
-    hand.setPosition(100,100,100);
+    hand.setPosition(0,0,0);
     
     // observer camera
 
     beamerCam.setPosition(beamerposition);
     beamerCam.lookAt(sweetspot);
     beamerCam.setFov(60);
+    beamerCam.setFarClip(20000);
     
     // virtual beamer camera
    // camEasyCam.setPosition(beamerposition.x,beamerposition.y-50,beamerposition.z);
@@ -66,13 +68,11 @@ void KinectV2::init(){
     camEasyCam.setDistance(1000);
     
     
-    kinectdistance=200;
-    kinectheight=100;
-    kinectxoffset=300;
+
     int kinectfov=60;
     
     // kinect camera
-    kinectCam.setPosition(kinectxoffset, kinectheight, kinectdistance);
+    kinectCam.setPosition(kinectposition);
     //kinectEasyCam.setTarget(ofVec3f(kinectxoffset, kinectheight, 0));
     
     
@@ -81,16 +81,16 @@ void KinectV2::init(){
     
     
     // front
-    camFront.scale = 500;
+    camFront.scale = 300;
     cameras[1] = &camFront;
     
     // top
-    camTop.scale =500;
+    camTop.scale =300;
     camTop.tilt(-90);
     cameras[2] = &camTop;
     
     // left
-    camLeft.scale = 500;
+    camLeft.scale = 300;
     camLeft.pan(-90);
     cameras[3] = &camLeft;
     
@@ -99,7 +99,7 @@ void KinectV2::init(){
     
     setupViewports();
 
-    plane.set(ofGetWidth(), ofGetHeight());   ///dimensions for width and height in pixels
+    plane.set(1280, 800);   ///dimensions for width and height in pixels
     plane.setPosition(0, 0, 0); /// position in x y z
     plane.setResolution(10, 10); /// this resolution (as columns and rows) is enough
     
@@ -127,7 +127,25 @@ void KinectV2::init(){
 void KinectV2::update(){
     //Each frame check for new Kinect OSC messages
     kinect.update();
-    ofLog() << kinect.getSkeletons()->size();
+    
+    testnode.setPosition(APPC->gui->testPosition);
+    beamerCam.setPosition(APPC->gui->beamerPosition);
+    beamerCam.setFov(APPC->gui->beamerFov);
+    beamerposition.set(APPC->gui->beamerPosition);
+    //beamerCam.setFov(2.0f * atan2( tan( (APPC->gui->beamerFov * DEG_TO_RAD) / 2.0f ) , beamerCam.getAspectRatio() ) * RAD_TO_DEG);
+    
+    kinectCam.setPosition(APPC->gui->kinectPosition);
+    kinectposition.set(APPC->gui->kinectPosition);
+   // kinectposition*=(APPC->gui->kinectscalefact);
+    for(int i = 0; i < skeletons->size(); i++) {
+        ofVec3f userHandLeftPoint = skeletons->at(i).getHandLeft().getPoint();
+        //userHandLeftPoint*=100;
+        
+        hand.setPosition(kinectToWorld(userHandLeftPoint));
+        cout<<kinectToWorld(userHandLeftPoint)<<endl;
+    }
+
+    
 }
 
 
@@ -151,7 +169,11 @@ void KinectV2::draw(){
         
         ofVec3f userHandLeftPoint = skeletons->at(i).getHandLeft().getPoint();
         ofCircle(userHandLeftPoint.x, userHandLeftPoint.y, 60);
-        cout<<userHandLeftPoint.z<<endl;
+        
+        ofPushStyle();
+        ofSetColor(255, 0, 0);
+        ofPopStyle();
+        cout<<userHandLeftPoint.x<<endl;
         
         ofSetColor(ofColor::fromHsb(ofGetFrameNum() % 255, 255, 255));
         Joint handLeft = skeletons->at(i).getHandLeft();
@@ -212,6 +234,16 @@ void KinectV2::draw(){
     intersection.set(intersectLine(beamerposition,hand.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
     ofDrawCircle(intersection.x, intersection.y, 20);
    screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+    ofDrawCircle(screenpos,10);
+    
+    
+    ofVec3f intersection2;
+    intersection2.set(intersectLine(APPC->gui->rayPosition,hand.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
+    ofSetColor(0, 0, 255);
+    ofDrawCircle(intersection2.x, intersection2.y, 20);
+    screenpos=cameras[5]->worldToScreen(intersection2, viewMain);
+    ofSetColor(0, 255, 255);
+
     ofDrawCircle(screenpos,10);
     
     
@@ -316,8 +348,8 @@ void KinectV2::setupViewports(){
     
     viewMain.x = 0;
     viewMain.y = 0;
-    viewMain.width = ofGetWidth();
-    viewMain.height = ofGetHeight();
+    viewMain.width = 1280;
+    viewMain.height = 800;
     
     for(int i = 0; i < N_CAMERAS; i++){
         
@@ -341,9 +373,11 @@ void KinectV2::drawScene(int iCameraDraw){
 
     
     hand.draw();
+    testnode.draw();
+    ofDrawBox(-200,-100,0,100);
     
     ofVec3f intersection;
-    intersection.set(intersectLine(beamerposition,hand.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
+    intersection.set(intersectLine(beamerposition,hand.getPosition(),ofVec3f(0,0,1),50)); // we'll get to this later
     ofDrawCircle(intersection.x, intersection.y, 20);
  
     
@@ -384,4 +418,21 @@ ofVec3f KinectV2::   intersectLine(ofVec3f a, ofVec3f b, ofVec3f n,float d) {
     return a + (((d - nDotA)/nDotBA) * ba);
 }
 
+ofVec3f KinectV2:: kinectToWorld (ofVec3f _pos){
+    ofVec3f p;
+    ofVec3f kpos;
+    kpos.set(_pos);
+    kpos*=100;
+    kpos*=APPC->gui->kinectscalefact;
+    //_pos.x*=-1;
+   // _pos.y*=-1;
+    p.set(kinectposition);
+   // p*=1.6;
+    p.x+=kpos.x;
+    p.y+=kpos.y;
+    p.z-=kpos.z;
+    //p+=_pos;
+  
+    return p;
+}
 

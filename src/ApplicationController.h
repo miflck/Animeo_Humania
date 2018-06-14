@@ -17,6 +17,8 @@
 #include "ApplicationBase.h"
 
 #include "OscManager.hpp"
+#include "GuiApp.h"
+
 
 
 
@@ -59,7 +61,11 @@ public:
     ApplicationBase* getAppByName(string _identifier);
 
 	    OscManager oscmanager;
-    bool bUseOSC=false;
+    bool bUseOSC=true;
+    
+    
+    shared_ptr<GuiApp> gui;
+
     
 private:
 	ApplicationController();

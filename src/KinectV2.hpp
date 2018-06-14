@@ -103,10 +103,11 @@ public:
     int beamerheight;
     
     
-    int kinectdistance;
-    int kinectheight;
-    int kinectxoffset;
+
     int kinectfov;
+    ofVec3f kinectposition;
+
+    
 
     void setupViewports();
     void drawScene(int iCameraDraw);
@@ -116,6 +117,8 @@ public:
     ofNode sweetspot;
     
     ofNode hand;
+    ofNode testnode;
+
 
 
     
@@ -139,6 +142,8 @@ public:
     ofVec3f intersectLine(ofVec3f a, ofVec3f b, ofVec3f n, float d); // we'll get to this later
 
     ofVec3f screenpos;
+    
+    ofVec3f kinectToWorld(ofVec3f _pos);
     
 private:
    

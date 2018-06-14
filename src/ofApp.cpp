@@ -4,6 +4,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     APPC->initialize();
+    APPC->gui=gui;
     ofSetVerticalSync(true);
     ofEnableAntiAliasing();
     ofBackground(0);
