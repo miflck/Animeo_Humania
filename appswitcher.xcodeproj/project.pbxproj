@@ -111,6 +111,7 @@
 		F387370DB571155BC1282B7D /* b2CollideEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DB5229C686C3BB08137BA36D /* b2CollideEdge.cpp */; };
 		F8C594EDF5A25FA2F042074C /* ofxKinectV2OSC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E489615DA9497A4B4D8CEA /* ofxKinectV2OSC.cpp */; };
 		FA330F5720D24E5E00A0CCD0 /* GuiApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA330F5620D24E5E00A0CCD0 /* GuiApp.cpp */; };
+		FA330F5D20D2FCBF00A0CCD0 /* KinectV2Manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA330F5B20D2FCBF00A0CCD0 /* KinectV2Manager.cpp */; };
 		FA7300BAC71DAC1ABAF6EE15 /* b2Fixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774DDD1B3F05D3FDF0D37794 /* b2Fixture.cpp */; };
 		FA91624520D00F4F00DD99C6 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91624420D00F4F00DD99C6 /* Grid.cpp */; };
 		FA91624920D00F5600DD99C6 /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91624620D00F5600DD99C6 /* OrthoCamera.cpp */; };
@@ -372,6 +373,8 @@
 		F7FBC56859535E597B24BB91 /* NetworkingUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = NetworkingUtils.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h; sourceTree = SOURCE_ROOT; };
 		FA330F5520D24E5E00A0CCD0 /* GuiApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiApp.h; sourceTree = "<group>"; };
 		FA330F5620D24E5E00A0CCD0 /* GuiApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiApp.cpp; sourceTree = "<group>"; };
+		FA330F5B20D2FCBF00A0CCD0 /* KinectV2Manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KinectV2Manager.cpp; sourceTree = "<group>"; };
+		FA330F5C20D2FCBF00A0CCD0 /* KinectV2Manager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KinectV2Manager.hpp; sourceTree = "<group>"; };
 		FA784162B6A8E3A77BBE4D6C /* b2TimeStep.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = b2TimeStep.h; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/b2TimeStep.h; sourceTree = SOURCE_ROOT; };
 		FA91624420D00F4F00DD99C6 /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		FA91624620D00F5600DD99C6 /* OrthoCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OrthoCamera.cpp; sourceTree = "<group>"; };
@@ -855,6 +858,8 @@
 				7C4FF8B03B11358FCEC183A2 /* ApplicationController.h */,
 				86FDCFD21A515E82446D3B07 /* KinectV2.cpp */,
 				BF186297B0958AAEA94B021C /* KinectV2.hpp */,
+				FA330F5B20D2FCBF00A0CCD0 /* KinectV2Manager.cpp */,
+				FA330F5C20D2FCBF00A0CCD0 /* KinectV2Manager.hpp */,
 				E26359B3F76DB6C94AF4C692 /* Line.cpp */,
 				96BA0B8C7C9921D2BCA4E6C1 /* Line.hpp */,
 				7B7B675E9C944A19CA7CCAAB /* MovingObject.cpp */,
@@ -1102,6 +1107,7 @@
 				AC527216645D66921FB3E36F /* b2World.cpp in Sources */,
 				5146AEB9E58FB1B388820C2A /* b2WorldCallbacks.cpp in Sources */,
 				1FC2864D958F177964A20421 /* b2ChainAndCircleContact.cpp in Sources */,
+				FA330F5D20D2FCBF00A0CCD0 /* KinectV2Manager.cpp in Sources */,
 				39303C5BE86B7B4AD0770567 /* b2ChainAndPolygonContact.cpp in Sources */,
 				70ACBBD5DBE2725EC1E99CCF /* b2CircleContact.cpp in Sources */,
 				BFD2A0EEBE3B4153659EC355 /* b2Contact.cpp in Sources */,

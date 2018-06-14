@@ -20,6 +20,7 @@ public:
     ofParameter<float>kinectscalefact;
     ofParameter<ofVec3f>rayPosition;
 
+    ofParameter<bool> kinectManagerDebug;
 
 
     

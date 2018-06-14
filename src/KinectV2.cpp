@@ -128,19 +128,19 @@ void KinectV2::update(){
     //Each frame check for new Kinect OSC messages
     kinect.update();
     
-    testnode.setPosition(APPC->gui->testPosition);
-    beamerCam.setPosition(APPC->gui->beamerPosition);
-    beamerCam.setFov(APPC->gui->beamerFov);
     beamerposition.set(APPC->gui->beamerPosition);
-    //beamerCam.setFov(2.0f * atan2( tan( (APPC->gui->beamerFov * DEG_TO_RAD) / 2.0f ) , beamerCam.getAspectRatio() ) * RAD_TO_DEG);
-    
-    kinectCam.setPosition(APPC->gui->kinectPosition);
+    beamerposition*=(APPC->gui->kinectscalefact);
+    testnode.setPosition(APPC->gui->testPosition);
+    beamerCam.setPosition(beamerposition);
+    beamerCam.setFov(APPC->gui->beamerFov);
+
     kinectposition.set(APPC->gui->kinectPosition);
-   // kinectposition*=(APPC->gui->kinectscalefact);
+    kinectposition*=(APPC->gui->kinectscalefact);
+    kinectCam.setPosition(kinectposition);
+
+    
     for(int i = 0; i < skeletons->size(); i++) {
         ofVec3f userHandLeftPoint = skeletons->at(i).getHandLeft().getPoint();
-        //userHandLeftPoint*=100;
-        
         hand.setPosition(kinectToWorld(userHandLeftPoint));
         cout<<kinectToWorld(userHandLeftPoint)<<endl;
     }
@@ -161,7 +161,7 @@ void KinectV2::draw(){
     
     //We passed the skeleton list pointer to the renderer earlier,
     //now we tell it to draw them
-    renderer.draw();
+    //renderer.draw();
     
     //If you want to stop using the default renderer and start
     //drawing your own graphics, uncomment this for a starting point:
@@ -230,11 +230,14 @@ void KinectV2::draw(){
     }
     
     
-    ofVec3f intersection;
+ /*   ofVec3f intersection;
     intersection.set(intersectLine(beamerposition,hand.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
     ofDrawCircle(intersection.x, intersection.y, 20);
    screenpos=cameras[5]->worldToScreen(intersection, viewMain);
     ofDrawCircle(screenpos,10);
+    
+    
+    
     
     
     ofVec3f intersection2;
@@ -246,6 +249,15 @@ void KinectV2::draw(){
 
     ofDrawCircle(screenpos,10);
     
+    ofVec3f intersection3;
+    intersection3.set(intersectLine(beamerposition,testnode.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
+    ofDrawCircle(intersection3.x, intersection3.y, 20);
+    screenpos=cameras[5]->worldToScreen(intersection3, viewMain);
+    
+    ofSetColor(255, 255, 0);
+
+    ofDrawCircle(screenpos,10);
+    */
     
 }
 
@@ -376,20 +388,41 @@ void KinectV2::drawScene(int iCameraDraw){
     testnode.draw();
     ofDrawBox(-200,-100,0,100);
     
-    ofVec3f intersection;
+   /* ofVec3f intersection;
     intersection.set(intersectLine(beamerposition,hand.getPosition(),ofVec3f(0,0,1),50)); // we'll get to this later
     ofDrawCircle(intersection.x, intersection.y, 20);
- 
+    */
     
+    
+    ofVec3f intersection3;
+    intersection3.set(intersectLine(cameras[5]->getGlobalPosition(),testnode.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
+    ofSetColor(255, 255, 0);
+    ofDrawCircle(intersection3.x, intersection3.y, 20);
+    
+   // screenpos=cameras[5]->worldToScreen(intersection3, viewMain);
+    
+   // ofDrawCircle(screenpos,10);
+ 
     ofVec3f v1 = cameras[5]->getGlobalPosition();
-    ofVec3f v2 = sweetspot.getGlobalPosition();
+    ofVec3f v2 = testnode.getGlobalPosition();
+    ofSetColor(0, 255, 0);
+   // ofDrawLine(v1,v2);
+    
+     v1 = beamerposition;
+     v2 = testnode.getPosition();
+    ofSetColor(0, 255, 255);
+    ofDrawLine(v1,v2);
+
+    
+     v1 = cameras[5]->getGlobalPosition();
+     v2 = sweetspot.getGlobalPosition();
     ofDrawLine(v1,v2);
         // draw cameras
-        for(int i=0; i<N_CAMERAS; i++) {
-            ofSetColor(255, 255, 0);
+        //for(int i=0; i<N_CAMERAS; i++) {
+           // ofSetColor(255, 255, 0);
          //   cameras[i]->draw();
             //cameras[i]->drawFrustum();
-        }
+        //}
 
     ofPushStyle();
     ofSetColor(150, 100, 100);
@@ -424,15 +457,10 @@ ofVec3f KinectV2:: kinectToWorld (ofVec3f _pos){
     kpos.set(_pos);
     kpos*=100;
     kpos*=APPC->gui->kinectscalefact;
-    //_pos.x*=-1;
-   // _pos.y*=-1;
     p.set(kinectposition);
-   // p*=1.6;
-    p.x+=kpos.x;
+    p.x-=kpos.x;
     p.y+=kpos.y;
     p.z-=kpos.z;
-    //p+=_pos;
-  
     return p;
 }
 

@@ -61,7 +61,7 @@ public:
     ApplicationBase* getAppByName(string _identifier);
 
 	    OscManager oscmanager;
-    bool bUseOSC=true;
+    bool bUseOSC=false;
     
     
     shared_ptr<GuiApp> gui;

@@ -1,10 +1,14 @@
 #include "ofApp.h"
 #include "ApplicationController.h"
+#include "KinectV2Manager.hpp"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
     APPC->initialize();
     APPC->gui=gui;
+    
+    KINECTMANAGER->initialize();
+    
     ofSetVerticalSync(true);
     ofEnableAntiAliasing();
     ofBackground(0);
@@ -53,6 +57,14 @@ void ofApp::keyPressed(int key){
     case 'd':
             APPC->toggleDebug();
     break;
+            
+        case 'i':
+            KINECTMANAGER->addInputListeners();
+            break;
+            
+        case 'I':
+            KINECTMANAGER->removeInputListeners();
+            break;
  
             
     }
