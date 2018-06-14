@@ -125,10 +125,24 @@ void KinectV2Manager::draw(){
     ofPopStyle();
 
     
-    if(draw_sidecameras){
+        
+        
+        if(draw_sidecameras){
+            // draw side viewports
+            for(int i = 0; i < N_CAMERAS; i++){
+                ofPushStyle();
+                cameras[i]->begin(viewGrid[i]);
+                drawScene(i);
+                cameras[i]->end();
+                ofPopStyle();
+            }
+        }
+        
+        
+        if(draw_sidecameras){
         // draw outlines on views
         ofPushStyle();
-        ofSetLineWidth(5);
+        ofSetLineWidth(3);
         ofNoFill();
         ofSetColor(255, 255, 255);
         //
