@@ -48,6 +48,8 @@ public:
     
     MovingObject mover;
     
+    int skelettId=0;
+    
 };
 
 

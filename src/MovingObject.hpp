@@ -10,6 +10,9 @@
 #include "ofMain.h"
 #include <stdio.h>
 
+#include "ofxKinectV2OSC.h"
+
+
 class MovingObject {
     
 public:
@@ -34,6 +37,11 @@ public:
 
     bool bSeekTarget=false;
     bool bSeekMouse=false;
+    
+    vector<Skeleton>* skeletons;
+
+    
+    
 private:
     ofVec2f position;
     int radius;

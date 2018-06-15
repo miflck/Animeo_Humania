@@ -140,7 +140,13 @@ void ApplicationController::setAppById(string _identifier){
 	
 }
 
-
+void ApplicationController::setAppNull(){
+    if(activeApplication!=NULL){
+        activeApplication->turnOff();
+    }
+    
+    activeApplication=NULL;
+}
 
 
 void ApplicationController::sayHello(){

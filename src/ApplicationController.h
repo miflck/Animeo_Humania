@@ -50,6 +50,10 @@ public:
 	bool isInitialized();
     void sayHello();
     void setAppById(string _identifier);
+    
+    void setAppNull();
+
+    
     void gotMessage(ofMessage &msg);
     
     void toggleDebug();

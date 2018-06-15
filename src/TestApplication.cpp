@@ -7,6 +7,8 @@
 
 #include "TestApplication.hpp"
 #include "ApplicationController.h"
+#include "KinectV2Manager.hpp"
+
 
 TestApplication::TestApplication(){
     init();
@@ -25,7 +27,20 @@ void TestApplication::init(){
 }
 
 void TestApplication::update(){
-    cout<<"update TestApplication"<<endl;
+    
+    
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+    
+    for(int i=0;i<mskel.size();i++){
+        mskel[i].drawSkeletton();
+    }
+    
+    if(mskel.size()>skelettId){
+    //for(int i=0;i<mskel.size();i++){
+        mover.setTarget(mskel[skelettId].leftHand);
+   // }
+    }
+    
     mover.update();
     
   if(bSendOSCPosition)APPC->oscmanager.sendPositionToLayer(m8layer,mover.getPosition().x-ofGetWidth()/2,-mover.getPosition().y+ofGetHeight()/2);
@@ -80,7 +95,13 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
         m8layer--;
         
     }
-    
+        
+    if(e.key=='0'){
+        skelettId=0;
+    }
+    if(e.key=='1'){
+        skelettId=1;
+    }
     
 }
 

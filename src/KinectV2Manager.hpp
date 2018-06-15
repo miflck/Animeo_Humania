@@ -25,6 +25,46 @@
 
 
 
+struct MappedPoints{
+    
+    ofVec3f leftHand;
+    ofVec3f leftShoulder;
+    ofVec3f leftEllbow;
+    ofVec3f leftWrist;
+    ofVec3f leftHip;
+    ofVec3f leftKnee;
+    ofVec3f leftAnkle;
+    ofVec3f leftFoot;
+
+    ofVec3f rightHand;
+    ofVec3f rightShoulder;
+    ofVec3f rightEllbow;
+    ofVec3f rightWrist;
+    ofVec3f rightHip;
+    ofVec3f rightKnee;
+    ofVec3f rightAnkle;
+    ofVec3f rightFoot;
+    
+    ofVec3f head;
+    ofVec3f neck;
+    ofVec3f spineBase;
+    ofVec3f spineMid;
+    
+    void drawSkeletton(){
+        ofDrawLine(leftHand,leftEllbow);
+        ofDrawLine(leftEllbow,leftShoulder);
+        ofDrawLine(leftShoulder,neck);
+        
+        ofDrawLine(rightHand,rightEllbow);
+        ofDrawLine(rightEllbow,rightShoulder);
+        ofDrawLine(rightShoulder,neck);
+        ofDrawLine(neck,spineMid);
+        ofDrawLine(spineMid,leftHip);
+        ofDrawLine(spineMid,rightHip);
+    }
+};
+
+
 class KinectV2Manager {
 public:
     
@@ -116,7 +156,11 @@ public:
     ofNode sweetspot;
     
     vector<ofVec3f>lefthands;
-    
+    vector<ofVec3f>righthands;
+    vector<ofVec3f>heads;
+
+
+    vector<MappedPoints> mappedSkelettons;
 
     ofNode testnode;
     ofNode hand;
@@ -127,8 +171,17 @@ public:
     ofVec3f intersectLine(ofVec3f a, ofVec3f b, ofVec3f n, float d); // we'll get to this later
     ofVec3f screenpos;
     ofVec3f kinectToWorld(ofVec3f _pos);
+    static ofVec3f kinectToWorld(ofVec3f _kinectpos, ofVec3f _pos);
 
     void KinectV2ManagerDebugToggle(const void * sender, bool & pressed);
+    
+    vector<Skeleton>* getSkelettons();
+  //  ofVec3f getScaledKinectPosition();
+    
+    vector<ofVec3f> getLeftHands();
+    
+    vector<MappedPoints> getMappedSkelettons();
+    
     
 private:
     KinectV2Manager();

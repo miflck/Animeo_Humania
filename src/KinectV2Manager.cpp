@@ -113,21 +113,132 @@ void KinectV2Manager::update(){
     kinectposition*=(APPC->gui->kinectscalefact);
     kinectCam.setPosition(kinectposition);
     
-    cout<<skeletons->size()<<endl;
     
     lefthands.clear();
+    righthands.clear();
+    heads.clear();
+    
+    mappedSkelettons.clear();
+    
     for(int i = 0; i < skeletons->size(); i++) {
-        ofVec3f userHandLeftPoint = skeletons->at(i).getHandLeft().getPoint();
-        lefthands.push_back(ofVec3f(kinectToWorld(userHandLeftPoint)));
-        cout<<kinectToWorld(userHandLeftPoint)<<endl;
+        
+        MappedPoints m;
+        
+        ofVec3f intersection;
+        ofVec3f screenpos;
+        
+        ofVec3f leftHand = skeletons->at(i).getHandLeft().getPoint();
+        ofVec3f leftShoulder = skeletons->at(i).getShoulderLeft().getPoint();
+        ofVec3f leftEllbow = skeletons->at(i).getElbowLeft().getPoint();
+        ofVec3f leftWrist = skeletons->at(i).getWristLeft().getPoint();
+        ofVec3f leftHip = skeletons->at(i).getHipLeft().getPoint();
+        ofVec3f leftKnee = skeletons->at(i).getKneeLeft().getPoint();
+        ofVec3f leftAnkle = skeletons->at(i).getAnkleLeft().getPoint();
+        ofVec3f leftFoot = skeletons->at(i).getFootLeft().getPoint();
+        
+        ofVec3f rightHand = skeletons->at(i).getHandRight().getPoint();
+        ofVec3f rightShoulder = skeletons->at(i).getShoulderRight().getPoint();
+        ofVec3f rightEllbow = skeletons->at(i).getElbowRight().getPoint();
+        ofVec3f rightWrist = skeletons->at(i).getWristRight().getPoint();
+        ofVec3f rightHip = skeletons->at(i).getHipRight().getPoint();
+        ofVec3f rightKnee = skeletons->at(i).getKneeRight().getPoint();
+        ofVec3f rightAnkle = skeletons->at(i).getAnkleRight().getPoint();
+        ofVec3f rightFoot = skeletons->at(i).getFootRight().getPoint();
+        
+
+        ofVec3f head=skeletons->at(i).getHead().getPoint();
+        ofVec3f neck=skeletons->at(i).getNeck().getPoint();
+        ofVec3f spineBase=skeletons->at(i).getSpineBase().getPoint();
+        ofVec3f spineMid=skeletons->at(i).getSpineMid().getPoint();
+        
+        // LEFT SIDE
+
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftHand)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.leftHand=screenpos;
+
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftShoulder)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.leftShoulder=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftEllbow)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.leftEllbow=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftWrist)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.leftWrist=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftHip)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.leftHip=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftKnee)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.leftKnee=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftKnee)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.leftKnee=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftFoot)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.leftFoot=screenpos;
+     
+        // RIGHT SIDE
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightHand)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.rightHand=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightShoulder)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.rightShoulder=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightEllbow)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.rightEllbow=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightWrist)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.rightWrist=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightHip)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.rightHip=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightKnee)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.rightKnee=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightKnee)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.rightKnee=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightFoot)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.rightFoot=screenpos;
+        
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(neck)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.neck=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(spineBase)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.spineBase=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(spineMid)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.spineMid=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(head)),ofVec3f(0,0,1),0)); // we'll get to this later
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        m.head=screenpos;
+        mappedSkelettons.push_back(m);
     }
     
     
-    for(int i = 0; i < skeletons->size(); i++) {
-        ofVec3f userHandLeftPoint = skeletons->at(i).getHandLeft().getPoint();
-        hand.setPosition(kinectToWorld(userHandLeftPoint));
-        cout<<kinectToWorld(userHandLeftPoint)<<endl;
-    }
+   
 
 }
 
@@ -182,7 +293,7 @@ void KinectV2Manager::exit(){
 //KEY LISTENER
 //--------------------------------------------------------------
 void KinectV2Manager::keyPressed(ofKeyEventArgs &e){
-    cout<<e.key<<endl;
+    cout<<"KEY"<<e.key<<endl;
     if(e.key >= '1' && e.key <= '6'){
         iMainCamera = e.key - '1';
     }
@@ -344,6 +455,19 @@ ofVec3f KinectV2Manager:: kinectToWorld (ofVec3f _pos){
     return p;
 }
 
+ofVec3f KinectV2Manager:: kinectToWorld (ofVec3f _kinectpos, ofVec3f _pos){
+    ofVec3f p;
+    ofVec3f kpos;
+    kpos.set(_pos);
+    kpos*=100;
+    kpos*=APPC->gui->kinectscalefact;
+    p.set(_kinectpos);
+    p.x-=kpos.x;
+    p.y+=kpos.y;
+    p.z-=kpos.z;
+    return p;
+}
+
 
 //EVENTS
 //------------------------------------------------------
@@ -368,6 +492,7 @@ void KinectV2Manager::removeListeners() {
 
 
 void KinectV2Manager::addInputListeners() {
+    cout<<"Add input listeners "<<bAddedInputListeners<<endl;
     if(!bAddedInputListeners){
         ofAddListener(ofEvents().keyPressed, this, &KinectV2Manager::keyPressed);
         ofRegisterMouseEvents(this);
@@ -378,11 +503,14 @@ void KinectV2Manager::addInputListeners() {
 
 
 void KinectV2Manager::removeInputListeners() {
+    if(bAddedInputListeners){
+
     ofRemoveListener(ofEvents().keyPressed, this, &KinectV2Manager::keyPressed);
     ofUnregisterMouseEvents(this);
     bAddedInputListeners = false;
     camEasyCam.disableMouseInput();
-
+    cout<<"remove input listeners"<<endl;
+    }
 }
 
 void KinectV2Manager::KinectV2ManagerDebugToggle(const void * sender, bool & pressed){
@@ -413,3 +541,14 @@ void KinectV2Manager :: _exit( ofEventArgs &e )
     exit();
 }
 
+vector<Skeleton>* KinectV2Manager::getSkelettons(){
+    return skeletons;
+}
+
+vector<ofVec3f> KinectV2Manager::getLeftHands(){
+    return lefthands;
+}
+
+vector<MappedPoints> KinectV2Manager::getMappedSkelettons(){
+    return mappedSkelettons;
+}
