@@ -49,6 +49,8 @@ public:
     MovingObject mover;
     
     int skelettId=0;
+
+    int skelettonNodeId=8;
     
 };
 

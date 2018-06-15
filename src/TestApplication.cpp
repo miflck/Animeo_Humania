@@ -37,7 +37,23 @@ void TestApplication::update(){
     
     if(mskel.size()>skelettId){
     //for(int i=0;i<mskel.size();i++){
-        mover.setTarget(mskel[skelettId].leftHand);
+        switch (skelettonNodeId) {
+            case 8:
+                   mover.setTarget(mskel[skelettId].head);
+                break;
+                
+            case 6:
+                mover.setTarget(mskel[skelettId].leftHand);
+                break;
+                
+            case 4:
+                mover.setTarget(mskel[skelettId].rightHand);
+                break;
+                
+            default:
+                break;
+        }
+     
    // }
     }
     
@@ -61,6 +77,7 @@ void TestApplication::exit(){
 //KEY LISTENER
 //--------------------------------------------------------------
 void TestApplication::keyPressed(ofKeyEventArgs &e){
+    cout<<e.key<<endl;
     if(e.key==OF_KEY_LEFT){
         mover.applyForce(ofVec2f(-1,0));
     }
@@ -83,6 +100,18 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
 
     if(e.key=='o'){
         bSendOSCPosition=!bSendOSCPosition;
+    }
+    
+    if(e.key=='8'){
+        skelettonNodeId=8;
+    }
+ 
+    if(e.key=='6'){
+        skelettonNodeId=6;
+    }
+    
+    if(e.key=='4'){
+        skelettonNodeId=4;
     }
     
     

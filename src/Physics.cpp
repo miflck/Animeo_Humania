@@ -8,6 +8,9 @@
 #include "Physics.hpp"
 #include "ApplicationController.h"
 
+#include "KinectV2Manager.hpp"
+
+
 Physics::Physics(){
     init();
 }
@@ -34,7 +37,7 @@ void Physics::init(){
     anchor2.setup(box2d.getWorld(), xPos, ofGetHeight(), 10);
     
     
-    int num=30;
+    int num=20;
     int jointlength=(ofGetHeight()/(num+1));
     
     // first we add just a few circles
@@ -82,12 +85,24 @@ void Physics::update(){
     ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
     float minDis = ofGetMousePressed() ? 100 : 50;
     
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+    ofVec2f leftHand;
+    if(mskel.size()>0){
+         leftHand=mskel[0].leftHand;
+    }
+    
     for(int i=0; i<circles.size(); i++) {
         float dis = mouse.distance(circles[i].get()->getPosition());
      //   if(bIsMouseActive)circles[i].get()->addRepulsionForce(mouse, 9);
        if(dis < minDis && bIsMouseActive) circles[i].get()->addRepulsionForce(mouse,10);
+        
+            if(mskel.size()>0){
+        float handDist = leftHand.distance(circles[i].get()->getPosition());
+        //   if(bIsMouseActive)circles[i].get()->addRepulsionForce(mouse, 9);
+        if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
+            }
        //  else circles[i].get()->addAttractionPoint(mouse, 4.0);
-       // circles[i].get()->setDamping(0.98);
+        circles[i].get()->setDamping(0.98);
         
     }
     
