@@ -70,8 +70,8 @@ void ApplicationController::initialize() {
     applications["physicsworld"]=new PhysicsWorld();
     applications["physicsworld"]->setId("physicsworld");
     
-    applications["kinectV2"]=new KinectV2();
-    applications["kinectV2"]->setId("kinectV2");
+    //applications["kinectV2"]=new KinectV2();
+    //applications["kinectV2"]->setId("kinectV2");
 	
         
 	/*applications["testClass"]=new TestClassController();

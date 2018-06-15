@@ -115,28 +115,20 @@ public:
     
     ofNode sweetspot;
     
-    ofNode hand;
+    vector<ofVec3f>lefthands;
+    
+
     ofNode testnode;
-
-
-
+    ofNode hand;
     
-    
+
     ofPlanePrimitive plane;
     
-   
-
-    
-    bool usePreview;
-
-    
-    
     ofVec3f intersectLine(ofVec3f a, ofVec3f b, ofVec3f n, float d); // we'll get to this later
-
     ofVec3f screenpos;
     ofVec3f kinectToWorld(ofVec3f _pos);
-    
-    void KinectV2ManagerDebugToggle();
+
+    void KinectV2ManagerDebugToggle(const void * sender, bool & pressed);
     
 private:
     KinectV2Manager();

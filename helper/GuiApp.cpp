@@ -6,6 +6,8 @@
  */
 
 #include "GuiApp.h"
+#include "ApplicationController.h"
+#include "KinectV2Manager.hpp"
 
 void GuiApp::setup(){
 	parameters.setName("parameters");
@@ -38,3 +40,6 @@ void GuiApp::update(){
 void GuiApp::draw(){
 	gui.draw();
 }
+
+
+

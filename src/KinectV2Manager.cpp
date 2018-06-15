@@ -92,6 +92,9 @@ void KinectV2Manager::initialize() {
     plane.set(1280, 800);   ///dimensions for width and height in pixels
     plane.setPosition(0, 0, 0); /// position in x y z
     plane.setResolution(10, 10); /// this resolution (as columns and rows) is enough
+    
+    APPC->gui->kinectManagerDebug.addListener(this, &KinectV2Manager::KinectV2ManagerDebugToggle);
+
 
 }
 
@@ -110,6 +113,21 @@ void KinectV2Manager::update(){
     kinectposition*=(APPC->gui->kinectscalefact);
     kinectCam.setPosition(kinectposition);
     
+    cout<<skeletons->size()<<endl;
+    
+    lefthands.clear();
+    for(int i = 0; i < skeletons->size(); i++) {
+        ofVec3f userHandLeftPoint = skeletons->at(i).getHandLeft().getPoint();
+        lefthands.push_back(ofVec3f(kinectToWorld(userHandLeftPoint)));
+        cout<<kinectToWorld(userHandLeftPoint)<<endl;
+    }
+    
+    
+    for(int i = 0; i < skeletons->size(); i++) {
+        ofVec3f userHandLeftPoint = skeletons->at(i).getHandLeft().getPoint();
+        hand.setPosition(kinectToWorld(userHandLeftPoint));
+        cout<<kinectToWorld(userHandLeftPoint)<<endl;
+    }
 
 }
 
@@ -164,6 +182,7 @@ void KinectV2Manager::exit(){
 //KEY LISTENER
 //--------------------------------------------------------------
 void KinectV2Manager::keyPressed(ofKeyEventArgs &e){
+    cout<<e.key<<endl;
     if(e.key >= '1' && e.key <= '6'){
         iMainCamera = e.key - '1';
     }
@@ -285,6 +304,23 @@ void KinectV2Manager::drawScene(int iCameraDraw){
     v2 = sweetspot.getGlobalPosition();
     ofDrawLine(v1,v2);
     
+    intersection;
+    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),hand.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
+    ofSetColor(255, 0, 0);
+    ofDrawCircle(intersection.x, intersection.y, 20);
+    
+     v1 = cameras[5]->getGlobalPosition();
+     v2 = hand.getGlobalPosition();
+    ofSetColor(0, 0, 255);
+    ofDrawLine(v1,v2);
+    
+    v1 = intersection;
+    v2 = hand.getPosition();
+    ofSetColor(255, 0, 0);
+    ofDrawLine(v1,v2);
+    
+
+    
     
 }
 
@@ -349,7 +385,7 @@ void KinectV2Manager::removeInputListeners() {
 
 }
 
-void KinectV2Manager::KinectV2ManagerDebugToggle(){
+void KinectV2Manager::KinectV2ManagerDebugToggle(const void * sender, bool & pressed){
     if(APPC->gui->kinectManagerDebug==true){
         addInputListeners();
     }else{

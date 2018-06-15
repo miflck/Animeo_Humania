@@ -26,5 +26,10 @@ public:
     
 	ofParameter<ofColor> color;
 	ofxPanel gui;
+    
+    
+    
+
+    
 };
 
