@@ -4,6 +4,8 @@
 #include "GuiApp.h"
 
 
+
+
 class ofApp : public ofBaseApp{
 
 	public:
@@ -25,6 +27,8 @@ class ofApp : public ofBaseApp{
     
     shared_ptr<GuiApp> gui;
     
+    
+
     
 
 

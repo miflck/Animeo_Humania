@@ -51,9 +51,15 @@ struct MappedPoints{
     ofVec3f spineMid;
     
     void drawSkeletton(){
+        ofDrawCircle(leftHand,20);
         ofDrawLine(leftHand,leftEllbow);
         ofDrawLine(leftEllbow,leftShoulder);
+        ofDrawCircle(head,20);
+
         ofDrawLine(leftShoulder,neck);
+        
+        ofDrawCircle(rightHand,20);
+
         
         ofDrawLine(rightHand,rightEllbow);
         ofDrawLine(rightEllbow,rightShoulder);
@@ -61,6 +67,14 @@ struct MappedPoints{
         ofDrawLine(neck,spineMid);
         ofDrawLine(spineMid,leftHip);
         ofDrawLine(spineMid,rightHip);
+        
+        ofDrawLine(rightHip,rightKnee);
+      //  ofDrawLine(rightKnee,rightAnkle);
+        
+        ofDrawLine(leftHip,leftKnee);
+     //   ofDrawLine(leftKnee,leftAnkle);
+
+
     }
 };
 

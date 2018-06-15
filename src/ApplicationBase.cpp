@@ -60,7 +60,7 @@ string ApplicationBase::getId(){
 void ApplicationBase::addListeners() {
     if(!bAddedListeners){
 	ofAddListener(ofEvents().update, this, &ApplicationBase::_update);
-    ofAddListener(ofEvents().draw, this, &ApplicationBase::_draw);
+  //  ofAddListener(ofEvents().draw, this, &ApplicationBase::_draw);
     ofAddListener(ofEvents().exit, this, &ApplicationBase::_exit);
     ofAddListener(ofEvents().keyPressed, this, &ApplicationBase::keyPressed);
         ofRegisterMouseEvents(this);
@@ -72,7 +72,7 @@ void ApplicationBase::addListeners() {
 
 void ApplicationBase::removeListeners() {
 	ofRemoveListener(ofEvents().update, this, &ApplicationBase::_update);
-    ofRemoveListener(ofEvents().draw, this, &ApplicationBase::_draw);
+    //ofRemoveListener(ofEvents().draw, this, &ApplicationBase::_draw);
     ofRemoveListener(ofEvents().exit, this, &ApplicationBase::_exit);
     ofRemoveListener(ofEvents().keyPressed, this, &ApplicationBase::keyPressed);
     ofUnregisterMouseEvents(this);

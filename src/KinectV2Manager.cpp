@@ -89,7 +89,7 @@ void KinectV2Manager::initialize() {
     
     setupViewports();
     
-    plane.set(1280, 800);   ///dimensions for width and height in pixels
+    plane.set(1920, 1080);   ///dimensions for width and height in pixels
     plane.setPosition(0, 0, 0); /// position in x y z
     plane.setResolution(10, 10); /// this resolution (as columns and rows) is enough
     
@@ -120,8 +120,21 @@ void KinectV2Manager::update(){
     
     mappedSkelettons.clear();
     
+    
+    //cout<<skeletons->size()<<endl;
+    
+  
+    
+    
     for(int i = 0; i < skeletons->size(); i++) {
         
+        ofVec3f userHandLeftPoint = skeletons->at(i).getHandLeft().getPoint();
+        hand.setPosition(kinectToWorld(userHandLeftPoint));
+      //  cout<<kinectToWorld(userHandLeftPoint)<<endl;
+
+      //  hand.setPosition(skeletons->at(i).getHandLeft().getPoint());
+
+    
         MappedPoints m;
         
         ofVec3f intersection;
@@ -157,6 +170,8 @@ void KinectV2Manager::update(){
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.leftHand=screenpos;
 
+
+        
         intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftShoulder)),ofVec3f(0,0,1),0)); // we'll get to this later
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.leftShoulder=screenpos;
@@ -234,11 +249,14 @@ void KinectV2Manager::update(){
         intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(head)),ofVec3f(0,0,1),0)); // we'll get to this later
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.head=screenpos;
+      
         mappedSkelettons.push_back(m);
+
+        
+      
     }
     
-    
-   
+ 
 
 }
 
@@ -371,8 +389,8 @@ void KinectV2Manager::setupViewports(){
     
     viewMain.x = 0;
     viewMain.y = 0;
-    viewMain.width = 1280;
-    viewMain.height = 800;
+    viewMain.width = 1920;
+    viewMain.height = 1080;
     
     for(int i = 0; i < N_CAMERAS; i++){
         viewGrid[i].x = 0;
@@ -394,7 +412,18 @@ void KinectV2Manager::drawScene(int iCameraDraw){
     hand.draw();
     testnode.draw();
     
+    cout<<"hello"<<endl;
+
+    ofDrawBox(-200, 0, 0, 100, 100, 100);
+    
+    cout<<"Skel"<<mappedSkelettons.size()<<endl;
+    
     ofVec3f intersection;
+    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),hand.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
+    ofSetColor(255, 255, 0);
+    ofDrawCircle(intersection.x, intersection.y, 20);
+    
+    intersection;
     intersection.set(intersectLine(cameras[5]->getGlobalPosition(),testnode.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
     ofSetColor(255, 255, 0);
     ofDrawCircle(intersection.x, intersection.y, 20);
@@ -475,7 +504,7 @@ ofVec3f KinectV2Manager:: kinectToWorld (ofVec3f _kinectpos, ofVec3f _pos){
 void KinectV2Manager::addListeners() {
     if(!bAddedListeners){
         ofAddListener(ofEvents().update, this, &KinectV2Manager::_update);
-        ofAddListener(ofEvents().draw, this, &KinectV2Manager::_draw);
+      //  ofAddListener(ofEvents().draw, this, &KinectV2Manager::_draw);
         ofAddListener(ofEvents().exit, this, &KinectV2Manager::_exit);
     }
     bAddedListeners = true;
@@ -484,7 +513,7 @@ void KinectV2Manager::addListeners() {
 
 void KinectV2Manager::removeListeners() {
     ofRemoveListener(ofEvents().update, this, &KinectV2Manager::_update);
-    ofRemoveListener(ofEvents().draw, this, &KinectV2Manager::_draw);
+//    ofRemoveListener(ofEvents().draw, this, &KinectV2Manager::_draw);
     ofRemoveListener(ofEvents().exit, this, &KinectV2Manager::_exit);
     bAddedListeners = false;
 }

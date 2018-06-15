@@ -93,21 +93,19 @@ void Physics::update(){
     
     for(int i=0; i<circles.size(); i++) {
         float dis = mouse.distance(circles[i].get()->getPosition());
-     //   if(bIsMouseActive)circles[i].get()->addRepulsionForce(mouse, 9);
        if(dis < minDis && bIsMouseActive) circles[i].get()->addRepulsionForce(mouse,10);
-        
             if(mskel.size()>0){
-        float handDist = leftHand.distance(circles[i].get()->getPosition());
-        //   if(bIsMouseActive)circles[i].get()->addRepulsionForce(mouse, 9);
-        if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
+                float handDist = leftHand.distance(circles[i].get()->getPosition());
+                if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
             }
-       //  else circles[i].get()->addAttractionPoint(mouse, 4.0);
         circles[i].get()->setDamping(0.98);
-        
     }
     
-    anchor.addAttractionPoint(mouse,40);
-
+    if(mskel.size()>0 && bUseHand){
+        anchor.addAttractionPoint(leftHand,40);
+    }else{
+        anchor.addAttractionPoint(mouse,40);
+    }
     
     anchor2.setDamping(0.9);
 
@@ -154,7 +152,7 @@ void Physics::draw(){
     }
     
     line=line.getResampledBySpacing(2);
-   // line=line.getSmoothed(5);
+   line=line.getSmoothed(30);
     
     ofSetColor(255);
     ofSetLineWidth(3);
@@ -191,7 +189,9 @@ void Physics::keyPressed(ofKeyEventArgs &e){
         
     }
     
-    
+    if(e.key=='l'){
+        bUseHand=!bUseHand;
+    }
     
     if(e.key=='h'){
         anchor.setPosition(0, ofGetHeight()/2);

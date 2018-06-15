@@ -12,6 +12,16 @@ void ofApp::setup(){
     ofSetVerticalSync(true);
     ofEnableAntiAliasing();
     ofBackground(0);
+    
+    
+    
+
+    
+    //mClient.setup();
+    
+    //using Syphon app Simple Server, found at http://syphon.v002.info/
+    //mClient.set("","Simple Server");
+    
 
 }
 
@@ -22,7 +32,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+    //mClient.draw(50, 50);
+    
 }
 
 //--------------------------------------------------------------

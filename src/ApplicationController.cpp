@@ -13,6 +13,7 @@
 #include "Physics.hpp"
 #include "PhysicsWorld.hpp"
 #include "KinectV2.hpp"
+#include "KinectV2Manager.hpp"
 
 
 
@@ -41,7 +42,8 @@ void ApplicationController::initialize() {
 
 
     
-    
+    mainOutputSyphonServer.setName("Screen Output");
+    individualTextureSyphonServer.setName("Texture Output");
     
   //  ofRegisterGetMessages(this);
 
@@ -110,7 +112,15 @@ void ApplicationController::_update(ofEventArgs &e) {
 }
 
 void ApplicationController::_draw(ofEventArgs &e) {
-   
+    KINECTMANAGER->draw();
+
+    if(activeApplication!=NULL){
+
+    activeApplication->draw();
+
+    }
+    mainOutputSyphonServer.publishScreen();
+
     }
 
 

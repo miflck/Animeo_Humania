@@ -19,6 +19,7 @@
 #include "OscManager.hpp"
 #include "GuiApp.h"
 
+#include "ofxSyphon.h"
 
 
 
@@ -64,12 +65,18 @@ public:
 
     ApplicationBase* getAppByName(string _identifier);
 
-	    OscManager oscmanager;
+    OscManager oscmanager;
     bool bUseOSC=true;
     
     
     shared_ptr<GuiApp> gui;
 
+    
+    
+    ofxSyphonServer mainOutputSyphonServer;
+    ofxSyphonServer individualTextureSyphonServer;
+    
+    ofxSyphonClient mClient;
     
 private:
 	ApplicationController();

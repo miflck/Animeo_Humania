@@ -28,12 +28,10 @@ void TestApplication::init(){
 
 void TestApplication::update(){
     
-    
+    //ofBackground(255,0,0);
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     
-    for(int i=0;i<mskel.size();i++){
-        mskel[i].drawSkeletton();
-    }
+
     
     if(mskel.size()>skelettId){
     //for(int i=0;i<mskel.size();i++){
@@ -65,7 +63,19 @@ void TestApplication::update(){
 
 
 void TestApplication::draw(){
+    ofPushStyle();
     mover.draw();
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+    ofSetLineWidth(8);
+    ofPushMatrix();
+ 
+    for(int i=0;i<mskel.size();i++){
+        ofPushMatrix();
+        mskel[i].drawSkeletton();
+        ofPopMatrix();
+    }
+    ofPopMatrix();
+    ofPopStyle();
 }
 
 void TestApplication::exit(){

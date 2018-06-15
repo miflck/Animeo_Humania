@@ -47,6 +47,7 @@ public:
     //events
     bool bAddedListeners;
     bool bIsRunning;
+    bool bUseHand=false;
     
     void toggleMouseActive();
     
