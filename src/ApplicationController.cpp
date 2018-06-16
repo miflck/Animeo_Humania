@@ -14,7 +14,7 @@
 #include "PhysicsWorld.hpp"
 #include "KinectV2.hpp"
 #include "KinectV2Manager.hpp"
-
+#include "Arm.hpp"
 
 
 ApplicationController* ApplicationController::instance = 0;
@@ -71,6 +71,10 @@ void ApplicationController::initialize() {
     
     applications["physicsworld"]=new PhysicsWorld();
     applications["physicsworld"]->setId("physicsworld");
+    
+    applications["arm"]=new Arm();
+    applications["arm"]->setId("arm");
+    
     
     //applications["kinectV2"]=new KinectV2();
     //applications["kinectV2"]->setId("kinectV2");

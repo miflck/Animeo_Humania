@@ -104,7 +104,7 @@ void KinectV2Manager::update(){
     kinect.update();
     
     beamerposition.set(APPC->gui->beamerPosition);
-    beamerposition*=(APPC->gui->kinectscalefact);
+   // beamerposition*=(APPC->gui->kinectscalefact);
     testnode.setPosition(APPC->gui->testPosition);
     beamerCam.setPosition(beamerposition);
     beamerCam.setFov(APPC->gui->beamerFov);
@@ -416,7 +416,7 @@ void KinectV2Manager::drawScene(int iCameraDraw){
 
     ofDrawBox(-200, 0, 0, 100, 100, 100);
     
-    cout<<"Skel"<<mappedSkelettons.size()<<endl;
+   // cout<<"Skel"<<mappedSkelettons.size()<<endl;
     
     ofVec3f intersection;
     intersection.set(intersectLine(cameras[5]->getGlobalPosition(),hand.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later

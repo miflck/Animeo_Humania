@@ -129,13 +129,13 @@ void KinectV2::update(){
     kinect.update();
     
     beamerposition.set(APPC->gui->beamerPosition);
-    beamerposition*=(APPC->gui->kinectscalefact);
+    //beamerposition*=(APPC->gui->kinectscalefact);
     testnode.setPosition(APPC->gui->testPosition);
     beamerCam.setPosition(beamerposition);
     beamerCam.setFov(APPC->gui->beamerFov);
 
     kinectposition.set(APPC->gui->kinectPosition);
-    kinectposition*=(APPC->gui->kinectscalefact);
+    //kinectposition*=(APPC->gui->kinectscalefact);
     kinectCam.setPosition(kinectposition);
 
     

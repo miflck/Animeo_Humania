@@ -112,6 +112,7 @@
 		F8C594EDF5A25FA2F042074C /* ofxKinectV2OSC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E489615DA9497A4B4D8CEA /* ofxKinectV2OSC.cpp */; };
 		FA330F5720D24E5E00A0CCD0 /* GuiApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA330F5620D24E5E00A0CCD0 /* GuiApp.cpp */; };
 		FA330F5D20D2FCBF00A0CCD0 /* KinectV2Manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA330F5B20D2FCBF00A0CCD0 /* KinectV2Manager.cpp */; };
+		FA330F6920D43D2600A0CCD0 /* Arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA330F6720D43D2600A0CCD0 /* Arm.cpp */; };
 		FA7300BAC71DAC1ABAF6EE15 /* b2Fixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774DDD1B3F05D3FDF0D37794 /* b2Fixture.cpp */; };
 		FA91624520D00F4F00DD99C6 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91624420D00F4F00DD99C6 /* Grid.cpp */; };
 		FA91624920D00F5600DD99C6 /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91624620D00F5600DD99C6 /* OrthoCamera.cpp */; };
@@ -375,6 +376,8 @@
 		FA330F5620D24E5E00A0CCD0 /* GuiApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiApp.cpp; sourceTree = "<group>"; };
 		FA330F5B20D2FCBF00A0CCD0 /* KinectV2Manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KinectV2Manager.cpp; sourceTree = "<group>"; };
 		FA330F5C20D2FCBF00A0CCD0 /* KinectV2Manager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KinectV2Manager.hpp; sourceTree = "<group>"; };
+		FA330F6720D43D2600A0CCD0 /* Arm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Arm.cpp; sourceTree = "<group>"; };
+		FA330F6820D43D2600A0CCD0 /* Arm.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Arm.hpp; sourceTree = "<group>"; };
 		FA784162B6A8E3A77BBE4D6C /* b2TimeStep.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = b2TimeStep.h; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/b2TimeStep.h; sourceTree = SOURCE_ROOT; };
 		FA91624420D00F4F00DD99C6 /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		FA91624620D00F5600DD99C6 /* OrthoCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OrthoCamera.cpp; sourceTree = "<group>"; };
@@ -868,6 +871,8 @@
 				22A1DBFA03997EABFB8709CF /* OscManager.hpp */,
 				1CF27802FBF26F2CCDE62C9F /* Physics.cpp */,
 				0A0E98542D36D3AC7A7B1465 /* Physics.hpp */,
+				FA330F6720D43D2600A0CCD0 /* Arm.cpp */,
+				FA330F6820D43D2600A0CCD0 /* Arm.hpp */,
 				B612089089D3489B77BCC60F /* PhysicsWorld.cpp */,
 				53232972721152B8321D54C9 /* PhysicsWorld.hpp */,
 				D02B304990972A5ADF178C68 /* TestApplication.cpp */,
@@ -1111,6 +1116,7 @@
 				39303C5BE86B7B4AD0770567 /* b2ChainAndPolygonContact.cpp in Sources */,
 				70ACBBD5DBE2725EC1E99CCF /* b2CircleContact.cpp in Sources */,
 				BFD2A0EEBE3B4153659EC355 /* b2Contact.cpp in Sources */,
+				FA330F6920D43D2600A0CCD0 /* Arm.cpp in Sources */,
 				F32187D344F58022DFD48C0F /* b2ContactSolver.cpp in Sources */,
 				ACB31C66D0D7C71A43276982 /* b2EdgeAndCircleContact.cpp in Sources */,
 				0B399DEC7ADBF7A3B1CF81A9 /* b2EdgeAndPolygonContact.cpp in Sources */,

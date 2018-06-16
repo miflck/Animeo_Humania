@@ -53,14 +53,14 @@ void ofApp::keyPressed(int key){
             APPC->setAppById("physics");
     break;
             
-        case 'v':
+       /* case 'v':
             cout<<"set app"<<endl;
             APPC->setAppById("physicsworld");
-            break;
+            break;*/
             
-        case 'b':
+        case 'v':
             cout<<"set app"<<endl;
-            APPC->setAppNull();
+            APPC->setAppById("arm");
             break;
             
        
