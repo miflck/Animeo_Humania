@@ -8,6 +8,9 @@
 #include "PhysicsWorld.hpp"
 #include "ApplicationController.h"
 
+#include "KinectV2Manager.hpp"
+
+
 PhysicsWorld::PhysicsWorld(){
     init();
 }
@@ -22,134 +25,63 @@ void PhysicsWorld::init(){
     bAddedListeners = false;
     
     box2d.init();
-    box2d.setGravity(0, 3);
+    box2d.setGravity(0, 10);
     box2d.createGround();
     box2d.setFPS(60.0);
     box2d.registerGrabbing();
     
     
-    float xPos=(ofGetWidth()/3)*2;
-    anchor.setup(box2d.getWorld(), xPos, 0, 10);
-    anchor2.setup(box2d.getWorld(), xPos, ofGetHeight(), 10);
-    
-    
-    int num=30;
-    int jointlength=(ofGetHeight()/(num+1));
-    
-    // first we add just a few circles
-    for(int i=0; i<num; i++) {
-        auto circle = std::make_shared<ofxBox2dCircle>();
-        
-        // if(i%2==0){
-        //   circle.get()->setPhysicsWorld(10.0, 0.53, 0.9);
-        
-        // }else{
-        circle.get()->setPhysics(3, 0.53, 5);
-        
-        // }
-        circle.get()->setup(box2d.getWorld(), xPos, (ofGetHeight()/(num+1))+(ofGetHeight()/(num+1))*i, 5);
-        circles.push_back(circle);
-        positions.push_back(ofVec2f(xPos, (ofGetHeight()/(num+1))+(ofGetHeight()/(num+1))*i));
-    }
-    
-    // now connect each circle with a joint
-    for(int i=0; i<circles.size(); i++) {
-        auto joint = std::make_shared<ofxBox2dJoint>();
-        // if this is the first point connect to the top anchor.
-        if(i == 0) {
-            joint.get()->setup(box2d.getWorld(), anchor.body, circles[i].get()->body,20,1);
-        }
-        else {
-            joint.get()->setup(box2d.getWorld(), circles[i-1].get()->body, circles[i].get()->body,10,10);
-        }
-        joint.get()->setLength(jointlength);
-        joints.push_back(joint);
-    }
-    
-    auto joint = std::make_shared<ofxBox2dJoint>();
-    joint.get()->setup(box2d.getWorld(), circles[circles.size()-1].get()->body, anchor2.body,20,0.1);
-    joint.get()->setLength(jointlength);
-    
-    joints.push_back(joint);
-    
+    anchor.setPhysics(50, 0.5, 0.9);
+    anchor.setup(box2d.getWorld(), 0, 0, 50);
+    box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
     
 }
 
 void PhysicsWorld::update(){
     box2d.update();
     
-    ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
-    float minDis = ofGetMousePressed() ? 100 : 50;
-    
-    for(int i=0; i<circles.size(); i++) {
-        float dis = mouse.distance(circles[i].get()->getPosition());
-     //   if(bIsMouseActive)circles[i].get()->addRepulsionForce(mouse, 9);
-       if(dis < minDis && bIsMouseActive) circles[i].get()->addRepulsionForce(mouse,10);
-       //  else circles[i].get()->addAttractionPoint(mouse, 4.0);
-       // circles[i].get()->setDamping(0.98);
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+    if(mskel.size()>0){
+        ofVec2f head;
+        head=mskel[0].head;
+        head=ofVec2f(head.x, head.y);
+
+        anchor.setPosition(mskel[0].leftHand.x, mskel[0].leftHand.y);
         
-    }
-    
-    anchor.addAttractionPoint(mouse,40);
+        box2d.setGravity(0, (mskel[0].head.y-mskel[0].rightHand.y)/10);
 
     
-    anchor2.setDamping(0.9);
-
-    //ofVec2f distance=mouse-anchor.getPosition();
-  //  anchor2.setVelocity(distance.normalize()*-1);
-    ofPolyline cur;
-    
-    cur.addVertex(anchor.getPosition());
-    
-    for(int i=0; i<circles.size(); i++) {
-        cur.addVertex( circles[i].get()->getPosition());
+    float r = ofRandom(10, 40);        // a random radius 4px - 20px
+    circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
+    circles.back().get()->setPhysics(3.0, 0.8, 0.1);
+    circles.back().get()->setup(box2d.getWorld(), head.x,head.y, r);
+    circles.back().get()->setVelocity(ofRandom(-5,5), ofRandom(-1,-5));
     }
+    // remove shapes offscreen
+    ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
+    ofRemove(circles, ofxBox2dBaseShape::shouldRemoveOffScreen);
     
-    cur.addVertex(anchor2.getPosition());
-    
-    line=cur;
+  
 }
 
 
 void PhysicsWorld::draw(){
-    ofSetColor(0);
-    ofDrawRectangle(0,0,ofGetWidth(),ofGetHeight());
-    
-    ofSetHexColor(0xf2ab01);
-
+   
+    cout<<circles.size()<<endl;
 
     if(APPC->debug){
-        
-        anchor.draw();
-        anchor2.draw();
-        
-       ofDrawRectangle(anchor.getPosition().x,anchor.getPosition().y,10,10);
-        
-            for(int i=0; i<circles.size(); i++) {
+        ofPushStyle();
+        for(int i=0; i<circles.size(); i++) {
             ofFill();
             ofSetHexColor(0x01b1f2);
-             circles[i].get()->draw();
+            circles[i].get()->draw();
         }
-        
-        for(int i=0; i<joints.size(); i++) {
-            ofSetHexColor(0x444342);
-              joints[i].get()->draw();
-        }
+        ofSetColor(255,0,0);
+        anchor.draw();
+        ofPopStyle();
     }
     
-    line=line.getResampledBySpacing(2);
-   // line=line.getSmoothed(5);
-    
-    ofSetColor(255);
-    ofSetLineWidth(3);
-    line.draw();
-    
-    string info = "";
-    info += "Press [n] to add a new joint\n";
-    info += "click and pull the chain around\n";
-    info += "FPS: "+ofToString(ofGetFrameRate(), 1)+"\n";
-    ofSetHexColor(0x444342);
-    ofDrawBitmapString(info, 30, 30);
+   
     
 }
 
@@ -162,13 +94,22 @@ void PhysicsWorld::exit(){
 //KEY LISTENER
 //--------------------------------------------------------------
 void PhysicsWorld::keyPressed(ofKeyEventArgs &e){
-    if(e.key == 'c') {
+    if(e.key == 'e') {
+        
+        vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+        ofVec2f head=ofVec2f(ofGetMouseX(), ofGetMouseY());
+        if(mskel.size()>0){
+            head=mskel[0].head;
+            head=ofVec2f(head.x, head.y);
+        }
+        
         cout<<"Add Circles"<<endl;
-        float r = ofRandom(4, 20);        // a random radius 4px - 20px
+        float r = ofRandom(10, 40);        // a random radius 4px - 20px
         circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
         circles.back().get()->setPhysics(3.0, 0.53, 0.1);
         circles.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
-        
+        circles.back().get()->setVelocity(ofRandom(-5,5), ofRandom(-1,-5));
+
     }
 }
 
@@ -185,11 +126,7 @@ void PhysicsWorld::mouseDragged(ofMouseEventArgs &a){
 
 //--------------------------------------------------------------
 void PhysicsWorld::mousePressed(ofMouseEventArgs &a){
-    cout<<"Mouse"<< anchor.isFixed()<<endl;
-    anchor.setPhysics(0, 0.5, 0.9);
-    anchor.body->SetType(b2_staticBody);
-    //anchor.setup(box2d.getWorld(), a.x, 0, 10);
-    
+   
 
 }
 

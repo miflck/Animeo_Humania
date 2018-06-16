@@ -57,7 +57,7 @@ private:
     vector      <shared_ptr<ofxBox2dCircle> > circles; // default box2d circles
     vector      <shared_ptr<ofxBox2dJoint> >  joints;  // joints
     vector    <shared_ptr<ofxBox2dRect> >   boxes;           // default box2d rects
-    
+    ofxBox2dRect box;
     
     ofxBox2dCircle                            anchor2;  // fixed anchor
     vector      <ofVec2f>   positions;  // joints
