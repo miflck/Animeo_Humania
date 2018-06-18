@@ -25,7 +25,7 @@ void EmotionWorld::init(){
     bAddedListeners = false;
     
     box2d.init();
-    box2d.setGravity(0, 10);
+    box2d.setGravity(0, -10);
     box2d.createGround();
     box2d.setFPS(60.0);
     box2d.registerGrabbing();
@@ -34,16 +34,27 @@ void EmotionWorld::init(){
     anchor.setPhysics(50, 0.5, 0.9);
     anchor.setup(box2d.getWorld(), 0, 0, 50);
     box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
+    leftbox.setup(box2d.getWorld(), 0, 150,20,300);
+    rightbox.setup(box2d.getWorld(), ofGetWidth(),150, 20,300);
+
     
     screen.allocate(1920,1080, GL_RGB);
     screen.begin();
     ofClear(0,0,0,0);
     screen.end();
     
+    herz.loadImage("herz.png");
+    
+    sun.setup();
+    
 }
 
 void EmotionWorld::update(){
+    box2d.setGravity(0, APPC->gui->emotionsgravity);
     box2d.update();
+    
+    sun.update();
+    
     for(int i=0;i<movingObjects.size();i++){
         movingObjects[i].setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
         movingObjects[i].update();
@@ -57,14 +68,17 @@ void EmotionWorld::update(){
 
         anchor.setPosition(mskel[0].leftHand.x, mskel[0].leftHand.y);
         
-        box2d.setGravity(0, (mskel[0].head.y-mskel[0].rightHand.y)/10);
+       // box2d.setGravity(0, (mskel[0].head.y-mskel[0].rightHand.y)/10);
 
     
-    float r = ofRandom(10, 40);        // a random radius 4px - 20px
-    circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
-    circles.back().get()->setPhysics(3.0, 0.8, 0.1);
-    circles.back().get()->setup(box2d.getWorld(), head.x,head.y, r);
-    circles.back().get()->setVelocity(ofRandom(-5,5), ofRandom(-1,-5));
+        float rAdd=ofRandom(1);
+        if(rAdd>0.7){
+            float r = ofRandom(10, 40);        // a random radius 4px - 20px
+            circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
+            circles.back().get()->setPhysics(3.0, 0.8, 0.1);
+            circles.back().get()->setup(box2d.getWorld(), head.x,head.y, r);
+            circles.back().get()->setVelocity(ofRandom(-10,10), ofRandom(-10,-10));
+        }
     }
     // remove shapes offscreen
     ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
@@ -87,11 +101,25 @@ void EmotionWorld::draw(){
         }
         ofSetColor(255,0,0);
         anchor.draw();
+        
+        leftbox.draw();
+        rightbox.draw();
         ofPopStyle();
     }
-    
-    
+    ofPushStyle();
 
+    
+    sun.draw();
+    
+    for(int i=0; i<circles.size(); i++) {
+        ofSetColor(220+ofRandom(-20,20),37+ofRandom(-20,20),151+ofRandom(-20,20));
+        ofPushMatrix();
+        ofTranslate(circles[i]->getPosition().x,circles[i]->getPosition().y);
+        ofRotate(circles[i]->getRotation());
+        herz.draw(-circles[i]->getRadius(),-circles[i]->getRadius(),circles[i]->getRadius()*2,circles[i]->getRadius()*2);
+        ofPopMatrix();
+    }
+    ofPopStyle();
 
     for(int i=0;i<movingObjects.size();i++){
         movingObjects[i].draw();

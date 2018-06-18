@@ -10,6 +10,7 @@ public:
 	void draw();
 
 	ofParameterGroup parameters;
+    
 	ofParameter<float> radius;
     
     ofParameter<ofVec3f>kinectPosition;
@@ -22,6 +23,18 @@ public:
 
     ofParameter<bool> kinectManagerDebug;
 
+    
+    ofxPanel box2dPanel;
+
+    
+    ofParameterGroup box2dbasics;
+
+    ofParameter<float>emotionsgravity;
+    ofParameter<float>drag;
+
+    
+    
+    
 
     
 	ofParameter<ofColor> color;

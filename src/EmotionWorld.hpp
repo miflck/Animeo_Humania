@@ -13,6 +13,7 @@
 #include "ApplicationBase.h"
 #include "ofxBox2d.h"
 #include "MovingObject.hpp"
+#include "Sun.hpp";
 
 
 
@@ -52,6 +53,10 @@ public:
     void toggleMouseActive();
     ofFbo screen;
     
+    
+    Sun sun;
+    
+    
 private:
     ofxBox2d                                  box2d;   // the box2d world
     ofxBox2dCircle                            anchor;  // fixed anchor
@@ -59,7 +64,9 @@ private:
     vector      <shared_ptr<ofxBox2dJoint> >  joints;  // joints
     vector    <shared_ptr<ofxBox2dRect> >   boxes;           // default box2d rects
     ofxBox2dRect box;
-    
+    ofxBox2dRect leftbox;
+    ofxBox2dRect rightbox;
+
     ofxBox2dCircle                            anchor2;  // fixed anchor
     vector      <ofVec2f>   positions;  // joints
 
@@ -71,6 +78,7 @@ private:
    vector<MovingObject> movingObjects;
     //vector<shared_ptr<Agent> > movingObjects;
 
+    ofImage herz;
 
     
 };

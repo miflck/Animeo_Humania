@@ -6,6 +6,14 @@
 //
 
 #include "MovingObject.hpp"
+
+
+MovingObject:: MovingObject(){
+    
+}
+MovingObject:: ~ MovingObject(){
+}
+
 void MovingObject::setup(){
     radius=50;
     
@@ -14,9 +22,7 @@ void MovingObject::setup(){
 
 void MovingObject::update(){
     move();
-    //position+=speed;
-    //skeletons=KINECTMANAGER->getSkelettons();
-    
+   
     
 }
 
@@ -37,14 +43,7 @@ void MovingObject::move(){
    if(bSeekTarget) applyForce(seek(target,0.5));
     if(bSeekMouse) applyForce(seek(ofVec2f(ofGetMouseX(),ofGetMouseY()),0.5));
     
-    /*vector<ofVec3f>lhands=KINECTMANAGER->getLeftHands();
-    if(bSeekTarget) {
-        for(int i=0;i<lhands.size();i++){
-            applyForce(seek(lhands[i],0.5));
-        }
-    }*/
-    
-
+   
 
     velocity+=acceleration;
     velocity*=0.98;
