@@ -62,7 +62,7 @@ void MovingObject::draw(){
     
     ofPushMatrix();
     ofPushStyle();
-    ofSetColor(255);
+    //ofSetColor(255);
     ofDrawEllipse(position.x, position.y, radius, radius);
     ofPopStyle();
     ofPopMatrix();

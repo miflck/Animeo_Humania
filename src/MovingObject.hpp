@@ -16,12 +16,12 @@
 class MovingObject {
     
 public:
-    void setup();
-    void update();
-    void draw();
+   virtual void setup();
+   virtual void update();
+   virtual void draw();
     
     
-    void setPosition(int x, int y);
+  virtual  void setPosition(int x, int y);
     ofVec2f getPosition();
     
     void setRadius(int radius);

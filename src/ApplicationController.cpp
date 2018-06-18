@@ -15,6 +15,8 @@
 #include "KinectV2.hpp"
 #include "KinectV2Manager.hpp"
 #include "Arm.hpp"
+#include "EmotionWorld.hpp"
+#include "Face.hpp"
 
 
 ApplicationController* ApplicationController::instance = 0;
@@ -75,6 +77,11 @@ void ApplicationController::initialize() {
     applications["arm"]=new Arm();
     applications["arm"]->setId("arm");
     
+    applications["emotionworld"]=new EmotionWorld();
+    applications["emotionworld"]->setId("emotionworld");
+    
+    applications["face"]=new Face();
+    applications["face"]->setId("face");
     
     //applications["kinectV2"]=new KinectV2();
     //applications["kinectV2"]->setId("kinectV2");

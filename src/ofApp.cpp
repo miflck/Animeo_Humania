@@ -65,6 +65,16 @@ void ofApp::keyPressed(int key){
             APPC->setAppById("physicsworld");
             break;
             
+        case 'm':
+            cout<<"set app"<<endl;
+            APPC->setAppById("emotionworld");
+            break;
+            
+        case ',':
+            cout<<"set app"<<endl;
+            APPC->setAppById("face");
+            break;
+            
             
     case 'd':
             APPC->toggleDebug();

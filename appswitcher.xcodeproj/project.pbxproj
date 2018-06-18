@@ -113,6 +113,8 @@
 		FA330F5720D24E5E00A0CCD0 /* GuiApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA330F5620D24E5E00A0CCD0 /* GuiApp.cpp */; };
 		FA330F5D20D2FCBF00A0CCD0 /* KinectV2Manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA330F5B20D2FCBF00A0CCD0 /* KinectV2Manager.cpp */; };
 		FA330F6920D43D2600A0CCD0 /* Arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA330F6720D43D2600A0CCD0 /* Arm.cpp */; };
+		FA330F7320D53D5A00A0CCD0 /* EmotionWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA330F7120D53D5A00A0CCD0 /* EmotionWorld.cpp */; };
+		FA330F7720D7920D00A0CCD0 /* Face.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA330F7520D7920D00A0CCD0 /* Face.cpp */; };
 		FA7300BAC71DAC1ABAF6EE15 /* b2Fixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774DDD1B3F05D3FDF0D37794 /* b2Fixture.cpp */; };
 		FA91624520D00F4F00DD99C6 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91624420D00F4F00DD99C6 /* Grid.cpp */; };
 		FA91624920D00F5600DD99C6 /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91624620D00F5600DD99C6 /* OrthoCamera.cpp */; };
@@ -378,6 +380,10 @@
 		FA330F5C20D2FCBF00A0CCD0 /* KinectV2Manager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KinectV2Manager.hpp; sourceTree = "<group>"; };
 		FA330F6720D43D2600A0CCD0 /* Arm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Arm.cpp; sourceTree = "<group>"; };
 		FA330F6820D43D2600A0CCD0 /* Arm.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Arm.hpp; sourceTree = "<group>"; };
+		FA330F7120D53D5A00A0CCD0 /* EmotionWorld.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EmotionWorld.cpp; sourceTree = "<group>"; };
+		FA330F7220D53D5A00A0CCD0 /* EmotionWorld.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EmotionWorld.hpp; sourceTree = "<group>"; };
+		FA330F7520D7920D00A0CCD0 /* Face.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Face.cpp; sourceTree = "<group>"; };
+		FA330F7620D7920D00A0CCD0 /* Face.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Face.hpp; sourceTree = "<group>"; };
 		FA784162B6A8E3A77BBE4D6C /* b2TimeStep.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = b2TimeStep.h; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/b2TimeStep.h; sourceTree = SOURCE_ROOT; };
 		FA91624420D00F4F00DD99C6 /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		FA91624620D00F5600DD99C6 /* OrthoCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OrthoCamera.cpp; sourceTree = "<group>"; };
@@ -875,6 +881,10 @@
 				FA330F6820D43D2600A0CCD0 /* Arm.hpp */,
 				B612089089D3489B77BCC60F /* PhysicsWorld.cpp */,
 				53232972721152B8321D54C9 /* PhysicsWorld.hpp */,
+				FA330F7120D53D5A00A0CCD0 /* EmotionWorld.cpp */,
+				FA330F7220D53D5A00A0CCD0 /* EmotionWorld.hpp */,
+				FA330F7520D7920D00A0CCD0 /* Face.cpp */,
+				FA330F7620D7920D00A0CCD0 /* Face.hpp */,
 				D02B304990972A5ADF178C68 /* TestApplication.cpp */,
 				E0EF46E0B4F3388921961F35 /* TestApplication.hpp */,
 			);
@@ -1125,6 +1135,7 @@
 				14F3FB468FED85DD86CC9BCF /* b2DistanceJoint.cpp in Sources */,
 				03AC305C546FEDB7C2A7E1A8 /* b2FrictionJoint.cpp in Sources */,
 				2A5D09413FD64EB3AF88EF02 /* b2GearJoint.cpp in Sources */,
+				FA330F7720D7920D00A0CCD0 /* Face.cpp in Sources */,
 				14D76FD1B7F190398D120FA4 /* b2Joint.cpp in Sources */,
 				C1DDE2EB6202440187690701 /* b2MotorJoint.cpp in Sources */,
 				D2969DE2782BAE96A0C7ADC1 /* b2MouseJoint.cpp in Sources */,
@@ -1148,6 +1159,7 @@
 				DF0E23207448D9B0A01099DE /* Hand.cpp in Sources */,
 				C0788BDE2AA497B48C2B6F85 /* Interpreter.cpp in Sources */,
 				8B4B9605C076F9088F028D61 /* Joint.cpp in Sources */,
+				FA330F7320D53D5A00A0CCD0 /* EmotionWorld.cpp in Sources */,
 				66BBA05BD1EC05BD23DCBD7E /* Skeleton.cpp in Sources */,
 				EF7D9DE651311EAEAB5DE8EC /* Logger.cpp in Sources */,
 				9780A09AECE86A91413F1249 /* Mapper.cpp in Sources */,
