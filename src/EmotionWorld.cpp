@@ -46,6 +46,7 @@ void EmotionWorld::init(){
     herz.loadImage("herz.png");
     
     sun.setup();
+    sun.bSeekTarget=true;
     
 }
 
@@ -53,6 +54,17 @@ void EmotionWorld::update(){
     box2d.setGravity(0, APPC->gui->emotionsgravity);
     box2d.update();
     
+    
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+    if(mskel.size()<=0){
+    sun.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+    }else{
+        ofVec2f hand;
+        hand=mskel[0].leftHand;
+        hand=ofVec2f(hand.x, hand.y);
+        sun.setTarget(hand);
+
+    }
     sun.update();
     
     for(int i=0;i<movingObjects.size();i++){
@@ -60,7 +72,6 @@ void EmotionWorld::update(){
         movingObjects[i].update();
     }
     
-    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     if(mskel.size()>0){
         ofVec2f head;
         head=mskel[0].head;
@@ -72,7 +83,7 @@ void EmotionWorld::update(){
 
     
         float rAdd=ofRandom(1);
-        if(rAdd>0.7){
+        if(rAdd>0.7 && bEmitHearts){
             float r = ofRandom(10, 40);        // a random radius 4px - 20px
             circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
             circles.back().get()->setPhysics(3.0, 0.8, 0.1);
@@ -90,8 +101,6 @@ void EmotionWorld::update(){
 
 void EmotionWorld::draw(){
    
-    cout<<circles.size()<<endl;
-
     if(APPC->debug){
         ofPushStyle();
         for(int i=0; i<circles.size(); i++) {
@@ -143,6 +152,10 @@ void EmotionWorld::exit(){
 }
 
 
+void EmotionWorld::toggleHearts(){
+    bEmitHearts=!bEmitHearts;
+}
+
 
 //KEY LISTENER
 //--------------------------------------------------------------
@@ -182,6 +195,10 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
             r.rotate(ofRandom(360));
             movingObjects[i].applyForce(r);
         }
+    }
+    
+    if(e.key=='h'){
+        toggleHearts();
     }
     
 }

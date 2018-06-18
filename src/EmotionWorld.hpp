@@ -56,6 +56,7 @@ public:
     
     Sun sun;
     
+    void toggleHearts();
     
 private:
     ofxBox2d                                  box2d;   // the box2d world
@@ -79,6 +80,8 @@ private:
     //vector<shared_ptr<Agent> > movingObjects;
 
     ofImage herz;
+    
+    bool bEmitHearts=false;
 
     
 };

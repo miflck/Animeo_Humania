@@ -6,6 +6,7 @@
 //
 
 #include "MovingObject.hpp"
+#include "ofxEasing.h"
 
 
 MovingObject:: MovingObject(){
@@ -16,14 +17,28 @@ MovingObject:: ~ MovingObject(){
 
 void MovingObject::setup(){
     radius=50;
-    
+    scaleDuration=1.f;
     
 }
 
 void MovingObject::update(){
+    auto endTime = easingInitTime + scaleDuration;
+    auto now = ofGetElapsedTimef();
     move();
-   
-    
+    actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
+}
+
+
+
+void MovingObject::scaleTo(float _value){
+    easingInitTime = ofGetElapsedTimef();
+    radiusTarget=_value;
+}
+
+void MovingObject::scaleTo(float _value, float _duration){
+    easingInitTime = ofGetElapsedTimef();
+    radiusTarget=_value;
+    scaleDuration=_duration;
 }
 
 void MovingObject::move(){
@@ -40,13 +55,12 @@ void MovingObject::move(){
 
     */
     
-   if(bSeekTarget) applyForce(seek(target,0.5));
-    if(bSeekMouse) applyForce(seek(ofVec2f(ofGetMouseX(),ofGetMouseY()),0.5));
+   if(bSeekTarget) applyForce(seek(target,seekforce));
     
    
 
     velocity+=acceleration;
-    velocity*=0.98;
+    velocity*=0.99;
     position+= velocity;
     acceleration.set(0,0);
     
@@ -62,7 +76,7 @@ void MovingObject::draw(){
     ofPushMatrix();
     ofPushStyle();
     //ofSetColor(255);
-    ofDrawEllipse(position.x, position.y, radius, radius);
+    ofDrawEllipse(position.x, position.y, actualRadius, actualRadius);
     ofPopStyle();
     ofPopMatrix();
     
@@ -83,7 +97,7 @@ void MovingObject::setRadius(int _radius){
 }
 
 int MovingObject::getRadius(){
-    return radius;
+    return actualRadius;
 
 }
 
@@ -105,6 +119,9 @@ ofVec2f MovingObject::getPosition(){
     return position;
 }
 
+void MovingObject::setSeekForce(float _f){
+    seekforce=_f;
+}
 
 ofVec2f MovingObject::seek(ofVec2f t, float f){
     ofVec2f p(position);
@@ -112,7 +129,7 @@ ofVec2f MovingObject::seek(ofVec2f t, float f){
     float d = desired.length();
     desired.normalize();
     if(d<300){
-        float m=ofMap(d,0,100,0,maxspeed);
+        float m=ofMap(d,0,300,0,maxspeed);
         desired*=m;
     }else{
         desired*=maxspeed;

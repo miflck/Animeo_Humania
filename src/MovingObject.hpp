@@ -16,7 +16,7 @@ class MovingObject {
     
 public:
     
-     MovingObject();
+    MovingObject();
     virtual ~MovingObject();
     
    virtual void setup();
@@ -41,16 +41,27 @@ public:
     bool bSeekTarget=false;
     bool bSeekMouse=false;
     
+    void scaleTo(float _value);
+    void scaleTo(float _value,float _duration);
 
+
+    float easingInitTime;
+    float radiusTarget;
+    float actualRadius;
+    float scaleDuration;
     
     
+    void setSeekForce(float _f);
+        
+        
+
 private:
     ofVec2f position;
     int radius;
     
     ofVec2f velocity;
     ofVec2f target;
-   int maxspeed=30;
+   int maxspeed=50;
     
     ofVec2f acceleration;
     float seekforce=0.5;

@@ -31,7 +31,11 @@ void TestApplication::update(){
     //ofBackground(255,0,0);
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     
-
+    switch (skelettonNodeId) {
+        case 5:
+            mover.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+            break;
+    }
     
     if(mskel.size()>skelettId){
     //for(int i=0;i<mskel.size();i++){
@@ -47,6 +51,8 @@ void TestApplication::update(){
             case 4:
                 mover.setTarget(mskel[skelettId].rightHand);
                 break;
+                
+       
                 
             default:
                 break;
@@ -69,11 +75,11 @@ void TestApplication::draw(){
     ofSetLineWidth(8);
     ofPushMatrix();
  
-    for(int i=0;i<mskel.size();i++){
+   /* for(int i=0;i<mskel.size();i++){
         ofPushMatrix();
         mskel[i].drawSkeletton();
         ofPopMatrix();
-    }
+    }*/
     ofPopMatrix();
     ofPopStyle();
 }
@@ -104,7 +110,7 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
     if(e.key=='t'){
         mover.bSeekTarget=!mover.bSeekTarget;
     }
-    if(e.key=='m'){
+    if(e.key=='z'){
         mover.bSeekMouse=!mover.bSeekMouse;
     }
 
@@ -124,6 +130,10 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
         skelettonNodeId=4;
     }
     
+    if(e.key=='5'){
+        skelettonNodeId=5;
+    }
+    
     
     if(e.key=='+'){
         m8layer++;
@@ -141,6 +151,28 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
     if(e.key=='1'){
         skelettId=1;
     }
+    
+    
+    if(e.key=='s'){
+        mover.scaleTo(300,2.f);
+    }
+    
+    if(e.key=='a'){
+        mover.scaleTo(600,50.f);
+    }
+    
+    if(e.key=='d'){
+        mover.scaleTo(50,0.5f);
+    }
+    
+    if(e.key=='q'){
+        mover.setSeekForce(5);
+    }
+    if(e.key=='w'){
+        mover.setSeekForce(0.5);
+    }
+    
+
     
 }
 

@@ -60,7 +60,7 @@ public:
     void toggleDebug();
 
      
-    bool debug=true;
+    bool debug=false;
     
 
     ApplicationBase* getAppByName(string _identifier);

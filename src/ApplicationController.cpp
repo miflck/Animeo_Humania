@@ -39,7 +39,7 @@ void ApplicationController::initialize() {
  
 	initialized=true;
     cout<<"init ApplicationController"<<endl;
-    ofSetLogLevel(OF_LOG_SILENT);
+   // ofSetLogLevel(OF_LOG_SILENT);
 
 
 
@@ -130,7 +130,7 @@ void ApplicationController::_draw(ofEventArgs &e) {
     activeApplication->draw();
 
     }
-    mainOutputSyphonServer.publishScreen();
+   // mainOutputSyphonServer.publishScreen();
 
     }
 
