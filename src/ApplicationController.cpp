@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include "ApplicationController.h"
-#include "TestApplication.hpp"
+#include "LightPointApp.hpp"
 #include "Line.hpp"
 #include "Physics.hpp"
 #include "PhysicsWorld.hpp"
@@ -62,8 +62,8 @@ void ApplicationController::initialize() {
   
     activeApplication=NULL;
     
-    applications["testApp"]=new TestApplication();
-    applications["testApp"]->setId("testApp");
+    applications["lightpoint"]=new LightPointApp();
+    applications["lightpoint"]->setId("lightpoint");
     
     applications["line"]=new Line();
     applications["line"]->setId("line");

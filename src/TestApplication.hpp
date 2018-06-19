@@ -59,6 +59,8 @@ public:
     bool bSlowDown=true;
     void toggleRepulsion();
     
+    ofVec2f homeposition;
+    
 };
 
 

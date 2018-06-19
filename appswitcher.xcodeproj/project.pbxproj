@@ -119,6 +119,8 @@
 		FA7300BAC71DAC1ABAF6EE15 /* b2Fixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774DDD1B3F05D3FDF0D37794 /* b2Fixture.cpp */; };
 		FA91624520D00F4F00DD99C6 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91624420D00F4F00DD99C6 /* Grid.cpp */; };
 		FA91624920D00F5600DD99C6 /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91624620D00F5600DD99C6 /* OrthoCamera.cpp */; };
+		FA9939CB20D90FFF007301BA /* BreathPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA9939CA20D90FFF007301BA /* BreathPoint.cpp */; };
+		FA9939CE20D9105E007301BA /* LightPointApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA9939CD20D9105E007301BA /* LightPointApp.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -392,6 +394,10 @@
 		FA91624620D00F5600DD99C6 /* OrthoCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OrthoCamera.cpp; sourceTree = "<group>"; };
 		FA91624720D00F5600DD99C6 /* OrthoCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrthoCamera.h; sourceTree = "<group>"; };
 		FA91624820D00F5600DD99C6 /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
+		FA9939C920D90FFE007301BA /* BreathPoint.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BreathPoint.hpp; sourceTree = "<group>"; };
+		FA9939CA20D90FFF007301BA /* BreathPoint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BreathPoint.cpp; sourceTree = "<group>"; };
+		FA9939CC20D9105E007301BA /* LightPointApp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LightPointApp.hpp; sourceTree = "<group>"; };
+		FA9939CD20D9105E007301BA /* LightPointApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LightPointApp.cpp; sourceTree = "<group>"; };
 		FD20B1FFE795860DB1C68BF2 /* b2ChainAndCircleContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2ChainAndCircleContact.cpp; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp; sourceTree = SOURCE_ROOT; };
 		FF2B018E24837032A4878576 /* ofxEasing.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasing.h; path = ../../../addons/ofxEasing/src/ofxEasing.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -878,6 +884,8 @@
 				6E3407D375486D9DA96AE00E /* MovingObject.hpp */,
 				FA330F7C20D7CA9900A0CCD0 /* Sun.hpp */,
 				FA330F7D20D7CA9900A0CCD0 /* Sun.cpp */,
+				FA9939C920D90FFE007301BA /* BreathPoint.hpp */,
+				FA9939CA20D90FFF007301BA /* BreathPoint.cpp */,
 				D110A575A8CA4CF91ECCBDF7 /* OscManager.cpp */,
 				22A1DBFA03997EABFB8709CF /* OscManager.hpp */,
 				1CF27802FBF26F2CCDE62C9F /* Physics.cpp */,
@@ -890,8 +898,10 @@
 				FA330F7220D53D5A00A0CCD0 /* EmotionWorld.hpp */,
 				FA330F7520D7920D00A0CCD0 /* Face.cpp */,
 				FA330F7620D7920D00A0CCD0 /* Face.hpp */,
-				D02B304990972A5ADF178C68 /* TestApplication.cpp */,
+				FA9939CC20D9105E007301BA /* LightPointApp.hpp */,
+				FA9939CD20D9105E007301BA /* LightPointApp.cpp */,
 				E0EF46E0B4F3388921961F35 /* TestApplication.hpp */,
+				D02B304990972A5ADF178C68 /* TestApplication.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1108,6 +1118,7 @@
 				298EAD2C029D9959F5B32246 /* b2CollidePolygon.cpp in Sources */,
 				AC5A3D9E6C3E12122C80F404 /* b2Collision.cpp in Sources */,
 				A2E3224BF9B63DAA802A0F18 /* b2Distance.cpp in Sources */,
+				FA9939CE20D9105E007301BA /* LightPointApp.cpp in Sources */,
 				71C677669B75120425DE19D4 /* b2DynamicTree.cpp in Sources */,
 				19894C344A6861A26A61D2C0 /* b2TimeOfImpact.cpp in Sources */,
 				453D704CD216672147B2EEC2 /* b2ChainShape.cpp in Sources */,
@@ -1126,6 +1137,7 @@
 				FA7300BAC71DAC1ABAF6EE15 /* b2Fixture.cpp in Sources */,
 				6FCE95D2EF10ACCEC2724688 /* b2Island.cpp in Sources */,
 				AC527216645D66921FB3E36F /* b2World.cpp in Sources */,
+				FA9939CB20D90FFF007301BA /* BreathPoint.cpp in Sources */,
 				5146AEB9E58FB1B388820C2A /* b2WorldCallbacks.cpp in Sources */,
 				1FC2864D958F177964A20421 /* b2ChainAndCircleContact.cpp in Sources */,
 				FA330F5D20D2FCBF00A0CCD0 /* KinectV2Manager.cpp in Sources */,

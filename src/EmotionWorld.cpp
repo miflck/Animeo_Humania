@@ -118,7 +118,7 @@ void EmotionWorld::draw(){
     ofPushStyle();
 
     
-    sun.draw();
+   if(bShowSun)sun.draw();
     
     for(int i=0; i<circles.size(); i++) {
         ofSetColor(220+ofRandom(-20,20),37+ofRandom(-20,20),151+ofRandom(-20,20));

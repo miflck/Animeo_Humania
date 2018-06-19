@@ -14,7 +14,7 @@ void ofApp::setup(){
     ofBackground(0);
     
     
-    
+    ofSetCircleResolution(100);
 
     
     //mClient.setup();
@@ -41,7 +41,7 @@ void ofApp::keyPressed(int key){
     switch (key) {
     case 'y':
         cout<<"set app"<<endl;
-        APPC->setAppById("testApp");
+        APPC->setAppById("lightpoint");
         break;
     case 'x':
             cout<<"set app"<<endl;

@@ -64,12 +64,12 @@ public:
     void setSlowDownDistance(int _d);
     
     
-    
+    int radius;
+
     
     
 private:
     ofVec2f position;
-    int radius;
     
     ofVec2f velocity;
     ofVec2f target;

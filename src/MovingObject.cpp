@@ -135,7 +135,7 @@ void MovingObject::setSeekForce(float _f){
 ofVec2f MovingObject::getDistance(ofVec2f _t){
     ofVec2f p(position);
     ofVec2f desired=_t-p;
-    return p;
+    return desired;
 }
 
 void MovingObject::setSlowDown(bool _b){

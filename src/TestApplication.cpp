@@ -33,6 +33,7 @@ void TestApplication::init(){
     screen.end();
     
     ofEnableAlphaBlending();
+    ofVec2f homeposition(0,0);
 }
 
 void TestApplication::update(){
@@ -200,6 +201,9 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
     if(e.key=='5'){
         skelettonNodeId=5;
     }
+    if(e.key=='2'){
+        skelettonNodeId=2;
+    }
     
     
     if(e.key=='+'){
@@ -221,7 +225,7 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
     
     
     if(e.key=='s'){
-        mover.scaleTo(300,2.f);
+        mover.scaleTo(150,2.f);
     }
     
     if(e.key=='a'){
@@ -266,6 +270,16 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
     if(e.key=='o'){
         mover.setSlowDown(false);
     }
+    
+    if(e.key =='j'){
+        homeposition.set(ofGetMouseX(),ofGetMouseY());
+    }
+    
+    if(e.key=='u'){
+        mover.setTarget(homeposition);
+        skelettonNodeId=2;
+    }
+    
 }
 
 
