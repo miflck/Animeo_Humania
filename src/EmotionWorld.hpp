@@ -56,7 +56,11 @@ public:
     
     Sun sun;
     
+    
+    
     void toggleHearts();
+    void toggleSun();
+
     
 private:
     ofxBox2d                                  box2d;   // the box2d world
@@ -82,7 +86,7 @@ private:
     ofImage herz;
     
     bool bEmitHearts=false;
-
+    bool bShowSun=false;
     
 };
 

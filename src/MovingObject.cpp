@@ -18,7 +18,10 @@ MovingObject:: ~ MovingObject(){
 void MovingObject::setup(){
     radius=50;
     scaleDuration=1.f;
-    
+    actualRadius=0;
+    easingInitTime = ofGetElapsedTimef();
+    radiusTarget=50;
+
 }
 
 void MovingObject::update(){
@@ -55,10 +58,9 @@ void MovingObject::move(){
 
     */
     
-   if(bSeekTarget) applyForce(seek(target,seekforce));
+    if(bSeekTarget) applyForce(seek(target,seekforce));
     
-   
-
+    
     velocity+=acceleration;
     velocity*=0.99;
     position+= velocity;
@@ -115,6 +117,12 @@ void MovingObject::applyForce(ofVec2f _force){
 }
 
 
+void MovingObject::applyForce(ofVec2f _force, float _strength){
+    _force.limit(_strength);
+    acceleration+= _force;
+}
+
+
 ofVec2f MovingObject::getPosition(){
     return position;
 }
@@ -123,13 +131,36 @@ void MovingObject::setSeekForce(float _f){
     seekforce=_f;
 }
 
+
+ofVec2f MovingObject::getDistance(ofVec2f _t){
+    ofVec2f p(position);
+    ofVec2f desired=_t-p;
+    return p;
+}
+
+void MovingObject::setSlowDown(bool _b){
+    bSlowDown=_b;
+}
+
+void MovingObject::setSlowDownDistance(int _d){
+    slowdowndistance=_d;
+}
+
+bool MovingObject::isOnScreen(){
+    bool isInside=false;
+    ofRectangle r;
+    r.set(0,0,ofGetWidth(),ofGetHeight());
+    if(r.inside(position))isInside=true;
+    return isInside;
+}
+
 ofVec2f MovingObject::seek(ofVec2f t, float f){
     ofVec2f p(position);
     ofVec2f desired=t-p;
     float d = desired.length();
     desired.normalize();
-    if(d<300){
-        float m=ofMap(d,0,300,0,maxspeed);
+    if(d<slowdowndistance && bSlowDown){
+        float m=ofMap(d,0,slowdowndistance,0,maxspeed);
         desired*=m;
     }else{
         desired*=maxspeed;

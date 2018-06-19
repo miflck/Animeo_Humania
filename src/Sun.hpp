@@ -24,7 +24,7 @@ public:
     void update();
     void draw();
     
-    
+    int strokeWeight=6;
     
 private:
    

@@ -24,11 +24,28 @@ void TestApplication::init(){
     bAddedListeners = false;
     mover.setup();
     mover.setTarget(ofVec2f(ofGetWidth(),ofGetHeight()));
+    
+    screen.allocate(1920,1080, GL_RGB);
+    screen.begin();
+    ofClear(0,0,0,0);
+    ofClearAlpha();
+
+    screen.end();
+    
+    ofEnableAlphaBlending();
 }
 
 void TestApplication::update(){
+   
+    screen.begin();
+    ofEnableBlendMode(OF_BLENDMODE_SUBTRACT);
+    ofSetColor(3);
+    ofSetRectMode(OF_RECTMODE_CORNER);
+    ofFill();
+    ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+    ofDisableBlendMode();
+    screen.end();
     
-    //ofBackground(255,0,0);
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     
     switch (skelettonNodeId) {
@@ -38,6 +55,16 @@ void TestApplication::update(){
     }
     
     if(mskel.size()>skelettId){
+        
+        
+        if(bRepusion){
+            ofVec2f f;
+            f=mover.getDistance(mskel[skelettId].head);
+            if(f.length()>50 && f.length()<100){
+                mover.applyForce(f,5);
+            }
+        }
+        
     //for(int i=0;i<mskel.size();i++){
         switch (skelettonNodeId) {
             case 8:
@@ -58,8 +85,11 @@ void TestApplication::update(){
                 break;
         }
      
+        
    // }
     }
+    
+    
     
     mover.update();
     
@@ -69,6 +99,38 @@ void TestApplication::update(){
 
 
 void TestApplication::draw(){
+
+
+    if(bRecord){
+      //  ofClear(0);
+        screen.begin();
+
+       // fade out func from https://forum.openframeworks.cc/t/left-gray-trail-in-ofenableblendmode-of-blendmode-alpha-alpha-trail-alpha-blending-mac-openframeworks/17702/7
+       // glEnable(GL_BLEND);
+       // glBlendFunc(GL_ONE, GL_ONE);
+        //glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+        
+        
+     
+        
+      /*  float fClearOpacity = 1.f;
+        ofSetColor(0, 5);
+        ofFill();
+        ofDrawRectangle(0,0, ofGetWidth(), ofGetHeight());
+        */
+        //glDisable(GL_BLEND);
+        //glBlendEquation(GL_FUNC_ADD);
+        //glBlendFunc(GL_SRC_COLOR, GL_DST_COLOR);
+
+        ofPushStyle();
+        ofSetColor(255);
+        mover.draw();
+        ofPopStyle();
+        screen.end();
+        screen.draw(0,0);
+
+    }
+    
     ofPushStyle();
     mover.draw();
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
@@ -82,6 +144,11 @@ void TestApplication::draw(){
     }*/
     ofPopMatrix();
     ofPopStyle();
+    
+    
+
+    
+    
 }
 
 void TestApplication::exit(){
@@ -114,7 +181,7 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
         mover.bSeekMouse=!mover.bSeekMouse;
     }
 
-    if(e.key=='o'){
+    if(e.key=='l'){
         bSendOSCPosition=!bSendOSCPosition;
     }
     
@@ -158,7 +225,7 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='a'){
-        mover.scaleTo(600,50.f);
+        mover.scaleTo(600,20.f);
     }
     
     if(e.key=='d'){
@@ -172,8 +239,27 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
         mover.setSeekForce(0.5);
     }
     
-
+    if(e.key=='r'){
+        bRecord=!bRecord;
+        screen.begin();
+        ofClear(0,0,0,0);
+        ofClearAlpha();
+        
+        screen.end();
+    }
     
+    if(e.key=='p'){
+        toggleRepulsion();
+    }
+    
+    
+    if(e.key=='i'){
+        mover.setSlowDown(true);
+    }
+    
+    if(e.key=='o'){
+        mover.setSlowDown(false);
+    }
 }
 
 
@@ -192,6 +278,10 @@ void TestApplication::turnOff(){
     bAddedListeners=false;
 }
 
+
+void TestApplication::toggleRepulsion(){
+    bRepusion=!bRepusion;
+}
 
 //--------------------------------------------------------------
 void TestApplication::mouseMoved(ofMouseEventArgs &a){

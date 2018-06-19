@@ -52,6 +52,13 @@ public:
 
     int skelettonNodeId=8;
     
+    ofFbo screen;
+
+    bool bRecord=false;
+    bool bRepusion=false;
+    bool bSlowDown=true;
+    void toggleRepulsion();
+    
 };
 
 

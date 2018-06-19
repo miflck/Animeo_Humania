@@ -27,6 +27,11 @@ public:
     void setPosition(int x, int y);
     ofVec2f getPosition();
     
+    bool isOnScreen();
+    
+    
+    ofVec2f getDistance(ofVec2f _t);
+    
     void setRadius(int radius);
     int getRadius();
     
@@ -35,6 +40,8 @@ public:
     void setTarget(ofVec2f _target);
     void move();
     void applyForce(ofVec2f _force);
+    void applyForce(ofVec2f _force,float _strength);
+
     
     ofVec2f seek(ofVec2f t, float f);
 
@@ -53,8 +60,13 @@ public:
     
     void setSeekForce(float _f);
         
-        
-
+    void setSlowDown(bool _b);
+    void setSlowDownDistance(int _d);
+    
+    
+    
+    
+    
 private:
     ofVec2f position;
     int radius;
@@ -65,6 +77,9 @@ private:
     
     ofVec2f acceleration;
     float seekforce=0.5;
+    
+    bool bSlowDown=true;
+    int slowdowndistance=300;
     
 };
 

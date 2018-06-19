@@ -155,12 +155,15 @@ void EmotionWorld::exit(){
 void EmotionWorld::toggleHearts(){
     bEmitHearts=!bEmitHearts;
 }
+void EmotionWorld::toggleSun(){
+    bShowSun=!bShowSun;
+}
 
 
 //KEY LISTENER
 //--------------------------------------------------------------
 void EmotionWorld::keyPressed(ofKeyEventArgs &e){
-    if(e.key == 'e') {
+    if(e.key == 'j') {
         
         vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
         ofVec2f head=ofVec2f(ofGetMouseX(), ofGetMouseY());
@@ -201,6 +204,22 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
         toggleHearts();
     }
     
+    
+    if(e.key=='s'){
+        toggleSun();
+    }
+    
+    if(e.key=='q'){
+        sun.scaleTo(100,20.f);
+    }
+    
+    if(e.key=='w'){
+        sun.scaleTo(500,20.f);
+    }
+    
+    if(e.key=='e'){
+        sun.scaleTo(2000,20.f);
+    }
 }
 
 
