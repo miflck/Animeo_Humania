@@ -34,6 +34,9 @@ void LightPointApp::init(){
     
     ofEnableAlphaBlending();
     ofVec2f homeposition(0,0);
+    
+    ofAddListener(APPC->oscmanager.onMessageReceived, this, &LightPointApp::onMessageReceived);
+
 }
 
 void LightPointApp::update(){
@@ -354,3 +357,59 @@ void LightPointApp::mouseEntered(ofMouseEventArgs &a){
 void LightPointApp::mouseExited(ofMouseEventArgs &a){
     
 }
+
+void LightPointApp::onMessageReceived(ofxOscMessage &msg){
+    
+   
+    
+    if(msg.getAddress() == "/Light/xy1")
+    {
+        float x=msg.getArgAsFloat(0);
+        float y=msg.getArgAsFloat(1);
+        x=ofMap(x,0,1,0,ofGetWidth());
+        y=ofMap(y,0,1,0,ofGetHeight());
+        cout<<x<<" "<<y<<endl;
+        mover.setTarget(ofVec2f(x,y));
+    }
+    
+    if(msg.getAddress() == "/Light/push2")
+    {
+        float f=msg.getArgAsFloat(0);
+        mover.setSeekForce(5);
+    }
+    if(msg.getAddress() == "/Light/push3")
+    {
+        float f=msg.getArgAsFloat(0);
+        mover.setSeekForce(1);
+    }
+    if(msg.getAddress() == "/Light/push4")
+    {
+        float f=msg.getArgAsFloat(0);
+        mover.setSeekForce(0.6);
+    }
+    
+    if(msg.getAddress() == "/Light2/xy2")
+    {
+        float x=msg.getArgAsFloat(0);
+        float y=msg.getArgAsFloat(1);
+        x=ofMap(x,0,1,0,ofGetWidth());
+        y=ofMap(y,0,1,0,ofGetHeight());
+        mover.setTarget(ofVec2f(x,y));
+    }
+    
+    
+    if(msg.getAddress() == "/Light/push6")
+    {
+        mover.scaleTo(50,0.5);
+    }
+    if(msg.getAddress() == "/Light/push7")
+    {
+        mover.scaleTo(150,2.f);
+    }
+    if(msg.getAddress() == "/Light/push8")
+    {
+        mover.scaleTo(600,20.f);
+    }
+    
+}
+

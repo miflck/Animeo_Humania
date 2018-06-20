@@ -10,13 +10,33 @@
 void OscManager::setup(){
     
     // open an outgoing connection to HOST:PORT
-    sender.setup(HOST, PORT);
+    //sender.setup(HOST, PORT);
+     touchOscSender.setup(TOUCHOSCHOST, TOUCHOSCPORT);
+
+    touchOscReceiver.setup(7000);
+    /*this is the port your game will receive data on.
+     For us this is the important one! Set your mobile device to send on this port.*/
     
 }
 
 void OscManager::update(){
-    
-   
+    //our simple while loop to make sure we get all of our messages
+    while (touchOscReceiver.hasWaitingMessages()) {
+        ofxOscMessage m;
+        //Pass a reference to that message to the receiver
+        //we set up above using the getNextMessage function in the OSC add on.
+        
+        touchOscReceiver.getNextMessage(&m);
+        
+        //This will be the message we send back from our game
+        //to our device letting it know what value we received
+        //from it and displaying that back to us so we know what our
+        //current game settings are at.
+        
+        ofxOscMessage sendBack;
+        ofNotifyEvent(onMessageReceived, m, this);
+
+    }
     
     
 }

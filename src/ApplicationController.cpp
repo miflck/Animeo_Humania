@@ -36,7 +36,7 @@ void ApplicationController::initialize() {
     
     if(bUseOSC)oscmanager.setup();
 
- 
+
 	initialized=true;
     cout<<"init ApplicationController"<<endl;
    // ofSetLogLevel(OF_LOG_SILENT);
@@ -119,7 +119,8 @@ void ApplicationController::_update(ofEventArgs &e) {
     }
     
     
-  
+    if(bUseOSC)oscmanager.update();
+
 }
 
 void ApplicationController::_draw(ofEventArgs &e) {

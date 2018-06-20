@@ -14,6 +14,33 @@
 #include "ofxBox2d.h"
 #include "MovingObject.hpp"
 #include "Sun.hpp";
+#include "ofxOsc.h"
+
+
+
+
+// ------------------------------------------------- a simple extended box2d circle
+class Heart : public ofxBox2dCircle {
+    
+public:
+    ofImage herz;
+    ofColor col;
+    Heart() {
+        herz.loadImage("herz.png");
+        col=ofColor(220+ofRandom(-30,30),37+ofRandom(-30,30),151+ofRandom(-30,30));
+    }
+    ofColor color;
+    void draw() {
+        float radius = getRadius();
+        ofPushMatrix();
+         ofTranslate(getPosition().x,getPosition().y);
+         ofRotate(getRotation());
+        ofSetColor(col);
+        ofFill();
+        herz.draw(-getRadius(),-getRadius(),getRadius()*2,getRadius()*2);
+        ofPopMatrix();
+    }
+};
 
 
 
@@ -60,14 +87,22 @@ public:
     
     void toggleHearts();
     void toggleSun();
+    void showSun(bool _s);
 
-    
+    ofImage herz;
+
 private:
     ofxBox2d                                  box2d;   // the box2d world
     ofxBox2dCircle                            anchor;  // fixed anchor
     vector      <shared_ptr<ofxBox2dCircle> > circles; // default box2d circles
     vector      <shared_ptr<ofxBox2dJoint> >  joints;  // joints
     vector    <shared_ptr<ofxBox2dRect> >   boxes;           // default box2d rects
+    
+    vector    <shared_ptr<Heart> > hearts; // this is a custom particle the extends a cirlce
+
+    
+    
+    
     ofxBox2dRect box;
     ofxBox2dRect leftbox;
     ofxBox2dRect rightbox;
@@ -83,10 +118,16 @@ private:
    vector<MovingObject> movingObjects;
     //vector<shared_ptr<Agent> > movingObjects;
 
-    ofImage herz;
     
     bool bEmitHearts=false;
     bool bShowSun=false;
+    void onMessageReceived(ofxOscMessage &msg);
+    
+    
+    void drawEstonishmed(){
+        
+    }
+    
     
 };
 

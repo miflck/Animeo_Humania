@@ -16,7 +16,7 @@ void ofApp::setup(){
     
     ofSetCircleResolution(100);
 
-    
+
     //mClient.setup();
     
     //using Syphon app Simple Server, found at http://syphon.v002.info/
