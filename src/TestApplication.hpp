@@ -12,6 +12,7 @@
 #include "ofMain.h"
 #include "ApplicationBase.h"
 #include "MovingObject.hpp"
+
 class TestApplication:public ApplicationBase{
 public:
     TestApplication();

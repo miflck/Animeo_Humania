@@ -109,14 +109,18 @@ void BreathPoint::draw(){
     
     }
     float r=0;
+    float v=0;
+
     if(bBreathe){
-         r=5.f*sin(ofGetElapsedTimef()*4);
+         r=5.f*sin(ofGetElapsedTimef()*2);
+        v=2.f*cos(ofGetElapsedTimef()*2);
+
     }
     
     ofPushMatrix();
     ofPushStyle();
     //ofSetColor(255);
-    ofDrawEllipse(getPosition().x, getPosition().y, actualRadius+r, actualRadius+r);
+    ofDrawEllipse(getPosition().x, getPosition().y, actualRadius+r, actualRadius+v);
     ofPopStyle();
     ofPopMatrix();
     
@@ -124,7 +128,8 @@ void BreathPoint::draw(){
         ofPushMatrix();
         ofPushStyle();
         ofSetColor(5);
-        ofDrawEllipse(reflectionpoint,200,400);
+    ofDrawEllipse(reflectionpoint,100,300);
+      //  ofDrawRectangle(reflectionpoint, 800,800);
         ofPopStyle();
         ofPopMatrix();
     }

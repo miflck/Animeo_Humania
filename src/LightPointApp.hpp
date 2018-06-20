@@ -12,6 +12,8 @@
 #include "ofMain.h"
 #include "ApplicationBase.h"
 #include "BreathPoint.hpp"
+#include "ofxOsc.h"
+
 class LightPointApp:public ApplicationBase{
 public:
     LightPointApp();
@@ -61,7 +63,7 @@ public:
     
     ofVec2f homeposition;
     
-    
+   void onMessageReceived(ofxOscMessage &msg);
     
 };
 

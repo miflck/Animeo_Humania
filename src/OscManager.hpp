@@ -16,6 +16,9 @@
 #define HOST "169.254.69.100"
 #define PORT 8000
 
+#define TOUCHOSCHOST "169.254.73.86"
+#define TOUCHOSCPORT 9000
+
 
 class OscManager {
 public:
@@ -24,6 +27,15 @@ public:
     void draw();
     
     ofxOscSender sender;
+    
+    ofxOscReceiver touchOscReceiver;
+    ofxOscSender touchOscSender;
+
+    //this is the magic! This is the port on which your game gets incoming data.
+    
+    ofEvent<ofxOscMessage> onMessageReceived;
+
+    
     ofBuffer imgAsBuffer;
     
     void sendMessage(int _x);

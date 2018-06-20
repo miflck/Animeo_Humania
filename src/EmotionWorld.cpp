@@ -48,10 +48,13 @@ void EmotionWorld::init(){
     sun.setup();
     sun.bSeekTarget=true;
     
+    ofAddListener(APPC->oscmanager.onMessageReceived, this, &EmotionWorld::onMessageReceived);
+
+    
 }
 
 void EmotionWorld::update(){
-    box2d.setGravity(0, APPC->gui->emotionsgravity);
+    //box2d.setGravity(0, APPC->gui->emotionsgravity);
     box2d.update();
     
     
@@ -94,7 +97,8 @@ void EmotionWorld::update(){
     // remove shapes offscreen
     ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
     ofRemove(circles, ofxBox2dBaseShape::shouldRemoveOffScreen);
-    
+    ofRemove(hearts, ofxBox2dBaseShape::shouldRemoveOffScreen);
+
   
 }
 
@@ -122,13 +126,22 @@ void EmotionWorld::draw(){
     
     for(int i=0; i<circles.size(); i++) {
         ofSetColor(220+ofRandom(-20,20),37+ofRandom(-20,20),151+ofRandom(-20,20));
+        circles[i]->draw();
         ofPushMatrix();
-        ofTranslate(circles[i]->getPosition().x,circles[i]->getPosition().y);
-        ofRotate(circles[i]->getRotation());
-        herz.draw(-circles[i]->getRadius(),-circles[i]->getRadius(),circles[i]->getRadius()*2,circles[i]->getRadius()*2);
+       // ofTranslate(circles[i]->getPosition().x,circles[i]->getPosition().y);
+       // ofRotate(circles[i]->getRotation());
+        //herz.draw(-circles[i]->getRadius(),-circles[i]->getRadius(),circles[i]->getRadius()*2,circles[i]->getRadius()*2);
         ofPopMatrix();
     }
+    
+    for(int i=0; i<hearts.size(); i++) {
+        hearts[i]->draw();
+    }
+    
     ofPopStyle();
+    
+    for(int i=0; i<circles.size(); i++) {
+    }
 
     for(int i=0;i<movingObjects.size();i++){
         movingObjects[i].draw();
@@ -157,6 +170,10 @@ void EmotionWorld::toggleHearts(){
 }
 void EmotionWorld::toggleSun(){
     bShowSun=!bShowSun;
+}
+
+void EmotionWorld::showSun(bool _s){
+    bShowSun=_s;
 }
 
 
@@ -277,3 +294,49 @@ void EmotionWorld::turnOff(){
     }
     bAddedListeners=false;
 }
+
+
+
+void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
+    
+    if(msg.getAddress() == "/EmotionWorld/toggle1")
+    {
+        float f=msg.getArgAsBool(0);
+        showSun(f);
+        cout<<f<<endl;
+
+
+    }
+    
+
+    
+    if(msg.getAddress() == "/EmotionWorld/fader2")
+    {
+        float f=msg.getArgAsFloat(0);
+        f=ofMap(f, -1.f, 1.f, -10, 10);
+        box2d.setGravity(0, f);
+    }
+    
+    if(msg.getAddress() == "/EmotionWorld/push1")
+    {
+        float f=msg.getArgAsBool(0);
+        float r = ofRandom(10, 40);        // a random radius 4px - 20px
+        hearts.push_back(shared_ptr<Heart>(new Heart));
+        hearts.back().get()->setPhysics(3.0, 0.53, 0.1);
+        hearts.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
+        hearts.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,-10));
+    }
+    
+    if(msg.getAddress() == "/EmotionWorld/push5")
+    {
+        float r = ofRandom(10, 40);        // a random radius 4px - 20px
+        circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
+        circles.back().get()->setPhysics(ofRandom(5.0,1), ofRandom(0,1), ofRandom(0,1));
+        circles.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
+        circles.back().get()->setVelocity(ofRandom(-5,5), ofRandom(-1,-5));
+    }
+    
+}
+
+
+
