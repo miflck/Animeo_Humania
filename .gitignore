@@ -106,3 +106,4 @@ Carthage/Build.rbenv-vars
 ####
 # rbenv
 .rbenv-vars
+/bin/appswitcherDebug.app/Contents/MacOS/appswitcherDebug
