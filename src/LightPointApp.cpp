@@ -33,12 +33,18 @@ void LightPointApp::init(){
     screen.end();
     
     ofEnableAlphaBlending();
-    ofVec2f homeposition(0,0);
+   // ofVec2f homeposition(0,0);
     
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &LightPointApp::onMessageReceived);
    // mover.setPosition(ofVec2f(ofGetWidth()/3,ofGetHeight()/3));
-    
 
+    Settings::get().load("data.json");
+
+
+    homeposition=&Settings::getVec2("LightPointApp/homeposition");
+    startposition=&Settings::getVec2("LightPointApp/startposition");
+    
+    setMoverToStartPosition();
 }
 
 void LightPointApp::update(){
@@ -117,11 +123,7 @@ void LightPointApp::draw(){
        // glEnable(GL_BLEND);
        // glBlendFunc(GL_ONE, GL_ONE);
         //glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
-        
-        
-     
-        
-      /*  float fClearOpacity = 1.f;
+        /*  float fClearOpacity = 1.f;
         ofSetColor(0, 5);
         ofFill();
         ofDrawRectangle(0,0, ofGetWidth(), ofGetHeight());
@@ -278,14 +280,25 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key =='j'){
-        homeposition.set(ofGetMouseX(),ofGetMouseY());
+        homeposition->set(ofGetMouseX(),ofGetMouseY());
+        Settings::get().save("data.json");
+
+    }
+    
+    if(e.key =='J'){
+        startposition->set(ofGetMouseX(),ofGetMouseY());
+        Settings::get().save("data.json");
     }
     
     if(e.key=='u'){
-        mover.setTarget(homeposition);
+        mover.setTarget(*homeposition);
         skelettonNodeId=2;
         mover.setSeekForce(5);
-        
+    }
+    
+    
+    if(e.key=='U'){
+        setMoverToStartPosition();
     }
     
     
@@ -324,6 +337,13 @@ void LightPointApp::toggleRepulsion(){
     bRepusion=!bRepusion;
 }
 
+
+
+void LightPointApp::setMoverToStartPosition(){
+    mover.setPosition(startposition->x, startposition->y);
+}
+
+
 //--------------------------------------------------------------
 void LightPointApp::mouseMoved(ofMouseEventArgs &a){
     
@@ -357,6 +377,12 @@ void LightPointApp::mouseEntered(ofMouseEventArgs &a){
 void LightPointApp::mouseExited(ofMouseEventArgs &a){
     
 }
+
+
+
+
+
+
 
 void LightPointApp::onMessageReceived(ofxOscMessage &msg){
     

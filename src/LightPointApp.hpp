@@ -47,6 +47,11 @@ public:
     void exit();
 
     
+    
+    void setMoverToStartPosition();
+    
+    
+    
     //events
     bool bAddedListeners;
     bool bIsRunning;
@@ -67,7 +72,10 @@ public:
     bool bSlowDown=true;
     void toggleRepulsion();
     
-    ofVec2f homeposition;
+    
+    ofVec2f *homeposition;
+    ofVec2f *startposition;
+
     
    void onMessageReceived(ofxOscMessage &msg);
     
