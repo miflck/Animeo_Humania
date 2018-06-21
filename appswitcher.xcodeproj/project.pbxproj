@@ -121,6 +121,7 @@
 		FA91624920D00F5600DD99C6 /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA91624620D00F5600DD99C6 /* OrthoCamera.cpp */; };
 		FA9939CB20D90FFF007301BA /* BreathPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA9939CA20D90FFF007301BA /* BreathPoint.cpp */; };
 		FA9939CE20D9105E007301BA /* LightPointApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA9939CD20D9105E007301BA /* LightPointApp.cpp */; };
+		FA9939D920DA842A007301BA /* LinieApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA9939D820DA8429007301BA /* LinieApp.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -398,6 +399,8 @@
 		FA9939CA20D90FFF007301BA /* BreathPoint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BreathPoint.cpp; sourceTree = "<group>"; };
 		FA9939CC20D9105E007301BA /* LightPointApp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LightPointApp.hpp; sourceTree = "<group>"; };
 		FA9939CD20D9105E007301BA /* LightPointApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LightPointApp.cpp; sourceTree = "<group>"; };
+		FA9939D720DA8429007301BA /* LinieApp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LinieApp.hpp; sourceTree = "<group>"; };
+		FA9939D820DA8429007301BA /* LinieApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LinieApp.cpp; sourceTree = "<group>"; };
 		FD20B1FFE795860DB1C68BF2 /* b2ChainAndCircleContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2ChainAndCircleContact.cpp; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp; sourceTree = SOURCE_ROOT; };
 		FF2B018E24837032A4878576 /* ofxEasing.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasing.h; path = ../../../addons/ofxEasing/src/ofxEasing.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -892,6 +895,8 @@
 				0A0E98542D36D3AC7A7B1465 /* Physics.hpp */,
 				FA330F6720D43D2600A0CCD0 /* Arm.cpp */,
 				FA330F6820D43D2600A0CCD0 /* Arm.hpp */,
+				FA9939D720DA8429007301BA /* LinieApp.hpp */,
+				FA9939D820DA8429007301BA /* LinieApp.cpp */,
 				B612089089D3489B77BCC60F /* PhysicsWorld.cpp */,
 				53232972721152B8321D54C9 /* PhysicsWorld.hpp */,
 				FA330F7120D53D5A00A0CCD0 /* EmotionWorld.cpp */,
@@ -1198,6 +1203,7 @@
 				0546D1A38E13BD319CC9755B /* OscReceivedElements.cpp in Sources */,
 				879A251454401BC0B6E4F238 /* OscTypes.cpp in Sources */,
 				1F558B76FB3412843DDAA031 /* ofxSyphonClient.mm in Sources */,
+				FA9939D920DA842A007301BA /* LinieApp.cpp in Sources */,
 				8D60C222CBD3F869382832E9 /* ofxSyphonServer.mm in Sources */,
 				11DF9AB1B4EAA63E3B190CA0 /* ofxSyphonServerDirectory.mm in Sources */,
 				C9109422648B170B07A778CF /* SyphonNameboundClient.m in Sources */,

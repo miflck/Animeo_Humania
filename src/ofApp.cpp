@@ -45,7 +45,7 @@ void ofApp::keyPressed(int key){
         break;
     case 'x':
             cout<<"set app"<<endl;
-            APPC->setAppById("line");
+            APPC->setAppById("linieApp");
     break;
 
         case 'c':
@@ -75,20 +75,27 @@ void ofApp::keyPressed(int key){
             APPC->setAppById("face");
             break;
             
+        case '.':
+            cout<<"set app"<<endl;
+            APPC->setAppById("line");
+            break;
+            
+        case 'f':
+            ofToggleFullscreen();
+            break;
             
     case 'd':
             APPC->toggleDebug();
     break;
             
-        case 'i':
+        case '-':
             KINECTMANAGER->addInputListeners();
             break;
             
-        case 'I':
+        case '_':
             KINECTMANAGER->removeInputListeners();
             break;
  
-            
     }
 
 }

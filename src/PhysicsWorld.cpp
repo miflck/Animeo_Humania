@@ -29,8 +29,6 @@ void PhysicsWorld::init(){
     box2d.createGround();
     box2d.setFPS(60.0);
     box2d.registerGrabbing();
-    
-    
     anchor.setPhysics(50, 0.5, 0.9);
     anchor.setup(box2d.getWorld(), 0, 0, 50);
     box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);

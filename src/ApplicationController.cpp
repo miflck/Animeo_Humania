@@ -17,7 +17,7 @@
 #include "Arm.hpp"
 #include "EmotionWorld.hpp"
 #include "Face.hpp"
-
+#include "LinieApp.hpp"
 
 ApplicationController* ApplicationController::instance = 0;
 
@@ -82,6 +82,9 @@ void ApplicationController::initialize() {
     
     applications["face"]=new Face();
     applications["face"]->setId("face");
+    
+    applications["linieApp"]=new LinieApp();
+    applications["linieApp"]->setId("linieApp");
     
     //applications["kinectV2"]=new KinectV2();
     //applications["kinectV2"]->setId("kinectV2");
