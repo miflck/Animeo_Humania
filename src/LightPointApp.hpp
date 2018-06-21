@@ -38,6 +38,8 @@ public:
     
     void turnOn();
     void turnOff();
+    void onSettingsLoaded();
+
     
     
     //structure
@@ -49,7 +51,7 @@ public:
     
     
     void setMoverToStartPosition();
-    
+    void goHome();
     
     
     //events
@@ -76,6 +78,11 @@ public:
     ofVec2f *homeposition;
     ofVec2f *startposition;
 
+    
+
+    void onOSCSetup(ofxOscMessage &msg);
+
+    
     
    void onMessageReceived(ofxOscMessage &msg);
     

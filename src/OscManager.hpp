@@ -34,14 +34,19 @@ public:
     //this is the magic! This is the port on which your game gets incoming data.
     
     ofEvent<ofxOscMessage> onMessageReceived;
+    ofEvent<ofxOscMessage> onOSCSetup;
 
     
     ofBuffer imgAsBuffer;
     
+    
+    
     void sendMessage(int _x);
     void sendPositionToLayer(int _layer, int _x, int _y);
 
-
+    
+    string remoteIp;
+    bool bRemoteIpIsSet=false;
 };
 
 

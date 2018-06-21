@@ -12,6 +12,8 @@
 #include "ofMain.h"
 #include "ApplicationBase.h"
 #include "ofxBox2d.h"
+#include "ofxJsonSettings.h"
+#include "ofxOsc.h"
 
 
 
@@ -44,10 +46,15 @@ public:
      void mouseExited(ofMouseEventArgs &a);
 
     
+    
+    
     //events
     bool bAddedListeners;
     bool bIsRunning;
     bool bUseHand=false;
+    
+    void onMessageReceived(ofxOscMessage &msg);
+
     
     void toggleMouseActive();
     
@@ -56,7 +63,25 @@ public:
     
     ofVec2f anchorPositionTop;
     ofVec2f anchorPositionBottom;
-
+    
+    ofVec2f *anchorStartPositionTop;
+    ofVec2f *anchorStartPositionBottom;
+    
+    bool bMakeWave=false;
+    float waveInittime;
+    float waveSpeed;
+    ofVec2f waveInitPosition;
+    float waveAmplitude;
+    float howmany;
+    int waveActuatorIndex=1;
+    void wave();
+    void startWave(float _speed,float _amplitude, float _howmany);
+    void endWave();
+    
+    float OSCwaveSpeed;
+    float OSCwaveAmplitude;
+    float OSChowmany;
+    
 
 private:
     ofxBox2d                                  box2d;   // the box2d world

@@ -24,6 +24,10 @@ void LinieApp::init(){
     cout<<"init LinieApp"<<endl;
     bAddedListeners = false;
     
+    ofAddListener(APPC->oscmanager.onMessageReceived, this, &LinieApp::onMessageReceived);
+
+    
+    
     box2d.init();
     box2d.setGravity(0, 0);
     box2d.createGround();
@@ -36,29 +40,29 @@ void LinieApp::init(){
     anchorPositionTop.set(xPos, ofGetHeight()/3);
     anchorPositionBottom.set(xPos,ofGetHeight());
     
+    anchorStartPositionTop=&Settings::getVec2("LinieApp/anchorStartPositionTop");
+    anchorStartPositionBottom=&Settings::getVec2("LinieApp/anchorStartPositionBottom");
+
     
     //anchor.setPhysics(50, 0.5, 0.9);
 
-    anchor.setup(box2d.getWorld(), anchorPositionTop.x, anchorPositionTop.y, 10);
-    anchor2.setup(box2d.getWorld(), anchorPositionBottom.x, anchorPositionBottom.y, 10);
+    anchor.setup(box2d.getWorld(), anchorStartPositionTop->x, anchorStartPositionTop->y, 10);
+    anchor2.setup(box2d.getWorld(), anchorStartPositionBottom->x, anchorStartPositionBottom->y, 10);
     
     
-    int num=10;
-    int jointlength=25;
+    int num=30;
+    int jointlength=5;
     
     // first we add just a few circles
     for(int i=0; i<num; i++) {
         
         auto circle = std::make_shared<ofxBox2dCircle>();
-        
-        // if(i%2==0){
-        //   circle.get()->setPhysics(10.0, 0.53, 0.9);
-        
-        // }else{
         circle.get()->setPhysics(5, 0.53, 0.9);
+      
+        float offset=anchorStartPositionBottom->y-anchorStartPositionTop->y;
+        offset/=num;
         
-        // }
-        circle.get()->setup(box2d.getWorld(), xPos, ((anchorPositionBottom.x-anchorPositionTop.x)/(num+1))+((anchorPositionBottom.x-anchorPositionTop.x)/(num+1))*i, 5);
+        circle.get()->setup(box2d.getWorld(), anchorStartPositionTop->x, anchorStartPositionTop->y+(offset*i), 5);
         circles.push_back(circle);
         positions.push_back(ofVec2f(xPos, (ofGetHeight()/(num+1))+(ofGetHeight()/(num+1))*i));
     }
@@ -110,6 +114,11 @@ void LinieApp::update(){
     
     anchor.setDamping(0.98);
     anchor2.setDamping(0.98);
+    
+    if(bMakeWave){
+        wave();
+    }
+    
 
     
     if( bUseHand){
@@ -304,9 +313,72 @@ void LinieApp::keyPressed(ofKeyEventArgs &e){
         toggleMouseActive();
     }
     
+    if(e.key=='u'){
+        anchorStartPositionTop->set(ofGetMouseX(),ofGetMouseY());
+        anchor.setPosition(ofGetMouseX(), ofGetMouseY());
+
+        Settings::get().save("data.json");
+    }
+    
+    if(e.key=='i'){
+        anchorStartPositionBottom->set(ofGetMouseX(),ofGetMouseY());
+        anchor2.setPosition(ofGetMouseX(), ofGetMouseY());
+
+        Settings::get().save("data.json");
+    }
+    
+    if(e.key=='9'){
+        startWave(10,500,PI);
+      /*  bMakeWave=!bMakeWave;
+        if(bMakeWave){
+            waveInittime=ofGetElapsedTimef();
+            waveInitPosition=anchor.getPosition();
+        }else{
+            anchor.setPosition(waveInitPosition);
+        }
+       */
+    }
+    
+    if(e.key=='8'){
+        startWave(20,200,PI);
+       
+    }
+    if(e.key=='0'){
+        startWave(5,200,6*PI);
+    }
     
 }
 
+
+void LinieApp::startWave(float _speed,float _amplitude, float _howmany){
+    waveInittime=ofGetElapsedTimef();
+    if(!bMakeWave)waveInitPosition=anchor.getPosition(); // damit die ursprungsposition auch bei mehreren wellen bleibt
+    bMakeWave=true;
+    waveSpeed=_speed;
+    waveAmplitude=_amplitude;
+    howmany=_howmany;
+}
+void LinieApp::wave(){
+    if((ofGetElapsedTimef()-waveInittime)*waveSpeed<howmany){
+        float r=0;
+        float v=0;
+        r=waveAmplitude*sin((ofGetElapsedTimef()-waveInittime)*waveSpeed);
+    
+        v=2.f*cos(ofGetElapsedTimef()*2);
+        ofVec2f ap=waveInitPosition;
+        ofVec2f d=anchor2.getPosition()-ap;
+        d.normalize();
+        d.rotate(-90);
+        d*=r;
+        anchor.setPosition(ap+d);
+    }else{
+        endWave();
+    }
+}
+void LinieApp::endWave(){
+    bMakeWave=false;
+    anchor.setPosition(waveInitPosition);
+}
 
 //--------------------------------------------------------------
 void LinieApp::mouseMoved(ofMouseEventArgs &a){
@@ -344,6 +416,41 @@ void LinieApp::mouseEntered(ofMouseEventArgs &a){
 
 //--------------------------------------------------------------
 void LinieApp::mouseExited(ofMouseEventArgs &a){
+    
+}
+
+
+void LinieApp::onMessageReceived(ofxOscMessage &msg){
+    if(msg.getAddress() == "/4/push10")
+    {
+        cout<<OSCwaveSpeed<<" "<<OSCwaveAmplitude<<" "<<OSChowmany<<endl;
+        startWave(OSCwaveSpeed, OSCwaveAmplitude, OSChowmany);
+    }
+    
+    if(msg.getAddress() == "/4/rotary2")
+    {
+        OSCwaveSpeed=msg.getArgAsFloat(0);
+        ofxOscMessage m;
+        m.addFloatArg(OSCwaveSpeed);
+        m.setAddress("/4/label8");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+
+    }
+    if(msg.getAddress() == "/4/rotary3")
+    {
+        OSCwaveAmplitude=msg.getArgAsFloat(0);
+        ofxOscMessage m;
+        m.addFloatArg(OSCwaveAmplitude);
+        m.setAddress("/4/label9");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    if(msg.getAddress() == "/4/rotary4")
+    {
+        OSChowmany=msg.getArgAsFloat(0);
+        ofxOscMessage m;
+        m.addFloatArg(OSChowmany);
+        m.setAddress("/4/label10");
+        APPC->oscmanager.touchOscSender.sendMessage(m);    }
     
 }
 

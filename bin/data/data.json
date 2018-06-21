@@ -1,7 +1,11 @@
 {
    "LightPointApp" : {
-      "homeposition" : [ 1124, 222 ],
+      "homeposition" : [ 1316, 203 ],
       "startposition" : [ 627, 435 ]
+   },
+   "LinieApp" : {
+      "anchorStartPositionBottom" : [ 873, 944 ],
+      "anchorStartPositionTop" : [ 886, 474 ]
    }
 }
 

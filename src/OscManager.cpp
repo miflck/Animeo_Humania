@@ -11,7 +11,7 @@ void OscManager::setup(){
     
     // open an outgoing connection to HOST:PORT
     //sender.setup(HOST, PORT);
-     touchOscSender.setup(TOUCHOSCHOST, TOUCHOSCPORT);
+     //touchOscSender.setup(TOUCHOSCHOST, TOUCHOSCPORT);
 
     touchOscReceiver.setup(7000);
     /*this is the port your game will receive data on.
@@ -27,6 +27,16 @@ void OscManager::update(){
         //we set up above using the getNextMessage function in the OSC add on.
         
         touchOscReceiver.getNextMessage(&m);
+        
+        if(!bRemoteIpIsSet){
+            remoteIp=m.getRemoteIp();
+            bRemoteIpIsSet=true;
+            touchOscSender.setup(remoteIp, TOUCHOSCPORT);
+            cout<<m.getRemoteIp()<<endl;
+            ofNotifyEvent(onOSCSetup, m, this);
+
+        }
+        
         
         //This will be the message we send back from our game
         //to our device letting it know what value we received

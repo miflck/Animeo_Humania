@@ -8,6 +8,7 @@
 #include "LightPointApp.hpp"
 #include "ApplicationController.h"
 #include "KinectV2Manager.hpp"
+#include "ofxOscMessage.h"
 
 
 LightPointApp::LightPointApp(){
@@ -20,6 +21,8 @@ LightPointApp::~LightPointApp(){
 }
 
 void LightPointApp::init(){
+    ofAddListener(APPC->oscmanager.onOSCSetup, this, &LightPointApp::onOSCSetup);
+
     cout<<"init LightPointApp"<<endl;
     bAddedListeners = false;
     mover.setup();
@@ -38,13 +41,13 @@ void LightPointApp::init(){
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &LightPointApp::onMessageReceived);
    // mover.setPosition(ofVec2f(ofGetWidth()/3,ofGetHeight()/3));
 
-    Settings::get().load("data.json");
 
 
     homeposition=&Settings::getVec2("LightPointApp/homeposition");
     startposition=&Settings::getVec2("LightPointApp/startposition");
     
     setMoverToStartPosition();
+
 }
 
 void LightPointApp::update(){
@@ -291,9 +294,7 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='u'){
-        mover.setTarget(*homeposition);
-        skelettonNodeId=2;
-        mover.setSeekForce(5);
+        goHome();
     }
     
     
@@ -341,8 +342,21 @@ void LightPointApp::toggleRepulsion(){
 
 void LightPointApp::setMoverToStartPosition(){
     mover.setPosition(startposition->x, startposition->y);
+    mover.setTarget(ofVec2f(startposition->x, startposition->y));
 }
 
+
+void LightPointApp::goHome(){
+    mover.setTarget(*homeposition);
+    mover.scaleTo(50,0.5);
+    skelettonNodeId=2;
+    mover.setSeekForce(5);
+    ofxOscMessage m;
+    m.addFloatArg(ofMap(homeposition->y,0,ofGetHeight(),0,1));
+    m.addFloatArg(ofMap(homeposition->x,0,ofGetWidth(),0,1));
+    m.setAddress("/Light/xy1");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+}
 
 //--------------------------------------------------------------
 void LightPointApp::mouseMoved(ofMouseEventArgs &a){
@@ -429,5 +443,21 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
         mover.scaleTo(600,20.f);
     }
     
+    
+    if(msg.getAddress() == "/Light/push9")
+    {
+        goHome();
+        
+    }
+    
+    
 }
 
+void LightPointApp::onOSCSetup(ofxOscMessage &msg){
+    ofxOscMessage m;
+    m.addFloatArg(ofMap(startposition->y,0,ofGetHeight(),0,1));
+    m.addFloatArg(ofMap(startposition->x,0,ofGetWidth(),0,1));
+    m.setAddress("/Light/xy1");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+    
+}
