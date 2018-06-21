@@ -17,6 +17,9 @@
 #include "ofxGui.h"
 
 
+#include "ofxJsonSettings.h"
+
+
 class LightPointApp:public ApplicationBase{
 public:
     LightPointApp();

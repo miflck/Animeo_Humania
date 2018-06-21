@@ -4,6 +4,9 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    Settings::get().load("data.json");
+
+    
     APPC->initialize();
     APPC->gui=gui;
     
