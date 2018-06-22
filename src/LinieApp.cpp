@@ -82,7 +82,7 @@ void LinieApp::init(){
     }
     
     auto joint = std::make_shared<ofxBox2dJoint>();
-    joint.get()->setup(box2d.getWorld(), circles[circles.size()-1].get()->body, anchor2.body,5,10);
+    joint.get()->setup(box2d.getWorld(), circles[circles.size()-1].get()->body, anchor2.body,5,1);
     joint.get()->setLength(jointlength);
     
     joints.push_back(joint);
@@ -109,7 +109,7 @@ void LinieApp::update(){
                 float handDist = leftHand.distance(circles[i].get()->getPosition());
                 if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
             }*/
-       circles[i].get()->setDamping(0.98);
+       circles[i].get()->setDamping(0.99);
     }
     
     anchor.setDamping(0.98);
@@ -292,7 +292,6 @@ void LinieApp::keyPressed(ofKeyEventArgs &e){
         for(int i=0; i<joints.size(); i++) {
             joints[i].get()->setFrequency(joints[i].get()->getFrequency()+0.1);
         }
-        cout<<joints[0].get()->getFrequency()<<endl;
     }
     
    /* if(e.key=='d'){
@@ -450,7 +449,46 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         ofxOscMessage m;
         m.addFloatArg(OSChowmany);
         m.setAddress("/4/label10");
-        APPC->oscmanager.touchOscSender.sendMessage(m);    }
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+    }
+    
+    if(msg.getAddress() == "/4/rotary5")
+    {
+        
+        float freq=msg.getArgAsFloat(0);
+        for(int i=0; i<joints.size(); i++) {
+            joints[i].get()->setFrequency(freq);
+        }
+        ofxOscMessage m;
+        m.addFloatArg(freq);
+        m.setAddress("/4/label11");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    if(msg.getAddress() == "/4/rotary6")
+    {
+        float dmp=msg.getArgAsFloat(0);
+        for(int i=0; i<joints.size(); i++) {
+            joints[i].get()->setDamping(dmp);
+        }
+        ofxOscMessage m;
+        m.addFloatArg(dmp);
+        m.setAddress("/4/label12");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    if(msg.getAddress() == "/4/rotary7")
+    {
+        float len=msg.getArgAsFloat(0);
+        for(int i=0; i<joints.size(); i++) {
+            joints[i].get()->setLength(len);
+        }
+        ofxOscMessage m;
+        m.addFloatArg(len);
+        m.setAddress("/4/label13");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
     
 }
 
