@@ -77,6 +77,9 @@ private:
     ofVec2f leftMouthOffset;
     ofVec2f rightMouthOffset;
     
+    ofVec2f leftMouthCornerOffset;
+    ofVec2f rightMouthCornerOffset;
+    
     ofPath mouth;
 
 

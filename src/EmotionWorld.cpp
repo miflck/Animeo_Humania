@@ -192,6 +192,7 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
         cout<<"Add Circles"<<endl;
         float r = ofRandom(10, 40);        // a random radius 4px - 20px
         circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
+
         circles.back().get()->setPhysics(3.0, 0.53, 0.1);
         circles.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
         circles.back().get()->setVelocity(ofRandom(-5,5), ofRandom(-1,-5));

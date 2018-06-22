@@ -38,7 +38,7 @@ void Face::init(){
     screen.end();
     
     
-    facePosition=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
+    facePosition=ofVec2f(ofGetWidth()/3,ofGetHeight()/2);
     
     mouthCenterPosition=ofVec2f(0,150);
     leftMouth=ofVec2f(200,0);
@@ -75,9 +75,15 @@ void Face::update(){
         leftMouthOffset=leftHandPosition-leftEllbowPositon;
         rightMouthOffset=rightHandPosition-rightEllbowPositon;
         
+        leftMouthCornerOffset=leftHandPosition-spineBasePosition;
+        rightMouthCornerOffset=rightHandPosition-spineBasePosition;
         
-        leftMouth=ofVec2f(leftMouth.x,leftMouthOffset.y+mouthCenterPosition.y);
-        rightMouth=ofVec2f(rightMouth.x,rightMouthOffset.y+mouthCenterPosition.y);
+        
+       // leftMouth=ofVec2f(leftMouth.x,leftMouthOffset.y+mouthCenterPosition.y);
+       // rightMouth=ofVec2f(rightMouth.x,rightMouthOffset.y+mouthCenterPosition.y);
+        
+        leftMouth=ofVec2f(mouthCenterPosition.x+leftMouthCornerOffset.x,leftMouthOffset.y+mouthCenterPosition.y);
+    rightMouth=ofVec2f(mouthCenterPosition.x+rightMouthCornerOffset.x,rightMouthOffset.y+mouthCenterPosition.y);
         
         mouth.moveTo(leftMouth);
         mouth.bezierTo(ofVec2f(leftMouth.x,leftMouth.y+(mouthCenterPosition.y-leftMouth.y)),ofVec2f(mouthCenterPosition.x+50,mouthCenterPosition.y), mouthCenterPosition);
@@ -107,12 +113,12 @@ void Face::draw(){
     ofSetColor(255,0,0);
     
     ofSetLineWidth(5);
-    ofDrawLine(leftMouth,mouthCenterPosition);
-    ofDrawLine(rightMouth,mouthCenterPosition);
+   // ofDrawLine(leftMouth,mouthCenterPosition);
+    //ofDrawLine(rightMouth,mouthCenterPosition);
     
     ofSetColor(0);
     
-    mouth.setStrokeColor(ofColor(0,0,255));
+    mouth.setStrokeColor(ofColor(0,0,0));
     mouth.setFilled(false);
     mouth.setStrokeWidth(5);
     mouth.draw();
