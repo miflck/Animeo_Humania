@@ -123,7 +123,7 @@ void LightPointApp::update(){
     if(bBounceFromCabin){
         
         if(mover.getPosition().x+mover.getRadius()>=
-           cabinposition->x && mover.getPosition().x+mover.getRadius()<=cabinposition->x+cabindimension->x){
+           cabinposition->x && mover.getPosition().x-mover.getRadius()<=cabinposition->x+cabindimension->x){
            
             float ball2topEdge = abs(mover.getPosition().y+ - cabinposition->y); //look up abs()
             if(ball2topEdge <= mover.getRadius())
@@ -166,6 +166,14 @@ void LightPointApp::update(){
             
         }
         
+    }
+    
+    //STATE CONTROLL FOR GETTING INSIDE
+    // SHOULD IMPLEMET STATE MACHINE!!!
+    if(goInside&&r.inside(mover.getPosition().x-mover.getRadius(), mover.getPosition().y-mover.getRadius())){
+        cout<<"INSIDE"<<endl;
+        goInside=false;
+        bBounceFromCabin=true;
     }
     
     lastPosition=mover.getPosition();
@@ -401,8 +409,9 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key==OF_KEY_CONTROL){
-        bBounceFromCabin=!bBounceFromCabin;
-        
+      //  bBounceFromCabin=!bBounceFromCabin;
+        goInside=true;
+        bBounceFromCabin=false;
     }
     
 }

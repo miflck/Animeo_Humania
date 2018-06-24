@@ -82,6 +82,8 @@ public:
     ofVec2f *cabinposition;
     ofVec2f *cabindimension;
     ofVec2f lastPosition;
+    
+    bool goInside=false;
 
 
     
