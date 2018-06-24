@@ -126,6 +126,7 @@ void Physics::update(){
 
 
 void Physics::draw(){
+    
     ofSetColor(0);
     ofDrawRectangle(0,0,ofGetWidth(),ofGetHeight());
     

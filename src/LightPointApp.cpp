@@ -46,6 +46,9 @@ void LightPointApp::init(){
     homeposition=&Settings::getVec2("LightPointApp/homeposition");
     startposition=&Settings::getVec2("LightPointApp/startposition");
     
+    cabinposition=&Settings::getVec2("LightPointApp/cabinposition");
+    cabindimension=&Settings::getVec2("LightPointApp/cabindimension");
+
     setMoverToStartPosition();
 
 }
@@ -108,7 +111,64 @@ void LightPointApp::update(){
     }
     
     
+    ofRectangle r=ofRectangle(cabinposition->x,cabinposition->y, cabindimension->x, cabindimension->y);
     
+    if(r.intersects(mover.getPosition(), mover.getPosition()+mover.getSpeed())){
+        cout<<"intersect"<<endl;
+    };
+    ofPolyline p;
+    
+    
+    
+    if(bBounceFromCabin){
+        
+        if(mover.getPosition().x+mover.getRadius()>=
+           cabinposition->x && mover.getPosition().x+mover.getRadius()<=cabinposition->x+cabindimension->x){
+           
+            float ball2topEdge = abs(mover.getPosition().y+ - cabinposition->y); //look up abs()
+            if(ball2topEdge <= mover.getRadius())
+            {
+            
+          // && mover.getPosition().y+mover.getRadius()>=cabinposition->y){
+            ofVec2f p=mover.getPosition();
+            
+            if(p.x+mover.getRadius()>=cabinposition->x){
+                mover.setPosition(lastPosition.x,lastPosition.y);
+            }
+
+            ofVec2f s=mover.getSpeed();
+                ofVec2f s2=s;
+                s2*=-1;
+            mover.setSpeed(s.x, s2.y);
+            }
+            
+        }
+        
+        if(mover.getPosition().y+mover.getRadius()>=
+           cabinposition->y && mover.getPosition().y+mover.getRadius()<=cabinposition->y+cabindimension->y){
+        
+            float ball2topEdge = abs(mover.getPosition().x+ - cabinposition->x); //look up abs()
+            if(ball2topEdge <= mover.getRadius())
+            {
+                // && mover.getPosition().y+mover.getRadius()>=cabinposition->y){
+                ofVec2f p=mover.getPosition();
+                
+                if(p.x+mover.getRadius()>=cabinposition->x){
+                    mover.setPosition(lastPosition.x,lastPosition.y);
+                }
+                
+                ofVec2f s=mover.getSpeed();
+                ofVec2f s2=s;
+                s2*=-1;
+                mover.setSpeed(s2.x, s.y);
+            }
+        
+            
+        }
+        
+    }
+    
+    lastPosition=mover.getPosition();
     mover.update();
     
   if(bSendOSCPosition)APPC->oscmanager.sendPositionToLayer(m8layer,mover.getPosition().x-ofGetWidth()/2,-mover.getPosition().y+ofGetHeight()/2);
@@ -141,6 +201,8 @@ void LightPointApp::draw(){
         ofPopStyle();
         screen.end();
         screen.draw(0,0);
+        
+       
 
     }
     
@@ -158,7 +220,16 @@ void LightPointApp::draw(){
     ofPopMatrix();
     ofPopStyle();
     
-
+    if(APPC->debug){
+       // cout<<cabinposition<<endl;
+        ofPushStyle();
+        ofSetColor(255, 0, 0);
+        ofPushMatrix();
+        ofTranslate(cabinposition->x,cabinposition->y);
+        ofDrawRectangle(0,0, cabindimension->x, cabindimension->y);
+        ofPopMatrix();
+        ofPopStyle();
+    }
     
     
 }
@@ -293,6 +364,20 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
         Settings::get().save("data.json");
     }
     
+    
+    if(e.key =='g'){
+        cabinposition->set(ofGetMouseX(),ofGetMouseY());
+        Settings::get().save("data.json");
+        
+    }
+    if(e.key =='G'){
+        ofVec2f cD=ofVec2f(ofGetMouseX(),ofGetMouseY());
+        cD-=*cabinposition;
+        cabindimension->set(cD);
+        Settings::get().save("data.json");
+    }
+    
+    
     if(e.key=='u'){
         goHome();
     }
@@ -313,6 +398,11 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     
     if(e.key=='I'){
         mover.setReflection(false);
+    }
+    
+    if(e.key==OF_KEY_CONTROL){
+        bBounceFromCabin=!bBounceFromCabin;
+        
     }
     
 }

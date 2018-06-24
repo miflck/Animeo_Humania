@@ -136,6 +136,10 @@ void BreathPoint::draw(){
     
 }
 
+float BreathPoint::getRadius(){
+    return actualRadius/2;
+}
+
 void BreathPoint::setReflectionPoint(ofVec2f _r){
     reflectionpoint.set(_r);
 }

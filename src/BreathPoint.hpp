@@ -24,6 +24,8 @@ public:
     void update();
     void draw();
     
+    float getRadius();
+    
     int strokeWeight=6;
     
     void setReflectionPoint(ofVec2f _r);

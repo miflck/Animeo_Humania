@@ -78,6 +78,12 @@ public:
     ofVec2f *homeposition;
     ofVec2f *startposition;
 
+    bool bBounceFromCabin=true;
+    ofVec2f *cabinposition;
+    ofVec2f *cabindimension;
+    ofVec2f lastPosition;
+
+
     
 
     void onOSCSetup(ofxOscMessage &msg);

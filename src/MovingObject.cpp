@@ -107,6 +107,10 @@ void MovingObject::setSpeed(int _x, int _y){
     velocity.set(_x,_y);
 }
 
+ofVec2f MovingObject::getSpeed(){
+    return velocity;
+}
+
 
 void MovingObject::setTarget(ofVec2f _target){
     target.set(_target);
