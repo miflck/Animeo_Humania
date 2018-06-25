@@ -124,6 +124,7 @@
 		FA2BE50420DB8A0C008FD2CD /* GuiApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE4FF20DB8A0C008FD2CD /* GuiApp.cpp */; };
 		FA2BE50520DB8A0C008FD2CD /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE50120DB8A0C008FD2CD /* OrthoCamera.cpp */; };
 		FA7300BAC71DAC1ABAF6EE15 /* b2Fixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774DDD1B3F05D3FDF0D37794 /* b2Fixture.cpp */; };
+		FA7CD91720E0E7300087B055 /* Flash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA7CD91520E0E72F0087B055 /* Flash.cpp */; };
 		FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21BDE665988474F1B1F4D302 /* jsoncpp.cpp */; };
 /* End PBXBuildFile section */
 
@@ -412,6 +413,8 @@
 		FA2BE50120DB8A0C008FD2CD /* OrthoCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OrthoCamera.cpp; sourceTree = "<group>"; };
 		FA2BE50220DB8A0C008FD2CD /* OrthoCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrthoCamera.h; sourceTree = "<group>"; };
 		FA784162B6A8E3A77BBE4D6C /* b2TimeStep.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = b2TimeStep.h; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/b2TimeStep.h; sourceTree = SOURCE_ROOT; };
+		FA7CD91520E0E72F0087B055 /* Flash.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Flash.cpp; sourceTree = "<group>"; };
+		FA7CD91620E0E72F0087B055 /* Flash.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Flash.hpp; sourceTree = "<group>"; };
 		FD20B1FFE795860DB1C68BF2 /* b2ChainAndCircleContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2ChainAndCircleContact.cpp; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp; sourceTree = SOURCE_ROOT; };
 		FF2B018E24837032A4878576 /* ofxEasing.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasing.h; path = ../../../addons/ofxEasing/src/ofxEasing.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -980,6 +983,8 @@
 				53232972721152B8321D54C9 /* PhysicsWorld.hpp */,
 				3B843F2F267EC298F5579012 /* Sun.cpp */,
 				E5C78A4481F776931CB0EB58 /* Sun.hpp */,
+				FA7CD91520E0E72F0087B055 /* Flash.cpp */,
+				FA7CD91620E0E72F0087B055 /* Flash.hpp */,
 				D02B304990972A5ADF178C68 /* TestApplication.cpp */,
 				E0EF46E0B4F3388921961F35 /* TestApplication.hpp */,
 			);
@@ -1196,6 +1201,7 @@
 				6BA6F21CF25759636FB3328D /* BreathPoint.cpp in Sources */,
 				C62585E16C510B1C1B679742 /* EmotionWorld.cpp in Sources */,
 				9F77D0AC9D130B635EC75C4C /* Face.cpp in Sources */,
+				FA7CD91720E0E7300087B055 /* Flash.cpp in Sources */,
 				8DC9BAFD30627E79347B8417 /* KinectV2.cpp in Sources */,
 				E83FE345C30765875151328B /* KinectV2Manager.cpp in Sources */,
 				28652537015C533DBC112266 /* LightPointApp.cpp in Sources */,

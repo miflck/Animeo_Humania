@@ -496,7 +496,7 @@ void LightPointApp::setMoverToStartPosition(){
 
 void LightPointApp::goHome(){
     mover.setTarget(*homeposition);
-    mover.scaleTo(50,0.5);
+    mover.scaleTo(20,0.5);
     skelettonNodeId=2;
     mover.setSeekForce(5);
     ofxOscMessage m;
@@ -567,12 +567,12 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Light/push3")
     {
         float f=msg.getArgAsFloat(0);
-        mover.setSeekForce(1);
+        mover.setSeekForce(3);
     }
     if(msg.getAddress() == "/Light/push4")
     {
         float f=msg.getArgAsFloat(0);
-        mover.setSeekForce(0.6);
+        mover.setSeekForce(0.9);
     }
     
 
@@ -580,15 +580,15 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/Light/push6")
     {
-        mover.scaleTo(50,0.5);
+        mover.scaleTo(20,0.5);
     }
     if(msg.getAddress() == "/Light/push7")
     {
-        mover.scaleTo(150,2.f);
+        mover.scaleTo(50,0.6f);
     }
     if(msg.getAddress() == "/Light/push8")
     {
-        mover.scaleTo(600,20.f);
+        mover.scaleTo(150,1.f);
     }
     
     

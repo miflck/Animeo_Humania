@@ -67,6 +67,11 @@ public:
     
     int radius;
 
+   // static bool shouldRemoveOffScreen();
+    static bool shouldRemove(shared_ptr<MovingObject> shape);
+    static bool shouldRemoveOffScreen(shared_ptr<MovingObject> shape);
+    
+
     
     
 private:

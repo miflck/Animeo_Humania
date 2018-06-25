@@ -13,7 +13,9 @@
 #include "ApplicationBase.h"
 #include "ofxBox2d.h"
 #include "MovingObject.hpp"
-#include "Sun.hpp";
+#include "Sun.hpp"
+#include "Flash.hpp"
+
 #include "ofxOsc.h"
 
 
@@ -100,7 +102,7 @@ private:
     
     vector    <shared_ptr<Heart> > hearts; // this is a custom particle the extends a cirlce
 
-    
+
     
     
     ofxBox2dRect box;
@@ -116,6 +118,10 @@ private:
     bool bIsMouseActive=false;
   
    vector<MovingObject> movingObjects;
+    
+    vector      <shared_ptr<Flash> > flashes; 
+
+    
     //vector<shared_ptr<Agent> > movingObjects;
 
     
@@ -127,6 +133,12 @@ private:
     void onMessageReceived(ofxOscMessage &msg);
     
     
+    bool bShowFeeling=true;
+    int feelingIndex=1;
+    void drawFeeling();
+    
+    
+    ofVec2f headposition;
   
     
 };

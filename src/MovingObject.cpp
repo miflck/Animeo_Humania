@@ -150,6 +150,13 @@ void MovingObject::setSlowDownDistance(int _d){
     slowdowndistance=_d;
 }
 
+
+bool MovingObject::shouldRemoveOffScreen(shared_ptr<MovingObject> shape) {
+    return !ofRectangle(0, 0, ofGetWidth(), ofGetHeight()).inside(shape.get()->getPosition());
+}
+
+
+
 bool MovingObject::isOnScreen(){
     bool isInside=false;
     ofRectangle r;

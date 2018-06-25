@@ -75,7 +75,7 @@ public:
     
     int skelettId=0;
 
-    int skelettonNodeId=8;
+    int skelettonNodeId=2;
     
     int seekTargetId=0;
     

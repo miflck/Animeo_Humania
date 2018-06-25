@@ -57,7 +57,7 @@ void EmotionWorld::update(){
     //box2d.setGravity(0, APPC->gui->emotionsgravity);
     box2d.update();
     
-    ofVec2f head=ofVec2f(ofGetMouseX(),ofGetMouseY());
+    headposition=ofVec2f(ofGetMouseX(),ofGetMouseY());
     ofVec2f hand;
 
 
@@ -77,9 +77,13 @@ void EmotionWorld::update(){
         movingObjects[i].update();
     }
     
+ /*   for(int i=0;i<flashes.size();i++){
+        flashes[i]->update();
+    }*/
+    
     if(mskel.size()>0){
-        head=mskel[0].head;
-        head=ofVec2f(head.x, head.y);
+        headposition=mskel[0].head;
+        headposition=ofVec2f(headposition.x, headposition.y);
         anchor.setPosition(mskel[0].leftHand.x, mskel[0].leftHand.y);
     }
        // box2d.setGravity(0, (mskel[0].head.y-mskel[0].rightHand.y)/10);
@@ -92,7 +96,7 @@ void EmotionWorld::update(){
             float r = ofRandom(10, 40);        // a random radius 4px - 20px
             hearts.push_back(shared_ptr<Heart>(new Heart));
             hearts.back().get()->setPhysics(3.0, 0.53, 0.1);
-            hearts.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
+            hearts.back().get()->setup(box2d.getWorld(), headposition.x, headposition.y, r);
             hearts.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,-10));
             
             
@@ -109,6 +113,8 @@ void EmotionWorld::update(){
     ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
     ofRemove(circles, ofxBox2dBaseShape::shouldRemoveOffScreen);
     ofRemove(hearts, ofxBox2dBaseShape::shouldRemoveOffScreen);
+    
+  // ofRemove(flashes, MovingObject::shouldRemoveOffScreen);
 
   
 }
@@ -130,9 +136,8 @@ void EmotionWorld::draw(){
         rightbox.draw();
         ofPopStyle();
     }
-    ofPushStyle();
-
     
+    ofPushStyle();
    if(bShowSun)sun.draw();
     
     for(int i=0; i<circles.size(); i++) {
@@ -154,10 +159,11 @@ void EmotionWorld::draw(){
     for(int i=0; i<circles.size(); i++) {
     }
 
-    for(int i=0;i<movingObjects.size();i++){
+ /*   for(int i=0;i<movingObjects.size();i++){
         movingObjects[i].draw();
-    }
-    ofPopStyle();
+    }*/
+    
+  //  if(bShowFeeling)drawFeeling();
     
    /*   screen.begin();
 
@@ -186,6 +192,29 @@ void EmotionWorld::toggleSun(){
 void EmotionWorld::showSun(bool _s){
     bShowSun=_s;
 }
+
+
+
+void EmotionWorld::drawFeeling(){
+    switch (feelingIndex) {
+        case 1:
+            ofPushStyle();
+            ofPushMatrix();
+            for(int i=0;i<flashes.size();i++){
+                flashes[i]->draw();
+            }
+            //ofTranslate(headposition.x,headposition.y);
+            ofSetColor(255,0,0);
+            ofDrawCircle(0, 0, 5);
+            ofPopMatrix();
+            ofPopStyle();
+            break;
+            
+        default:
+            break;
+    }
+}
+
 
 
 //KEY LISTENER
@@ -249,6 +278,25 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
     if(e.key=='e'){
         sun.scaleTo(2000,20.f);
     }
+    
+    if(e.key=='g'){
+
+        for(int i=0;i<10;i++){
+            ofVec2f r=ofVec2f(-1,0);
+            r.rotate(180/10*(i+1));
+            r*=ofGetWidth()*3;
+            cout<<"Add Flashes"<<endl;
+            flashes.push_back(shared_ptr<Flash>(new Flash));
+            flashes.back().get()->setup();
+            flashes.back().get()->setPosition(headposition.x, headposition.y);
+            flashes.back().get()->setTarget(r);
+           flashes.back().get()->bSeekTarget=true;
+        }
+
+   // circles.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
+   // circles.back().get()->setVelocity(ofRandom(-5,5), ofRandom(-1,-5));
+    }
+    
 }
 
 
