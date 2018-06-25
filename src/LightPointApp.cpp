@@ -112,6 +112,9 @@ void LightPointApp::update(){
    // }
     }
     
+    
+    
+    
     switch (state) {
         case BOUNCE:
             bounceFromCabin();
@@ -135,6 +138,8 @@ void LightPointApp::update(){
         default:
             break;
     }
+    
+    bounceFromWalls();
     
     cabinRect=ofRectangle(cabinposition->x,cabinposition->y, cabindimension->x, cabindimension->y);
     
@@ -165,6 +170,28 @@ void LightPointApp::update(){
 
 }
 
+
+
+void LightPointApp::bounceFromWalls(){
+    ofVec2f position=mover.getPosition();
+    float radius=mover.getRadius();
+    ofVec2f speed=mover.getSpeed();
+    
+    if(position.x+radius>=ofGetWidth() || position.x-radius <0){
+        ofVec2f sReflected=speed;
+        sReflected*=-1;
+        mover.setSpeed(sReflected.x, speed.y);
+    }
+    
+    if(position.y+radius>=ofGetHeight() || position.y-radius <0){
+        ofVec2f sReflected=speed;
+        sReflected*=-1;
+        mover.setSpeed(speed.x, sReflected.y);
+    }
+    
+    
+    
+}
 
 bool LightPointApp::bounceFromCabin(){
     
@@ -458,12 +485,14 @@ void LightPointApp::switchState(int _newstate){
     state=_newstate;
     
     switch (_newstate) {
-        case ENTER:
 
-            break;
         
         case BOUNCE:
+            mover.scaleTo(150,2.f);
+            break;
             
+        case ENTER:
+            mover.scaleTo(50,2.f);
             break;
             
         default:

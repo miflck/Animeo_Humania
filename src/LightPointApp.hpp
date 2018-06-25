@@ -89,6 +89,9 @@ public:
     ofVec2f *startposition;
 
     
+    
+    void bounceFromWalls();
+    
     bool bounceFromCabin();
     bool bBounceFromCabin=true;
     ofVec2f *cabinposition;
