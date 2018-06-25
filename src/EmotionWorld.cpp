@@ -57,12 +57,14 @@ void EmotionWorld::update(){
     //box2d.setGravity(0, APPC->gui->emotionsgravity);
     box2d.update();
     
-    
+    ofVec2f head=ofVec2f(ofGetMouseX(),ofGetMouseY());
+    ofVec2f hand;
+
+
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     if(mskel.size()<=0){
     sun.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
     }else{
-        ofVec2f hand;
         hand=mskel[0].leftHand;
         hand=ofVec2f(hand.x, hand.y);
         sun.setTarget(hand);
@@ -76,24 +78,33 @@ void EmotionWorld::update(){
     }
     
     if(mskel.size()>0){
-        ofVec2f head;
         head=mskel[0].head;
         head=ofVec2f(head.x, head.y);
-
         anchor.setPosition(mskel[0].leftHand.x, mskel[0].leftHand.y);
-        
+    }
        // box2d.setGravity(0, (mskel[0].head.y-mskel[0].rightHand.y)/10);
 
     
         float rAdd=ofRandom(1);
-        if(rAdd>0.7 && bEmitHearts){
+        if(rAdd>emitFrequency && bEmitHearts){
+            
+            
             float r = ofRandom(10, 40);        // a random radius 4px - 20px
+            hearts.push_back(shared_ptr<Heart>(new Heart));
+            hearts.back().get()->setPhysics(3.0, 0.53, 0.1);
+            hearts.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
+            hearts.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,-10));
+            
+            
+            
+          /*  float r = ofRandom(10, 40);        // a random radius 4px - 20px
             circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
             circles.back().get()->setPhysics(3.0, 0.8, 0.1);
             circles.back().get()->setup(box2d.getWorld(), head.x,head.y, r);
             circles.back().get()->setVelocity(ofRandom(-10,10), ofRandom(-10,-10));
+           */
         }
-    }
+    
     // remove shapes offscreen
     ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
     ofRemove(circles, ofxBox2dBaseShape::shouldRemoveOffScreen);
@@ -309,6 +320,18 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
 
     }
     
+    
+    if(msg.getAddress() == "/EmotionWorld/toggle3")
+    {
+        float m=msg.getArgAsBool(0);
+        bEmitHearts=m;
+    }
+    
+    if(msg.getAddress() == "/EmotionWorld/fader3")
+    {
+        float f=msg.getArgAsFloat(0);
+        emitFrequency=f;
+    }
 
     
     if(msg.getAddress() == "/EmotionWorld/fader2")

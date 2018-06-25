@@ -120,14 +120,14 @@ private:
 
     
     bool bEmitHearts=false;
+    float emitFrequency=0.7;
+    
+    
     bool bShowSun=false;
     void onMessageReceived(ofxOscMessage &msg);
     
     
-    void drawEstonishmed(){
-        
-    }
-    
+  
     
 };
 

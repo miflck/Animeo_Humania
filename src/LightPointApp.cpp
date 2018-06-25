@@ -160,7 +160,6 @@ void LightPointApp::bounceFromWalls(){
         sReflected*=-1;
         mover.setSpeed(sReflected.x, speed.y);
         mover.setPosition(lastPosition.x,lastPosition.y);
-
     }
     
     if(position.y+radius>=ofGetHeight() || position.y-radius <0){
@@ -168,10 +167,7 @@ void LightPointApp::bounceFromWalls(){
         sReflected*=-1;
         mover.setSpeed(speed.x, sReflected.y);
         mover.setPosition(lastPosition.x,lastPosition.y);
-
     }
-    
-    
     
 }
 
