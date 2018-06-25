@@ -20,6 +20,11 @@
 #include "ofxJsonSettings.h"
 
 
+#define  BOUNCE 1
+#define ENTER 2
+#define LEAVE 3
+
+
 class LightPointApp:public ApplicationBase{
 public:
     LightPointApp();
@@ -54,6 +59,11 @@ public:
     void goHome();
     
     
+    // states
+    int state=0;
+    int stateBefore=0;
+    void switchState(int _newstate);
+    
     //events
     bool bAddedListeners;
     bool bIsRunning;
@@ -78,10 +88,13 @@ public:
     ofVec2f *homeposition;
     ofVec2f *startposition;
 
+    
+    bool bounceFromCabin();
     bool bBounceFromCabin=true;
     ofVec2f *cabinposition;
     ofVec2f *cabindimension;
     ofVec2f lastPosition;
+    ofRectangle cabinRect;
     
     bool goInside=false;
 

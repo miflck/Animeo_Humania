@@ -50,6 +50,8 @@ void LightPointApp::init(){
     cabindimension=&Settings::getVec2("LightPointApp/cabindimension");
 
     setMoverToStartPosition();
+    
+    state=BOUNCE;
 
 }
 
@@ -110,71 +112,51 @@ void LightPointApp::update(){
    // }
     }
     
+    switch (state) {
+        case BOUNCE:
+            bounceFromCabin();
+            break;
+        
+        case ENTER:
+            // entering from left working?
+            if(cabinRect.inside(mover.getPosition().x-mover.getRadius(), mover.getPosition().y-mover.getRadius())){
+                switchState(BOUNCE);
+            }
+            break;
+            
+        case LEAVE:
+            if(!cabinRect.inside(mover.getPosition().x+mover.getRadius(), mover.getPosition().y+mover.getRadius())){
+                cout<<"LEAVE"<<endl;
+                switchState(BOUNCE);
+            }
+            break;
+            
+            
+        default:
+            break;
+    }
     
-    ofRectangle r=ofRectangle(cabinposition->x,cabinposition->y, cabindimension->x, cabindimension->y);
+    cabinRect=ofRectangle(cabinposition->x,cabinposition->y, cabindimension->x, cabindimension->y);
     
-    if(r.intersects(mover.getPosition(), mover.getPosition()+mover.getSpeed())){
+    if(cabinRect.intersects(mover.getPosition(), mover.getPosition()+mover.getSpeed())){
         cout<<"intersect"<<endl;
     };
     ofPolyline p;
     
     
     
-    if(bBounceFromCabin){
-        
-        if(mover.getPosition().x+mover.getRadius()>=
-           cabinposition->x && mover.getPosition().x-mover.getRadius()<=cabinposition->x+cabindimension->x){
-           
-            float ball2topEdge = abs(mover.getPosition().y+ - cabinposition->y); //look up abs()
-            if(ball2topEdge <= mover.getRadius())
-            {
-            
-          // && mover.getPosition().y+mover.getRadius()>=cabinposition->y){
-            ofVec2f p=mover.getPosition();
-            
-            if(p.x+mover.getRadius()>=cabinposition->x){
-                mover.setPosition(lastPosition.x,lastPosition.y);
-            }
-
-            ofVec2f s=mover.getSpeed();
-                ofVec2f s2=s;
-                s2*=-1;
-            mover.setSpeed(s.x, s2.y);
-            }
-            
-        }
-        
-        if(mover.getPosition().y+mover.getRadius()>=
-           cabinposition->y && mover.getPosition().y+mover.getRadius()<=cabinposition->y+cabindimension->y){
-        
-            float ball2topEdge = abs(mover.getPosition().x+ - cabinposition->x); //look up abs()
-            if(ball2topEdge <= mover.getRadius())
-            {
-                // && mover.getPosition().y+mover.getRadius()>=cabinposition->y){
-                ofVec2f p=mover.getPosition();
-                
-                if(p.x+mover.getRadius()>=cabinposition->x){
-                    mover.setPosition(lastPosition.x,lastPosition.y);
-                }
-                
-                ofVec2f s=mover.getSpeed();
-                ofVec2f s2=s;
-                s2*=-1;
-                mover.setSpeed(s2.x, s.y);
-            }
-        
-            
-        }
-        
+ /*   if(bBounceFromCabin){
+        bounceFromCabin();
     }
     
     //STATE CONTROLL FOR GETTING INSIDE
     // SHOULD IMPLEMET STATE MACHINE!!!
-    if(goInside&&r.inside(mover.getPosition().x-mover.getRadius(), mover.getPosition().y-mover.getRadius())){
+    // not working from left
+    if(goInside && cabinRect.inside(mover.getPosition().x-mover.getRadius(), mover.getPosition().y-mover.getRadius())){
         cout<<"INSIDE"<<endl;
         goInside=false;
         bBounceFromCabin=true;
-    }
+    }*/
     
     lastPosition=mover.getPosition();
     mover.update();
@@ -183,6 +165,59 @@ void LightPointApp::update(){
 
 }
 
+
+bool LightPointApp::bounceFromCabin(){
+    
+    ofVec2f position=mover.getPosition();
+    float radius=mover.getRadius();
+    ofVec2f speed=mover.getSpeed();
+
+    
+    //check for top collision:
+    if(position.x+radius>=
+       cabinposition->x && position.x-radius<=cabinposition->x+cabindimension->x){
+        float ball2topEdge = abs(position.y - cabinposition->y); //look up abs()
+        if(ball2topEdge <= radius)
+        {
+            // anti-warp
+            if(position.x+radius>=cabinposition->x){
+            mover.setPosition(lastPosition.x,lastPosition.y);
+            }
+            ofVec2f sReflected=speed;
+            sReflected*=-1;
+            mover.setSpeed(speed.x, sReflected.y);
+        }
+        
+    }
+    
+    //check for left collision:
+    if(position.y+radius>=
+       cabinposition->y && position.y+radius<=cabinposition->y+cabindimension->y){
+        float ball2leftEdge = abs(position.x - cabinposition->x);
+        //check for left collision:
+        if(ball2leftEdge <= radius)
+        {
+            if(position.x+radius>=cabinposition->x){
+                mover.setPosition(lastPosition.x,lastPosition.y);
+            }
+            ofVec2f sReflected=speed;
+            sReflected*=-1;
+            mover.setSpeed(sReflected.x, speed.y);
+        }
+        //check for right collision:
+        float ball2rightEdge = abs(position.x - (cabinposition->x+cabindimension->x));
+        if(ball2rightEdge <= radius)
+        {
+            if(position.x-radius<=cabinposition->x+cabindimension->x){
+                mover.setPosition(lastPosition.x,lastPosition.y);
+            }
+            ofVec2f sReflected=speed;
+            sReflected*=-1;
+            mover.setSpeed(sReflected.x, speed.y);
+        }
+    }
+ 
+}
 
 void LightPointApp::draw(){
 
@@ -409,14 +444,32 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key==OF_KEY_CONTROL){
-      //  bBounceFromCabin=!bBounceFromCabin;
-        goInside=true;
-        bBounceFromCabin=false;
+        switchState(ENTER);
+    }
+    
+    if(e.key==OF_KEY_ALT){
+        switchState(LEAVE);
     }
     
 }
 
+void LightPointApp::switchState(int _newstate){
+    stateBefore=state;
+    state=_newstate;
+    
+    switch (_newstate) {
+        case ENTER:
 
+            break;
+        
+        case BOUNCE:
+            
+            break;
+            
+        default:
+            break;
+    }
+}
 
 void LightPointApp::turnOn(){
     if(!bAddedListeners){
