@@ -77,6 +77,8 @@ public:
 
     int skelettonNodeId=8;
     
+    int seekTargetId=0;
+    
     ofFbo screen;
 
     bool bRecord=false;

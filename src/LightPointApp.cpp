@@ -69,7 +69,7 @@ void LightPointApp::update(){
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     
     switch (skelettonNodeId) {
-        case 5:
+            case 5:
             mover.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
             break;
     }
@@ -140,29 +140,7 @@ void LightPointApp::update(){
     }
     
     bounceFromWalls();
-    
     cabinRect=ofRectangle(cabinposition->x,cabinposition->y, cabindimension->x, cabindimension->y);
-    
-    if(cabinRect.intersects(mover.getPosition(), mover.getPosition()+mover.getSpeed())){
-        cout<<"intersect"<<endl;
-    };
-    ofPolyline p;
-    
-    
-    
- /*   if(bBounceFromCabin){
-        bounceFromCabin();
-    }
-    
-    //STATE CONTROLL FOR GETTING INSIDE
-    // SHOULD IMPLEMET STATE MACHINE!!!
-    // not working from left
-    if(goInside && cabinRect.inside(mover.getPosition().x-mover.getRadius(), mover.getPosition().y-mover.getRadius())){
-        cout<<"INSIDE"<<endl;
-        goInside=false;
-        bBounceFromCabin=true;
-    }*/
-    
     lastPosition=mover.getPosition();
     mover.update();
     
@@ -181,12 +159,16 @@ void LightPointApp::bounceFromWalls(){
         ofVec2f sReflected=speed;
         sReflected*=-1;
         mover.setSpeed(sReflected.x, speed.y);
+        mover.setPosition(lastPosition.x,lastPosition.y);
+
     }
     
     if(position.y+radius>=ofGetHeight() || position.y-radius <0){
         ofVec2f sReflected=speed;
         sReflected*=-1;
         mover.setSpeed(speed.x, sReflected.y);
+        mover.setPosition(lastPosition.x,lastPosition.y);
+
     }
     
     
@@ -199,7 +181,6 @@ bool LightPointApp::bounceFromCabin(){
     float radius=mover.getRadius();
     ofVec2f speed=mover.getSpeed();
 
-    
     //check for top collision:
     if(position.x+radius>=
        cabinposition->x && position.x-radius<=cabinposition->x+cabindimension->x){
@@ -330,9 +311,7 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     if(e.key=='t'){
         mover.bSeekTarget=!mover.bSeekTarget;
     }
-    if(e.key=='z'){
-        mover.bSeekMouse=!mover.bSeekMouse;
-    }
+   
 
     if(e.key=='l'){
         bSendOSCPosition=!bSendOSCPosition;
@@ -358,15 +337,7 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     }
     
     
-    if(e.key=='+'){
-        m8layer++;
-        
-    }
-    
-    if(e.key=='-'){
-        m8layer--;
-        
-    }
+  
         
     if(e.key=='0'){
         skelettId=0;
