@@ -16,6 +16,10 @@
 #define HOST "169.254.69.100"
 #define PORT 8000
 
+
+#define MUSICHOST "169.254.69.200"
+#define MUSICPORT 9000
+
 #define TOUCHOSCHOST "169.254.73.86"
 #define TOUCHOSCPORT 9000
 
@@ -27,6 +31,9 @@ public:
     void draw();
     
     ofxOscSender sender;
+    
+    ofxOscSender musicSender;
+
     
     ofxOscReceiver touchOscReceiver;
     ofxOscSender touchOscSender;
@@ -43,6 +50,8 @@ public:
     
     void sendMessage(int _x);
     void sendPositionToLayer(int _layer, int _x, int _y);
+   
+    void sendMusicMessage(int _x);
 
     
     string remoteIp;

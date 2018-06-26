@@ -112,6 +112,9 @@ public:
     
    void onMessageReceived(ofxOscMessage &msg);
     
+    int size1=20;
+    int size2=50;
+    int size3=150;
     
 
     

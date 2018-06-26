@@ -12,6 +12,7 @@ void OscManager::setup(){
     // open an outgoing connection to HOST:PORT
     //sender.setup(HOST, PORT);
      //touchOscSender.setup(TOUCHOSCHOST, TOUCHOSCPORT);
+    musicSender.setup(MUSICHOST, MUSICPORT);
 
     touchOscReceiver.setup(7000);
     /*this is the port your game will receive data on.
@@ -64,6 +65,15 @@ void OscManager::sendMessage(int _x){
     sender.sendMessage(m, false);
     cout<<_x<<endl;
 
+}
+
+void OscManager::sendMusicMessage(int _x){
+    ofxOscMessage m;
+    m.setAddress("/test");
+    m.addIntArg(_x);
+    musicSender.sendMessage(m, false);
+    cout<<_x<<endl;
+    
 }
 
 void OscManager::sendPositionToLayer(int _layer, int _x, int _y){

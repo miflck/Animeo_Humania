@@ -82,6 +82,8 @@ public:
     float OSCwaveAmplitude;
     float OSChowmany;
     
+    float generalDamping=0.99;
+    
 
 private:
     ofxBox2d                                  box2d;   // the box2d world

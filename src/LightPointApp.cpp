@@ -52,6 +52,7 @@ void LightPointApp::init(){
     setMoverToStartPosition();
     
     state=BOUNCE;
+    mover.scaleTo(size2,0.1);
 
 }
 
@@ -144,7 +145,10 @@ void LightPointApp::update(){
     lastPosition=mover.getPosition();
     mover.update();
     
-  if(bSendOSCPosition)APPC->oscmanager.sendPositionToLayer(m8layer,mover.getPosition().x-ofGetWidth()/2,-mover.getPosition().y+ofGetHeight()/2);
+ // if(bSendOSCPosition)APPC->oscmanager.sendPositionToLayer(m8layer,mover.getPosition().x-ofGetWidth()/2,-mover.getPosition().y+ofGetHeight()/2);
+    
+    
+      if(bSendOSCPosition)APPC->oscmanager.sendMusicMessage(100);
 
 }
 
@@ -225,6 +229,7 @@ bool LightPointApp::bounceFromCabin(){
 
 void LightPointApp::draw(){
 
+    
     if(bRecord){
       //  ofClear(0);
         screen.begin();
@@ -455,11 +460,12 @@ void LightPointApp::switchState(int _newstate){
 
         
         case BOUNCE:
-            mover.scaleTo(150,2.f);
+            mover.scaleTo(size2,0.1);
+
             break;
             
         case ENTER:
-            mover.scaleTo(50,2.f);
+            mover.scaleTo(size1,2.f);
             break;
             
         default:
@@ -496,7 +502,7 @@ void LightPointApp::setMoverToStartPosition(){
 
 void LightPointApp::goHome(){
     mover.setTarget(*homeposition);
-    mover.scaleTo(20,0.5);
+    mover.scaleTo(size2,0.5);
     skelettonNodeId=2;
     mover.setSeekForce(5);
     ofxOscMessage m;
@@ -567,7 +573,7 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Light/push3")
     {
         float f=msg.getArgAsFloat(0);
-        mover.setSeekForce(3);
+        mover.setSeekForce(2);
     }
     if(msg.getAddress() == "/Light/push4")
     {

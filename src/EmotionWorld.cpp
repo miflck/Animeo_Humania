@@ -77,9 +77,9 @@ void EmotionWorld::update(){
         movingObjects[i].update();
     }
     
- /*   for(int i=0;i<flashes.size();i++){
+  for(int i=0;i<flashes.size();i++){
         flashes[i]->update();
-    }*/
+    }
     
     if(mskel.size()>0){
         headposition=mskel[0].head;
@@ -91,30 +91,18 @@ void EmotionWorld::update(){
     
         float rAdd=ofRandom(1);
         if(rAdd>emitFrequency && bEmitHearts){
-            
-            
             float r = ofRandom(10, 40);        // a random radius 4px - 20px
             hearts.push_back(shared_ptr<Heart>(new Heart));
             hearts.back().get()->setPhysics(3.0, 0.53, 0.1);
             hearts.back().get()->setup(box2d.getWorld(), headposition.x, headposition.y, r);
             hearts.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,-10));
-            
-            
-            
-          /*  float r = ofRandom(10, 40);        // a random radius 4px - 20px
-            circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
-            circles.back().get()->setPhysics(3.0, 0.8, 0.1);
-            circles.back().get()->setup(box2d.getWorld(), head.x,head.y, r);
-            circles.back().get()->setVelocity(ofRandom(-10,10), ofRandom(-10,-10));
-           */
         }
     
     // remove shapes offscreen
-    ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
-    ofRemove(circles, ofxBox2dBaseShape::shouldRemoveOffScreen);
-    ofRemove(hearts, ofxBox2dBaseShape::shouldRemoveOffScreen);
-    
-  // ofRemove(flashes, MovingObject::shouldRemoveOffScreen);
+    //ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
+    //ofRemove(circles, ofxBox2dBaseShape::shouldRemoveOffScreen);
+    ofRemove(hearts, Heart::shouldRemoveOffScreen);
+    ofRemove(flashes, MovingObject::shouldRemoveOffScreen);
 
   
 }
@@ -131,7 +119,6 @@ void EmotionWorld::draw(){
         }
         ofSetColor(255,0,0);
         anchor.draw();
-        
         leftbox.draw();
         rightbox.draw();
         ofPopStyle();
@@ -141,7 +128,7 @@ void EmotionWorld::draw(){
    if(bShowSun)sun.draw();
     
     for(int i=0; i<circles.size(); i++) {
-        ofSetColor(220+ofRandom(-20,20),37+ofRandom(-20,20),151+ofRandom(-20,20));
+      //  ofSetColor(220+ofRandom(-20,20),37+ofRandom(-20,20),151+ofRandom(-20,20));
         circles[i]->draw();
         ofPushMatrix();
        // ofTranslate(circles[i]->getPosition().x,circles[i]->getPosition().y);
@@ -163,7 +150,7 @@ void EmotionWorld::draw(){
         movingObjects[i].draw();
     }*/
     
-  //  if(bShowFeeling)drawFeeling();
+   if(bShowFeeling)drawFeeling();
     
    /*   screen.begin();
 
@@ -203,9 +190,6 @@ void EmotionWorld::drawFeeling(){
             for(int i=0;i<flashes.size();i++){
                 flashes[i]->draw();
             }
-            //ofTranslate(headposition.x,headposition.y);
-            ofSetColor(255,0,0);
-            ofDrawCircle(0, 0, 5);
             ofPopMatrix();
             ofPopStyle();
             break;

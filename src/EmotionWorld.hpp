@@ -27,11 +27,19 @@ class Heart : public ofxBox2dCircle {
 public:
     ofImage herz;
     ofColor col;
+    ofRectangle screen;
+
     Heart() {
         herz.loadImage("herz.png");
         col=ofColor(220+ofRandom(-30,30),37+ofRandom(-30,30),151+ofRandom(-30,30));
+        screen.set(0,0,ofGetWidth(),ofGetHeight());
     }
     ofColor color;
+    
+   static bool shouldRemoveOffScreen(shared_ptr<Heart> shape) {
+        return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
+    }
+    
     void draw() {
         float radius = getRadius();
         ofPushMatrix();
@@ -119,7 +127,7 @@ private:
   
    vector<MovingObject> movingObjects;
     
-    vector      <shared_ptr<Flash> > flashes; 
+    vector      <shared_ptr<Flash> > flashes;
 
     
     //vector<shared_ptr<Agent> > movingObjects;

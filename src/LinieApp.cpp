@@ -109,7 +109,7 @@ void LinieApp::update(){
                 float handDist = leftHand.distance(circles[i].get()->getPosition());
                 if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
             }*/
-       circles[i].get()->setDamping(0.99);
+       circles[i].get()->setDamping(generalDamping);
     }
     
     anchor.setDamping(0.98);
@@ -488,6 +488,37 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         m.addFloatArg(len);
         m.setAddress("/4/label13");
         APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    
+    if(msg.getAddress() == "/4/rotary8")
+    {
+        float damp=msg.getArgAsFloat(0);
+        generalDamping=damp;
+        ofxOscMessage m;
+        m.addFloatArg(damp);
+        m.setAddress("/4/label14");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    
+    
+    if(msg.getAddress() == "/4/push11")
+    {
+        startWave(10,500,PI);
+
+    }
+    
+    if(msg.getAddress() == "/4/push12")
+    {
+        startWave(10,500,PI);
+
+    }
+    
+    if(msg.getAddress() == "/4/push13")
+    {
+        startWave(10,500,PI);
+
     }
     
 }
