@@ -112,7 +112,7 @@ void BreathPoint::draw(){
     float v=0;
 
     if(bBreathe){
-         r=5.f*sin(ofGetElapsedTimef()*2);
+         r=4.f*sin(ofGetElapsedTimef()*2);
         v=2.f*cos(ofGetElapsedTimef()*2);
 
     }

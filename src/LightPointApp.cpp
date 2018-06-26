@@ -55,6 +55,15 @@ void LightPointApp::init(){
     
     state=BOUNCE;
     mover.scaleTo(size2,0.1);
+    
+    
+    
+    
+
+    
+    
+
+    
 
 }
 

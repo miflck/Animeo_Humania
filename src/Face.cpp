@@ -83,7 +83,7 @@ void Face::update(){
        // rightMouth=ofVec2f(rightMouth.x,rightMouthOffset.y+mouthCenterPosition.y);
         
         leftMouth=ofVec2f(mouthCenterPosition.x+leftMouthCornerOffset.x,leftMouthOffset.y+mouthCenterPosition.y);
-    rightMouth=ofVec2f(mouthCenterPosition.x+rightMouthCornerOffset.x,rightMouthOffset.y+mouthCenterPosition.y);
+        rightMouth=ofVec2f(mouthCenterPosition.x+rightMouthCornerOffset.x,rightMouthOffset.y+mouthCenterPosition.y);
         
         mouth.moveTo(leftMouth);
         mouth.bezierTo(ofVec2f(leftMouth.x,leftMouth.y+(mouthCenterPosition.y-leftMouth.y)),ofVec2f(mouthCenterPosition.x+50,mouthCenterPosition.y), mouthCenterPosition);
@@ -118,15 +118,15 @@ void Face::draw(){
     
     ofSetColor(0);
     
-    mouth.setStrokeColor(ofColor(0,0,0));
+        mouth.setStrokeColor(ofColor(0,0,0));
     mouth.setFilled(false);
     mouth.setStrokeWidth(5);
     mouth.draw();
-
+  
     ofPushMatrix();
     ofSetColor(0);
 
-    ofTranslate(eyeOffset.x,-80);
+ofTranslate(eyeOffset.x,-80);
     ofDrawCircle(100, 0, 50);
     ofDrawCircle(-100, 0, 50);
     ofPopMatrix();
@@ -175,16 +175,18 @@ void Face::exit(){
 //--------------------------------------------------------------
 void Face::keyPressed(ofKeyEventArgs &e){
     if(e.key == 'e') {
-     
+        bHasEyes=!bHasEyes;
     }
     
     
-    if(e.key == 'o') {
-     
+    if(e.key == 'f') {
+        bHasFace=!bHasFace;
+
     }
     
-    if(e.key == 'p') {
- 
+    if(e.key == 'g') {
+        bHasMouth=!bHasMouth;
+
     }
     
 }

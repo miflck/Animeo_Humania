@@ -96,7 +96,11 @@ private:
     ofVec2f rightEllbowPositon;
 
 
-
+    bool bHasEyes=false;
+    bool bEyeReactive=false;
+    
+    bool bHasFace=false;
+    bool bHasMouth=false;
 
     
 };

@@ -30,7 +30,7 @@ void LinieApp::init(){
     
     box2d.init();
     box2d.setGravity(0, 0);
-    box2d.createGround();
+   // box2d.createGround();
 
     box2d.setFPS(60.0);
     box2d.registerGrabbing();
@@ -49,6 +49,7 @@ void LinieApp::init(){
     anchor.setup(box2d.getWorld(), anchorStartPositionTop->x, anchorStartPositionTop->y, 10);
     anchor2.setup(box2d.getWorld(), anchorStartPositionBottom->x, anchorStartPositionBottom->y, 10);
     
+    waveInitPosition = *anchorStartPositionTop;
     
     int num=40;
     int jointlength=3;
@@ -108,13 +109,41 @@ void LinieApp::update(){
                 float handDist = leftHand.distance(circles[i].get()->getPosition());
                 if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
             }*/
-       circles[i].get()->setDamping(generalDamping);
+      // circles[i].get()->setDamping(generalDamping);
+        circles[i].get()->setDamping(0.98);
+
     }
     
     anchor.setDamping(0.98);
     anchor2.setDamping(0.98);
     
+    float mV=ofMap(APPC->audioInVolume,0,0.05,0,50);
+    int c=0;
+ /* for(int i=0;i<circles.size();i+=5){
+        if(c%2==0 || circles[i].get()->getPosition().y>ofGetHeight()-100)mV*=-1;
+        circles[i].get()->setPosition(circles[i].get()->getPosition().x, circles[i].get()->getPosition().y+mV);
+        c++;
+    }
+    */
+    
+    
+ /*  for(int i=0;i<4;i++){
+     if(circles[i].get()->getPosition().y>ofGetHeight()-300)mV*=-1;
+     circles[i].get()->setPosition(circles[i].get()->getPosition().x, circles[i].get()->getPosition().y+mV);
+     }*/
+    
+   // circles[0].get()->addRepulsionForce(ofGetWidth()/2,ofGetHeight()/2,mV);
+    cout<<mV<<endl;
+    if(mV>10 && !bHasStartWave)startWave(mV,mV,10*PI);
+    if(mV<10){
+       endWave();
+        bHasStartWave=false;
+    }
+    
+    
     if(bMakeWave){
+        waveAmplitude=maxWaveVol(mV);
+
         wave();
     }
     
@@ -355,6 +384,7 @@ void LinieApp::startWave(float _speed,float _amplitude, float _howmany){
     waveSpeed=_speed;
     waveAmplitude=_amplitude;
     howmany=_howmany;
+    bHasStartWave=true;
 }
 void LinieApp::wave(){
     if((ofGetElapsedTimef()-waveInittime)*waveSpeed<howmany){
@@ -376,6 +406,13 @@ void LinieApp::wave(){
 void LinieApp::endWave(){
     bMakeWave=false;
     anchor.setPosition(waveInitPosition);
+}
+
+float LinieApp::maxWaveVol(float v){
+    if((ofGetElapsedTimef()-waveInittime)<waveMaxVolTime){
+        if(v>maxVol)maxVol=v;
+    }
+    return maxVol;
 }
 
 //--------------------------------------------------------------

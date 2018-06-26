@@ -54,7 +54,7 @@ public:
     void draw();
     void exit();
 
-    
+
     
     void setMoverToStartPosition();
     void goHome();

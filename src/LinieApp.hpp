@@ -68,6 +68,8 @@ public:
     ofVec2f *anchorStartPositionBottom;
     
     bool bMakeWave=false;
+    bool bHasStartWave=false;
+    
     float waveInittime;
     float waveSpeed;
     ofVec2f waveInitPosition;
@@ -77,6 +79,11 @@ public:
     void wave();
     void startWave(float _speed,float _amplitude, float _howmany);
     void endWave();
+    
+    float waveMaxVolTime=PI;
+    float maxVol;
+    float maxWaveVol(float v);
+
     
     float OSCwaveSpeed;
     float OSCwaveAmplitude;

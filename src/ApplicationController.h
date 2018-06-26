@@ -78,6 +78,8 @@ public:
     
     ofxSyphonClient mClient;
     
+    float audioInVolume=0;
+    
 private:
 	ApplicationController();
 	static ApplicationController* instance;
