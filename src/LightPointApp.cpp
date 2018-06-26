@@ -45,6 +45,8 @@ void LightPointApp::init(){
 
     homeposition=&Settings::getVec2("LightPointApp/homeposition");
     startposition=&Settings::getVec2("LightPointApp/startposition");
+    scaredposition=&Settings::getVec2("LightPointApp/scaredposition");
+
     
     cabinposition=&Settings::getVec2("LightPointApp/cabinposition");
     cabindimension=&Settings::getVec2("LightPointApp/cabindimension");
@@ -294,8 +296,24 @@ void LightPointApp::exit(){
 
 //KEY LISTENER
 //--------------------------------------------------------------
+
+
+void LightPointApp::keyReleased(ofKeyEventArgs &e){
+    keyIsDown[e.key]=false;
+    cout<<"release"<<e.key<<endl;
+
+}
+
 void LightPointApp::keyPressed(ofKeyEventArgs &e){
-    cout<<e.key<<endl;
+    keyIsDown[e.key]=true;
+    
+    cout<<"pressed"<<e.key<<endl;
+
+    
+    if(keyIsDown['a']&&keyIsDown['b']){
+        cout<<"COMBO!"<<endl;
+    }
+    
     if(e.key==OF_KEY_LEFT){
         mover.applyForce(ofVec2f(-1,0));
     }
@@ -393,6 +411,17 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     
     if(e.key=='o'){
         mover.setSlowDown(false);
+    }
+    
+   
+    if(e.key =='S'){
+        scaredposition->set(ofGetMouseX(),ofGetMouseY());
+        Settings::get().save("data.json");
+    }
+    
+    
+    if(e.key='P'){
+       // getScared();
     }
     
     if(e.key =='j'){
@@ -512,6 +541,18 @@ void LightPointApp::goHome(){
     APPC->oscmanager.touchOscSender.sendMessage(m);
 }
 
+void LightPointApp::getScared(){
+    mover.setTarget(*scaredposition);
+    mover.scaleTo(size1,0.5);
+    skelettonNodeId=2;
+    mover.setSeekForce(50);
+    ofxOscMessage m;
+    m.addFloatArg(ofMap(scaredposition->y,0,ofGetHeight(),0,1));
+    m.addFloatArg(ofMap(scaredposition->x,0,ofGetWidth(),0,1));
+    m.setAddress("/Light/xy1");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+}
+
 //--------------------------------------------------------------
 void LightPointApp::mouseMoved(ofMouseEventArgs &a){
     
@@ -601,6 +642,12 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Light/push9")
     {
         goHome();
+        
+    }
+    
+    if(msg.getAddress() == "/Light/push14")
+    {
+        getScared();
         
     }
     

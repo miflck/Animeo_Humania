@@ -26,6 +26,8 @@ public:
     virtual void _draw(ofEventArgs &e);
     virtual void _exit(ofEventArgs &e);
     virtual void keyPressed(ofKeyEventArgs &e);
+    virtual void keyReleased(ofKeyEventArgs &e);
+
     
     virtual void mouseMoved(ofMouseEventArgs &a );
     virtual void mouseDragged(ofMouseEventArgs &a);

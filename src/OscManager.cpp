@@ -12,7 +12,7 @@ void OscManager::setup(){
     // open an outgoing connection to HOST:PORT
     //sender.setup(HOST, PORT);
      //touchOscSender.setup(TOUCHOSCHOST, TOUCHOSCPORT);
-    musicSender.setup(MUSICHOST, MUSICPORT);
+    //musicSender.setup(MUSICHOST, MUSICPORT);
 
     touchOscReceiver.setup(7000);
     /*this is the port your game will receive data on.

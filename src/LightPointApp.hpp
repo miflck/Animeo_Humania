@@ -32,6 +32,8 @@ public:
     
     
     void keyPressed(ofKeyEventArgs &e);
+    void keyReleased(ofKeyEventArgs &e);
+
     void mouseMoved(ofMouseEventArgs &a );
     void mouseDragged(ofMouseEventArgs &a);
     void mousePressed(ofMouseEventArgs &a);
@@ -57,6 +59,8 @@ public:
     
     void setMoverToStartPosition();
     void goHome();
+    void getScared();
+   // void goInside();
     
     
     // states
@@ -89,7 +93,10 @@ public:
     
     ofVec2f *homeposition;
     ofVec2f *startposition;
+    ofVec2f *scaredposition;
+    ofVec2f *insidePoisiton;
 
+    bool keyIsDown[255];
     
     
     void bounceFromWalls();
