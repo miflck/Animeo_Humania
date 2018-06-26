@@ -50,8 +50,8 @@ void LinieApp::init(){
     anchor2.setup(box2d.getWorld(), anchorStartPositionBottom->x, anchorStartPositionBottom->y, 10);
     
     
-    int num=30;
-    int jointlength=5;
+    int num=40;
+    int jointlength=3;
     
     // first we add just a few circles
     for(int i=0; i<num; i++) {
@@ -84,7 +84,6 @@ void LinieApp::init(){
     auto joint = std::make_shared<ofxBox2dJoint>();
     joint.get()->setup(box2d.getWorld(), circles[circles.size()-1].get()->body, anchor2.body,5,1);
     joint.get()->setLength(jointlength);
-    
     joints.push_back(joint);
     
     
@@ -176,7 +175,7 @@ void LinieApp::draw(){
     
     ofPushStyle();
     ofSetColor(255);
-    ofSetLineWidth(5);
+    ofSetLineWidth(8);
     line.draw();
     
    // ofDrawCircle(anchor.getPosition().x,anchor.getPosition().y,50);
@@ -493,12 +492,12 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/4/rotary8")
     {
-        float damp=msg.getArgAsFloat(0);
+       /* float damp=msg.getArgAsFloat(0);
         generalDamping=damp;
         ofxOscMessage m;
         m.addFloatArg(damp);
         m.setAddress("/4/label14");
-        APPC->oscmanager.touchOscSender.sendMessage(m);
+        APPC->oscmanager.touchOscSender.sendMessage(m);*/
     }
     
     

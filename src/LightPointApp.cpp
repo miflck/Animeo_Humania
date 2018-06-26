@@ -298,21 +298,18 @@ void LightPointApp::exit(){
 //--------------------------------------------------------------
 
 
-void LightPointApp::keyReleased(ofKeyEventArgs &e){
-    keyIsDown[e.key]=false;
-    cout<<"release"<<e.key<<endl;
 
-}
 
 void LightPointApp::keyPressed(ofKeyEventArgs &e){
-    keyIsDown[e.key]=true;
+    cout<<e.key<<endl;
+    //keyIsDown[e.key]=true;
     
-    cout<<"pressed"<<e.key<<endl;
+  /*  cout<<"pressed"<<e.key<<endl;
 
     
     if(keyIsDown['a']&&keyIsDown['b']){
         cout<<"COMBO!"<<endl;
-    }
+    }*/
     
     if(e.key==OF_KEY_LEFT){
         mover.applyForce(ofVec2f(-1,0));
@@ -473,6 +470,8 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     
     if(e.key==OF_KEY_CONTROL){
         switchState(ENTER);
+        cout<<"Enter"<<endl;
+
     }
     
     if(e.key==OF_KEY_ALT){
@@ -618,8 +617,10 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
     }
     if(msg.getAddress() == "/Light/push4")
     {
-        float f=msg.getArgAsFloat(0);
-        mover.setSeekForce(0.9);
+  //      float f=msg.getArgAsFloat(0);
+//        mover.setSeekForce(0.9);
+        switchState(ENTER);
+
     }
     
 

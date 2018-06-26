@@ -32,7 +32,6 @@ public:
     
     
     void keyPressed(ofKeyEventArgs &e);
-    void keyReleased(ofKeyEventArgs &e);
 
     void mouseMoved(ofMouseEventArgs &a );
     void mouseDragged(ofMouseEventArgs &a);
