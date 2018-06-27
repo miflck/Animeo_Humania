@@ -95,7 +95,7 @@ public:
     ofVec2f *scaredposition;
     ofVec2f *insidePoisiton;
 
-    bool keyIsDown[255];
+  //  bool keyIsDown[255];
     
     
     void bounceFromWalls();

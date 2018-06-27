@@ -310,7 +310,7 @@ void LightPointApp::exit(){
 
 
 void LightPointApp::keyPressed(ofKeyEventArgs &e){
-    cout<<e.key<<endl;
+    cout<<"Light point key"<<e.key<<endl;
     //keyIsDown[e.key]=true;
     
   /*  cout<<"pressed"<<e.key<<endl;
@@ -319,6 +319,9 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     if(keyIsDown['a']&&keyIsDown['b']){
         cout<<"COMBO!"<<endl;
     }*/
+    
+    
+
     
     if(e.key==OF_KEY_LEFT){
         mover.applyForce(ofVec2f(-1,0));
@@ -426,8 +429,8 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     }
     
     
-    if(e.key='P'){
-       // getScared();
+    if(e.key=='P'){
+        getScared();
     }
     
     if(e.key =='j'){
@@ -478,9 +481,9 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key==OF_KEY_CONTROL){
-        switchState(ENTER);
         cout<<"Enter"<<endl;
-
+        switchState(ENTER);
+        
     }
     
     if(e.key==OF_KEY_ALT){

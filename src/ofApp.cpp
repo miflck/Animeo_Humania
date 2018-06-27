@@ -149,6 +149,11 @@ void ofApp::keyPressed(int key){
         case '_':
             KINECTMANAGER->removeInputListeners();
             break;
+            
+            
+        case OF_KEY_CONTROL:
+            cout<<"KEY Controll"<<endl;
+            break;
  
     }
 
