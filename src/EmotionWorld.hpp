@@ -18,6 +18,7 @@
 
 #include "ofxOsc.h"
 
+#include "ofxEasing.h"
 
 
 
@@ -28,17 +29,34 @@ public:
     ofImage herz;
     ofColor col;
     ofRectangle screen;
+    
+    float actualRadius;
+    float easingInitTime;
+    float radiusTarget;
+    float scaleDuration=2.f;
 
     Heart() {
         herz.loadImage("herz.png");
         col=ofColor(220+ofRandom(-30,30),37+ofRandom(-30,30),151+ofRandom(-30,30));
         screen.set(0,0,ofGetWidth(),ofGetHeight());
+        actualRadius=0;
+        easingInitTime = ofGetElapsedTimef();
+        radiusTarget=ofRandom(10,40);
     }
     ofColor color;
     
    static bool shouldRemoveOffScreen(shared_ptr<Heart> shape) {
         return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
     }
+    
+    void update(){
+        
+        auto endTime = easingInitTime + scaleDuration;
+        auto now = ofGetElapsedTimef();
+        actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
+        if(actualRadius!=radiusTarget)setRadius(actualRadius);
+    }
+    
     
     void draw() {
         float radius = getRadius();
@@ -48,6 +66,55 @@ public:
         ofSetColor(col);
         ofFill();
         herz.draw(-getRadius(),-getRadius(),getRadius()*2,getRadius()*2);
+        ofPopMatrix();
+    }
+};
+
+
+// ------------------------------------------------- a simple extended box2d circle
+class Shape : public ofxBox2dCircle {
+    
+public:
+    ofColor col;
+    ofRectangle screen;
+    float actualRadius;
+    float easingInitTime;
+    float radiusTarget;
+    float scaleDuration=2.f;
+
+    
+    Shape() {
+        col=ofColor(220+ofRandom(-30,30),37+ofRandom(-30,30),151+ofRandom(-30,30));
+        screen.set(0,0,ofGetWidth(),ofGetHeight());
+        actualRadius=0;
+        easingInitTime = ofGetElapsedTimef();
+        radiusTarget=ofRandom(5,30);
+    }
+    ofColor color;
+    
+    static bool shouldRemoveOffScreen(shared_ptr<Shape> shape) {
+        return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
+    }
+    
+
+    void update(){
+        
+        auto endTime = easingInitTime + scaleDuration;
+        auto now = ofGetElapsedTimef();
+          actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
+            if(actualRadius!=radiusTarget)setRadius(actualRadius);
+    }
+    void draw() {
+        
+        
+        
+        float radius = getRadius();
+        ofPushMatrix();
+        ofTranslate(getPosition().x,getPosition().y);
+        ofRotate(getRotation());
+        ofSetColor(col);
+        ofFill();
+        ofDrawCircle(0,0,radius);
         ofPopMatrix();
     }
 };
@@ -109,7 +176,7 @@ private:
     vector    <shared_ptr<ofxBox2dRect> >   boxes;           // default box2d rects
     
     vector    <shared_ptr<Heart> > hearts; // this is a custom particle the extends a cirlce
-
+    vector    <shared_ptr<Shape> > shapes; // this is a custom particle the extends a cirlce
 
     
     
@@ -132,6 +199,11 @@ private:
     
     //vector<shared_ptr<Agent> > movingObjects;
 
+    
+    
+    bool bEmitShapes=false;
+    float emitShapeFrequency=0.7;
+    
     
     bool bEmitHearts=false;
     float emitFrequency=0.7;

@@ -55,12 +55,15 @@ void EmotionWorld::init(){
 
 void EmotionWorld::update(){
     //box2d.setGravity(0, APPC->gui->emotionsgravity);
+    
+    for(int i=0;i<shapes.size();i++){
+        shapes[i]->update();
+    }
+    
     box2d.update();
     
     headposition=ofVec2f(ofGetMouseX(),ofGetMouseY());
     ofVec2f hand;
-
-
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     if(mskel.size()<=0){
     sun.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
@@ -94,13 +97,25 @@ void EmotionWorld::update(){
             float r = ofRandom(10, 40);        // a random radius 4px - 20px
             hearts.push_back(shared_ptr<Heart>(new Heart));
             hearts.back().get()->setPhysics(3.0, 0.53, 0.1);
-            hearts.back().get()->setup(box2d.getWorld(), headposition.x, headposition.y, r);
+            hearts.back().get()->setup(box2d.getWorld(), headposition.x, headposition.y, 0);
             hearts.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,-10));
         }
+    
+    
+     rAdd=ofRandom(1);
+    if(rAdd>emitShapeFrequency && bEmitShapes){
+        float r =0;        // a random radius 4px - 20px
+        shapes.push_back(shared_ptr<Shape>(new Shape));
+        shapes.back().get()->setPhysics(3.0, 0.2, 0.01);
+        shapes.back().get()->setup(box2d.getWorld(), headposition.x, headposition.y,r);
+        shapes.back().get()->setVelocity(ofRandom(20,30), ofRandom(-10,-30));
+    }
+    cout<<shapes.size()<<endl;
     
     // remove shapes offscreen
     //ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
     //ofRemove(circles, ofxBox2dBaseShape::shouldRemoveOffScreen);
+    ofRemove(shapes, Shape::shouldRemoveOffScreen);
     ofRemove(hearts, Heart::shouldRemoveOffScreen);
     ofRemove(flashes, MovingObject::shouldRemoveOffScreen);
 
@@ -139,6 +154,10 @@ void EmotionWorld::draw(){
     
     for(int i=0; i<hearts.size(); i++) {
         hearts[i]->draw();
+    }
+    
+    for(int i=0; i<shapes.size(); i++) {
+        shapes[i]->draw();
     }
     
     ofPopStyle();
@@ -248,7 +267,9 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
     
     
     if(e.key=='s'){
-        toggleSun();
+       // toggleSun();
+        
+        bEmitShapes=!bEmitShapes;
     }
     
     if(e.key=='q'){
