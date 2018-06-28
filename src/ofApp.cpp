@@ -31,8 +31,9 @@ void ofApp::setup(){
     KINECTMANAGER->initialize();
     
     ofSetVerticalSync(true);
+    //ofDisableAntiAliasing();
     ofEnableAntiAliasing();
-    ofBackground(0);
+
     
     
     ofSetCircleResolution(100);
@@ -57,6 +58,14 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    if(bGreenScreen){
+        ofColor c=ofColor(255,0,0);
+        c.setHueAngle(139);
+        c.setBrightness(100);
+        ofBackground(c);
+    }else{
+        ofBackground(0);
+    }
     //mClient.draw(50, 50);
     
     
@@ -75,19 +84,18 @@ void ofApp::draw(){
     ofDrawCircle(200, 200, scaledVol * 190.0f);
     
     //lets draw the volume history as a graph
-    ofBeginShape();
+    if(APPC->debug){
+      ofBeginShape();
     for (unsigned int i = 0; i < volHistory.size(); i++){
         if( i == 0 ) ofVertex(i, 400);
-        
         ofVertex(i, 400 - volHistory[i] * 70);
-        
         if( i == volHistory.size() -1 ) ofVertex(i, 400);
     }
     ofEndShape(false);
-    
+    }
+
     ofPopMatrix();
     ofPopStyle();
-    
 }
 
 //--------------------------------------------------------------
@@ -151,9 +159,7 @@ void ofApp::keyPressed(int key){
             break;
             
             
-        case OF_KEY_CONTROL:
-            cout<<"KEY Controll"<<endl;
-            break;
+
  
     }
 

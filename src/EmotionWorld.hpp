@@ -33,7 +33,7 @@ public:
     float actualRadius;
     float easingInitTime;
     float radiusTarget;
-    float scaleDuration=2.f;
+    float scaleDuration=1.f;
 
     Heart() {
         herz.loadImage("herz.png");
@@ -98,16 +98,13 @@ public:
     
 
     void update(){
-        
         auto endTime = easingInitTime + scaleDuration;
         auto now = ofGetElapsedTimef();
           actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
             if(actualRadius!=radiusTarget)setRadius(actualRadius);
     }
+    
     void draw() {
-        
-        
-        
         float radius = getRadius();
         ofPushMatrix();
         ofTranslate(getPosition().x,getPosition().y);
@@ -116,6 +113,102 @@ public:
         ofFill();
         ofDrawCircle(0,0,radius);
         ofPopMatrix();
+    }
+};
+
+
+// ------------------------------------------------- a simple extended box2d circle
+class Triangle : public ofxBox2dPolygon {
+    
+public:
+    ofColor col;
+    ofRectangle screen;
+    float actualRadius=0.1;
+    float easingInitTime;
+    float radiusTarget=1;
+    float scaleDuration=2.f;
+    ofVec2f a,b,c;
+    ofVec2f center;
+    b2World* world;
+    
+    Triangle(ofVec2f _a,ofVec2f _b,ofVec2f _c) {
+        ofxBox2dPolygon::ofxBox2dPolygon();
+
+        //col=ofColor(220+ofRandom(-30,30),37+ofRandom(-30,30),151+ofRandom(-30,30));
+        col=ofColor(255);
+
+        screen.set(0,0,ofGetWidth(),ofGetHeight());
+        actualRadius=0.1;
+        easingInitTime = ofGetElapsedTimef();
+        //radiusTarget=ofRandom(5,30);
+        
+        a=_a;
+        b=_b;
+        c=_c;
+     
+        
+        center= getTriangleCenter(a, b, c);
+
+        addTriangle(a,b,c);
+        
+       
+        
+        //body->SetLinearVelocity()
+        //setVelocity();
+      // ofxBox2dPolygon:: setVelocity(ofRandom(50,100), ofRandom(-5,0));
+
+    }
+    ofColor color;
+    
+    void setWorld(b2World* w){
+        world=w;
+    }
+    
+    static bool shouldRemoveOffScreen(shared_ptr<Shape> shape) {
+        return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
+    }
+    
+    
+    void update(){
+        
+  
+        
+        /*clear();
+        addTriangle(a*actualRadius,b*actualRadius,c*actualRadius);
+        create(world);*/
+        
+        
+        auto endTime = easingInitTime + scaleDuration;
+        auto now = ofGetElapsedTimef();
+        actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
+      //  if(actualRadius!=radiusTarget)setRadius(actualRadius);
+     
+        
+    }
+    
+    void draw() {
+      //  float radius = getRadius();
+      //  ofxBox2dPolygon::draw();
+        ofPushStyle();
+        ofPoint ct = getCentroid2D();
+        ofPushMatrix();
+        ofTranslate(getPosition().x,getPosition().y);
+        ofRotate(getRotation());
+        ofScale(actualRadius,actualRadius);
+        ofTranslate(-ct.x,-ct.y);
+        ofSetColor(col);
+        ofFill();
+        ofDrawTriangle(a, b,c);
+       // ofSetColor(255,0,0);
+      //  ofDrawCircle(center,5);
+       // ofDrawCircle(b,5);
+
+      //  ofDrawCircle(0,0,radius);
+        ofPopMatrix();
+        ofNoFill();
+        //ofSetColor(255);
+
+        ofPopStyle();
     }
 };
 
@@ -177,6 +270,7 @@ private:
     
     vector    <shared_ptr<Heart> > hearts; // this is a custom particle the extends a cirlce
     vector    <shared_ptr<Shape> > shapes; // this is a custom particle the extends a cirlce
+    vector      <shared_ptr<Triangle> > triangles;
 
     
     

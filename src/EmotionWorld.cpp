@@ -60,6 +60,12 @@ void EmotionWorld::update(){
         shapes[i]->update();
     }
     
+    for(int i=0;i<triangles.size();i++){
+        triangles[i]->update();
+    }
+    
+    
+    
     box2d.update();
     
     headposition=ofVec2f(ofGetMouseX(),ofGetMouseY());
@@ -124,7 +130,7 @@ void EmotionWorld::update(){
 
 
 void EmotionWorld::draw(){
-   
+
     if(APPC->debug){
         ofPushStyle();
         for(int i=0; i<circles.size(); i++) {
@@ -159,6 +165,12 @@ void EmotionWorld::draw(){
     for(int i=0; i<shapes.size(); i++) {
         shapes[i]->draw();
     }
+    
+    for(int i=0;i<triangles.size();i++){
+        triangles[i]->draw();
+    }
+    
+    
     
     ofPopStyle();
     
@@ -231,14 +243,35 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
             head=mskel[0].head;
             head=ofVec2f(head.x, head.y);
         }
-        
-        cout<<"Add Circles"<<endl;
+        float r = ofRandom(10, 40);        // a random radius 4px - 20px
+
+      /*  cout<<"Add Circles"<<endl;
         float r = ofRandom(10, 40);        // a random radius 4px - 20px
         circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
 
         circles.back().get()->setPhysics(3.0, 0.53, 0.1);
         circles.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
         circles.back().get()->setVelocity(ofRandom(-5,5), ofRandom(-1,-5));
+        */
+
+        r=ofRandom(20,80);
+        ofVec2f a =ofVec2f(ofGetMouseX()-r/2,ofGetMouseY());
+        ofVec2f b =ofVec2f(ofGetMouseX()+r/2,ofGetMouseY());
+        ofVec2f c =ofVec2f(ofGetMouseX(),ofGetMouseY()+r);
+        
+        triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
+        triangles.back().get()->setWorld(box2d.getWorld());
+
+        triangles.back().get()->setPhysics(3.0, 0.3, 0.3);
+        triangles.back().get()->create(box2d.getWorld());
+        triangles.back().get()->setVelocity(ofVec2f(10,5));
+        triangles.back().get()->setAngularVelocity(2);
+
+
+
+        
+        
+        
 
     }
     

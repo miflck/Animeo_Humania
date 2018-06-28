@@ -501,7 +501,6 @@ void LightPointApp::switchState(int _newstate){
         
         case BOUNCE:
             mover.scaleTo(size2,0.1);
-
             break;
             
         case ENTER:
