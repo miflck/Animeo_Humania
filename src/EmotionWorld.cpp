@@ -24,8 +24,12 @@ void EmotionWorld::init(){
     cout<<"init EmotionWorld"<<endl;
     bAddedListeners = false;
     
+    gravityY=0;
+    gravityX=0;
+
+    
     box2d.init();
-    box2d.setGravity(0, -10);
+    box2d.setGravity(0, gravityY);
     box2d.createGround();
     box2d.setFPS(60.0);
     box2d.registerGrabbing();
@@ -33,10 +37,11 @@ void EmotionWorld::init(){
     
     anchor.setPhysics(50, 0.5, 0.9);
     anchor.setup(box2d.getWorld(), 0, 0, 50);
-    box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
+  
+  /*  box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
     leftbox.setup(box2d.getWorld(), 0, 150,20,300);
     rightbox.setup(box2d.getWorld(), ofGetWidth(),150, 20,300);
-
+*/
     
     screen.allocate(1920,1080, GL_RGB);
     screen.begin();
@@ -64,7 +69,9 @@ void EmotionWorld::update(){
         triangles[i]->update();
     }
     
-    
+    for(int i=0;i<hearts.size();i++){
+        hearts[i]->update();
+    }
     
     box2d.update();
     
@@ -98,14 +105,19 @@ void EmotionWorld::update(){
        // box2d.setGravity(0, (mskel[0].head.y-mskel[0].rightHand.y)/10);
 
     
+
+    
+    
         float rAdd=ofRandom(1);
         if(rAdd>emitFrequency && bEmitHearts){
-            float r = ofRandom(10, 40);        // a random radius 4px - 20px
+           float r = ofRandom(10, 40);        // a random radius 4px - 20px
             hearts.push_back(shared_ptr<Heart>(new Heart));
-            hearts.back().get()->setPhysics(3.0, 0.53, 0.1);
+            hearts.back().get()->setPhysics(3.0, 0.53, 0.5);
             hearts.back().get()->setup(box2d.getWorld(), headposition.x, headposition.y, 0);
             hearts.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,-10));
+            hearts.back().get()->setAngularVelocity(ofRandom(1));
         }
+    
     
     
      rAdd=ofRandom(1);
@@ -116,7 +128,7 @@ void EmotionWorld::update(){
         shapes.back().get()->setup(box2d.getWorld(), headposition.x, headposition.y,r);
         shapes.back().get()->setVelocity(ofRandom(20,30), ofRandom(-10,-30));
     }
-    cout<<shapes.size()<<endl;
+   // cout<<shapes.size()<<endl;
     
     // remove shapes offscreen
     //ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
@@ -411,6 +423,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     {
         float m=msg.getArgAsBool(0);
         bEmitHearts=m;
+        cout<<"Hearts"<<bEmitHearts<<endl;
     }
     
     if(msg.getAddress() == "/EmotionWorld/fader3")
@@ -419,13 +432,43 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         emitFrequency=f;
     }
 
-    
     if(msg.getAddress() == "/EmotionWorld/fader2")
     {
         float f=msg.getArgAsFloat(0);
         f=ofMap(f, -1.f, 1.f, -10, 10);
-        box2d.setGravity(0, f);
+        gravityY=f;
+        box2d.setGravity(gravityX, gravityY);
     }
+    
+    if(msg.getAddress() == "/EmotionWorld/fader4")
+    {
+        float f=msg.getArgAsFloat(0);
+        f=ofMap(f, -1.f, 1.f, -10, 10);
+        gravityX=f;
+        box2d.setGravity(gravityX, gravityY);
+    }
+    
+    if(msg.getAddress() == "/EmotionWorld/push15")
+    {
+        gravityX=0;
+        box2d.setGravity(gravityX, gravityY);
+        ofxOscMessage m;
+        m.addFloatArg(0);
+        m.setAddress("/EmotionWorld/fader4");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    if(msg.getAddress() == "/EmotionWorld/push16")
+    {
+        gravityY=0;
+        box2d.setGravity(gravityX, gravityY);
+        
+        ofxOscMessage m;
+        m.addFloatArg(0);
+        m.setAddress("/EmotionWorld/fader2");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+
+    
     
     if(msg.getAddress() == "/EmotionWorld/push1")
     {
@@ -445,6 +488,25 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         circles.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
         circles.back().get()->setVelocity(ofRandom(-5,5), ofRandom(-1,-5));
     }
+    
+    if(msg.getAddress() == "/EmotionWorld/toggle4")
+    {
+        float m=msg.getArgAsBool(0);
+        if(m){
+            box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
+            leftbox.setup(box2d.getWorld(), 0, 150,20,300);
+            rightbox.setup(box2d.getWorld(), ofGetWidth(),150, 20,300);
+            
+        }else{
+            box.destroy();
+            leftbox.destroy();
+            rightbox.destroy();
+        }
+    }
+    
+    
+    
+
     
 }
 

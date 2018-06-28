@@ -33,7 +33,7 @@ public:
     float actualRadius;
     float easingInitTime;
     float radiusTarget;
-    float scaleDuration=1.f;
+    float scaleDuration=5.f;
 
     Heart() {
         herz.loadImage("herz.png");
@@ -313,6 +313,9 @@ private:
     
     
     ofVec2f headposition;
+    
+    float gravityX;
+    float gravityY;
   
     
 };
