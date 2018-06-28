@@ -166,87 +166,87 @@ void KinectV2Manager::update(){
         
         // LEFT SIDE
 
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftHand)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftHand)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.leftHand=screenpos;
 
 
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftShoulder)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftShoulder)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.leftShoulder=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftEllbow)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftEllbow)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.leftEllbow=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftWrist)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftWrist)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.leftWrist=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftHip)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftHip)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.leftHip=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftKnee)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftKnee)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.leftKnee=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftKnee)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftKnee)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.leftKnee=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftFoot)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftFoot)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.leftFoot=screenpos;
      
         // RIGHT SIDE
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightHand)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightHand)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.rightHand=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightShoulder)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightShoulder)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.rightShoulder=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightEllbow)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightEllbow)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.rightEllbow=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightWrist)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightWrist)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.rightWrist=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightHip)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightHip)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.rightHip=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightKnee)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightKnee)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.rightKnee=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightKnee)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightKnee)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.rightKnee=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightFoot)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightFoot)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.rightFoot=screenpos;
         
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(neck)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(neck)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.neck=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(spineBase)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(spineBase)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.spineBase=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(spineMid)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(spineMid)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.spineMid=screenpos;
         
-        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(head)),ofVec3f(0,0,1),0)); // we'll get to this later
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(head)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.head=screenpos;
       
@@ -419,12 +419,12 @@ void KinectV2Manager::drawScene(int iCameraDraw){
    // cout<<"Skel"<<mappedSkelettons.size()<<endl;
     
     ofVec3f intersection;
-    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),hand.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
+    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),hand.getPosition(),ofVec3f(0,0,1),0));
     ofSetColor(255, 255, 0);
     ofDrawCircle(intersection.x, intersection.y, 20);
     
     intersection;
-    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),testnode.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
+    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),testnode.getPosition(),ofVec3f(0,0,1),0));
     ofSetColor(255, 255, 0);
     ofDrawCircle(intersection.x, intersection.y, 20);
     
@@ -445,7 +445,7 @@ void KinectV2Manager::drawScene(int iCameraDraw){
     ofDrawLine(v1,v2);
     
     intersection;
-    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),hand.getPosition(),ofVec3f(0,0,1),0)); // we'll get to this later
+    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),hand.getPosition(),ofVec3f(0,0,1),0)); 
     ofSetColor(255, 0, 0);
     ofDrawCircle(intersection.x, intersection.y, 20);
     

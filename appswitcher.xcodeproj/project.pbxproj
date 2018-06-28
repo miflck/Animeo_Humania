@@ -120,6 +120,7 @@
 		F32187D344F58022DFD48C0F /* b2ContactSolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0470D1543962FEC83BB4973 /* b2ContactSolver.cpp */; };
 		F387370DB571155BC1282B7D /* b2CollideEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DB5229C686C3BB08137BA36D /* b2CollideEdge.cpp */; };
 		F8C594EDF5A25FA2F042074C /* ofxKinectV2OSC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E489615DA9497A4B4D8CEA /* ofxKinectV2OSC.cpp */; };
+		FA043DF120E52AB40080E2D2 /* Avatar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043DF020E52AB30080E2D2 /* Avatar.cpp */; };
 		FA2BE50320DB8A0C008FD2CD /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE4FD20DB8A0C008FD2CD /* Grid.cpp */; };
 		FA2BE50420DB8A0C008FD2CD /* GuiApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE4FF20DB8A0C008FD2CD /* GuiApp.cpp */; };
 		FA2BE50520DB8A0C008FD2CD /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE50120DB8A0C008FD2CD /* OrthoCamera.cpp */; };
@@ -406,6 +407,8 @@
 		F7D2102660E69CDA6D15B64A /* ofxBox2d.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxBox2d.h; path = ../../../addons/ofxBox2d/src/ofxBox2d.h; sourceTree = SOURCE_ROOT; };
 		F7D88D45725D5A3C0781C9A8 /* BodyRenderer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = BodyRenderer.cpp; path = "../../../addons/ofxKinectV2-OSC/src/Draw/BodyRenderer.cpp"; sourceTree = SOURCE_ROOT; };
 		F7FBC56859535E597B24BB91 /* NetworkingUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = NetworkingUtils.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h; sourceTree = SOURCE_ROOT; };
+		FA043DEF20E52AB30080E2D2 /* Avatar.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Avatar.hpp; sourceTree = "<group>"; };
+		FA043DF020E52AB30080E2D2 /* Avatar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Avatar.cpp; sourceTree = "<group>"; };
 		FA2BE4FD20DB8A0C008FD2CD /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		FA2BE4FE20DB8A0C008FD2CD /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
 		FA2BE4FF20DB8A0C008FD2CD /* GuiApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiApp.cpp; sourceTree = "<group>"; };
@@ -963,6 +966,8 @@
 				9B08EE0CAE86BA45D6CAA881 /* EmotionWorld.hpp */,
 				681C3C4B598E15BBEB8BCA7D /* Face.cpp */,
 				49ACB85A94533C8A9513CE62 /* Face.hpp */,
+				FA043DEF20E52AB30080E2D2 /* Avatar.hpp */,
+				FA043DF020E52AB30080E2D2 /* Avatar.cpp */,
 				86FDCFD21A515E82446D3B07 /* KinectV2.cpp */,
 				BF186297B0958AAEA94B021C /* KinectV2.hpp */,
 				D4EDE8DF1485172E48DEFFD8 /* KinectV2Manager.cpp */,
@@ -1278,6 +1283,7 @@
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,
 				BEDFEE7400C58EA4E412B757 /* ofxJSONElement.cpp in Sources */,
+				FA043DF120E52AB40080E2D2 /* Avatar.cpp in Sources */,
 				FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */,
 				FA2BE50320DB8A0C008FD2CD /* Grid.cpp in Sources */,
 				045CDF359630386A720A2524 /* ofxJsonSettings.cpp in Sources */,

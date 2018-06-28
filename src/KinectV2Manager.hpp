@@ -50,6 +50,32 @@ struct MappedPoints{
     ofVec3f spineBase;
     ofVec3f spineMid;
     
+    
+    ofVec3f leftHandLocal;
+    ofVec3f leftShoulderLocal;
+    ofVec3f leftEllbowLocal;
+    ofVec3f leftWristLocal;
+    ofVec3f leftHipLocal;
+    ofVec3f leftKneeLocal;
+    ofVec3f leftAnkleLocal;
+    ofVec3f leftFootLocal;
+    
+    ofVec3f rightHandLocal;
+    ofVec3f rightShoulderLocal;
+    ofVec3f rightEllbowLocal;
+    ofVec3f rightWristLocal;
+    ofVec3f rightHipLocal;
+    ofVec3f rightKneeLocal;
+    ofVec3f rightAnkleLocal;
+    ofVec3f rightFootLocal;
+    
+    ofVec3f headLocal;
+    ofVec3f neckLocal;
+    ofVec3f spineBaseLocal;
+    ofVec3f spineMidLocal;
+    
+    
+    
     void drawSkeletton(){
         ofDrawCircle(leftHand,20);
         ofDrawLine(leftHand,leftEllbow);

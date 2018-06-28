@@ -71,6 +71,59 @@ public:
 };
 
 
+
+// ------------------------------------------------- a simple extended box2d circle
+class Anchor : public ofxBox2dCircle {
+    
+public:
+    ofImage anchor;
+    ofColor col;
+    ofRectangle screen;
+    
+    float actualRadius;
+    float easingInitTime;
+    float radiusTarget;
+    float scaleDuration=8;
+    
+    Anchor() {
+        anchor.loadImage("anker.png");
+        col=ofColor(255);
+        screen.set(0,0,ofGetWidth(),ofGetHeight());
+        actualRadius=20;
+        easingInitTime = ofGetElapsedTimef();
+        radiusTarget=100;
+    }
+    ofColor color;
+    
+    static bool shouldRemoveOffScreen(shared_ptr<Heart> shape) {
+        return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
+    }
+    
+    void update(){
+        
+        auto endTime = easingInitTime + scaleDuration;
+        auto now = ofGetElapsedTimef();
+        actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
+        if(actualRadius!=radiusTarget)setRadius(actualRadius);
+    }
+    
+    
+    void draw() {
+        ofSetColor(255);
+       // ofxBox2dCircle::draw();
+        float radius = getRadius();
+        ofPushMatrix();
+        ofTranslate(getPosition().x,getPosition().y);
+        ofRotate(getRotation());
+        ofSetColor(col);
+        ofFill();
+        anchor.draw(-getRadius(),-getRadius(),getRadius()*2,getRadius()*2);
+        ofPopMatrix();
+    }
+};
+
+
+
 // ------------------------------------------------- a simple extended box2d circle
 class Shape : public ofxBox2dCircle {
     
@@ -164,7 +217,7 @@ public:
         world=w;
     }
     
-    static bool shouldRemoveOffScreen(shared_ptr<Shape> shape) {
+    static bool shouldRemoveOffScreen(shared_ptr<Triangle> shape) {
         return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
     }
     
@@ -208,6 +261,105 @@ public:
         ofNoFill();
         //ofSetColor(255);
 
+        ofPopStyle();
+    }
+};
+
+
+
+// ------------------------------------------------- a simple extended box2d circle
+class AnchorTriangle : public ofxBox2dPolygon {
+    
+public:
+    ofImage anchor;
+
+    ofColor col;
+    ofRectangle screen;
+    float actualRadius=0.1;
+    float easingInitTime;
+    float radiusTarget=1;
+    float scaleDuration=2.f;
+    ofVec2f a,b,c;
+    ofVec2f center;
+    b2World* world;
+    
+    AnchorTriangle(ofVec2f _a,ofVec2f _b,ofVec2f _c) {
+        ofxBox2dPolygon::ofxBox2dPolygon();
+        anchor.loadImage("anker.png");
+
+        
+        //col=ofColor(220+ofRandom(-30,30),37+ofRandom(-30,30),151+ofRandom(-30,30));
+        col=ofColor(255);
+        
+        screen.set(0,0,ofGetWidth(),ofGetHeight());
+        actualRadius=0.2;
+        easingInitTime = ofGetElapsedTimef();
+        //radiusTarget=ofRandom(5,30);
+        
+        a=_a;
+        b=_b;
+        c=_c;
+        
+        
+        center= getTriangleCenter(a, b, c);
+        
+        addTriangle(a,b,c);
+        
+       
+        
+    }
+    ofColor color;
+    
+    void setWorld(b2World* w){
+        world=w;
+    }
+    
+    static bool shouldRemoveOffScreen(shared_ptr<AnchorTriangle> shape) {
+        return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
+    }
+    
+    
+    void update(){
+        
+        
+        
+        /*clear();
+         addTriangle(a*actualRadius,b*actualRadius,c*actualRadius);
+         create(world);*/
+        
+        
+        auto endTime = easingInitTime + scaleDuration;
+        auto now = ofGetElapsedTimef();
+        actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
+        //  if(actualRadius!=radiusTarget)setRadius(actualRadius);
+        
+        
+    }
+    
+    void draw() {
+        //  float radius = getRadius();
+        //  ofxBox2dPolygon::draw();
+        ofPushStyle();
+        ofSetColor(col);
+
+        ofPoint ct = getCentroid2D();
+        ofPushMatrix();
+        ofTranslate(getPosition().x,getPosition().y);
+        ofRotate(getRotation());
+        ofScale(actualRadius,actualRadius);
+        anchor.draw(-anchor.getWidth()/2,-anchor.getHeight()/2);
+        ofTranslate(-ct.x,-ct.y);
+        ofFill();
+       // ofDrawTriangle(a, b,c);
+        // ofSetColor(255,0,0);
+        //  ofDrawCircle(center,5);
+        // ofDrawCircle(b,5);
+        
+        //  ofDrawCircle(0,0,radius);
+        ofPopMatrix();
+        ofNoFill();
+        //ofSetColor(255);
+        
         ofPopStyle();
     }
 };
@@ -272,7 +424,8 @@ private:
     vector    <shared_ptr<Shape> > shapes; // this is a custom particle the extends a cirlce
     vector      <shared_ptr<Triangle> > triangles;
 
-    
+    vector      <shared_ptr<AnchorTriangle> > anchors;
+
     
     ofxBox2dRect box;
     ofxBox2dRect leftbox;
@@ -296,7 +449,9 @@ private:
     
     
     bool bEmitShapes=false;
-    float emitShapeFrequency=0.7;
+    float emitShapeFrequency=1;
+    
+    void emitShapes();
     
     
     bool bEmitHearts=false;

@@ -73,6 +73,12 @@ void EmotionWorld::update(){
         hearts[i]->update();
     }
     
+    for(int i=0;i<anchors.size();i++){
+         anchors[i]->setRotationFriction(0.8);
+        anchors[i]->update();
+        
+    }
+    
     box2d.update();
     
     headposition=ofVec2f(ofGetMouseX(),ofGetMouseY());
@@ -119,15 +125,9 @@ void EmotionWorld::update(){
         }
     
     
+    if(bEmitShapes)emitShapes();
+
     
-     rAdd=ofRandom(1);
-    if(rAdd>emitShapeFrequency && bEmitShapes){
-        float r =0;        // a random radius 4px - 20px
-        shapes.push_back(shared_ptr<Shape>(new Shape));
-        shapes.back().get()->setPhysics(3.0, 0.2, 0.01);
-        shapes.back().get()->setup(box2d.getWorld(), headposition.x, headposition.y,r);
-        shapes.back().get()->setVelocity(ofRandom(20,30), ofRandom(-10,-30));
-    }
    // cout<<shapes.size()<<endl;
     
     // remove shapes offscreen
@@ -136,9 +136,15 @@ void EmotionWorld::update(){
     ofRemove(shapes, Shape::shouldRemoveOffScreen);
     ofRemove(hearts, Heart::shouldRemoveOffScreen);
     ofRemove(flashes, MovingObject::shouldRemoveOffScreen);
+    ofRemove(triangles, Triangle::shouldRemoveOffScreen);
+  ofRemove(anchors, AnchorTriangle::shouldRemoveOffScreen);
+
+
 
   
 }
+
+
 
 
 void EmotionWorld::draw(){
@@ -181,6 +187,9 @@ void EmotionWorld::draw(){
     for(int i=0;i<triangles.size();i++){
         triangles[i]->draw();
     }
+    for(int i=0;i<anchors.size();i++){
+        anchors[i]->draw();
+    }
     
     
     
@@ -211,6 +220,31 @@ void EmotionWorld::exit(){
     cout<<"exit EmotionWorld"<<endl;
 }
 
+
+void EmotionWorld::emitShapes(){
+    float rAdd=ofRandom(-1,1);
+    if(rAdd>emitShapeFrequency){
+        float r =0;        // a random radius 4px - 20px
+        shapes.push_back(shared_ptr<Shape>(new Shape));
+        shapes.back().get()->setPhysics(5, 0.6, 0.1);
+        shapes.back().get()->setup(box2d.getWorld(), headposition.x, headposition.y,r);
+        shapes.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
+    }
+    
+    rAdd=ofRandom(-1,1);
+    if(rAdd<-emitShapeFrequency){
+        float r=ofRandom(20,30);
+        ofVec2f a =ofVec2f(ofGetMouseX()-r/2,ofGetMouseY());
+        ofVec2f b =ofVec2f(ofGetMouseX()+r/2,ofGetMouseY());
+        ofVec2f c =ofVec2f(ofGetMouseX(),ofGetMouseY()+r);
+        triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
+        triangles.back().get()->setWorld(box2d.getWorld());
+        triangles.back().get()->setPhysics(5.0, 0.6, 0.1);
+        triangles.back().get()->create(box2d.getWorld());
+        triangles.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
+        triangles.back().get()->setAngularVelocity(2);
+    }
+}
 
 void EmotionWorld::toggleHearts(){
     bEmitHearts=!bEmitHearts;
@@ -435,7 +469,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/EmotionWorld/fader2")
     {
         float f=msg.getArgAsFloat(0);
-        f=ofMap(f, -1.f, 1.f, -10, 10);
+        f=ofMap(f, -1.f, 1.f, -20, 20);
         gravityY=f;
         box2d.setGravity(gravityX, gravityY);
     }
@@ -504,6 +538,49 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         }
     }
     
+    if(msg.getAddress() == "/EmotionWorld/toggle5")
+    {
+        float m=msg.getArgAsBool(0);
+        bEmitShapes=m;
+        
+    }
+    if(msg.getAddress() == "/EmotionWorld/fader5")
+    {
+        float f=msg.getArgAsFloat(0);
+        emitShapeFrequency=f;
+    }
+    
+    
+    if(msg.getAddress() == "/EmotionWorld/push17")
+    {
+        for(int i=0;i<20;i++){
+            emitShapes();
+        }
+    }
+    
+    
+    if(msg.getAddress() == "/EmotionWorld/push18")
+    {
+        float r = 400;        // a random radius 4px - 20px
+    
+
+       // anchors.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
+        ofVec2f dir = ofVec2f(100,-150);
+        dir.normalize();
+        dir*=15;
+ 
+        r=150;
+        ofVec2f a =ofVec2f(ofGetMouseX()-r/2,ofGetMouseY());
+        ofVec2f b =ofVec2f(ofGetMouseX()+r/2,ofGetMouseY());
+        ofVec2f c =ofVec2f(ofGetMouseX(),ofGetMouseY()-r*1.1);
+        anchors.push_back(shared_ptr<AnchorTriangle>(new AnchorTriangle(a,b,c)));
+        anchors.back().get()->setWorld(box2d.getWorld());
+        anchors.back().get()->setPhysics(300.0, 0.2, 100);
+        anchors.back().get()->create(box2d.getWorld());
+        anchors.back().get()->setVelocity(dir);
+        anchors.back().get()->setAngularVelocity(0);
+        
+    }
     
     
 
