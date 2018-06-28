@@ -18,7 +18,7 @@
 #include "EmotionWorld.hpp"
 #include "Face.hpp"
 #include "LinieApp.hpp"
-#include "Avatar.hpp"
+#include "AvatarApp.hpp"
 
 ApplicationController* ApplicationController::instance = 0;
 
@@ -69,8 +69,8 @@ void ApplicationController::initialize() {
     applications["line"]=new Line();
     applications["line"]->setId("line");
     
-    applications["avatar"]=new Avatar();
-    applications["avatar"]->setId("avatar");
+    applications["avatarapp"]=new AvatarApp();
+    applications["avatarapp"]->setId("avatarapp");
     
     applications["physicsworld"]=new PhysicsWorld();
     applications["physicsworld"]->setId("physicsworld");

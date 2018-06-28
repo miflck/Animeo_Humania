@@ -140,7 +140,12 @@ void KinectV2Manager::update(){
         ofVec3f intersection;
         ofVec3f screenpos;
         
+        vector<double> l=skeletons->at(i).getHandLeftLocal();
+        
+      
+        
         ofVec3f leftHand = skeletons->at(i).getHandLeft().getPoint();
+        
         ofVec3f leftShoulder = skeletons->at(i).getShoulderLeft().getPoint();
         ofVec3f leftEllbow = skeletons->at(i).getElbowLeft().getPoint();
         ofVec3f leftWrist = skeletons->at(i).getWristLeft().getPoint();
@@ -163,6 +168,31 @@ void KinectV2Manager::update(){
         ofVec3f neck=skeletons->at(i).getNeck().getPoint();
         ofVec3f spineBase=skeletons->at(i).getSpineBase().getPoint();
         ofVec3f spineMid=skeletons->at(i).getSpineMid().getPoint();
+        
+        
+        
+        ofVec3f localZero=head;
+        ofVec3f leftHandLocal = getLocal(localZero,leftHand);
+        ofVec3f leftShoulderLocal = getLocal(localZero,leftShoulder);
+        ofVec3f leftEllbowLocal = getLocal(localZero,leftEllbow);
+        ofVec3f leftWristLocal = getLocal(localZero,leftWrist);
+        ofVec3f leftHipLocal = getLocal(localZero,leftHip);
+        ofVec3f leftKneeLocal = getLocal(localZero,leftKnee);
+        ofVec3f leftAnkleLocal =getLocal(localZero,leftAnkle);
+        ofVec3f leftFootLocal = getLocal(localZero,leftFoot);
+        ofVec3f rightHandLocal = getLocal(localZero,rightHand);
+        ofVec3f rightShoulderLocal = getLocal(localZero,rightShoulder);
+        ofVec3f rightEllbowLocal = getLocal(localZero,rightEllbow);
+        ofVec3f rightWristLocal = getLocal(localZero,rightWrist);
+        ofVec3f rightHipLocal = getLocal(localZero,rightHip);
+        ofVec3f rightKneeLocal = getLocal(localZero,rightKnee);
+        ofVec3f rightAnkleLocal = getLocal(localZero,rightAnkle);
+        ofVec3f rightFootLocal = getLocal(localZero,rightFoot);
+        ofVec3f headLocal=getLocal(localZero,head);
+        ofVec3f neckLocal=getLocal(localZero,neck);
+        ofVec3f spineBaseLocal=getLocal(localZero,spineBase);
+        ofVec3f spineMidLocal=getLocal(localZero,spineMid);
+        
         
         // LEFT SIDE
 
@@ -258,6 +288,13 @@ void KinectV2Manager::update(){
     
  
 
+}
+
+
+ofVec3f KinectV2Manager::getLocal( ofVec3f p, ofVec3f sm){
+    ofVec3f n = sm - p;
+   // ofVec2f r=ofVec2f(n.x,n.y);
+    return n;
 }
 
 
@@ -445,7 +482,7 @@ void KinectV2Manager::drawScene(int iCameraDraw){
     ofDrawLine(v1,v2);
     
     intersection;
-    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),hand.getPosition(),ofVec3f(0,0,1),0)); 
+    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),hand.getPosition(),ofVec3f(0,0,1),0));
     ofSetColor(255, 0, 0);
     ofDrawCircle(intersection.x, intersection.y, 20);
     

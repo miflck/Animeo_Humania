@@ -222,6 +222,8 @@ public:
     
     vector<MappedPoints> getMappedSkelettons();
     
+    ofVec3f getLocal( ofVec3f p, ofVec3f sm);
+
     
 private:
     KinectV2Manager();

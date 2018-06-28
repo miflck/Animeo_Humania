@@ -112,7 +112,7 @@ void ofApp::keyPressed(int key){
 
         case 'c':
             cout<<"set app"<<endl;
-            APPC->setAppById("avatar");
+            APPC->setAppById("avatarapp");
     break;
             
      
