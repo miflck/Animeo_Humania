@@ -32,33 +32,51 @@ public:
     int strokeWeight=6;
     
     
-    ofVec3f leftHand;
-    ofVec3f leftShoulder;
-    ofVec3f leftEllbow;
-    ofVec3f leftWrist;
-    ofVec3f leftHip;
-    ofVec3f leftKnee;
-    ofVec3f leftAnkle;
-    ofVec3f leftFoot;
+    ofVec2f leftHand;
+    ofVec2f leftShoulder;
+    ofVec2f leftEllbow;
+    ofVec2f leftWrist;
+    ofVec2f leftHip;
+    ofVec2f leftKnee;
+    ofVec2f leftAnkle;
+    ofVec2f leftFoot;
     
-    ofVec3f rightHand;
-    ofVec3f rightShoulder;
-    ofVec3f rightEllbow;
-    ofVec3f rightWrist;
-    ofVec3f rightHip;
-    ofVec3f rightKnee;
-    ofVec3f rightAnkle;
-    ofVec3f rightFoot;
+    ofVec2f rightHand;
+    ofVec2f rightShoulder;
+    ofVec2f rightEllbow;
+    ofVec2f rightWrist;
+    ofVec2f rightHip;
+    ofVec2f rightKnee;
+    ofVec2f rightAnkle;
+    ofVec2f rightFoot;
     
-    ofVec3f head;
-    ofVec3f neck;
-    ofVec3f spineBase;
-    ofVec3f spineMid;
+    ofVec2f head;
+    ofVec2f neck;
+    ofVec2f spineBase;
+    ofVec2f spineMid;
     
     
     void drawAvatar();
     
     ofVec2f headOffset;
+    
+    MovingObject leftHandMover;
+    MovingObject leftEllbowMover;
+    MovingObject neckMover;
+    
+    MovingObject rightHandMover;
+    MovingObject rightEllbowMover;
+
+    MovingObject spineBaseMover;
+    MovingObject leftKneeMover;
+     MovingObject leftFootMover;
+    
+    MovingObject rightKneeMover;
+    MovingObject rightFootMover;
+    
+    vector<MovingObject*>movers;
+    
+    
     
     
 private:

@@ -46,12 +46,22 @@ void AvatarApp::init(){
     
     leftHandMover.bSeekTarget=true;
     leftHandMover.setSeekForce(2);
+    
+    
+    avatar.setup();
+    avatar.bSeekTarget=true;
+    
 }
 
 void AvatarApp::update(){
+    avatar.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+    avatar.update();
     box2d.update();
   
-    
+    for(int i=0;i<avatars.size();i++){
+        avatars[i].setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+        avatars[i].update();
+    }
   
  
 
@@ -103,8 +113,13 @@ void AvatarApp::update(){
 
 void AvatarApp::draw(){
 
+    avatar.draw();
+    
+    for(int i=0;i<avatars.size();i++){
+        avatars[i].draw();
+    }
   
-    ofPushMatrix();
+   /* ofPushMatrix();
     ofTranslate(-300,0);
     ofSetLineWidth(10);
     ofDrawCircle(leftHandMover.getPosition(),10);
@@ -177,8 +192,8 @@ void AvatarApp::draw(){
     
     ofDrawLine(leftHip,leftKnee);
     ofDrawLine(leftKnee,leftFoot);
-   
-
+    ofPopMatrix();
+*/
     if(APPC->debug){
       
     }
@@ -217,6 +232,14 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
     if(e.key == 'g') {
         bHasMouth=!bHasMouth;
 
+    }
+    
+    if(e.key=='a'){
+        Avatar a;
+        a.setup();
+        a.setTarget(ofVec2f(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
+        a.bSeekTarget=true;
+        avatars.push_back(a);
     }
     
 }

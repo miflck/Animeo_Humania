@@ -13,6 +13,7 @@
 #include "ApplicationBase.h"
 #include "ofxBox2d.h"
 #include "MovingObject.hpp"
+#include "Avatar.hpp"
 
 
 
@@ -136,6 +137,10 @@ private:
     
     bool bHasFace=false;
     bool bHasMouth=false;
+    
+    Avatar avatar;
+    
+    vector<Avatar>avatars;
 
     
 };
