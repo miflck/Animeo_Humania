@@ -17,6 +17,8 @@
 #include "Flash.hpp"
 
 #include "Baloon.hpp"
+#include "Kreis.hpp"
+
 
 
 #include "ofxOsc.h"
@@ -171,6 +173,11 @@ public:
         ofPopMatrix();
     }
 };
+
+
+
+
+
 
 
 // ------------------------------------------------- a simple extended box2d circle
@@ -419,6 +426,12 @@ public:
     void showSun(bool _s);
 
     ofImage herz;
+    
+    
+    Kreis kreis;
+    
+    vector      <shared_ptr<Kreis> > kreise; // default box2d circles
+
 
 private:
     ofxBox2d                                  box2d;   // the box2d world
@@ -432,7 +445,10 @@ private:
     vector      <shared_ptr<Triangle> > triangles;
 
     vector      <shared_ptr<AnchorTriangle> > anchors;
+    
 
+
+    
     
     ofxBox2dRect box;
     ofxBox2dRect leftbox;
@@ -456,7 +472,7 @@ private:
     
     
     bool bEmitShapes=false;
-    float emitShapeFrequency=1;
+    float emitShapeFrequency=0.7;
     
     void emitShapes();
     
