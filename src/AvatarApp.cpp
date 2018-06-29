@@ -9,6 +9,8 @@
 #include "ApplicationController.h"
 
 #include "KinectV2Manager.hpp"
+#include "ofxOscMessage.h"
+
 
 
 AvatarApp::AvatarApp(){
@@ -50,31 +52,32 @@ void AvatarApp::init(){
     
     avatar.setup();
     avatar.bSeekTarget=true;
+    avatarOffset.set(250,0);
+    
+    ofAddListener(APPC->oscmanager.onMessageReceived, this, &AvatarApp::onMessageReceived);
+
     
 }
 
 void AvatarApp::update(){
-    avatar.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+  //  avatar.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
     
     
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     if(mskel.size()>0){
         avatar.setTarget(mskel[0].spineBase);
-
-        
     }
     
     
     avatar.update();
     box2d.update();
   
-    ofVec2f offset(250,0);
     if(avatars.size()>0){
         avatars[0]->setTarget(avatar.getPosition());
         avatars[0]->update();
 
         for(int i=1;i<avatars.size();i++){
-            avatars[i]->setTarget(avatars[i-1]->getPosition()-offset);
+            avatars[i]->setTarget(avatars[i-1]->getPosition()-avatarOffset);
             avatars[i]->update();
         }
     }
@@ -117,6 +120,7 @@ void AvatarApp::update(){
      
     }
     
+    if(bRemoveAvatar)removeAvatar();
 
     // remove shapes offscreen
     ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
@@ -127,11 +131,15 @@ void AvatarApp::update(){
 
 
 void AvatarApp::draw(){
+    cout<<avatars.size()<<endl;
     
-    for(int i=avatars.size()-1;i>=0;i--){
-        avatars[i]->draw();
+    if(avatars.size()>0){
+        for(int i=avatars.size()-1;i>=0;i--){
+            cout<<"i"<<i<<endl;
+            avatars[i]->draw();
+        }
     }
-
+    
     avatar.draw();
     
     /*for(int i=0;i<avatars.size();i++){
@@ -245,6 +253,29 @@ void AvatarApp::exit(){
     cout<<"exit AvatarApp"<<endl;
 }
 
+void AvatarApp::addAvatar(){
+    Avatar * a =new Avatar();
+    a->setup();
+    a->setTarget(ofVec2f(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
+    a->setPosition(avatar.getPosition().x,avatar.getPosition().y);
+    a->bSeekTarget=true;
+    a->setSeekForce(50);
+    a->setMaxSpeed(100);
+
+    avatars.push_back(a);
+    
+}
+
+
+void AvatarApp::removeAvatar(){
+    
+  
+    
+    if(avatars.size()>0 ){
+        delete avatars[0];
+        avatars.erase( avatars.begin());
+    }
+}
 
 
 //KEY LISTENER
@@ -266,13 +297,7 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='a'){
-        Avatar * a =new Avatar();
-        a->setup();
-        a->setTarget(ofVec2f(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
-        a->bSeekTarget=true;
-        
-        a->setSeekForce(50);
-        avatars.push_back(a);
+        addAvatar();
     }
     
 }
@@ -332,3 +357,37 @@ void AvatarApp::turnOff(){
     }
     bAddedListeners=false;
 }
+
+
+
+void AvatarApp::onMessageReceived(ofxOscMessage &msg){
+    if(msg.getAddress() == "/avatar/xy2")
+    {
+        
+        float x=msg.getArgAsFloat(0);
+        float y=msg.getArgAsFloat(1);
+        x=ofMap(x,0,1,0,ofGetWidth());
+        y=ofMap(y,0,1,0,ofGetHeight());
+        avatar.setTarget(ofVec2f(x,y));
+    }
+    
+    if(msg.getAddress() == "/avatar/push19")
+    {
+        addAvatar();
+    }
+    if(msg.getAddress() == "/avatar/fader6")
+    {
+        float x=msg.getArgAsFloat(0);
+        x=ofMap(x,0,1,0,500);
+        avatarOffset.set(x,0);
+    }
+    
+    if(msg.getAddress() == "/avatar/push20")
+    {
+        removeAvatar();
+    }
+    
+   
+    
+}
+

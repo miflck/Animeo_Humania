@@ -14,6 +14,7 @@
 #include "ofxBox2d.h"
 #include "MovingObject.hpp"
 #include "Avatar.hpp"
+#include "ofxOsc.h"
 
 
 
@@ -141,6 +142,15 @@ private:
     Avatar avatar;
     
     vector<Avatar *>avatars;
+    
+    void addAvatar();
+    void removeAvatar();
+    bool bRemoveAvatar=false;
+
+    
+    ofVec2f avatarOffset;
+    void onMessageReceived(ofxOscMessage &msg);
+
 
     
 };
