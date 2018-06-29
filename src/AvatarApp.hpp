@@ -140,7 +140,7 @@ private:
     
     Avatar avatar;
     
-    vector<Avatar>avatars;
+    vector<Avatar *>avatars;
 
     
 };

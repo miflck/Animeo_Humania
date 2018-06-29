@@ -59,7 +59,8 @@ public:
     void drawAvatar();
     
     ofVec2f headOffset;
-    
+    MovingObject headMover;
+
     MovingObject leftHandMover;
     MovingObject leftEllbowMover;
     MovingObject neckMover;
@@ -76,7 +77,8 @@ public:
     
     vector<MovingObject*>movers;
     
-    
+    MovingObject absolutePosition;
+
     
     
 private:

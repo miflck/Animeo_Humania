@@ -22,8 +22,11 @@ Avatar::~Avatar(){
 void Avatar::setup(){
     bSeekTarget=true;
     setTarget(ofVec2f(ofGetWidth()/2,ofGetHeight()/2));
-    setSeekForce(5);
+    setSeekForce(50);
     
+    
+    movers.push_back(&absolutePosition);
+
     movers.push_back(&leftHandMover);
     movers.push_back(&leftEllbowMover);
     movers.push_back(&neckMover);
@@ -32,6 +35,9 @@ void Avatar::setup(){
     movers.push_back(&rightEllbowMover);
     movers.push_back(&spineBaseMover);
     
+    movers.push_back(&headMover);
+
+    
     movers.push_back(&leftKneeMover);
     movers.push_back(&rightKneeMover);
     movers.push_back(&leftFootMover);
@@ -39,7 +45,9 @@ void Avatar::setup(){
     
     for(int i=0;i<movers.size();i++){
         movers[i]->bSeekTarget=true;
-        movers[i]->setSeekForce(10);
+        movers[i]->setSeekForce(20);
+        movers[i]->setMaxSpeed(150);
+            //movers[i]->setSlowDown(false);
     }
     
 }
@@ -49,12 +57,44 @@ void Avatar::update(){
         movers[i]->move();
     }
     
-   // head=ofVec2f(0,0);
+   ofVec2f headP=ofVec2f(0,0);
+    
+    
+    
+    ofVec2f neckP=head+headOffset+ofVec2f(0,80);
+    ofVec2f spineBaseP=neck+ofVec2f(0,120);
+    // r=50.f*sin(ofGetElapsedTimef()*5);
+    // ofVec2f leftEllbowP=neck+ofVec2f(60,60+r);
+    ofVec2f leftEllbowP=neck+ofVec2f(60,60);
+    ofVec2f leftHandP=leftEllbow+ofVec2f(60,-60);
+    ofVec2f rightEllbowP=neck+ofVec2f(-60,60);
+    ofVec2f rightHandP=rightEllbow+ofVec2f(0,60);
+    ofVec2f rightKneeP=spineBase+ofVec2f(-30,60);
+    ofVec2f leftKneeP=spineBase+ofVec2f(30,60);
+    ofVec2f rightFootP=rightKnee+ofVec2f(10,60);
+    ofVec2f leftFootP=leftKnee+ofVec2f(-10,60);
     
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+    float scaler=-200;
     if(mskel.size()>0){
-        
-        head=mskel[0].head;
+        for(int i=0;i<mskel.size();i++){
+            headP=ofVec2f(mskel[0].neckLocal*scaler);
+
+        neckP=mskel[0].neckLocal*scaler;
+        spineBaseP=mskel[0].spineBaseLocal*scaler;
+        // r=50.f*sin(ofGetElapsedTimef()*5);
+        // ofVec2f leftEllbowP=neck+ofVec2f(60,60+r);
+        leftEllbowP=mskel[0].leftEllbowLocal*1.5*scaler;
+        leftHandP=mskel[0].leftHandLocal*1.5*scaler;
+        rightEllbowP=mskel[0].rightEllbowLocal*1.5*scaler;
+        rightHandP=mskel[0].rightHandLocal*1.5*scaler;
+        rightKneeP=mskel[0].rightKneeLocal*1.5*scaler;
+        leftKneeP=mskel[0].leftKneeLocal*1.5*scaler;
+        rightFootP=mskel[0].rightFootLocal*1.5*scaler;
+        leftFootP=mskel[0].leftFootLocal*1.5*scaler;
+       
+           }
+     /*   head=mskel[0].head;
         leftHand=ofVec2f(mskel[0].leftHand.x,mskel[0].leftHand.y);
         leftEllbow=ofVec2f(mskel[0].leftEllbow.x,mskel[0].leftEllbow.y);
         leftShoulder=ofVec2f(mskel[0].leftShoulder.x,mskel[0].leftShoulder.y);
@@ -77,65 +117,42 @@ void Avatar::update(){
         neck=mskel[0].neck;
         spineBase=ofVec2f(mskel[0].spineBase.x,mskel[0].spineBase.y);
         spineMid=ofVec2f(mskel[0].spineMid.x,mskel[0].spineMid.y);
+        */
         
-        
-    }else{
-        
-        
-   
-        
-        ofVec2f neckP=head+headOffset+ofVec2f(0,80);
-        neck=neckP;
-        
+    }
+    //else{
+        headMover.setTarget(headP);
+    head=headMover.getPosition();
         neckMover.setTarget(neckP);
         neck=neckMover.getPosition();
-
+        spineBaseMover.setTarget(spineBaseP);
+        spineBase=spineBaseMover.getPosition();
         
-        ofVec2f spineBaseP=neck+ofVec2f(0,120);
-        spineBase=spineBaseP;
-        
-        ofVec2f leftEllbowP=neck+ofVec2f(60,60);
-       // leftEllbow=leftEllbowP;
         leftEllbowMover.setTarget(leftEllbowP);
         leftEllbow=leftEllbowMover.getPosition();
 
-        ofVec2f leftHandP=leftEllbow+ofVec2f(60,-60);
-       // leftHand=leftHandP;
         leftHandMover.setTarget(leftHandP);
         leftHand=leftHandMover.getPosition();
         
-        ofVec2f rightEllbowP=neck+ofVec2f(-60,60);
-        rightEllbow=rightEllbowP;
         rightEllbowMover.setTarget(rightEllbowP);
         rightEllbow=rightEllbowMover.getPosition();
         
-        ofVec2f rightHandP=rightEllbow+ofVec2f(0,60);
-       rightHand=rightHandP;
         rightHandMover.setTarget(rightHandP);
         rightHand=rightHandMover.getPosition();
         
-        ofVec2f rightKneeP=spineBase+ofVec2f(-30,60);
-        rightKnee=rightKneeP;
         rightKneeMover.setTarget(rightKneeP);
         rightKnee=rightKneeMover.getPosition();
         
-        ofVec2f leftKneeP=spineBase+ofVec2f(30,60);
-        leftKnee=leftKneeP;
         leftKneeMover.setTarget(leftKneeP);
        leftKnee=leftKneeMover.getPosition();
         
-        ofVec2f rightFootP=rightKnee+ofVec2f(10,60);
-        rightFoot=rightFootP;
         rightFootMover.setTarget(rightFootP);
         rightFoot=rightFootMover.getPosition();
         
-        ofVec2f leftFootP=leftKnee+ofVec2f(-10,60);
-        leftFoot=leftFootP;
         leftFootMover.setTarget(leftFootP);
         leftFoot=leftFootMover.getPosition();
 
-    
-    }
+   // }
     
    // auto endTime = easingInitTime + scaleDuration;
    // auto now = ofGetElapsedTimef();
@@ -150,7 +167,7 @@ void Avatar::update(){
 
 
 void Avatar::drawAvatar(){
-    headOffset=ofVec2f(0,-40);
+    headOffset=ofVec2f(0,-100);
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
 
     
@@ -165,8 +182,8 @@ void Avatar::drawAvatar(){
     ofSetColor(0);
     
     // EYES
-    ofDrawCircle(head.x-20,head.y-40,10);
-    ofDrawCircle(head.x+20,head.y-40,10);
+    ofDrawCircle(headCenter.x-20,headCenter.y-10,10);
+    ofDrawCircle(headCenter.x+20,headCenter.y-10,10);
     //Cheeks
     ofSetColor(255,0,0);
     ofDrawCircle(headCenter.x-50,headCenter.y+30,20);
@@ -197,7 +214,7 @@ void Avatar::drawAvatar(){
     }
   
     
-    if(mskel.size()>0){
+   /* if(mskel.size()>0){
         
         ofDrawLine(neck,spineMid);
         ofDrawLine(spineMid,spineBase);
@@ -228,7 +245,7 @@ void Avatar::drawAvatar(){
         ofDrawLine(rightHand,rightEllbow);
         ofDrawCircle(rightHand,10);
   
-    }else{
+    }else{*/
         ofSetLineWidth(10);
 
 
@@ -352,6 +369,16 @@ void Avatar::drawAvatar(){
         ofFill();
         ofDrawCircle(leftHand,15);
 
+        
+        ofPath leftArmpath;
+        leftArmpath.moveTo(neck);
+        leftArmpath.bezierTo(cp1.x,cp1.y,cp2.x,cp2.y, leftHand.x,leftHand.y);
+        leftArmpath.setFilled(false);
+        leftArmpath.setColor(ofColor(255,0,0));
+        leftArmpath.setStrokeWidth(5);
+        leftArmpath.draw();
+        
+        
         mid=rightEllbow-neck;
         cp1=mid;//.getRotated(-40);
         cp1*=0.5;
@@ -383,6 +410,14 @@ void Avatar::drawAvatar(){
         ofFill();
         ofDrawCircle(rightHand,15);
         
+        
+        
+        
+
+        
+  //  ofDrawCircle(leftFoot, 20);
+  //  ofDrawCircle(rightFoot, 20);
+
         ofPath leftfootpath;
         leftfootpath.moveTo(leftFoot.x+10,leftFoot.y);
         leftfootpath.arc(leftFoot.x+10,leftFoot.y, 20, 20, 180, 0);
@@ -392,15 +427,15 @@ void Avatar::drawAvatar(){
         leftfootpath.draw();
         
         ofPath rightfootpath;
-        rightfootpath.moveTo(rightFoot.x-10,leftFoot.y);
-        rightfootpath.arc(rightFoot.x-10,leftFoot.y, 20, 20, 180, 0);
+        rightfootpath.moveTo(rightFoot.x-10,rightFoot.y);
+        rightfootpath.arc(rightFoot.x-10,rightFoot.y, 20, 20, 180, 0);
         rightfootpath.setFilled(true);
         rightfootpath.setStrokeWidth(1);
         rightfootpath.close();
         rightfootpath.draw();
 
         
-    }
+  //  }
     ofPopStyle();
     ofPopMatrix();
     

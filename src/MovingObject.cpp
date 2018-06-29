@@ -165,6 +165,11 @@ bool MovingObject::isOnScreen(){
     return isInside;
 }
 
+void MovingObject::setMaxSpeed(float _m){
+    maxspeed=_m;
+}
+
+
 ofVec2f MovingObject::seek(ofVec2f t, float f){
     ofVec2f p(position);
     ofVec2f desired=t-p;

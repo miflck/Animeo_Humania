@@ -171,27 +171,28 @@ void KinectV2Manager::update(){
         
         
         
-        ofVec3f localZero=head;
-        ofVec3f leftHandLocal = getLocal(localZero,leftHand);
-        ofVec3f leftShoulderLocal = getLocal(localZero,leftShoulder);
-        ofVec3f leftEllbowLocal = getLocal(localZero,leftEllbow);
-        ofVec3f leftWristLocal = getLocal(localZero,leftWrist);
-        ofVec3f leftHipLocal = getLocal(localZero,leftHip);
-        ofVec3f leftKneeLocal = getLocal(localZero,leftKnee);
-        ofVec3f leftAnkleLocal =getLocal(localZero,leftAnkle);
-        ofVec3f leftFootLocal = getLocal(localZero,leftFoot);
-        ofVec3f rightHandLocal = getLocal(localZero,rightHand);
-        ofVec3f rightShoulderLocal = getLocal(localZero,rightShoulder);
-        ofVec3f rightEllbowLocal = getLocal(localZero,rightEllbow);
-        ofVec3f rightWristLocal = getLocal(localZero,rightWrist);
-        ofVec3f rightHipLocal = getLocal(localZero,rightHip);
-        ofVec3f rightKneeLocal = getLocal(localZero,rightKnee);
-        ofVec3f rightAnkleLocal = getLocal(localZero,rightAnkle);
-        ofVec3f rightFootLocal = getLocal(localZero,rightFoot);
-        ofVec3f headLocal=getLocal(localZero,head);
-        ofVec3f neckLocal=getLocal(localZero,neck);
-        ofVec3f spineBaseLocal=getLocal(localZero,spineBase);
-        ofVec3f spineMidLocal=getLocal(localZero,spineMid);
+        ofVec3f localZero=spineBase;
+        m.localZero =localZero;
+        m.leftHandLocal = getLocal(localZero,leftHand);
+        m.leftShoulderLocal = getLocal(localZero,leftShoulder);
+        m.leftEllbowLocal = getLocal(localZero,leftEllbow);
+         m.leftWristLocal = getLocal(localZero,leftWrist);
+         m.leftHipLocal = getLocal(localZero,leftHip);
+         m.leftKneeLocal = getLocal(localZero,leftKnee);
+         m.leftAnkleLocal =getLocal(localZero,leftAnkle);
+         m.leftFootLocal = getLocal(localZero,leftFoot);
+         m.rightHandLocal = getLocal(localZero,rightHand);
+         m.rightShoulderLocal = getLocal(localZero,rightShoulder);
+         m.rightEllbowLocal = getLocal(localZero,rightEllbow);
+         m.rightWristLocal = getLocal(localZero,rightWrist);
+        m.rightHipLocal = getLocal(localZero,rightHip);
+         m.rightKneeLocal = getLocal(localZero,rightKnee);
+         m.rightAnkleLocal = getLocal(localZero,rightAnkle);
+         m.rightFootLocal = getLocal(localZero,rightFoot);
+        m.headLocal=getLocal(localZero,head);
+         m.neckLocal=getLocal(localZero,neck);
+         m.spineBaseLocal=getLocal(localZero,spineBase);
+         m.spineMidLocal=getLocal(localZero,spineMid);
         
         
         // LEFT SIDE

@@ -55,18 +55,33 @@ void AvatarApp::init(){
 
 void AvatarApp::update(){
     avatar.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+    
+    
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+    if(mskel.size()>0){
+        avatar.setTarget(mskel[0].spineBase);
+
+        
+    }
+    
+    
     avatar.update();
     box2d.update();
   
-    for(int i=0;i<avatars.size();i++){
-        avatars[i].setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
-        avatars[i].update();
+    ofVec2f offset(250,0);
+    if(avatars.size()>0){
+        avatars[0]->setTarget(avatar.getPosition());
+        avatars[0]->update();
+
+        for(int i=1;i<avatars.size();i++){
+            avatars[i]->setTarget(avatars[i-1]->getPosition()-offset);
+            avatars[i]->update();
+        }
     }
   
  
 
     
-    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     if(mskel.size()>0){
         
         head=mskel[0].head;
@@ -112,12 +127,17 @@ void AvatarApp::update(){
 
 
 void AvatarApp::draw(){
+    
+    for(int i=avatars.size()-1;i>=0;i--){
+        avatars[i]->draw();
+    }
 
     avatar.draw();
     
-    for(int i=0;i<avatars.size();i++){
-        avatars[i].draw();
-    }
+    /*for(int i=0;i<avatars.size();i++){
+        avatars[i]->draw();
+    }*/
+    
   
    /* ofPushMatrix();
     ofTranslate(-300,0);
@@ -199,7 +219,18 @@ void AvatarApp::draw(){
     }
     
     
-
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+    if(mskel.size()>0){
+        ofPushMatrix();
+        ofTranslate(ofGetWidth(), ofGetHeight());
+        ofDrawCircle(mskel[0].localZero,10);
+        ofDrawCircle(mskel[0].leftHandLocal,10);
+        ofPopMatrix();
+        
+        ofDrawCircle(mskel[0].head,10);
+        ofDrawCircle(mskel[0].leftHand,10);
+        
+    }
 
    
     
@@ -235,10 +266,12 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='a'){
-        Avatar a;
-        a.setup();
-        a.setTarget(ofVec2f(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
-        a.bSeekTarget=true;
+        Avatar * a =new Avatar();
+        a->setup();
+        a->setTarget(ofVec2f(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
+        a->bSeekTarget=true;
+        
+        a->setSeekForce(50);
         avatars.push_back(a);
     }
     

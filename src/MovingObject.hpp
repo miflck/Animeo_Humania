@@ -39,6 +39,7 @@ public:
     void setSpeed(int _x, int _y);
     
     void setTarget(ofVec2f _target);
+    void setMaxSpeed(float _m);
     void move();
     void applyForce(ofVec2f _force);
     void applyForce(ofVec2f _force,float _strength);
@@ -79,7 +80,7 @@ private:
     
     ofVec2f velocity;
     ofVec2f target;
-   int maxspeed=50;
+   float maxspeed=50;
     
     ofVec2f acceleration;
     float seekforce=0.5;

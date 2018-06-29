@@ -51,6 +51,8 @@ struct MappedPoints{
     ofVec3f spineMid;
     
     
+    
+    ofVec3f localZero;
     ofVec3f leftHandLocal;
     ofVec3f leftShoulderLocal;
     ofVec3f leftEllbowLocal;
