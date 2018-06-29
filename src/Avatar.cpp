@@ -9,6 +9,7 @@
 #include "ofxEasing.h"
 #include "KinectV2Manager.hpp"
 #include "ApplicationController.h"
+#include "ofxPoly.h"
 
 
 Avatar::Avatar(){
@@ -25,6 +26,27 @@ void Avatar::setup(){
     setSeekForce(50);
     
     
+    leftArmCP1Mover.bSeekTarget=true;
+    leftArmCP2Mover.bSeekTarget=true;
+    
+    rightArmCP1Mover.bSeekTarget=true;
+    rightArmCP2Mover.bSeekTarget=true;
+    
+    rightLegCP1Mover.bSeekTarget=true;
+    rightLegCP2Mover.bSeekTarget=true;
+    
+    leftLegCP1Mover.bSeekTarget=true;
+    leftLegCP2Mover.bSeekTarget=true;
+    
+    spineCP1Mover.bSeekTarget=true;
+    spineCP2Mover.bSeekTarget=true;
+    
+    spineCP1Mover.setMaxSpeed(60);
+    spineCP2Mover.setMaxSpeed(60);
+    
+    spineCP1Mover.setSeekForce(10);
+    spineCP2Mover.setSeekForce(10);
+
     movers.push_back(&absolutePosition);
 
     movers.push_back(&leftHandMover);
@@ -56,6 +78,20 @@ void Avatar::update(){
     for(int i=0;i<movers.size();i++){
         movers[i]->move();
     }
+    
+    leftArmCP1Mover.move();
+    leftArmCP2Mover.move();
+    rightArmCP1Mover.move();
+    rightArmCP2Mover.move();
+    
+    rightLegCP1Mover.move();
+    rightLegCP2Mover.move();
+    
+    leftLegCP1Mover.move();
+    leftLegCP2Mover.move();
+    
+    spineCP1Mover.move();
+    spineCP2Mover.move();
     
    ofVec2f headP=ofVec2f(0,0);
     
@@ -122,7 +158,7 @@ void Avatar::update(){
     }
     //else{
         headMover.setTarget(headP);
-    head=headMover.getPosition();
+        head=headMover.getPosition();
         neckMover.setTarget(neckP);
         neck=neckMover.getPosition();
         spineBaseMover.setTarget(spineBaseP);
@@ -151,6 +187,84 @@ void Avatar::update(){
         
         leftFootMover.setTarget(leftFootP);
         leftFoot=leftFootMover.getPosition();
+    
+    
+    //ARM Mover
+    ofVec2f mid=leftEllbow-neck;
+    ofVec2f cp1=mid;//.getRotated(-40);
+    cp1*=0.7;
+    cp1+=neck;
+    leftArmCP1Mover.setTarget(cp1);
+    
+    mid=leftEllbow-leftHand;
+    ofVec2f cp2=mid;//.getRotated(40);
+    cp2*=0.7;
+    cp2+=leftHand;
+    leftArmCP2Mover.setTarget(cp2);
+
+    
+    mid=rightEllbow-neck;
+    cp1=mid;//.getRotated(-40);
+    cp1*=0.7;
+    cp1+=neck;
+    rightArmCP1Mover.setTarget(cp1);
+
+    mid=rightEllbow-rightHand;
+    cp2=mid;//.getRotated(40);
+    cp2*=0.57;
+    cp2+=rightHand;
+    rightArmCP2Mover.setTarget(cp2);
+    
+    
+    // Leg Bezier
+    mid=rightKnee-spineBase;
+    cp1=mid;//.getRotated(-40);
+    cp1*=0.75;
+    cp1+=spineBase;
+    rightLegCP1Mover.setTarget(cp1);
+    
+    mid=rightKnee-rightFoot;
+    cp2=mid;//.getRotated(40);
+    cp2*=0.75;
+    cp2+=rightFoot;
+    rightLegCP2Mover.setTarget(cp2);
+    
+    
+    mid=leftKnee-spineBase;
+    cp1=mid;//.getRotated(-40);
+    cp1*=0.75;
+    cp1+=spineBase;
+    leftLegCP1Mover.setTarget(cp1);
+
+    mid=leftKnee-leftFoot;
+    cp2=mid;//.getRotated(40);
+    cp2*=0.75;
+    cp2+=leftFoot;
+    leftLegCP2Mover.setTarget(cp1);
+
+    
+    float rotation=40;
+    if(head.x-spineBase.x>0){
+        rotation=-40;
+    }else{
+        rotation=40;
+    }
+    
+    //SPine
+    mid=spineBase-neck;
+    cp1=mid.getRotated(rotation);
+    cp1/=3;
+    cp1+=neck;
+    spineCP1Mover.setTarget(cp1);
+
+    
+     cp2=mid.getRotated(-rotation);
+    cp2/=-3;
+    cp2+=spineBase;
+    spineCP2Mover.setTarget(cp2);
+
+    
+
 
    // }
     
@@ -266,7 +380,7 @@ void Avatar::drawAvatar(){
         cp2+=spineBase;
         
 
-        ofNoFill();
+      /*  ofNoFill();
         ofDrawBezier(neck.x,neck.y, cp1.x,cp1.y,cp2.x,cp2.y, spineBase.x,spineBase.y);
         if(APPC->debug){
             ofSetColor(255,0,0);
@@ -277,6 +391,36 @@ void Avatar::drawAvatar(){
             ofDrawCircle(cp2,5);
             ofSetColor(255);
         }
+    */
+    
+    ofNoFill();
+    //ofDrawBezier(neck.x,neck.y, spineCP1Mover.getPosition().x, spineCP1Mover.getPosition().y, spineCP2Mover.getPosition().x, spineCP2Mover.getPosition().y, spineBase.x,spineBase.y);
+    
+    ofPolyline rough;
+    ofMesh smooth;
+    
+    rough.clear();
+    smooth.clear();
+    rough.addVertex(neck);
+    rough.bezierTo(spineCP1Mover.getPosition(), spineCP2Mover.getPosition(), spineBase);
+    ofxPolyToMesh(smooth, rough, 4);
+    smooth.draw();
+    
+    
+    if(APPC->debug){
+        ofSetColor(255,0,0);
+        ofFill();
+        ofDrawCircle( spineCP1Mover.getPosition(),5);
+        ofSetColor(255);
+        ofSetColor(255,0,255);
+        ofDrawCircle( spineCP2Mover.getPosition(),5);
+        ofSetColor(255);
+    }
+    
+    
+    
+    
+    
 
         mid=leftKnee-spineBase;
         cp1=mid;//.getRotated(-40);
@@ -290,7 +434,16 @@ void Avatar::drawAvatar(){
         
         ofNoFill();
         ofSetLineWidth(10);
-        ofDrawBezier(spineBase.x,spineBase.y, cp1.x,cp1.y,cp2.x,cp2.y, leftFoot.x,leftFoot.y);
+       // ofDrawBezier(spineBase.x,spineBase.y, cp1.x,cp1.y,cp2.x,cp2.y, leftFoot.x,leftFoot.y);
+    
+    
+        rough.clear();
+        smooth.clear();
+        rough.addVertex(spineBase);
+        rough.bezierTo(leftLegCP1Mover.getPosition(), leftLegCP2Mover.getPosition(), leftFoot);
+        ofxPolyToMesh(smooth, rough, 4);
+        smooth.draw();
+    
         
         if(APPC->debug){
             ofFill();
@@ -319,7 +472,16 @@ void Avatar::drawAvatar(){
         cp2=mid;//.getRotated(40);
         cp2*=0.75;
         cp2+=rightFoot;
-        ofDrawBezier(spineBase.x,spineBase.y, cp1.x,cp1.y,cp2.x,cp2.y, rightFoot.x,rightFoot.y);
+        //ofDrawBezier(spineBase.x,spineBase.y, cp1.x,cp1.y,cp2.x,cp2.y, rightFoot.x,rightFoot.y);
+    
+    
+        rough.clear();
+        smooth.clear();
+        rough.addVertex(spineBase);
+        rough.bezierTo(rightLegCP1Mover.getPosition(), rightLegCP2Mover.getPosition(), rightFoot);
+        ofxPolyToMesh(smooth, rough, 4);
+        smooth.draw();
+    
         if(APPC->debug){
             ofFill();
             ofSetColor(255,0,0);
@@ -365,19 +527,32 @@ void Avatar::drawAvatar(){
         
         ofSetLineWidth(10);
         ofNoFill();
-        ofDrawBezier(neck.x,neck.y, cp1.x,cp1.y,cp2.x,cp2.y, leftHand.x,leftHand.y);
+        //ofDrawBezier(neck.x,neck.y, cp1.x,cp1.y,cp2.x,cp2.y, leftHand.x,leftHand.y);
+    
+        ofSetColor(255);
+      //  ofDrawBezier(neck.x,neck.y, leftArmCP1Mover.getPosition().x,leftArmCP1Mover.getPosition().y,leftArmCP2Mover.getPosition().x,leftArmCP2Mover.getPosition().y, leftHand.x,leftHand.y);
+   
+    
+        rough.clear();
+        smooth.clear();
+        rough.addVertex(neck);
+        rough.bezierTo(leftArmCP1Mover.getPosition(), leftArmCP2Mover.getPosition(), leftHand);
+        ofxPolyToMesh(smooth, rough, 4);
+        smooth.draw();
+
+    
         ofFill();
         ofDrawCircle(leftHand,15);
 
         
-        ofPath leftArmpath;
+     /*   ofPath leftArmpath;
         leftArmpath.moveTo(neck);
         leftArmpath.bezierTo(cp1.x,cp1.y,cp2.x,cp2.y, leftHand.x,leftHand.y);
         leftArmpath.setFilled(false);
         leftArmpath.setColor(ofColor(255,0,0));
         leftArmpath.setStrokeWidth(5);
         leftArmpath.draw();
-        
+        */
         
         mid=rightEllbow-neck;
         cp1=mid;//.getRotated(-40);
@@ -406,7 +581,15 @@ void Avatar::drawAvatar(){
         ofSetLineWidth(10);
 
         ofNoFill();
-        ofDrawBezier(neck.x,neck.y,cp1.x,cp1.y,cp2.x,cp2.y, rightHand.x,rightHand.y);
+        //ofDrawBezier(neck.x,neck.y,cp1.x,cp1.y,cp2.x,cp2.y, rightHand.x,rightHand.y);
+    
+        rough.clear();
+        smooth.clear();
+        rough.addVertex(neck);
+        rough.bezierTo(rightArmCP1Mover.getPosition(), rightArmCP2Mover.getPosition(), rightHand);
+        ofxPolyToMesh(smooth, rough, 4);
+        smooth.draw();
+    
         ofFill();
         ofDrawCircle(rightHand,15);
         

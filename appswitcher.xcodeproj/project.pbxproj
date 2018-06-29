@@ -122,6 +122,7 @@
 		F8C594EDF5A25FA2F042074C /* ofxKinectV2OSC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E489615DA9497A4B4D8CEA /* ofxKinectV2OSC.cpp */; };
 		FA043DF120E52AB40080E2D2 /* AvatarApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043DF020E52AB30080E2D2 /* AvatarApp.cpp */; };
 		FA043DF420E53EB30080E2D2 /* Avatar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043DF220E53EB20080E2D2 /* Avatar.cpp */; };
+		FA043E1120E63DD10080E2D2 /* ofxPoly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043E0920E63DD10080E2D2 /* ofxPoly.cpp */; };
 		FA2BE50320DB8A0C008FD2CD /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE4FD20DB8A0C008FD2CD /* Grid.cpp */; };
 		FA2BE50420DB8A0C008FD2CD /* GuiApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE4FF20DB8A0C008FD2CD /* GuiApp.cpp */; };
 		FA2BE50520DB8A0C008FD2CD /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE50120DB8A0C008FD2CD /* OrthoCamera.cpp */; };
@@ -412,6 +413,10 @@
 		FA043DF020E52AB30080E2D2 /* AvatarApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AvatarApp.cpp; sourceTree = "<group>"; };
 		FA043DF220E53EB20080E2D2 /* Avatar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Avatar.cpp; sourceTree = "<group>"; };
 		FA043DF320E53EB20080E2D2 /* Avatar.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Avatar.hpp; sourceTree = "<group>"; };
+		FA043DF620E63DD10080E2D2 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		FA043E0720E63DD10080E2D2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FA043E0920E63DD10080E2D2 /* ofxPoly.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxPoly.cpp; sourceTree = "<group>"; };
+		FA043E0A20E63DD10080E2D2 /* ofxPoly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxPoly.h; sourceTree = "<group>"; };
 		FA2BE4FD20DB8A0C008FD2CD /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		FA2BE4FE20DB8A0C008FD2CD /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
 		FA2BE4FF20DB8A0C008FD2CD /* GuiApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiApp.cpp; sourceTree = "<group>"; };
@@ -835,6 +840,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				FA043DF520E63DD10080E2D2 /* ofxPoly */,
 				BD1B24C549BFA7D54BC59DE3 /* ofxBox2d */,
 				0D0595A62FF5ED8D37029107 /* ofxEasing */,
 				480A780D8D0308AE4A368801 /* ofxGui */,
@@ -1069,6 +1075,26 @@
 				46F3FC2DF209C7393C75DE5A /* Skeleton.h */,
 			);
 			name = Body;
+			sourceTree = "<group>";
+		};
+		FA043DF520E63DD10080E2D2 /* ofxPoly */ = {
+			isa = PBXGroup;
+			children = (
+				FA043DF620E63DD10080E2D2 /* .gitignore */,
+				FA043E0720E63DD10080E2D2 /* README.md */,
+				FA043E0820E63DD10080E2D2 /* src */,
+			);
+			name = ofxPoly;
+			path = ../../../addons/ofxPoly;
+			sourceTree = "<group>";
+		};
+		FA043E0820E63DD10080E2D2 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FA043E0920E63DD10080E2D2 /* ofxPoly.cpp */,
+				FA043E0A20E63DD10080E2D2 /* ofxPoly.h */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		FA2BE4FC20DB8A0C008FD2CD /* helper */ = {
@@ -1319,6 +1345,7 @@
 				8D60C222CBD3F869382832E9 /* ofxSyphonServer.mm in Sources */,
 				11DF9AB1B4EAA63E3B190CA0 /* ofxSyphonServerDirectory.mm in Sources */,
 				C9109422648B170B07A778CF /* SyphonNameboundClient.m in Sources */,
+				FA043E1120E63DD10080E2D2 /* ofxPoly.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -227,7 +227,7 @@ void AvatarApp::draw(){
     }
     
     
-    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+  /*  vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     if(mskel.size()>0){
         ofPushMatrix();
         ofTranslate(ofGetWidth(), ofGetHeight());
@@ -239,7 +239,7 @@ void AvatarApp::draw(){
         ofDrawCircle(mskel[0].leftHand,10);
         
     }
-
+*/
    
     
 

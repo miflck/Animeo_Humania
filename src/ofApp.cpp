@@ -72,7 +72,7 @@ void ofApp::draw(){
     // draw the average volume:
     ofPushStyle();
     ofPushMatrix();
-    
+     if(APPC->debug){
     ofTranslate(ofGetWidth()-200, ofGetHeight()-200, 0);
     ofScale(0.5,0.5);
     ofSetColor(225);
@@ -84,7 +84,7 @@ void ofApp::draw(){
     ofDrawCircle(200, 200, scaledVol * 190.0f);
     
     //lets draw the volume history as a graph
-    if(APPC->debug){
+   
       ofBeginShape();
     for (unsigned int i = 0; i < volHistory.size(); i++){
         if( i == 0 ) ofVertex(i, 400);

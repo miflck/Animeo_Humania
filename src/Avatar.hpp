@@ -75,7 +75,25 @@ public:
     MovingObject rightKneeMover;
     MovingObject rightFootMover;
     
+    
+    MovingObject leftArmCP1Mover;
+    MovingObject leftArmCP2Mover;
+    
+    MovingObject rightArmCP1Mover;
+    MovingObject rightArmCP2Mover;
+    
+    MovingObject spineCP1Mover;
+    MovingObject spineCP2Mover;
+    
+    MovingObject leftLegCP1Mover;
+    MovingObject leftLegCP2Mover;
+    
+    MovingObject rightLegCP1Mover;
+    MovingObject rightLegCP2Mover;
+    
     vector<MovingObject*>movers;
+    
+
     
     MovingObject absolutePosition;
 
