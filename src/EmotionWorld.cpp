@@ -53,6 +53,10 @@ void EmotionWorld::init(){
     sun.setup();
     sun.bSeekTarget=true;
     
+    
+    baloon.setup();
+    baloon.bSeekTarget=true;
+    
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &EmotionWorld::onMessageReceived);
 
     
@@ -84,8 +88,15 @@ void EmotionWorld::update(){
     headposition=ofVec2f(ofGetMouseX(),ofGetMouseY());
     ofVec2f hand;
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+   
+    
+    baloon.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+
+    
+    
     if(mskel.size()<=0){
     sun.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+        
     }else{
         hand=mskel[0].leftHand;
         hand=ofVec2f(hand.x, hand.y);
@@ -93,6 +104,7 @@ void EmotionWorld::update(){
 
     }
     sun.update();
+    baloon.update();
     
     for(int i=0;i<movingObjects.size();i++){
         movingObjects[i].setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
@@ -166,6 +178,10 @@ void EmotionWorld::draw(){
     ofPushStyle();
    if(bShowSun)sun.draw();
     
+    if(bShowBaloon)baloon.draw();
+
+    
+    
     for(int i=0; i<circles.size(); i++) {
       //  ofSetColor(220+ofRandom(-20,20),37+ofRandom(-20,20),151+ofRandom(-20,20));
         circles[i]->draw();
@@ -234,9 +250,9 @@ void EmotionWorld::emitShapes(){
     rAdd=ofRandom(-1,1);
     if(rAdd<-emitShapeFrequency){
         float r=ofRandom(20,30);
-        ofVec2f a =ofVec2f(ofGetMouseX()-r/2,ofGetMouseY());
-        ofVec2f b =ofVec2f(ofGetMouseX()+r/2,ofGetMouseY());
-        ofVec2f c =ofVec2f(ofGetMouseX(),ofGetMouseY()+r);
+        ofVec2f a =ofVec2f(headposition.x-r/2,headposition.y);
+        ofVec2f b =ofVec2f(headposition.x+r/2,headposition.y);
+        ofVec2f c =ofVec2f(headposition.x,headposition.y+r);
         triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
         triangles.back().get()->setWorld(box2d.getWorld());
         triangles.back().get()->setPhysics(5.0, 0.6, 0.1);
@@ -257,6 +273,10 @@ void EmotionWorld::showSun(bool _s){
     bShowSun=_s;
 }
 
+
+void EmotionWorld::showBaloon(bool _s){
+    bShowBaloon=_s;
+}
 
 
 void EmotionWorld::drawFeeling(){
@@ -453,6 +473,20 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     }
     
     
+    if(msg.getAddress() == "/EmotionWorld/toggle6")
+    {
+        float f=msg.getArgAsBool(0);
+
+        vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+        ofVec2f pos=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
+        
+        if(mskel.size()>0 && f){
+           pos=mskel[0].head;
+        }
+        baloon.setPosition(pos.x,pos.y);
+        showBaloon(f);
+    }
+    
     if(msg.getAddress() == "/EmotionWorld/toggle3")
     {
         float m=msg.getArgAsBool(0);
@@ -516,7 +550,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/EmotionWorld/push5")
     {
-        float r = ofRandom(10, 40);        // a random radius 4px - 20px
+        float r = ofRandom(80, 100);        // a random radius 4px - 20px
         circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
         circles.back().get()->setPhysics(ofRandom(5.0,1), ofRandom(0,1), ofRandom(0,1));
         circles.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
@@ -567,12 +601,12 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
        // anchors.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
         ofVec2f dir = ofVec2f(100,-150);
         dir.normalize();
-        dir*=15;
+        dir*=10;
  
         r=150;
-        ofVec2f a =ofVec2f(ofGetMouseX()-r/2,ofGetMouseY());
-        ofVec2f b =ofVec2f(ofGetMouseX()+r/2,ofGetMouseY());
-        ofVec2f c =ofVec2f(ofGetMouseX(),ofGetMouseY()-r*1.1);
+        ofVec2f a =ofVec2f(headposition.x-r/2,headposition.y);
+        ofVec2f b =ofVec2f(headposition.x+r/2,headposition.y);
+        ofVec2f c =ofVec2f(headposition.x,headposition.y-r*1.1);
         anchors.push_back(shared_ptr<AnchorTriangle>(new AnchorTriangle(a,b,c)));
         anchors.back().get()->setWorld(box2d.getWorld());
         anchors.back().get()->setPhysics(300.0, 0.2, 100);

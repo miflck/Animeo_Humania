@@ -16,6 +16,9 @@
 #include "Sun.hpp"
 #include "Flash.hpp"
 
+#include "Baloon.hpp"
+
+
 #include "ofxOsc.h"
 
 #include "ofxEasing.h"
@@ -406,6 +409,10 @@ public:
     Sun sun;
     
     
+    Baloon baloon;
+    bool bShowBaloon=false;
+    void showBaloon(bool _s);
+
     
     void toggleHearts();
     void toggleSun();
