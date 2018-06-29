@@ -122,6 +122,7 @@ public:
     int size2=50;
     int size3=150;
     
+    ofSoundPlayer  beats;
 
     
 };

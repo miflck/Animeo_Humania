@@ -124,6 +124,7 @@
 		FA043DF420E53EB30080E2D2 /* Avatar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043DF220E53EB20080E2D2 /* Avatar.cpp */; };
 		FA043E1120E63DD10080E2D2 /* ofxPoly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043E0920E63DD10080E2D2 /* ofxPoly.cpp */; };
 		FA043E1420E643710080E2D2 /* Baloon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043E1220E643700080E2D2 /* Baloon.cpp */; };
+		FA043E1B20E6BEEF0080E2D2 /* Kreis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043E1A20E6BEEE0080E2D2 /* Kreis.cpp */; };
 		FA2BE50320DB8A0C008FD2CD /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE4FD20DB8A0C008FD2CD /* Grid.cpp */; };
 		FA2BE50420DB8A0C008FD2CD /* GuiApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE4FF20DB8A0C008FD2CD /* GuiApp.cpp */; };
 		FA2BE50520DB8A0C008FD2CD /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE50120DB8A0C008FD2CD /* OrthoCamera.cpp */; };
@@ -420,6 +421,8 @@
 		FA043E0A20E63DD10080E2D2 /* ofxPoly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxPoly.h; sourceTree = "<group>"; };
 		FA043E1220E643700080E2D2 /* Baloon.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Baloon.cpp; sourceTree = "<group>"; };
 		FA043E1320E643710080E2D2 /* Baloon.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Baloon.hpp; sourceTree = "<group>"; };
+		FA043E1920E6BEEE0080E2D2 /* Kreis.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Kreis.hpp; sourceTree = "<group>"; };
+		FA043E1A20E6BEEE0080E2D2 /* Kreis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Kreis.cpp; sourceTree = "<group>"; };
 		FA2BE4FD20DB8A0C008FD2CD /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		FA2BE4FE20DB8A0C008FD2CD /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
 		FA2BE4FF20DB8A0C008FD2CD /* GuiApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiApp.cpp; sourceTree = "<group>"; };
@@ -976,6 +979,8 @@
 				03E83120F7BE81E07683070A /* BreathPoint.hpp */,
 				474F6773521890DBA4EBCCB8 /* EmotionWorld.cpp */,
 				9B08EE0CAE86BA45D6CAA881 /* EmotionWorld.hpp */,
+				FA043E1A20E6BEEE0080E2D2 /* Kreis.cpp */,
+				FA043E1920E6BEEE0080E2D2 /* Kreis.hpp */,
 				681C3C4B598E15BBEB8BCA7D /* Face.cpp */,
 				49ACB85A94533C8A9513CE62 /* Face.hpp */,
 				FA043DEF20E52AB30080E2D2 /* AvatarApp.hpp */,
@@ -1308,6 +1313,7 @@
 				A2E6B252D682A7FB048A1644 /* b2RevoluteJoint.cpp in Sources */,
 				9D0AA091FE805EB564CD05D0 /* b2RopeJoint.cpp in Sources */,
 				87C5C3DED336B7BB4A5D06D6 /* b2WeldJoint.cpp in Sources */,
+				FA043E1B20E6BEEF0080E2D2 /* Kreis.cpp in Sources */,
 				684CFB2E4AC045640B3A61F8 /* b2WheelJoint.cpp in Sources */,
 				370CDDF0DD53C5453DBD3F22 /* b2Rope.cpp in Sources */,
 				4CC0FD96DE77FF40BBCF8DD8 /* del_impl.cpp in Sources */,

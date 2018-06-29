@@ -16,7 +16,6 @@ MovingObject:: ~ MovingObject(){
 }
 
 void MovingObject::setup(){
-    radius=50;
     scaleDuration=1.f;
     actualRadius=0;
     easingInitTime = ofGetElapsedTimef();
@@ -95,7 +94,7 @@ void MovingObject::setPosition(int _x, int _y){
 
 
 void MovingObject::setRadius(int _radius){
-    radius=_radius;
+    radiusTarget=_radius;
 }
 
 int MovingObject::getRadius(){

@@ -47,10 +47,9 @@ void Baloon::draw(){
     ofPushMatrix();
    
     ofPopMatrix();
-    ofSetColor(0);
-    ofDrawEllipse(0,0,60,80);
-    ofSetColor(255,255,0);
-    ofDrawCircle(0,0,50);
+    ofSetColor(255,0,0);
+
+    ofDrawEllipse(0,0,130,150);
     ofPopStyle();
     ofPopMatrix();
 }

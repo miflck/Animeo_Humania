@@ -123,8 +123,8 @@ void LinieApp::update(){
         if(c%2==0 || circles[i].get()->getPosition().y>ofGetHeight()-100)mV*=-1;
         circles[i].get()->setPosition(circles[i].get()->getPosition().x, circles[i].get()->getPosition().y+mV);
         c++;
-    }
-    */
+    }*/
+  
     
     
  /*  for(int i=0;i<4;i++){
@@ -201,7 +201,7 @@ void LinieApp::update(){
 
 void LinieApp::draw(){
     ofSetColor(0);
-    ofDrawRectangle(0,0,ofGetWidth(),ofGetHeight());
+   // ofDrawRectangle(0,0,ofGetWidth(),ofGetHeight());
     
     
     ofPushStyle();

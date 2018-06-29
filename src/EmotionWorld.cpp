@@ -58,6 +58,7 @@ void EmotionWorld::init(){
     baloon.bSeekTarget=true;
     
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &EmotionWorld::onMessageReceived);
+    
 
     
 }
@@ -83,6 +84,9 @@ void EmotionWorld::update(){
         
     }
     
+    for(int i=0;i<kreise.size();i++){
+        kreise[i]->update();
+    }
     box2d.update();
     
     headposition=ofVec2f(ofGetMouseX(),ofGetMouseY());
@@ -136,6 +140,7 @@ void EmotionWorld::update(){
             hearts.back().get()->setAngularVelocity(ofRandom(1));
         }
     
+
     
     if(bEmitShapes)emitShapes();
 
@@ -206,7 +211,10 @@ void EmotionWorld::draw(){
     for(int i=0;i<anchors.size();i++){
         anchors[i]->draw();
     }
-    
+ 
+    for(int i=0;i<kreise.size();i++){
+        kreise[i]->draw();
+    }
     
     
     ofPopStyle();
@@ -332,27 +340,38 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
         triangles.back().get()->create(box2d.getWorld());
         triangles.back().get()->setVelocity(ofVec2f(10,5));
         triangles.back().get()->setAngularVelocity(2);
-
-
-
-        
-        
-        
-
     }
     
     
     if(e.key == 'o') {
-        MovingObject m;
+       /* MovingObject m;
         m.bSeekTarget=true;
         m.setRadius(10);
         m.setPosition(ofGetWidth()/2, 0);
         m.setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,ofGetHeight())));
         movingObjects.push_back(m);
+        */
+        kreise.push_back(shared_ptr<Kreis>(new Kreis));
+        kreise.back().get()->setWorld(box2d.getWorld());
+        kreise.back().get()->bSeekTarget=true;
+        kreise.back().get()->setRadius(200);
+        kreise.back().get()->setPosition(headposition.x,headposition.y);
+        kreise.back().get()->setTarget(ofVec2f(headposition.x+400,headposition.y));
+        kreise.back().get()->setup();
+
     }
     
+    if(e.key=='O'){
+        for(int i=0;i<kreise.size();i++){
+            if(!kreise[i]->getIsPhysicsOn()){
+                kreise[i]->turnPhysicsOn(true);
+                break;
+            }
+        }
+    }
+    
+    
     if(e.key == 'p') {
- 
         for(int i=0;i<movingObjects.size();i++){
             ofVec2f r=ofVec2f(ofRandom(50),ofRandom(50));
             r.rotate(ofRandom(360));
@@ -503,7 +522,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/EmotionWorld/fader2")
     {
         float f=msg.getArgAsFloat(0);
-        f=ofMap(f, -1.f, 1.f, -20, 20);
+        f=ofMap(f, -1.f, 1.f, -40, 40);
         gravityY=f;
         box2d.setGravity(gravityX, gravityY);
     }

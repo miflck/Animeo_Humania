@@ -33,7 +33,7 @@ public:
     ofVec2f getDistance(ofVec2f _t);
     ofVec2f getSpeed();
     
-    void setRadius(int radius);
+    virtual void setRadius(int radius);
     int getRadius();
     
     void setSpeed(int _x, int _y);
