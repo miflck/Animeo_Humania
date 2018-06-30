@@ -5,18 +5,18 @@
 //  Created by Flückiger Michael on 08.05.18.
 //
 
-#include "Kreis.hpp"
+#include "Stern.hpp"
 #include "ofxEasing.h"
 
-Kreis::Kreis(){
+Stern::Stern(){
     
 }
 
-Kreis::~Kreis(){
+Stern::~Stern(){
     anchor.destroy();
 }
 
-void Kreis::setup(){
+void Stern::setup(){
     radiusTarget=100;
     anchor.setPhysics(0, 0.5, 0.9);
     anchor.setup(world, 0, 0, radiusTarget);
@@ -35,7 +35,7 @@ void Kreis::setup(){
     
 }
 
-void Kreis::update(){
+void Stern::update(){
     
     auto endTime = easingInitTime + scaleDuration;
     auto endFadeTime = fadeInitTime + fadeDuration;
@@ -94,7 +94,7 @@ void Kreis::update(){
 
 }
 
-void Kreis::draw(){
+void Stern::draw(){
     ofPushMatrix();
     ofPushStyle();
     ofTranslate(getPosition().x, getPosition().y);
@@ -104,12 +104,12 @@ void Kreis::draw(){
     ofPopMatrix();
 }
 
-void Kreis::setWorld(b2World* w){
+void Stern::setWorld(b2World* w){
     world=w;
 }
 
 
-void Kreis::turnPhysicsOn(bool _on){
+void Stern::turnPhysicsOn(bool _on){
     bPhysics=_on;
     if(bPhysics){
         anchor.setPosition(getPosition());
@@ -118,11 +118,11 @@ void Kreis::turnPhysicsOn(bool _on){
     }
 }
 
-bool Kreis::getIsPhysicsOn(){
+bool Stern::getIsPhysicsOn(){
     return bPhysics;
 }
 
-void Kreis::setState(int _state){
+void Stern::setState(int _state){
     stateBefore=state;
     state=_state;
     switch (state) {
@@ -148,6 +148,6 @@ void Kreis::setState(int _state){
     }
 }
 
-int Kreis::getState(){
+int Stern::getState(){
     return state;
 }

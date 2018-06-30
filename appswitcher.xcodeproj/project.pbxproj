@@ -125,6 +125,7 @@
 		FA043E1120E63DD10080E2D2 /* ofxPoly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043E0920E63DD10080E2D2 /* ofxPoly.cpp */; };
 		FA043E1420E643710080E2D2 /* Baloon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043E1220E643700080E2D2 /* Baloon.cpp */; };
 		FA043E1B20E6BEEF0080E2D2 /* Kreis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043E1A20E6BEEE0080E2D2 /* Kreis.cpp */; };
+		FA043E1F20E76EF80080E2D2 /* Stern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA043E1E20E76EF70080E2D2 /* Stern.cpp */; };
 		FA2BE50320DB8A0C008FD2CD /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE4FD20DB8A0C008FD2CD /* Grid.cpp */; };
 		FA2BE50420DB8A0C008FD2CD /* GuiApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE4FF20DB8A0C008FD2CD /* GuiApp.cpp */; };
 		FA2BE50520DB8A0C008FD2CD /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE50120DB8A0C008FD2CD /* OrthoCamera.cpp */; };
@@ -423,6 +424,8 @@
 		FA043E1320E643710080E2D2 /* Baloon.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Baloon.hpp; sourceTree = "<group>"; };
 		FA043E1920E6BEEE0080E2D2 /* Kreis.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Kreis.hpp; sourceTree = "<group>"; };
 		FA043E1A20E6BEEE0080E2D2 /* Kreis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Kreis.cpp; sourceTree = "<group>"; };
+		FA043E1D20E76EF70080E2D2 /* Stern.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Stern.hpp; sourceTree = "<group>"; };
+		FA043E1E20E76EF70080E2D2 /* Stern.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Stern.cpp; sourceTree = "<group>"; };
 		FA2BE4FD20DB8A0C008FD2CD /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		FA2BE4FE20DB8A0C008FD2CD /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
 		FA2BE4FF20DB8A0C008FD2CD /* GuiApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiApp.cpp; sourceTree = "<group>"; };
@@ -981,6 +984,8 @@
 				9B08EE0CAE86BA45D6CAA881 /* EmotionWorld.hpp */,
 				FA043E1A20E6BEEE0080E2D2 /* Kreis.cpp */,
 				FA043E1920E6BEEE0080E2D2 /* Kreis.hpp */,
+				FA043E1D20E76EF70080E2D2 /* Stern.hpp */,
+				FA043E1E20E76EF70080E2D2 /* Stern.cpp */,
 				681C3C4B598E15BBEB8BCA7D /* Face.cpp */,
 				49ACB85A94533C8A9513CE62 /* Face.hpp */,
 				FA043DEF20E52AB30080E2D2 /* AvatarApp.hpp */,
@@ -1281,6 +1286,7 @@
 				981EA7C2357295AE8501F4C6 /* b2PolygonShape.cpp in Sources */,
 				BB885F5F39C8DA070D80EF02 /* b2BlockAllocator.cpp in Sources */,
 				89F31F234274A62F3501E2EE /* b2Draw.cpp in Sources */,
+				FA043E1F20E76EF80080E2D2 /* Stern.cpp in Sources */,
 				22A83FE368C671FA8DBD5E51 /* b2Math.cpp in Sources */,
 				CB503B33759F22A302B8FC6E /* b2Settings.cpp in Sources */,
 				FA043E1420E643710080E2D2 /* Baloon.cpp in Sources */,

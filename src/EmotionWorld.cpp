@@ -154,10 +154,8 @@ void EmotionWorld::update(){
     ofRemove(hearts, Heart::shouldRemoveOffScreen);
     ofRemove(flashes, MovingObject::shouldRemoveOffScreen);
     ofRemove(triangles, Triangle::shouldRemoveOffScreen);
-  ofRemove(anchors, AnchorTriangle::shouldRemoveOffScreen);
-
-
-
+    ofRemove(anchors, AnchorTriangle::shouldRemoveOffScreen);    
+    ofRemove(kreise, Kreis::shouldRemoveFromScreen);
   
 }
 
@@ -354,7 +352,7 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
         kreise.push_back(shared_ptr<Kreis>(new Kreis));
         kreise.back().get()->setWorld(box2d.getWorld());
         kreise.back().get()->bSeekTarget=true;
-        kreise.back().get()->setRadius(200);
+        kreise.back().get()->setRadius(ofRandom(200,500));
         kreise.back().get()->setPosition(headposition.x,headposition.y);
         kreise.back().get()->setTarget(ofVec2f(headposition.x+400,headposition.y));
         kreise.back().get()->setup();
@@ -363,10 +361,16 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
     
     if(e.key=='O'){
         for(int i=0;i<kreise.size();i++){
-            if(!kreise[i]->getIsPhysicsOn()){
-                kreise[i]->turnPhysicsOn(true);
+            if(kreise[i]->getState()==MOVINGOBJECT){
+                kreise[i]->setState(PHYSICS);
                 break;
             }
+        }
+    }
+    
+    if(e.key=='F'){
+        for(int i=0;i<kreise.size();i++){
+                kreise[i]->setState(FADEOUT);
         }
     }
     
@@ -635,7 +639,32 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         
     }
     
-    
+    // KREIS
+    if(msg.getAddress() == "/EmotionWorld/push21")
+    {
+        kreise.push_back(shared_ptr<Kreis>(new Kreis));
+        kreise.back().get()->setWorld(box2d.getWorld());
+        kreise.back().get()->bSeekTarget=true;
+        kreise.back().get()->setRadius(ofRandom(200,500));
+        kreise.back().get()->setPosition(headposition.x,headposition.y);
+        kreise.back().get()->setTarget(ofVec2f(headposition.x+400,headposition.y));
+        kreise.back().get()->setup();
+    }
+    if(msg.getAddress() == "/EmotionWorld/push22")
+    {
+        for(int i=0;i<kreise.size();i++){
+            if(kreise[i]->getState()==MOVINGOBJECT){
+                kreise[i]->setState(PHYSICS);
+                break;
+            }
+        }
+    }
+    if(msg.getAddress() == "/EmotionWorld/push23")
+    {
+        for(int i=0;i<kreise.size();i++){
+            kreise[i]->setState(FADEOUT);
+        }
+    }
 
     
 }

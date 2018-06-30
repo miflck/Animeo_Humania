@@ -5,8 +5,8 @@
 //  Created by Flückiger Michael on 08.05.18.
 //
 
-#ifndef Kreis_hpp
-#define Kreis_hpp
+#ifndef Stern_hpp
+#define Stern_hpp
 #include "ofMain.h"
 #include <stdio.h>
 #include "MovingObject.hpp"
@@ -17,11 +17,11 @@
 #define FADEOUT 4
 
 
-class Kreis:public MovingObject {
+class Stern:public MovingObject {
     
 public:
-    Kreis();
-    virtual ~Kreis();
+    Stern();
+    virtual ~Stern();
     
     void setup();
     void update();
@@ -57,7 +57,7 @@ public:
     
     bool bShouldRemove=false;
     
-    static bool shouldRemoveFromScreen(shared_ptr<Kreis> shape) {
+    static bool shouldRemoveFromScreen(shared_ptr<Stern> shape) {
         bool r=false;
         if(shape->bShouldRemove)r=true;
        // return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
@@ -69,4 +69,4 @@ private:
 };
 
 
-#endif /* Kreis_hpp */
+#endif /* Stern_hpp */

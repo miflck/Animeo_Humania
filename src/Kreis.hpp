@@ -11,7 +11,10 @@
 #include <stdio.h>
 #include "MovingObject.hpp"
 #include "ofxBox2d.h"
-
+#define START 1
+#define MOVINGOBJECT 2
+#define PHYSICS 3
+#define FADEOUT 4
 
 
 class Kreis:public MovingObject {
@@ -19,7 +22,6 @@ class Kreis:public MovingObject {
 public:
     Kreis();
     virtual ~Kreis();
-    
     
     void setup();
     void update();
@@ -39,7 +41,28 @@ public:
     float easingInitTime;
     float radiusTarget;
     float scaleDuration=8;
-        
+    
+    bool bFadeOut=false;
+    int state;
+    int stateBefore;
+    void setState(int _state);
+    int getState();
+    
+    ofColor color;
+    int fadeAlpha=255;
+    float fadeInitTime;
+    float fadeTarget;
+    float fadeDuration;
+    
+    
+    bool bShouldRemove=false;
+    
+    static bool shouldRemoveFromScreen(shared_ptr<Kreis> shape) {
+        bool r=false;
+        if(shape->bShouldRemove)r=true;
+       // return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
+        return r;
+    }
     
 private:
    
