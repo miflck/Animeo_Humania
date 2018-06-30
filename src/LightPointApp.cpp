@@ -58,12 +58,11 @@ void LightPointApp::init(){
     
     
     
-    bounce1.load("BallBounces/Boing1.wav");
+    // Load Bouncesounds
     char* files;
     for(int i=0;i<soundsLength;i++){
         sprintf(files,"BallBounces/Boing%i.wav",i);
         boucesounds[i].load(files);
-        cout<<files<<endl;
     }
     
 

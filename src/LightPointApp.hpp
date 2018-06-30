@@ -122,7 +122,6 @@ public:
     int size2=50;
     int size3=150;
     
-    ofSoundPlayer  bounce1;
      int soundsLength=4;
     ofSoundPlayer boucesounds[4];
 
