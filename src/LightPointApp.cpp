@@ -58,10 +58,13 @@ void LightPointApp::init(){
     
     
     
-    
-
-   // beats.load("sounds/1085.mp3");
-
+    bounce1.load("BallBounces/Boing1.wav");
+    char* files;
+    for(int i=0;i<soundsLength;i++){
+        sprintf(files,"BallBounces/Boing%i.wav",i);
+        boucesounds[i].load(files);
+        cout<<files<<endl;
+    }
     
 
     
@@ -70,6 +73,9 @@ void LightPointApp::init(){
 
 void LightPointApp::update(){
    
+    ofSoundUpdate();
+
+    
     screen.begin();
     ofEnableBlendMode(OF_BLENDMODE_SUBTRACT);
     ofSetColor(3);
@@ -206,6 +212,8 @@ bool LightPointApp::bounceFromCabin(){
             ofVec2f sReflected=speed;
             sReflected*=-1;
             mover.setSpeed(speed.x, sReflected.y);
+            
+            playRandomSound();
         }
         
     }
@@ -223,6 +231,8 @@ bool LightPointApp::bounceFromCabin(){
             ofVec2f sReflected=speed;
             sReflected*=-1;
             mover.setSpeed(sReflected.x, speed.y);
+            playRandomSound();
+
         }
         //check for right collision:
         float ball2rightEdge = abs(position.x - (cabinposition->x+cabindimension->x));
@@ -234,6 +244,8 @@ bool LightPointApp::bounceFromCabin(){
             ofVec2f sReflected=speed;
             sReflected*=-1;
             mover.setSpeed(sReflected.x, speed.y);
+            playRandomSound();
+
         }
     }
  
@@ -302,6 +314,13 @@ void LightPointApp::exit(){
     cout<<"exit LightPointApp"<<endl;
 }
 
+
+
+void LightPointApp::playRandomSound(){
+    int randNum;
+    randNum=(int)(ofRandom(0,soundsLength));
+boucesounds[randNum].play();
+}
 
 
 //KEY LISTENER
