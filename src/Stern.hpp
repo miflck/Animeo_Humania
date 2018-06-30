@@ -55,13 +55,20 @@ public:
     float fadeDuration;
     
     
+    ofImage sternImg;
+    
+    void setTargetRadius(int _r);
+    
     bool bShouldRemove=false;
     
+    
+    ofRectangle screen;
+
     static bool shouldRemoveFromScreen(shared_ptr<Stern> shape) {
-        bool r=false;
-        if(shape->bShouldRemove)r=true;
-       // return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
-        return r;
+     //   bool r=false;
+       // if(shape->bShouldRemove)r=true;
+       return !ofRectangle(-300, -300, shape.get()->screen.getWidth()+600, shape.get()->screen.getHeight()+600).inside(shape.get()->getPosition());
+      //  return r;
     }
     
 private:

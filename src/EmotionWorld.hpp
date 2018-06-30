@@ -18,6 +18,7 @@
 
 #include "Baloon.hpp"
 #include "Kreis.hpp"
+#include "Stern.hpp"
 
 
 
@@ -431,6 +432,8 @@ public:
     Kreis kreis;
     
     vector      <shared_ptr<Kreis> > kreise; // default box2d circles
+    vector      <shared_ptr<Stern> > sterne; // default box2d circles
+
 
 
 private:

@@ -17,12 +17,12 @@ Stern::~Stern(){
 }
 
 void Stern::setup(){
+    actualRadius=0;
     radiusTarget=100;
     anchor.setPhysics(0, 0.5, 0.9);
-    anchor.setup(world, 0, 0, radiusTarget);
-    actualRadius=0;
+    anchor.setup(world, 0, 0, actualRadius);
+
     easingInitTime = ofGetElapsedTimef();
-    actualRadius=20;
     state=MOVINGOBJECT;
     stateBefore=START;
     color=ofColor(255);
@@ -32,6 +32,9 @@ void Stern::setup(){
      fadeInitTime= ofGetElapsedTimef();
     fadeTarget=255;
     fadeDuration=3.0f;
+    sternImg.load("bilder/stern.png");
+    screen.set(0,0,ofGetWidth(),ofGetHeight());
+
     
 }
 
@@ -47,7 +50,9 @@ void Stern::update(){
     fadeAlpha = ofxeasing::map_clamp(now, fadeInitTime, endFadeTime, fadeAlpha, fadeTarget, &ofxeasing::linear::easeIn);
     color=ofColor(color,fadeAlpha);
 
-    
+   // anchor.setup(world, 0, 0, radiusTarget);
+    if(actualRadius!=radiusTarget)anchor.setRadius(actualRadius);
+
     
    // move();
     //position+=speed;
@@ -99,7 +104,7 @@ void Stern::draw(){
     ofPushStyle();
     ofTranslate(getPosition().x, getPosition().y);
     ofSetColor(color);
-    ofDrawCircle(0,0,actualRadius);
+    sternImg.draw(-actualRadius,-actualRadius,actualRadius*2,actualRadius*2);
     ofPopStyle();
     ofPopMatrix();
 }
@@ -135,7 +140,7 @@ void Stern::setState(int _state){
         case PHYSICS:
             cout<<"State "<<state<<endl;
             anchor.setPosition(getPosition());
-            anchor.setPhysics(50, 0.5, 0.9);
+            anchor.setPhysics(1, 0.5, 0.9);
             anchor.body->SetType(b2_dynamicBody);
             break;
         case FADEOUT:
@@ -150,4 +155,8 @@ void Stern::setState(int _state){
 
 int Stern::getState(){
     return state;
+}
+
+void Stern::setTargetRadius(int _r){
+    radiusTarget=_r;
 }

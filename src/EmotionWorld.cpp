@@ -87,6 +87,11 @@ void EmotionWorld::update(){
     for(int i=0;i<kreise.size();i++){
         kreise[i]->update();
     }
+    
+    for(int i=0;i<sterne.size();i++){
+        sterne[i]->update();
+    }
+    
     box2d.update();
     
     headposition=ofVec2f(ofGetMouseX(),ofGetMouseY());
@@ -156,6 +161,9 @@ void EmotionWorld::update(){
     ofRemove(triangles, Triangle::shouldRemoveOffScreen);
     ofRemove(anchors, AnchorTriangle::shouldRemoveOffScreen);    
     ofRemove(kreise, Kreis::shouldRemoveFromScreen);
+   
+    ofRemove(sterne, Stern::shouldRemoveFromScreen);
+
   
 }
 
@@ -212,6 +220,10 @@ void EmotionWorld::draw(){
  
     for(int i=0;i<kreise.size();i++){
         kreise[i]->draw();
+    }
+    
+    for(int i=0;i<sterne.size();i++){
+        sterne[i]->draw();
     }
     
     
@@ -666,6 +678,35 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         }
     }
 
+    
+    // Stern
+    if(msg.getAddress() == "/EmotionWorld/push24")
+    {
+        for(int i=0;i<60;i++){
+        sterne.push_back(shared_ptr<Stern>(new Stern));
+        sterne.back().get()->setWorld(box2d.getWorld());
+        sterne.back().get()->bSeekTarget=true;
+        sterne.back().get()->setPosition(headposition.x,headposition.y);
+        sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,headposition.y)));
+        sterne.back().get()->setup();
+        sterne.back().get()->setTargetRadius(ofRandom(5,20));
+
+        }
+    }
+    
+    if(msg.getAddress() == "/EmotionWorld/push25")
+    {
+        for(int i=0;i<sterne.size();i++){
+            sterne[i]->setState(PHYSICS);
+        }
+    }
+    
+    if(msg.getAddress() == "/EmotionWorld/push26")
+    {
+        for(int i=0;i<sterne.size();i++){
+            sterne[i]->setState(FADEOUT);
+        }
+    }
     
 }
 
