@@ -85,6 +85,7 @@ void EmotionWorld::update(){
     }
     
     for(int i=0;i<kreise.size();i++){
+        if(bCircleFollowMouse)kreise[i]->setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
         kreise[i]->update();
     }
     
@@ -353,7 +354,7 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
     }
     
     
-    if(e.key == 'o') {
+   /* if(e.key == 'o') {
        /* MovingObject m;
         m.bSeekTarget=true;
         m.setRadius(10);
@@ -361,23 +362,25 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
         m.setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,ofGetHeight())));
         movingObjects.push_back(m);
         */
-        kreise.push_back(shared_ptr<Kreis>(new Kreis));
+    /*    kreise.push_back(shared_ptr<Kreis>(new Kreis));
         kreise.back().get()->setWorld(box2d.getWorld());
         kreise.back().get()->bSeekTarget=true;
         kreise.back().get()->setRadius(ofRandom(200,500));
         kreise.back().get()->setPosition(headposition.x,headposition.y);
         kreise.back().get()->setTarget(ofVec2f(headposition.x+400,headposition.y));
         kreise.back().get()->setup();
-
-    }
+*/
+  //y  }
     
-    if(e.key=='O'){
-        for(int i=0;i<kreise.size();i++){
+    if(e.key=='o'){
+       /* for(int i=0;i<kreise.size();i++){
             if(kreise[i]->getState()==MOVINGOBJECT){
                 kreise[i]->setState(PHYSICS);
                 break;
             }
-        }
+        }*/
+        bCircleFollowMouse=!bCircleFollowMouse;
+        
     }
     
     if(e.key=='F'){

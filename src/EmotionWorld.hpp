@@ -497,6 +497,8 @@ private:
     
     float gravityX;
     float gravityY;
+    
+    bool bCircleFollowMouse=false;
   
     
 };
