@@ -57,12 +57,14 @@ void LightPointApp::init(){
     mover.scaleTo(size2,0.1);
     
     
+    //string bp = ofSystem("/usr/local/bin/SwitchAudioSource -s 'iRig PRO DUO'");
     
     // Load Bouncesounds
     char* files;
     for(int i=0;i<soundsLength;i++){
         sprintf(files,"BallBounces/Boing%i.wav",i);
         boucesounds[i].load(files);
+        
     }
     
 

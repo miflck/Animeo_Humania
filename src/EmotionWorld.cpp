@@ -580,7 +580,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         hearts.push_back(shared_ptr<Heart>(new Heart));
         hearts.back().get()->setPhysics(3.0, 0.53, 0.1);
         hearts.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
-        hearts.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,-10));
+        hearts.back().get()->setVelocity(ofRandom(5,20), ofRandom(0,-20));
     }
     
     if(msg.getAddress() == "/EmotionWorld/push5")
