@@ -12,7 +12,7 @@
 
 
 
-/*
+
 struct MappedPoints{
     ofVec3f leftHand;
     ofVec3f leftShoulder;
@@ -80,4 +80,4 @@ struct MappedPoints{
         ofDrawLine(leftHip,leftKnee);
         
     }
-};*/
+};

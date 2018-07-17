@@ -321,6 +321,23 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
         addAvatar();
     }
     
+    if(e.key=='R'){
+        avatar.startRecording();
+    }
+    
+    if(e.key=='r'){
+        avatar.stopRecording();
+    }
+    
+    
+    if(e.key=='p'){
+        avatar.startPlayback();
+    }
+    
+    if(e.key=='P'){
+        avatar.stopPlayback();
+    }
+    
 }
 
 

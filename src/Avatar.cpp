@@ -98,8 +98,6 @@ void Avatar::update(){
     
     ofVec2f neckP=head+headOffset+ofVec2f(0,80);
     ofVec2f spineBaseP=neck+ofVec2f(0,120);
-    // r=50.f*sin(ofGetElapsedTimef()*5);
-    // ofVec2f leftEllbowP=neck+ofVec2f(60,60+r);
     ofVec2f leftEllbowP=neck+ofVec2f(60,60);
     ofVec2f leftHandP=leftEllbow+ofVec2f(60,-60);
     ofVec2f rightEllbowP=neck+ofVec2f(-60,60);
@@ -109,15 +107,23 @@ void Avatar::update(){
     ofVec2f rightFootP=rightKnee+ofVec2f(10,60);
     ofVec2f leftFootP=leftKnee+ofVec2f(-10,60);
     
+    
+    // r=50.f*sin(ofGetElapsedTimef()*5);
+    // ofVec2f leftEllbowP=neck+ofVec2f(60,60+r);
+    
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
-    if(mskel.size()>0){
-      //  for(int i=0;i<mskel.size();i++){
-            headP=ofVec2f(mskel[skelettonId].neckLocal*scaler);
+    
+    if(mskel.size()>0&&bRecord){
+        recordedBonesPositions.push_back(mskel[skelettonId]);
+        recordedAvatarPositions.push_back(getPosition());
+    }
 
+    
+    
+    if(mskel.size()>0){
+        headP=ofVec2f(mskel[skelettonId].neckLocal*scaler);
         neckP=mskel[skelettonId].neckLocal*scaler;
         spineBaseP=mskel[skelettonId].spineBaseLocal*scaler;
-        // r=50.f*sin(ofGetElapsedTimef()*5);
-        // ofVec2f leftEllbowP=neck+ofVec2f(60,60+r);
         leftEllbowP=mskel[skelettonId].leftEllbowLocal*1.5*scaler;
         leftHandP=mskel[skelettonId].leftHandLocal*1.5*scaler;
         rightEllbowP=mskel[skelettonId].rightEllbowLocal*1.5*scaler;
@@ -126,35 +132,28 @@ void Avatar::update(){
         leftKneeP=mskel[skelettonId].leftKneeLocal*1.5*scaler;
         rightFootP=mskel[skelettonId].rightFootLocal*1.5*scaler;
         leftFootP=mskel[skelettonId].leftFootLocal*1.5*scaler;
-       
-      //     }
-     /*   head=mskel[0].head;
-        leftHand=ofVec2f(mskel[0].leftHand.x,mskel[0].leftHand.y);
-        leftEllbow=ofVec2f(mskel[0].leftEllbow.x,mskel[0].leftEllbow.y);
-        leftShoulder=ofVec2f(mskel[0].leftShoulder.x,mskel[0].leftShoulder.y);
-        leftHip=mskel[0].leftHip;
-        leftKnee=mskel[0].leftKnee;
-        leftAnkle=mskel[0].leftAnkle;
-        leftFoot=mskel[0].leftFoot;
-        leftWrist=mskel[0].leftWrist;
-        
-        rightHand=ofVec2f(mskel[0].rightHand.x,mskel[0].rightHand.y);
-        rightEllbow=ofVec2f(mskel[0].rightEllbow.x,mskel[0].rightEllbow.y);
-        
-        rightShoulder=ofVec2f(mskel[0].rightShoulder.x,mskel[0].rightShoulder.y);
-        rightHip=mskel[0].rightHip;
-        rightKnee=mskel[0].rightKnee;
-        rightAnkle=mskel[0].rightAnkle;
-        rightFoot=mskel[0].rightFoot;
-        rightWrist=mskel[0].rightWrist;
-        
-        neck=mskel[0].neck;
-        spineBase=ofVec2f(mskel[0].spineBase.x,mskel[0].spineBase.y);
-        spineMid=ofVec2f(mskel[0].spineMid.x,mskel[0].spineMid.y);
-        */
         
     }
-    //else{
+    
+    if(bPlay){
+        headP=ofVec2f(recordedBonesPositions[playhead].neckLocal*scaler);
+        neckP=recordedBonesPositions[playhead].neckLocal*scaler;
+        spineBaseP=recordedBonesPositions[playhead].spineBaseLocal*scaler;
+        leftEllbowP=recordedBonesPositions[playhead].leftEllbowLocal*1.5*scaler;
+        leftHandP=recordedBonesPositions[playhead].leftHandLocal*1.5*scaler;
+        rightEllbowP=recordedBonesPositions[playhead].rightEllbowLocal*1.5*scaler;
+        rightHandP=recordedBonesPositions[playhead].rightHandLocal*1.5*scaler;
+        rightKneeP=recordedBonesPositions[playhead].rightKneeLocal*1.5*scaler;
+        leftKneeP=recordedBonesPositions[playhead].leftKneeLocal*1.5*scaler;
+        rightFootP=recordedBonesPositions[playhead].rightFootLocal*1.5*scaler;
+        leftFootP=recordedBonesPositions[playhead].leftFootLocal*1.5*scaler;
+        
+        playhead=(playhead+1) % (recordedBonesPositions.size()-1);
+        cout<<playhead<<" "<<recordedBonesPositions.size()<<endl;
+        
+        
+        
+    }
         headMover.setTarget(headP);
         head=headMover.getPosition();
         neckMover.setTarget(neckP);
@@ -326,38 +325,7 @@ void Avatar::drawAvatar(){
     }
   
     
-   /* if(mskel.size()>0){
-        
-        ofDrawLine(neck,spineMid);
-        ofDrawLine(spineMid,spineBase);
-        
-        ofDrawLine(spineBase,leftHip);
-        ofDrawLine(spineBase,rightHip);
-        
-        ofDrawLine(rightHip,rightKnee);
-        ofDrawLine(rightKnee,rightFoot);
-        
-        ofDrawLine(leftHip,leftKnee);
-        ofDrawLine(leftKnee,leftFoot);
-        
-        ofSetColor(255);
-        ofDrawCircle(neck,5);
-        ofDrawLine(rightShoulder,leftShoulder);
-        
-        ofDrawLine(leftShoulder,neck);
-        ofDrawCircle(leftShoulder,5);
-        ofDrawLine(leftEllbow,leftShoulder);
-        ofDrawCircle(leftEllbow,5);
-        ofDrawLine(leftHand,leftEllbow);
-
-        ofDrawLine(rightShoulder,neck);
-        ofDrawCircle(rightShoulder,5);
-        ofDrawLine(rightEllbow,rightShoulder);
-        ofDrawCircle(rightEllbow,5);
-        ofDrawLine(rightHand,rightEllbow);
-        ofDrawCircle(rightHand,10);
   
-    }else{*/
         ofSetLineWidth(10);
 
 
@@ -378,21 +346,8 @@ void Avatar::drawAvatar(){
         cp2+=spineBase;
         
 
-      /*  ofNoFill();
-        ofDrawBezier(neck.x,neck.y, cp1.x,cp1.y,cp2.x,cp2.y, spineBase.x,spineBase.y);
-        if(APPC->debug){
-            ofSetColor(255,0,0);
-            ofFill();
-            ofDrawCircle(cp1,5);
-            ofSetColor(255);
-            ofSetColor(255,0,255);
-            ofDrawCircle(cp2,5);
-            ofSetColor(255);
-        }
-    */
     
     ofNoFill();
-    //ofDrawBezier(neck.x,neck.y, spineCP1Mover.getPosition().x, spineCP1Mover.getPosition().y, spineCP2Mover.getPosition().x, spineCP2Mover.getPosition().y, spineBase.x,spineBase.y);
     
     ofPolyline rough;
     ofMesh smooth;
@@ -627,7 +582,11 @@ void Avatar::draw(){
     
     ofPushMatrix();
     ofPushStyle();
-    ofTranslate(getPosition());
+    if(bPlay){
+        ofTranslate(recordedAvatarPositions[playhead]);
+    }else{
+        ofTranslate(getPosition());
+    }
     drawAvatar();
     ofPopStyle();
     ofPopMatrix();
@@ -649,4 +608,24 @@ int Avatar::cycleSkelettonId(){
     setSkelettonId(tempId);
 }
 
+void Avatar::startRecording(){
+    stopPlayback();
+    recordedBonesPositions.clear();
+    recordedAvatarPositions.clear();
+    bRecord=true;
+}
+void Avatar::stopRecording(){
+    bRecord=false;
+
+}
+void Avatar::startPlayback(){
+    if(recordedBonesPositions.size()>0){
+        bPlay=true;
+        playhead=0;
+        
+    }
+}
+void Avatar::stopPlayback(){
+    bPlay=false;
+}
 

@@ -10,7 +10,7 @@
 #include "ofMain.h"
 #include <stdio.h>
 #include "MovingObject.hpp"
-//#include "helper.hpp"
+#include "helper.hpp"
 
 
 
@@ -109,8 +109,18 @@ public:
     
     
     bool bRecord=false;
+    bool bPlay=false;
     
-   // vector<MappedPoints> mappedSkelettons;
+    void startRecording();
+    void stopRecording();
+    
+    
+    void startPlayback();
+    void stopPlayback();
+    
+    vector<MappedPoints> recordedBonesPositions;
+    vector<ofVec2f> recordedAvatarPositions;
+    int playhead=0;
 
     
     
