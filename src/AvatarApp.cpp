@@ -66,7 +66,7 @@ void AvatarApp::update(){
         setSkelettonId(mskel.size()-1);
     }
     
-    if(mskel.size()>0){
+    if(mskel.size()>0 && bindPositionToSkeletton){
         avatar.setTarget(mskel[skelettonId].spineBase+mainAvatarOffset);
     }
     avatar.update();
@@ -416,6 +416,14 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         m.setAddress("/avatar/label21");
         APPC->oscmanager.touchOscSender.sendMessage(m);
     }
+    
+    if(msg.getAddress() == "/avatar/toggle7")
+    {
+        float m=msg.getArgAsBool(0);
+        bindPositionToSkeletton=m;
+    }
+    
+    
     // Main Offset
     if(msg.getAddress() == "/avatar/fader7")
     {

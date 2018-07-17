@@ -161,6 +161,8 @@ private:
     void setSkelettonId(int id);
     int cycleSkelettonId();
     
+    bool bindPositionToSkeletton=false;
+    
 };
 
 
