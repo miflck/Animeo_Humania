@@ -54,6 +54,15 @@ public:
     void toggleMouseActive();
     ofFbo screen;
     
+    
+    
+    void startImitate();
+    void stopImitate();
+    bool bIsImitating=false;
+    
+    void setAvatarReactionSpeed(float _speed);
+    
+    
 private:
     ofxBox2d                                  box2d;   // the box2d world
     ofxBox2dCircle                            anchor;  // fixed anchor

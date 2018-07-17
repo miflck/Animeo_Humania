@@ -59,9 +59,6 @@ void Avatar::setup(){
     
     spineCP1Mover.setMaxSpeed(60);
     spineCP2Mover.setMaxSpeed(60);
-    spineCP1Mover.setSeekForce(10);
-    spineCP2Mover.setSeekForce(10);
-    
     
     leftArmCP1Mover.setMaxSpeed(60);
     leftArmCP2Mover.setMaxSpeed(60);
@@ -74,10 +71,33 @@ void Avatar::setup(){
     
     leftLegCP1Mover.setMaxSpeed(60);
     leftLegCP2Mover.setMaxSpeed(60);
-    
-    
 }
 
+void Avatar::setBoneMoverSpeed(float _speed){
+    
+    for(int i=0;i<movers.size();i++){
+        movers[i]->bSeekTarget=true;
+        movers[i]->setSeekForce(20);
+        movers[i]->setMaxSpeed(_speed);
+        //movers[i]->setSlowDown(false);
+    }
+    
+    spineCP1Mover.setMaxSpeed(_speed/2);
+    spineCP2Mover.setMaxSpeed(_speed/2);
+    
+    leftArmCP1Mover.setMaxSpeed(_speed/2);
+    leftArmCP2Mover.setMaxSpeed(_speed/2);
+    
+    rightArmCP1Mover.setMaxSpeed(_speed/2);
+    rightArmCP2Mover.setMaxSpeed(_speed/2);
+    
+    rightLegCP1Mover.setMaxSpeed(_speed/2);
+    rightLegCP2Mover.setMaxSpeed(_speed/2);
+    
+    leftLegCP1Mover.setMaxSpeed(_speed/2);
+    leftLegCP2Mover.setMaxSpeed(_speed/2);
+    
+}
 
 void Avatar::update(){
     
@@ -86,7 +106,9 @@ void Avatar::update(){
     }
     updateSkeletton();
     play();
+    imitate();
     updateSkelettonMovers();
+    updateBonesPositions();
     move();
    // auto endTime = easingInitTime + scaleDuration;
    // auto now = ofGetElapsedTimef();
@@ -115,25 +137,6 @@ void Avatar::draw(){
 
 
 
-void Avatar::play(){
-    if(bPlay){
-        headP=ofVec2f(recordedBonesPositions[playhead].neckLocal*scaler);
-        neckP=recordedBonesPositions[playhead].neckLocal*scaler;
-        spineBaseP=recordedBonesPositions[playhead].spineBaseLocal*scaler;
-        leftEllbowP=recordedBonesPositions[playhead].leftEllbowLocal*1.5*scaler;
-        leftHandP=recordedBonesPositions[playhead].leftHandLocal*1.5*scaler;
-        rightEllbowP=recordedBonesPositions[playhead].rightEllbowLocal*1.5*scaler;
-        rightHandP=recordedBonesPositions[playhead].rightHandLocal*1.5*scaler;
-        rightKneeP=recordedBonesPositions[playhead].rightKneeLocal*1.5*scaler;
-        leftKneeP=recordedBonesPositions[playhead].leftKneeLocal*1.5*scaler;
-        rightFootP=recordedBonesPositions[playhead].rightFootLocal*1.5*scaler;
-        leftFootP=recordedBonesPositions[playhead].leftFootLocal*1.5*scaler;
-        
-        // update Playhead
-        playhead=(playhead+1) % (recordedBonesPositions.size()-1);
-    }
-    
-}
 
 
 
@@ -175,12 +178,26 @@ void Avatar::stopPlayback(){
 }
 
 
+void Avatar::startImitate(){
+    bIsImitating=true;
+}
+void Avatar::stopImitate(){
+    bIsImitating=false;
+}
+
 void Avatar::updateSkeletton(){
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     
     if(mskel.size()>0&&bRecord){
         recordedBonesPositions.push_back(mskel[skelettonId]);
         recordedAvatarPositions.push_back(getPosition());
+    }
+    
+    if(mskel.size()>0 && bRecordHistory){
+        bonesHistory.push_back(mskel[skelettonId]);
+        if( bonesHistory.size() > historyLength){
+         bonesHistory.erase(bonesHistory.begin(), bonesHistory.begin()+1);
+        }
     }
     
     headP=ofVec2f(0,0);
@@ -210,6 +227,65 @@ void Avatar::updateSkeletton(){
     }
 }
 
+
+void Avatar::play(){
+    if(bPlay){
+        headP=ofVec2f(recordedBonesPositions[playhead].neckLocal*scaler);
+        neckP=recordedBonesPositions[playhead].neckLocal*scaler;
+        spineBaseP=recordedBonesPositions[playhead].spineBaseLocal*scaler;
+        leftEllbowP=recordedBonesPositions[playhead].leftEllbowLocal*1.5*scaler;
+        leftHandP=recordedBonesPositions[playhead].leftHandLocal*1.5*scaler;
+        rightEllbowP=recordedBonesPositions[playhead].rightEllbowLocal*1.5*scaler;
+        rightHandP=recordedBonesPositions[playhead].rightHandLocal*1.5*scaler;
+        rightKneeP=recordedBonesPositions[playhead].rightKneeLocal*1.5*scaler;
+        leftKneeP=recordedBonesPositions[playhead].leftKneeLocal*1.5*scaler;
+        rightFootP=recordedBonesPositions[playhead].rightFootLocal*1.5*scaler;
+        leftFootP=recordedBonesPositions[playhead].leftFootLocal*1.5*scaler;
+        
+        // update Playhead
+        playhead=(playhead+1) % (recordedBonesPositions.size()-1);
+    }
+    
+}
+
+
+void Avatar::imitate(){
+    if(bIsImitating){
+        headP=ofVec2f(siblingBonesPositions.neckLocal);
+        neckP=siblingBonesPositions.neckLocal;
+        spineBaseP=siblingBonesPositions.spineBaseLocal;
+        leftEllbowP=siblingBonesPositions.leftEllbowLocal;
+        leftHandP=siblingBonesPositions.leftHandLocal;
+        rightEllbowP=siblingBonesPositions.rightEllbowLocal;
+        rightHandP=siblingBonesPositions.rightHandLocal;
+        rightKneeP=siblingBonesPositions.rightKneeLocal;
+        leftKneeP=siblingBonesPositions.leftKneeLocal;
+        rightFootP=siblingBonesPositions.rightFootLocal;
+        leftFootP=siblingBonesPositions.leftFootLocal;
+    }
+    
+}
+
+void Avatar::updateBonesPositions(){
+    actualBonesPositions.neckLocal=neck;
+    actualBonesPositions.spineBaseLocal=spineBase;
+    actualBonesPositions.leftEllbowLocal=leftEllbow;
+    actualBonesPositions.leftHandLocal=leftHand;
+    actualBonesPositions.rightEllbowLocal=rightEllbow;
+    actualBonesPositions.rightHandLocal=rightHand;
+    actualBonesPositions.rightKneeLocal=rightKnee;
+    actualBonesPositions.leftKneeLocal=leftKnee;
+    actualBonesPositions.rightFootLocal=rightFoot;
+    actualBonesPositions.leftFootLocal=leftFoot;
+}
+
+MappedPoints Avatar::getBonesPositions(){
+    return actualBonesPositions;
+}
+
+void Avatar::setSiblingBones(MappedPoints _bones){
+    siblingBonesPositions=_bones;
+}
 
 void Avatar::updateSkelettonMovers(){
     headMover.setTarget(headP);
@@ -242,6 +318,11 @@ void Avatar::updateSkelettonMovers(){
     
     leftFootMover.setTarget(leftFootP);
     leftFoot=leftFootMover.getPosition();
+    
+    
+    
+    
+    
     
     
     //ARM Mover

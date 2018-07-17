@@ -31,9 +31,19 @@ public:
     
     virtual void updateSkeletton();
     virtual void updateSkelettonMovers();
+    virtual void updateBonesPositions();
 
     virtual void draw();
     virtual void drawAvatar();
+    
+    MappedPoints getBonesPositions();
+    virtual void setSiblingBones(MappedPoints _bones);
+
+    
+    
+    void setBoneMoverSpeed(float _speed);
+    
+    //void setSibling(Avatar *a);
 
 
     // draw stuff
@@ -49,6 +59,13 @@ public:
     bool bRecord=false;
     bool bPlay=false;
     
+    
+    
+    void startImitate();
+    void stopImitate();
+    void imitate();
+    bool bIsImitating=false;
+    
     void startRecording();
     void stopRecording();
     
@@ -57,6 +74,11 @@ public:
     void play();
     
     vector<MappedPoints> recordedBonesPositions;
+    
+    vector<MappedPoints> bonesHistory;
+    float historyLength=500;
+    bool bRecordHistory=false;
+    
     vector<ofVec2f> recordedAvatarPositions;
     int playhead=0;
 
@@ -134,6 +156,10 @@ private:
     MovingObject rightLegCP2Mover;
     
     vector<MovingObject*>movers;
+    
+    MappedPoints actualBonesPositions;
+    MappedPoints siblingBonesPositions;
+
    
 };
 

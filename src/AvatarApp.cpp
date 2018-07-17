@@ -73,10 +73,13 @@ void AvatarApp::update(){
     box2d.update();
   
     if(avatars.size()>0){
-        avatars[0]->setTarget(avatar.getPosition());
+        avatars[0]->setTarget(avatar.getPosition()-avatarOffset);
+        avatars[0]->setSiblingBones(avatar.getBonesPositions());
         avatars[0]->update();
+
         for(int i=1;i<avatars.size();i++){
             avatars[i]->setTarget(avatars[i-1]->getPosition()-avatarOffset);
+            avatars[i]->setSiblingBones(avatars[i-1]->getBonesPositions());//setSiblingBones(avatars[i-1]->getBonesPositions());
             avatars[i]->update();
         }
     }
@@ -299,6 +302,31 @@ int AvatarApp::cycleSkelettonId(){
 }
 
 
+void AvatarApp::startImitate(){
+    bIsImitating=true;
+        for(int i=0;i<avatars.size();i++){
+            avatars[i]->startImitate();
+        }
+    setAvatarReactionSpeed(60);
+}
+void AvatarApp::stopImitate(){
+    bIsImitating=false;
+    
+    for(int i=0;i<avatars.size();i++){
+        avatars[i]->stopImitate();
+    }
+    setAvatarReactionSpeed(150);
+
+    
+}
+void AvatarApp::setAvatarReactionSpeed(float _speed){
+    for(int i=0;i<avatars.size();i++){
+        avatars[i]->setBoneMoverSpeed(_speed);
+    }
+}
+
+
+
 //KEY LISTENER
 //--------------------------------------------------------------
 void AvatarApp::keyPressed(ofKeyEventArgs &e){
@@ -337,6 +365,14 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
     if(e.key=='P'){
         avatar.stopPlayback();
     }
+    
+    if(e.key=='i'){
+        startImitate();
+    }
+    if(e.key=='I'){
+        stopImitate();
+    }
+    
     
 }
 
@@ -449,6 +485,13 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         mainAvatarOffset.set(x,0);
     }
    
+    // reaction speed
+    if(msg.getAddress() == "/avatar/fader8")
+    {
+        float x=msg.getArgAsFloat(0);
+        x=ofMap(x,0,1,20,150);
+        setAvatarReactionSpeed(x);
+    }
     
 }
 
