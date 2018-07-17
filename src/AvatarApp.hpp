@@ -149,6 +149,10 @@ private:
 
     
     ofVec2f avatarOffset;
+    ofVec2f mainAvatarOffset;
+
+    
+    
     void onMessageReceived(ofxOscMessage &msg);
     
     

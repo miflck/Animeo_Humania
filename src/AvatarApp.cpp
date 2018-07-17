@@ -48,6 +48,9 @@ void AvatarApp::init(){
     
     avatar.setup();
     avatar.bSeekTarget=true;
+    
+    mainAvatarOffset.set(0,0);
+    
     avatarOffset.set(250,0);
     
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &AvatarApp::onMessageReceived);
@@ -64,7 +67,7 @@ void AvatarApp::update(){
     }
     
     if(mskel.size()>0){
-        avatar.setTarget(mskel[skelettonId].spineBase);
+        avatar.setTarget(mskel[skelettonId].spineBase+mainAvatarOffset);
     }
     avatar.update();
     box2d.update();
@@ -255,9 +258,7 @@ void AvatarApp::addAvatar(){
     a->bSeekTarget=true;
     a->setSeekForce(50);
     a->setMaxSpeed(100);
-
     avatars.push_back(a);
-    
 }
 
 
@@ -415,7 +416,13 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         m.setAddress("/avatar/label21");
         APPC->oscmanager.touchOscSender.sendMessage(m);
     }
-    
+    // Main Offset
+    if(msg.getAddress() == "/avatar/fader7")
+    {
+        float x=msg.getArgAsFloat(0);
+        x=ofMap(x,-1,1,-500,500);
+        mainAvatarOffset.set(x,0);
+    }
    
     
 }
