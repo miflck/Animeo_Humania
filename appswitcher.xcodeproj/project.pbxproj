@@ -131,6 +131,7 @@
 		FA2BE50520DB8A0C008FD2CD /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA2BE50120DB8A0C008FD2CD /* OrthoCamera.cpp */; };
 		FA7300BAC71DAC1ABAF6EE15 /* b2Fixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774DDD1B3F05D3FDF0D37794 /* b2Fixture.cpp */; };
 		FA7CD91720E0E7300087B055 /* Flash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA7CD91520E0E72F0087B055 /* Flash.cpp */; };
+		FAB0AF3220FDE18C002F7FA7 /* helper.hpp in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AF3120FDE18C002F7FA7 /* helper.hpp */; };
 		FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21BDE665988474F1B1F4D302 /* jsoncpp.cpp */; };
 /* End PBXBuildFile section */
 
@@ -435,6 +436,7 @@
 		FA784162B6A8E3A77BBE4D6C /* b2TimeStep.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = b2TimeStep.h; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/b2TimeStep.h; sourceTree = SOURCE_ROOT; };
 		FA7CD91520E0E72F0087B055 /* Flash.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Flash.cpp; sourceTree = "<group>"; };
 		FA7CD91620E0E72F0087B055 /* Flash.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Flash.hpp; sourceTree = "<group>"; };
+		FAB0AF3120FDE18C002F7FA7 /* helper.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = helper.hpp; sourceTree = "<group>"; };
 		FD20B1FFE795860DB1C68BF2 /* b2ChainAndCircleContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2ChainAndCircleContact.cpp; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp; sourceTree = SOURCE_ROOT; };
 		FF2B018E24837032A4878576 /* ofxEasing.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasing.h; path = ../../../addons/ofxEasing/src/ofxEasing.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -1018,6 +1020,7 @@
 				FA7CD91620E0E72F0087B055 /* Flash.hpp */,
 				D02B304990972A5ADF178C68 /* TestApplication.cpp */,
 				E0EF46E0B4F3388921961F35 /* TestApplication.hpp */,
+				FAB0AF3120FDE18C002F7FA7 /* helper.hpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1337,6 +1340,7 @@
 				FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */,
 				FA2BE50320DB8A0C008FD2CD /* Grid.cpp in Sources */,
 				045CDF359630386A720A2524 /* ofxJsonSettings.cpp in Sources */,
+				FAB0AF3220FDE18C002F7FA7 /* helper.hpp in Sources */,
 				DF0E23207448D9B0A01099DE /* Hand.cpp in Sources */,
 				C0788BDE2AA497B48C2B6F85 /* Interpreter.cpp in Sources */,
 				8B4B9605C076F9088F028D61 /* Joint.cpp in Sources */,

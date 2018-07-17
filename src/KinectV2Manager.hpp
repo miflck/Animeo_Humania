@@ -16,6 +16,7 @@
 
 
 #include "OrthoCamera.h"
+#include "helper.hpp"
 
 
 #define KINECTMANAGER KinectV2Manager::getInstance()
@@ -25,8 +26,8 @@
 
 
 
+
 struct MappedPoints{
-    
     ofVec3f leftHand;
     ofVec3f leftShoulder;
     ofVec3f leftEllbow;
@@ -35,7 +36,7 @@ struct MappedPoints{
     ofVec3f leftKnee;
     ofVec3f leftAnkle;
     ofVec3f leftFoot;
-
+    
     ofVec3f rightHand;
     ofVec3f rightShoulder;
     ofVec3f rightEllbow;
@@ -76,35 +77,25 @@ struct MappedPoints{
     ofVec3f spineBaseLocal;
     ofVec3f spineMidLocal;
     
-    
-    
     void drawSkeletton(){
         ofDrawCircle(leftHand,20);
         ofDrawLine(leftHand,leftEllbow);
         ofDrawLine(leftEllbow,leftShoulder);
         ofDrawCircle(head,20);
-
         ofDrawLine(leftShoulder,neck);
-        
         ofDrawCircle(rightHand,20);
-
-        
         ofDrawLine(rightHand,rightEllbow);
         ofDrawLine(rightEllbow,rightShoulder);
         ofDrawLine(rightShoulder,neck);
         ofDrawLine(neck,spineMid);
         ofDrawLine(spineMid,leftHip);
         ofDrawLine(spineMid,rightHip);
-        
         ofDrawLine(rightHip,rightKnee);
-      //  ofDrawLine(rightKnee,rightAnkle);
-        
         ofDrawLine(leftHip,leftKnee);
-     //   ofDrawLine(leftKnee,leftAnkle);
-
-
+        
     }
 };
+
 
 
 class KinectV2Manager {

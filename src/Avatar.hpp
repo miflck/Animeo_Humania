@@ -10,6 +10,7 @@
 #include "ofMain.h"
 #include <stdio.h>
 #include "MovingObject.hpp"
+//#include "helper.hpp"
 
 
 
@@ -99,12 +100,19 @@ public:
     
     
     float scaler=-200;
-    
 
     // Skeletton choose
     int skelettonId=0;
     void setSkelettonId(int id);
     int cycleSkelettonId();
+    
+    
+    
+    bool bRecord=false;
+    
+   // vector<MappedPoints> mappedSkelettons;
+
+    
     
 private:
    
