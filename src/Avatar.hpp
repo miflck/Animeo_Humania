@@ -26,13 +26,43 @@ public:
     virtual ~Avatar();
     
     
-    void setup();
-    void update();
-    void draw();
+    virtual void setup();
+    virtual void update();
     
-    int strokeWeight=6;
+    virtual void updateSkeletton();
+    virtual void updateSkelettonMovers();
+
+    virtual void draw();
+    virtual void drawAvatar();
+
+
+    // draw stuff
+    int avatarLineWidth=10;
+    float scaler=-200;
+
+    // Skeletton choose
+    int skelettonId=0;
+    void setSkelettonId(int id);
+    int cycleSkelettonId();
+
+    // RECORDING
+    bool bRecord=false;
+    bool bPlay=false;
+    
+    void startRecording();
+    void stopRecording();
+    
+    void startPlayback();
+    void stopPlayback();
+    void play();
+    
+    vector<MappedPoints> recordedBonesPositions;
+    vector<ofVec2f> recordedAvatarPositions;
+    int playhead=0;
+
     
     
+private:
     ofVec2f leftHand;
     ofVec2f leftShoulder;
     ofVec2f leftEllbow;
@@ -56,26 +86,37 @@ public:
     ofVec2f spineBase;
     ofVec2f spineMid;
     
-    
-    void drawAvatar();
+    ofVec2f headP;
+    ofVec2f neckP;
+    ofVec2f spineBaseP;
+    ofVec2f leftEllbowP;
+    ofVec2f leftHandP;
+    ofVec2f rightEllbowP;
+    ofVec2f rightHandP;
+    ofVec2f rightKneeP;
+    ofVec2f leftKneeP;
+    ofVec2f rightFootP;
+    ofVec2f leftFootP;
     
     ofVec2f headOffset;
-    MovingObject headMover;
+    
+    
+    //MovingObject absolutePosition;
 
+    MovingObject headMover;
     MovingObject leftHandMover;
     MovingObject leftEllbowMover;
     MovingObject neckMover;
     
     MovingObject rightHandMover;
     MovingObject rightEllbowMover;
-
+    
     MovingObject spineBaseMover;
     MovingObject leftKneeMover;
-     MovingObject leftFootMover;
+    MovingObject leftFootMover;
     
     MovingObject rightKneeMover;
     MovingObject rightFootMover;
-    
     
     MovingObject leftArmCP1Mover;
     MovingObject leftArmCP2Mover;
@@ -93,38 +134,6 @@ public:
     MovingObject rightLegCP2Mover;
     
     vector<MovingObject*>movers;
-    
-
-    
-    MovingObject absolutePosition;
-    
-    
-    float scaler=-200;
-
-    // Skeletton choose
-    int skelettonId=0;
-    void setSkelettonId(int id);
-    int cycleSkelettonId();
-    
-    
-    
-    bool bRecord=false;
-    bool bPlay=false;
-    
-    void startRecording();
-    void stopRecording();
-    
-    
-    void startPlayback();
-    void stopPlayback();
-    
-    vector<MappedPoints> recordedBonesPositions;
-    vector<ofVec2f> recordedAvatarPositions;
-    int playhead=0;
-
-    
-    
-private:
    
 };
 
