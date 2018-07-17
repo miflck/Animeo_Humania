@@ -150,8 +150,12 @@ private:
     
     ofVec2f avatarOffset;
     void onMessageReceived(ofxOscMessage &msg);
-
-
+    
+    
+    // Skeletton choose
+    int skelettonId=0;
+    void setSkelettonId(int id);
+    int cycleSkelettonId();
     
 };
 

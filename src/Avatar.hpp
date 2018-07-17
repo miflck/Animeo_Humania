@@ -96,8 +96,15 @@ public:
 
     
     MovingObject absolutePosition;
-
     
+    
+    float scaler=-200;
+    
+
+    // Skeletton choose
+    int skelettonId=0;
+    void setSkelettonId(int id);
+    int cycleSkelettonId();
     
 private:
    

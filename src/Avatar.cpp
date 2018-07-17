@@ -86,7 +86,6 @@ void Avatar::update(){
     
     rightLegCP1Mover.move();
     rightLegCP2Mover.move();
-    
     leftLegCP1Mover.move();
     leftLegCP2Mover.move();
     
@@ -111,25 +110,24 @@ void Avatar::update(){
     ofVec2f leftFootP=leftKnee+ofVec2f(-10,60);
     
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
-    float scaler=-200;
     if(mskel.size()>0){
-        for(int i=0;i<mskel.size();i++){
-            headP=ofVec2f(mskel[0].neckLocal*scaler);
+      //  for(int i=0;i<mskel.size();i++){
+            headP=ofVec2f(mskel[skelettonId].neckLocal*scaler);
 
-        neckP=mskel[0].neckLocal*scaler;
-        spineBaseP=mskel[0].spineBaseLocal*scaler;
+        neckP=mskel[skelettonId].neckLocal*scaler;
+        spineBaseP=mskel[skelettonId].spineBaseLocal*scaler;
         // r=50.f*sin(ofGetElapsedTimef()*5);
         // ofVec2f leftEllbowP=neck+ofVec2f(60,60+r);
-        leftEllbowP=mskel[0].leftEllbowLocal*1.5*scaler;
-        leftHandP=mskel[0].leftHandLocal*1.5*scaler;
-        rightEllbowP=mskel[0].rightEllbowLocal*1.5*scaler;
-        rightHandP=mskel[0].rightHandLocal*1.5*scaler;
-        rightKneeP=mskel[0].rightKneeLocal*1.5*scaler;
-        leftKneeP=mskel[0].leftKneeLocal*1.5*scaler;
-        rightFootP=mskel[0].rightFootLocal*1.5*scaler;
-        leftFootP=mskel[0].leftFootLocal*1.5*scaler;
+        leftEllbowP=mskel[skelettonId].leftEllbowLocal*1.5*scaler;
+        leftHandP=mskel[skelettonId].leftHandLocal*1.5*scaler;
+        rightEllbowP=mskel[skelettonId].rightEllbowLocal*1.5*scaler;
+        rightHandP=mskel[skelettonId].rightHandLocal*1.5*scaler;
+        rightKneeP=mskel[skelettonId].rightKneeLocal*1.5*scaler;
+        leftKneeP=mskel[skelettonId].leftKneeLocal*1.5*scaler;
+        rightFootP=mskel[skelettonId].rightFootLocal*1.5*scaler;
+        leftFootP=mskel[skelettonId].leftFootLocal*1.5*scaler;
        
-           }
+      //     }
      /*   head=mskel[0].head;
         leftHand=ofVec2f(mskel[0].leftHand.x,mskel[0].leftHand.y);
         leftEllbow=ofVec2f(mskel[0].leftEllbow.x,mskel[0].leftEllbow.y);
@@ -633,6 +631,22 @@ void Avatar::draw(){
     drawAvatar();
     ofPopStyle();
     ofPopMatrix();
+}
+
+
+void Avatar::setSkelettonId(int id){
+    skelettonId= id;
+}
+
+int Avatar::cycleSkelettonId(){
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+
+    int actId=skelettonId;
+    int tempId=0;
+    if(mskel.size()>actId+1){
+        tempId=actId+1;
+    }
+    setSkelettonId(tempId);
 }
 
 
