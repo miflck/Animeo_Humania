@@ -32,16 +32,12 @@ void AvatarApp::init(){
     box2d.setFPS(60.0);
     box2d.registerGrabbing();
     
-    
-   
     screen.allocate(1920,1080, GL_RGB);
     screen.begin();
     ofClear(0,0,0,0);
     screen.end();
     
-    
     facePosition=ofVec2f(ofGetWidth()/3,ofGetHeight()/2);
-    
     mouthCenterPosition=ofVec2f(0,150);
     leftMouth=ofVec2f(200,0);
     rightMouth=ofVec2f(-200,0);
@@ -52,6 +48,9 @@ void AvatarApp::init(){
     
     avatar.setup();
     avatar.bSeekTarget=true;
+    
+    mainAvatarOffset.set(0,0);
+    
     avatarOffset.set(250,0);
     
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &AvatarApp::onMessageReceived);
@@ -60,22 +59,22 @@ void AvatarApp::init(){
 }
 
 void AvatarApp::update(){
-  //  avatar.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
-    
     
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
-    if(mskel.size()>0){
-        avatar.setTarget(mskel[0].spineBase);
+    
+    if(mskel.size()-1<skelettonId){
+        setSkelettonId(mskel.size()-1);
     }
     
-    
+    if(mskel.size()>0 && bindPositionToSkeletton){
+        avatar.setTarget(mskel[skelettonId].spineBase+mainAvatarOffset);
+    }
     avatar.update();
     box2d.update();
   
     if(avatars.size()>0){
         avatars[0]->setTarget(avatar.getPosition());
         avatars[0]->update();
-
         for(int i=1;i<avatars.size();i++){
             avatars[i]->setTarget(avatars[i-1]->getPosition()-avatarOffset);
             avatars[i]->update();
@@ -87,32 +86,32 @@ void AvatarApp::update(){
     
     if(mskel.size()>0){
         
-        head=mskel[0].head;
+        head=mskel[skelettonId].head;
         
-        leftHand=ofVec2f(mskel[0].leftHand.x,mskel[0].leftHand.y);
-        leftEllbow=ofVec2f(mskel[0].leftEllbow.x,mskel[0].leftEllbow.y);
-        leftShoulder=ofVec2f(mskel[0].leftShoulder.x,mskel[0].leftShoulder.y);
-        leftHip=mskel[0].leftHip;
-        leftKnee=mskel[0].leftKnee;
-        leftAnkle=mskel[0].leftAnkle;
-        leftFoot=mskel[0].leftFoot;
-        leftWrist=mskel[0].leftWrist;
+        leftHand=ofVec2f(mskel[skelettonId].leftHand.x,mskel[skelettonId].leftHand.y);
+        leftEllbow=ofVec2f(mskel[skelettonId].leftEllbow.x,mskel[skelettonId].leftEllbow.y);
+        leftShoulder=ofVec2f(mskel[skelettonId].leftShoulder.x,mskel[skelettonId].leftShoulder.y);
+        leftHip=mskel[skelettonId].leftHip;
+        leftKnee=mskel[skelettonId].leftKnee;
+        leftAnkle=mskel[skelettonId].leftAnkle;
+        leftFoot=mskel[skelettonId].leftFoot;
+        leftWrist=mskel[skelettonId].leftWrist;
 
         
-        rightHand=ofVec2f(mskel[0].rightHand.x,mskel[0].rightHand.y);
-        rightEllbow=ofVec2f(mskel[0].rightEllbow.x,mskel[0].rightEllbow.y);
+        rightHand=ofVec2f(mskel[skelettonId].rightHand.x,mskel[skelettonId].rightHand.y);
+        rightEllbow=ofVec2f(mskel[skelettonId].rightEllbow.x,mskel[skelettonId].rightEllbow.y);
 
-        rightShoulder=ofVec2f(mskel[0].rightShoulder.x,mskel[0].rightShoulder.y);
-        rightHip=mskel[0].rightHip;
-        rightKnee=mskel[0].rightKnee;
-        rightAnkle=mskel[0].rightAnkle;
-        rightFoot=mskel[0].rightFoot;
-        rightWrist=mskel[0].rightWrist;
+        rightShoulder=ofVec2f(mskel[skelettonId].rightShoulder.x,mskel[skelettonId].rightShoulder.y);
+        rightHip=mskel[skelettonId].rightHip;
+        rightKnee=mskel[skelettonId].rightKnee;
+        rightAnkle=mskel[skelettonId].rightAnkle;
+        rightFoot=mskel[skelettonId].rightFoot;
+        rightWrist=mskel[skelettonId].rightWrist;
 
         
-        neck=mskel[0].neck;
-        spineBase=ofVec2f(mskel[0].spineBase.x,mskel[0].spineBase.y);
-        spineMid=ofVec2f(mskel[0].spineMid.x,mskel[0].spineMid.y);
+        neck=mskel[skelettonId].neck;
+        spineBase=ofVec2f(mskel[skelettonId].spineBase.x,mskel[skelettonId].spineBase.y);
+        spineMid=ofVec2f(mskel[skelettonId].spineMid.x,mskel[skelettonId].spineMid.y);
         
         
         leftHandMover.setTarget(leftHand);
@@ -131,11 +130,9 @@ void AvatarApp::update(){
 
 
 void AvatarApp::draw(){
-    cout<<avatars.size()<<endl;
     
     if(avatars.size()>0){
         for(int i=avatars.size()-1;i>=0;i--){
-            cout<<"i"<<i<<endl;
             avatars[i]->draw();
         }
     }
@@ -261,9 +258,7 @@ void AvatarApp::addAvatar(){
     a->bSeekTarget=true;
     a->setSeekForce(50);
     a->setMaxSpeed(100);
-
     avatars.push_back(a);
-    
 }
 
 
@@ -275,6 +270,32 @@ void AvatarApp::removeAvatar(){
         delete avatars[0];
         avatars.erase( avatars.begin());
     }
+}
+
+
+void AvatarApp::setSkelettonId(int id){
+    skelettonId= id;
+    avatar.setSkelettonId(skelettonId);
+    for(int i=0;i<avatars.size();i++){
+        avatars[i]->setSkelettonId(skelettonId);
+    }
+    
+    ofxOscMessage m;
+    m.addIntArg(skelettonId);
+    m.setAddress("/avatar/label21");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+    
+}
+
+int AvatarApp::cycleSkelettonId(){
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+
+    int actId=skelettonId;
+    int tempId=0;
+    if(mskel.size()>actId+1){
+        tempId=actId+1;
+    }
+    setSkelettonId(tempId);
 }
 
 
@@ -298,6 +319,23 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
     
     if(e.key=='a'){
         addAvatar();
+    }
+    
+    if(e.key=='R'){
+        avatar.startRecording();
+    }
+    
+    if(e.key=='r'){
+        avatar.stopRecording();
+    }
+    
+    
+    if(e.key=='p'){
+        avatar.startPlayback();
+    }
+    
+    if(e.key=='P'){
+        avatar.stopPlayback();
     }
     
 }
@@ -387,6 +425,29 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         removeAvatar();
     }
     
+    if(msg.getAddress() == "/avatar/push21")
+    {
+        cycleSkelettonId();
+        ofxOscMessage m;
+        m.addIntArg(skelettonId);
+        m.setAddress("/avatar/label21");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    if(msg.getAddress() == "/avatar/toggle7")
+    {
+        float m=msg.getArgAsBool(0);
+        bindPositionToSkeletton=m;
+    }
+    
+    
+    // Main Offset
+    if(msg.getAddress() == "/avatar/fader7")
+    {
+        float x=msg.getArgAsFloat(0);
+        x=ofMap(x,-1,1,-500,500);
+        mainAvatarOffset.set(x,0);
+    }
    
     
 }

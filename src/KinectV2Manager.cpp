@@ -136,14 +136,10 @@ void KinectV2Manager::update(){
 
     
         MappedPoints m;
-        
         ofVec3f intersection;
         ofVec3f screenpos;
         
         vector<double> l=skeletons->at(i).getHandLeftLocal();
-        
-      
-        
         ofVec3f leftHand = skeletons->at(i).getHandLeft().getPoint();
         
         ofVec3f leftShoulder = skeletons->at(i).getShoulderLeft().getPoint();

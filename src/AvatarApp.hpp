@@ -149,9 +149,19 @@ private:
 
     
     ofVec2f avatarOffset;
+    ofVec2f mainAvatarOffset;
+
+    
+    
     void onMessageReceived(ofxOscMessage &msg);
-
-
+    
+    
+    // Skeletton choose
+    int skelettonId=0;
+    void setSkelettonId(int id);
+    int cycleSkelettonId();
+    
+    bool bindPositionToSkeletton=false;
     
 };
 

@@ -10,6 +10,7 @@
 #include "ofMain.h"
 #include <stdio.h>
 #include "MovingObject.hpp"
+#include "helper.hpp"
 
 
 
@@ -96,6 +97,30 @@ public:
 
     
     MovingObject absolutePosition;
+    
+    
+    float scaler=-200;
+
+    // Skeletton choose
+    int skelettonId=0;
+    void setSkelettonId(int id);
+    int cycleSkelettonId();
+    
+    
+    
+    bool bRecord=false;
+    bool bPlay=false;
+    
+    void startRecording();
+    void stopRecording();
+    
+    
+    void startPlayback();
+    void stopPlayback();
+    
+    vector<MappedPoints> recordedBonesPositions;
+    vector<ofVec2f> recordedAvatarPositions;
+    int playhead=0;
 
     
     
