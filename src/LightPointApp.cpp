@@ -24,6 +24,10 @@ void LightPointApp::init(){
     ofAddListener(APPC->oscmanager.onOSCSetup, this, &LightPointApp::onOSCSetup);
 
     cout<<"init LightPointApp"<<endl;
+    
+
+    
+    
     bAddedListeners = false;
     mover.setup();
     mover.setTarget(ofVec2f(ofGetWidth(),ofGetHeight()));
@@ -46,8 +50,6 @@ void LightPointApp::init(){
     homeposition=&Settings::getVec2("LightPointApp/homeposition");
     startposition=&Settings::getVec2("LightPointApp/startposition");
     scaredposition=&Settings::getVec2("LightPointApp/scaredposition");
-
-    
     cabinposition=&Settings::getVec2("LightPointApp/cabinposition");
     cabindimension=&Settings::getVec2("LightPointApp/cabindimension");
 
@@ -59,14 +61,13 @@ void LightPointApp::init(){
     
     //string bp = ofSystem("/usr/local/bin/SwitchAudioSource -s 'iRig PRO DUO'");
     
+
     // Load Bouncesounds
-    char* files;
+   /* char* files;
     for(int i=0;i<soundsLength;i++){
         sprintf(files,"BallBounces/Boing%i.wav",i);
         boucesounds[i].load(files);
-        
-    }
-    
+    }*/
 
     
 
@@ -214,7 +215,7 @@ bool LightPointApp::bounceFromCabin(){
             sReflected*=-1;
             mover.setSpeed(speed.x, sReflected.y);
             
-            playRandomSound();
+            //playRandomSound();
         }
         
     }
@@ -232,7 +233,7 @@ bool LightPointApp::bounceFromCabin(){
             ofVec2f sReflected=speed;
             sReflected*=-1;
             mover.setSpeed(sReflected.x, speed.y);
-            playRandomSound();
+            //playRandomSound();
 
         }
         //check for right collision:
@@ -245,7 +246,7 @@ bool LightPointApp::bounceFromCabin(){
             ofVec2f sReflected=speed;
             sReflected*=-1;
             mover.setSpeed(sReflected.x, speed.y);
-            playRandomSound();
+            //playRandomSound();
 
         }
     }
@@ -320,7 +321,7 @@ void LightPointApp::exit(){
 void LightPointApp::playRandomSound(){
     int randNum;
     randNum=(int)(ofRandom(0,soundsLength));
-boucesounds[randNum].play();
+    boucesounds[randNum].play();
 }
 
 

@@ -62,8 +62,13 @@ public:
     
     void setBigEyes();
     void setSmallEyes();
-
+    bool bHasEyes=false;
+    bool bHasMouth=false;
+    bool bHasCheecks=false;
+    bool bHasHair=false;
     
+    int bigEyeRadius=50;
+    int smallEyeRadius=10;
     
     //
     ofVec2f *startposition;

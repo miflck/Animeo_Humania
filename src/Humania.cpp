@@ -28,7 +28,7 @@ void Humania::setup(){
     actualHeadRadius=0;
     setPosition(ofGetWidth()/3,ofGetHeight()/2);
     setTarget(ofVec2f(2*ofGetWidth()/3,ofGetHeight()/2));
-    startposition=&Settings::getVec2("Humania/startposition");
+    startposition=&Settings::getVec2("humania/startposition");
    // startposition=&Settings::getVec2("LightPointApp/homeposition");
 
     
@@ -46,6 +46,12 @@ void Humania::setup(){
     actualEyeDiameter=0;
     
     
+     bHasEyes=false;
+     bHasMouth=false;
+     bHasCheecks=false;
+     bHasHair=false;
+    
+    
 }
 
 
@@ -58,10 +64,14 @@ void Humania::update(){
     actualHeadRadius = ofxeasing::map_clamp(now, headEasingInitTime, headEasingEndTime, actualHeadRadius, headRadiusTarget, &ofxeasing::linear::easeIn);
     
     auto eyeEasingEndTime = eyeEasingInitTime + eyeEasingDuration;
+    
+    
     actualEyeRadius = ofxeasing::map_clamp(now, eyeEasingInitTime, eyeEasingEndTime, actualEyeRadius, eyeRadiusTarget, &ofxeasing::linear::easeIn);
-    
     actualEyeDiameter= ofxeasing::map_clamp(now, eyeEasingInitTime, eyeEasingEndTime, actualEyeDiameter, eyeDiameterTarget, &ofxeasing::linear::easeIn);
-    
+
+    if(!bHasEyes && (actualEyeRadius==bigEyeRadius)){
+        bHasEyes=true;
+    }
     
     switch (state) {
             
@@ -78,6 +88,7 @@ void Humania::update(){
             
         case AVATAR:
             Avatar::update();
+            move();
             //updateFace();
 
             break;
@@ -110,9 +121,9 @@ void Humania::draw(){
             break;
             
         case AVATAR:
-            //Avatar::draw();
+            Avatar::draw();
             
-            
+            /*
             ofPushMatrix();
             ofPushStyle();
             if(bPlay){
@@ -123,7 +134,7 @@ void Humania::draw(){
             drawAvatar();
             ofPopStyle();
             ofPopMatrix();
-            
+            */
             break;
             
         default:
@@ -164,7 +175,6 @@ void Humania::setState(int _state){
             break;
             
         case FACE:
-            
             resetToStart();
             headEasingInitTime= ofGetElapsedTimef();
             headRadiusTarget=300;
@@ -188,16 +198,17 @@ int Humania::getState(){
 
 void Humania::setSmallEyes(){
     eyeEasingInitTime=ofGetElapsedTimef();
-    eyeRadiusTarget=10;
-    eyeDiameterTarget=10;
+    eyeRadiusTarget=smallEyeRadius;
+    eyeDiameterTarget=smallEyeRadius;
+    //actualEyeDiameter=50;
+
 }
 
 void Humania::setBigEyes(){
-    eyeRadiusTarget=50;
+    eyeRadiusTarget=bigEyeRadius;
     eyeEasingInitTime=ofGetElapsedTimef();
-    
-    eyeDiameterTarget=50;
-    actualEyeDiameter=50;
+    eyeDiameterTarget=bigEyeRadius;
+    actualEyeDiameter=bigEyeRadius;
 }
 
 void Humania::saveStartposition(ofVec2f _p){
@@ -293,7 +304,7 @@ void Humania::drawAvatar(){
     ofPopMatrix();
     
     
-    /*
+
     
     ofNoFill();
     
@@ -492,8 +503,7 @@ void Humania::drawAvatar(){
     ofPopStyle();
     ofPopMatrix();
     
-    
-    */
+  
     
 }
 
@@ -517,8 +527,18 @@ void Humania::drawFaceAvatar(){
  //   ofDrawCircle(headCenter.x-20,headCenter.y-10,actualEyeRadius);
  //   ofDrawCircle(headCenter.x+20,headCenter.y-10,actualEyeRadius);
     
-    ofDrawEllipse(headCenter.x-2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
-    ofDrawEllipse(headCenter.x+2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
+    
+  //  ofDrawEllipse(headCenter.x-2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
+  //  ofDrawEllipse(headCenter.x+2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
+    
+    if(bHasEyes){
+    ofDrawEllipse(headCenter.x-2*actualEyeRadius,headCenter.y-actualEyeRadius,actualEyeDiameter*2,actualEyeRadius*2);
+    ofDrawEllipse(headCenter.x+2*actualEyeRadius,headCenter.y-actualEyeRadius,actualEyeDiameter*2,actualEyeRadius*2);
+    }else{
+          ofDrawEllipse(headCenter.x-2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
+          ofDrawEllipse(headCenter.x+2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
+        
+    }
     
     ofPopMatrix();
 
