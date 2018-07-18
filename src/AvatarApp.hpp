@@ -15,6 +15,7 @@
 #include "MovingObject.hpp"
 #include "Avatar.hpp"
 #include "ofxOsc.h"
+#include "Humania.hpp"
 
 
 
@@ -149,6 +150,8 @@ private:
     bool bHasMouth=false;
     
     Avatar avatar;
+    
+    Humania humania;
     
     vector<Avatar *>avatars;
     

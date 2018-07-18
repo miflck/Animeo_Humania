@@ -49,6 +49,10 @@ void AvatarApp::init(){
     avatar.setup();
     avatar.bSeekTarget=true;
     
+    humania.setup();
+    humania.bSeekTarget=true;
+    
+    
     mainAvatarOffset.set(0,0);
     
     avatarOffset.set(250,0);
@@ -70,6 +74,7 @@ void AvatarApp::update(){
         avatar.setTarget(mskel[skelettonId].spineBase+mainAvatarOffset);
     }
     avatar.update();
+    humania.update();
     box2d.update();
   
     if(avatars.size()>0){
@@ -140,7 +145,8 @@ void AvatarApp::draw(){
         }
     }
     
-    avatar.draw();
+   // avatar.draw();
+    humania.draw();
     
     /*for(int i=0;i<avatars.size();i++){
         avatars[i]->draw();
@@ -345,9 +351,9 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
 
     }
     
-    if(e.key=='a'){
+    /*if(e.key=='a'){
         addAvatar();
-    }
+    }*/
     
     if(e.key=='R'){
         avatar.startRecording();
@@ -371,6 +377,23 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
     }
     if(e.key=='I'){
         stopImitate();
+    }
+    
+    
+    if(e.key=='A'){
+        humania.setState(AVATAR);
+    }
+    
+    if(e.key=='a'){
+        humania.setState(FACE);
+    }
+    
+    if(e.key=='s'){
+        humania.saveStartposition(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+    }
+    
+    if(e.key=='e'){
+        //humania.startEyes();
     }
     
     
@@ -492,6 +515,30 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         x=ofMap(x,0,1,20,150);
         setAvatarReactionSpeed(x);
     }
+    
+    //--------------------------
+    //Humania FAce
+    if(msg.getAddress() == "/Face/toggle8")
+    {
+        float m=msg.getArgAsBool(0);
+        if(m){
+            cout<<"set Big Eyes"<<endl;
+            humania.setBigEyes();
+        }else{
+            humania.setSmallEyes();
+            cout<<"set Small Eyes"<<endl;
+        }
+    
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
 

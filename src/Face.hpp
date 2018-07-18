@@ -73,7 +73,6 @@ private:
     ofVec2f leftMouth;
     ofVec2f rightMouth;
     ofVec2f mouthCenterPosition;
-
     ofVec2f leftMouthOffset;
     ofVec2f rightMouthOffset;
     

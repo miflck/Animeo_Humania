@@ -102,9 +102,6 @@ void Face::update(){
 
 
 void Face::draw(){
-
-  
-    
     ofPushStyle();
     ofPushMatrix();
     ofTranslate(facePosition.x, facePosition.y);
@@ -113,12 +110,10 @@ void Face::draw(){
     ofSetColor(255,0,0);
     
     ofSetLineWidth(5);
-   // ofDrawLine(leftMouth,mouthCenterPosition);
-    //ofDrawLine(rightMouth,mouthCenterPosition);
-    
+   
     ofSetColor(0);
     
-        mouth.setStrokeColor(ofColor(0,0,0));
+    mouth.setStrokeColor(ofColor(0,0,0));
     mouth.setFilled(false);
     mouth.setStrokeWidth(5);
     mouth.draw();
@@ -126,7 +121,7 @@ void Face::draw(){
     ofPushMatrix();
     ofSetColor(0);
 
-ofTranslate(eyeOffset.x,-80);
+    ofTranslate(eyeOffset.x,-80);
     ofDrawCircle(100, 0, 50);
     ofDrawCircle(-100, 0, 50);
     ofPopMatrix();

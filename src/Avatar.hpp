@@ -84,7 +84,7 @@ public:
 
     
     
-private:
+protected:
     ofVec2f leftHand;
     ofVec2f leftShoulder;
     ofVec2f leftEllbow;
