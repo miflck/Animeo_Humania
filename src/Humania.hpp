@@ -59,11 +59,19 @@ public:
     float eyeEasingDuration;
     
     
+    // head position cant always be from tracking
+    // but tracked head is used for eyes. so we need both
+    ofVec2f relativeHeadPosition;
+    
+    bool bHeadIsBound=false;
+    
     
     void setBigEyes();
     void setSmallEyes();
     bool bHasEyes=false;
+    bool bEyesAreBound=false;
     bool bHasMouth=false;
+    bool bMouthIsBound=false;
     bool bHasCheecks=false;
     bool bHasHair=false;
     

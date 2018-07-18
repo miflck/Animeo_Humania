@@ -34,7 +34,7 @@ void Humania::setup(){
     
     // FACE
     
-    mouthCenterPosition=ofVec2f(0,0);
+    mouthCenterPosition=ofVec2f(0,150);
     leftMouth=ofVec2f(200,0);
     rightMouth=ofVec2f(-200,0);
     
@@ -147,21 +147,34 @@ void Humania::draw(){
 
 
 void Humania::updateFace(){
-   
-    eyeOffset=ofVec2f(head.x-spineBase.x,(head.y-spineBase.y)/10);
+    
+    relativeHeadPosition=ofVec2f(0,0);
+    if(bHeadIsBound){
+        relativeHeadPosition=head;
+    }
+    
+    if(bEyesAreBound) {
+        float yoff=ofMap(head.y,0,-170,50,-50,true);
+        eyeOffset=ofVec2f(head.x-spineBase.x,yoff);
+    }else{
+        eyeOffset=ofVec2f(0,0);
+    }
+    
+    if(bMouthIsBound){
     leftMouthOffset=leftHand-leftEllbow;
     rightMouthOffset=rightHand-rightEllbow;
     leftMouthCornerOffset=leftEllbow-spineBase;
     rightMouthCornerOffset=rightHand-spineBase;
-    
+    }else{
+        leftMouthOffset=ofVec2f(0,-30);
+        rightMouthOffset=ofVec2f(0,-30);
+        leftMouthCornerOffset=ofVec2f(-100,0);
+        rightMouthCornerOffset=ofVec2f(100,0);
+    }
     leftMouth=ofVec2f(mouthCenterPosition.x+leftMouthCornerOffset.x,leftMouthOffset.y+mouthCenterPosition.y);
     rightMouth=ofVec2f(mouthCenterPosition.x+rightMouthCornerOffset.x,rightMouthOffset.y+mouthCenterPosition.y);
     
-    mouth.clear();
-
-    mouth.moveTo(leftMouth);
-    mouth.bezierTo(ofVec2f(leftMouth.x,leftMouth.y+(mouthCenterPosition.y-leftMouth.y)),ofVec2f(mouthCenterPosition.x+50,mouthCenterPosition.y), mouthCenterPosition);
-    mouth.bezierTo(ofVec2f(mouthCenterPosition.x-50,mouthCenterPosition.y),ofVec2f(rightMouth.x,rightMouth.y+(mouthCenterPosition.y-rightMouth.y)), rightMouth);
+   
 }
 
 
@@ -221,7 +234,7 @@ void Humania::saveStartposition(ofVec2f _p){
 
 void Humania::resetToStart(){
     cout<<"reset to start"<<startposition->x<<endl;
-  setPosition(startposition->x, startposition->y);
+    setPosition(startposition->x, startposition->y);
     setTarget(ofVec2f(startposition->x, startposition->y));
 }
 
@@ -510,24 +523,20 @@ void Humania::drawAvatar(){
 
 void Humania::drawFaceAvatar(){
     
-    headOffset=ofVec2f(0,-100);
+    headOffset=ofVec2f(0,0);
     ofPushMatrix();
     ofPushStyle();
-    ofVec2f headCenter=head+headOffset;
+    ofVec2f headCenter=relativeHeadPosition+headOffset;
     ofSetColor(255);
-    //ofDrawCircle(headCenter,80);
     ofDrawCircle(headCenter,actualHeadRadius);
     ofSetColor(0);
     
     // EYES
     ofPushMatrix();
-
-    ofTranslate(eyeOffset.x,0);
-
+    ofTranslate(eyeOffset.x,eyeOffset.y);
+    
  //   ofDrawCircle(headCenter.x-20,headCenter.y-10,actualEyeRadius);
  //   ofDrawCircle(headCenter.x+20,headCenter.y-10,actualEyeRadius);
-    
-    
   //  ofDrawEllipse(headCenter.x-2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
   //  ofDrawEllipse(headCenter.x+2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
     
@@ -537,7 +546,6 @@ void Humania::drawFaceAvatar(){
     }else{
           ofDrawEllipse(headCenter.x-2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
           ofDrawEllipse(headCenter.x+2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
-        
     }
     
     ofPopMatrix();
@@ -554,7 +562,7 @@ void Humania::drawFaceAvatar(){
     
     
     //Cheeks
-    ofSetColor(255,0,0);
+  /*  ofSetColor(255,0,0);
     ofDrawCircle(headCenter.x-50,headCenter.y+30,20);
     ofDrawCircle(headCenter.x+50,headCenter.y+30,20);
     ofSetColor(0);
@@ -565,7 +573,7 @@ void Humania::drawFaceAvatar(){
     ofSetLineWidth(3);
     ofDrawBezier(headCenter.x,headCenter.y-80,headCenter.x,headCenter.y-40,headCenter.x-40,headCenter.y-20,headCenter.x-80,headCenter.y-20);
     ofDrawBezier(headCenter.x,headCenter.y-80,headCenter.x,headCenter.y-40,headCenter.x+40,headCenter.y-20,headCenter.x+80,headCenter.y-20);
-    
+  
     ofSetColor(255);
     ofFill();
     
@@ -581,14 +589,19 @@ void Humania::drawFaceAvatar(){
         ofDrawCircle(pos,17);
         dist.rotate(-180/6);
     }
+      */
     
+    if(bHasMouth){
+        mouth.clear();
+        mouth.moveTo(leftMouth);
+        mouth.bezierTo(ofVec2f(leftMouth.x,leftMouth.y+(mouthCenterPosition.y-leftMouth.y)),ofVec2f(mouthCenterPosition.x+50,mouthCenterPosition.y), mouthCenterPosition);
+        mouth.bezierTo(ofVec2f(mouthCenterPosition.x-50,mouthCenterPosition.y),ofVec2f(rightMouth.x,rightMouth.y+(mouthCenterPosition.y-rightMouth.y)), rightMouth);
     
-    
-    mouth.setStrokeColor(ofColor(0,0,0));
-    mouth.setFilled(false);
-    mouth.setStrokeWidth(5);
-    mouth.draw();
-    
+        mouth.setStrokeColor(ofColor(0,0,0));
+        mouth.setFilled(false);
+        mouth.setStrokeWidth(5);
+        mouth.draw();
+    }
     
     //ofSetLineWidth(avatarLineWidth);
     

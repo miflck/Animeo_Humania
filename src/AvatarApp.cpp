@@ -72,6 +72,8 @@ void AvatarApp::update(){
     
     if(mskel.size()>0 && bindPositionToSkeletton){
         avatar.setTarget(mskel[skelettonId].spineBase+mainAvatarOffset);
+        humania.setTarget(mskel[skelettonId].spineBase+mainAvatarOffset);
+
     }
     avatar.update();
     humania.update();
@@ -531,6 +533,25 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     
     }
     
+    if(msg.getAddress() == "/Face/toggle10")
+    {
+        float m=msg.getArgAsBool(0);
+        humania.bEyesAreBound=m;
+        
+    }
+    
+    
+    if(msg.getAddress() == "/Face/toggle9")
+    {
+        float m=msg.getArgAsBool(0);
+        humania.bHasMouth=m;
+    }
+    
+    if(msg.getAddress() == "/Face/toggle11")
+    {
+        float m=msg.getArgAsBool(0);
+        humania.bMouthIsBound=m;
+    }
     
     
     
