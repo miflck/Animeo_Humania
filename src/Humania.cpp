@@ -165,6 +165,8 @@ void Humania::draw(){
         case AVATAR:
             ofPushMatrix();
             ofPushStyle();
+            ofTranslate(0,-80); // weird head translation
+
             if(bPlay && bBindPosition){
                 ofTranslate(recordedAvatarPositions[playhead]);
                 
