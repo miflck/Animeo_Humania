@@ -70,7 +70,6 @@ void AvatarApp::update(){
     
     if(mskel.size()>0 && bindPositionToSkeletton){
         humania.setTarget(mskel[skelettonId].spineBase+mainAvatarOffset);
-
     }
     humania.update();
     box2d.update();
@@ -525,9 +524,12 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         float m=msg.getArgAsBool(0);
         if(m){
             cout<<"set Big Eyes"<<endl;
-            humania.setBigEyes();
+            //humania.setBigEyes();
+            humania.openEyes();
+            
         }else{
-            humania.setSmallEyes();
+            //humania.setSmallEyes();
+            humania.closeEyes();
             cout<<"set Small Eyes"<<endl;
         }
     
@@ -580,6 +582,19 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
 
     }
     
+    if(msg.getAddress() == "/avatar/toggle18")
+    {
+        float m=msg.getArgAsBool(0);
+        humania.bindPosition(m);
+        
+    }
+    
+    if(msg.getAddress() == "/Face/toggle19")
+    {
+        cout<<"HAIR"<<endl;
+        float m=msg.getArgAsBool(0);
+        humania.showHair(m);
+    }
     
     
     

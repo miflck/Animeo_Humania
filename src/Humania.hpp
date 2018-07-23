@@ -29,7 +29,7 @@ public:
     virtual ~Humania();
     
     
-    virtual void drawAvatar();
+    //virtual void drawAvatar();
     virtual void drawFaceAvatar();
 
     
@@ -73,6 +73,10 @@ public:
     
     void setBigEyes();
     void setSmallEyes();
+    
+    void openEyes();
+    void closeEyes();
+    
     bool bHasEyes=false;
     bool bEyesAreBound=false;
     bool bHasMouth=false;
@@ -96,14 +100,21 @@ public:
     void toggleNose();
     void showNose(bool _b);
 
-    
+    bool bHasHair=false;
+
+    float actualHairAlpha=0;
+    float hairAlphaTarget=0;
+    float hairInitTime;
+    float hairEasingDuration;
+    void   showHair(bool _b);
+    float hairRotationTarget;
+    float actualHairRotation;
     
     bool bHasBody=false;
     void toggleBody();
     void showBody(bool _b);
 
     
-    bool bHasHair=false;
     
     int bigEyeRadius=50;
     int smallEyeRadius=10;
@@ -118,6 +129,8 @@ public:
     
     float scaleFactor;
     
+    float bBindPosition=true;
+    void bindPosition(bool _b);
     
     //face
     
