@@ -59,7 +59,18 @@ public:
     
     void startImitate();
     void stopImitate();
+    void setImitate(bool _b);
     bool bIsImitating=false;
+    
+    
+    
+    // record
+    bool bIsRecodig=false;
+    void setIsRecording(bool b);
+   // bool getIsRecording();
+    
+    bool bIsPlayback=false;
+    void setIsPlayback(bool _b);
     
     void setAvatarReactionSpeed(float _speed);
     
@@ -173,6 +184,10 @@ private:
     int cycleSkelettonId();
     
     bool bindPositionToSkeletton=false;
+    
+    
+   
+    
     
 };
 

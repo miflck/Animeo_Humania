@@ -263,8 +263,10 @@ void AvatarApp::addAvatar(){
     a->bSeekTarget=true;
     a->setSeekForce(50);
     a->setMaxSpeed(100);
-    avatars.push_back(a);
     a->bindSkeletton(true);
+
+    if(bIsImitating)a->startImitate();
+    avatars.push_back(a);
 }
 
 
@@ -319,9 +321,61 @@ void AvatarApp::stopImitate(){
         avatars[i]->stopImitate();
     }
     setAvatarReactionSpeed(150);
-
-    
 }
+
+void AvatarApp::setImitate(bool _b){
+    if(_b){
+        bIsImitating=true;
+        for(int i=0;i<avatars.size();i++){
+            avatars[i]->startImitate();
+        }
+        setAvatarReactionSpeed(60);
+    }else{
+        bIsImitating=false;
+        for(int i=0;i<avatars.size();i++){
+            avatars[i]->stopImitate();
+        }
+        setAvatarReactionSpeed(150);
+    }
+}
+    
+
+void AvatarApp::setIsRecording(bool _b){
+    if(_b){
+        bIsRecodig=true;
+        humania.startRecording();
+        
+        
+    }else{
+        bIsRecodig=false;
+        humania.stopRecording();
+    }
+    
+    ofxOscMessage m;
+    m.addBoolArg(bIsRecodig);
+    m.setAddress("/avatar/toggle21");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+}
+
+
+void AvatarApp::setIsPlayback(bool _b){
+    if(_b){
+        bIsPlayback=true;
+        setIsRecording(false);
+        humania.startPlayback();
+    }else{
+        humania.stopPlayback();
+        bIsPlayback=false;
+    }
+    
+    ofxOscMessage m;
+    m.addBoolArg(bIsPlayback);
+    m.setAddress("/avatar/toggle22");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+}
+
+
+
 void AvatarApp::setAvatarReactionSpeed(float _speed){
     for(int i=0;i<avatars.size();i++){
         avatars[i]->setBoneMoverSpeed(_speed);
@@ -596,7 +650,39 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         humania.showHair(m);
     }
     
+    if(msg.getAddress() == "/Face/push22")
+    {
+        humania.setState(FACE);
+
+    }
     
+    if(msg.getAddress() == "/Face/push23")
+    {
+        humania.setState(AVATAR);
+
+    }
+    
+    
+    if(msg.getAddress() == "/avatar/toggle20")
+    {
+        cout<<"Imitate"<<endl;
+        float m=msg.getArgAsBool(0);
+        setImitate(m);
+    }
+    
+    if(msg.getAddress() == "/avatar/toggle21")
+    {
+        cout<<"Recording"<<endl;
+        float m=msg.getArgAsBool(0);
+        setIsRecording(m);
+    }
+    
+    if(msg.getAddress() == "/avatar/toggle22")
+    {
+        cout<<"Playback"<<endl;
+        float m=msg.getArgAsBool(0);
+        setIsPlayback(m);
+    }
     
     
     
