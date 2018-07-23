@@ -201,7 +201,9 @@ void Avatar::updateSkeletton(){
     }
     
     headP=ofVec2f(0,0);
-    neckP=head+headOffset+ofVec2f(0,80);
+//    neckP=head+ofVec2f(0,80);
+    neckP=head+ofVec2f(0,0);
+
     spineBaseP=neck+ofVec2f(0,120);
     leftEllbowP=neck+ofVec2f(60,60);
     leftHandP=leftEllbow+ofVec2f(60,-60);
@@ -212,7 +214,7 @@ void Avatar::updateSkeletton(){
     rightFootP=rightKnee+ofVec2f(10,60);
     leftFootP=leftKnee+ofVec2f(-10,60);
     
-    if(mskel.size()>0){
+    if(mskel.size()>0 && bIsBound){
         headP=ofVec2f(mskel[skelettonId].neckLocal*scaler);
         neckP=mskel[skelettonId].neckLocal*scaler;
         spineBaseP=mskel[skelettonId].spineBaseLocal*scaler;
@@ -403,9 +405,14 @@ void Avatar::updateSkelettonMovers(){
 }
 
 
+void Avatar::bindSkeletton(bool _b){
+    bIsBound=_b;
+}
 
 void Avatar::drawAvatar(){
-    headOffset=ofVec2f(0,-100);
+    //headOffset=ofVec2f(0,-100);
+    headOffset=ofVec2f(0,-80);
+
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     
     

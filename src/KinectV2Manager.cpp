@@ -167,7 +167,9 @@ void KinectV2Manager::update(){
         
         
         
-        ofVec3f localZero=spineBase;
+       // ofVec3f localZero=spineBase;
+        ofVec3f localZero=neck;
+
         m.localZero =localZero;
         m.leftHandLocal = getLocal(localZero,leftHand);
         m.leftShoulderLocal = getLocal(localZero,leftShoulder);

@@ -50,6 +50,11 @@ public:
     float headEasingDuration;
     
     
+    float headRadiusBig;
+    float headRadiusNormal;
+    
+    
+    
     float actualEyeRadius;
     float actualEyeDiameter;
     float eyeDiameterTarget;
@@ -72,7 +77,32 @@ public:
     bool bEyesAreBound=false;
     bool bHasMouth=false;
     bool bMouthIsBound=false;
+    
     bool bHasCheecks=false;
+    float actualCheeksAlpha=0;
+    float cheeksAlphaTarget=0;
+    float cheeksInitTime;
+    float cheeksEasingDuration;
+    void toggleCheeks();
+    void showCheeks(bool _b);
+
+    
+    
+    bool bHasNose=false;
+    float actualNoseAlpha=0;
+    float noseAlphaTarget=0;
+    float noseInitTime;
+    float noseEasingDuration;
+    void toggleNose();
+    void showNose(bool _b);
+
+    
+    
+    bool bHasBody=false;
+    void toggleBody();
+    void showBody(bool _b);
+
+    
     bool bHasHair=false;
     
     int bigEyeRadius=50;
@@ -84,6 +114,9 @@ public:
 
     void resetToStart();
     
+    
+    
+    float scaleFactor;
     
     
     //face
@@ -106,7 +139,7 @@ public:
     void updateFace();
     void drawFace();
     
-    
+    void drawBody();
     
 };
 

@@ -149,7 +149,6 @@ private:
     bool bHasFace=false;
     bool bHasMouth=false;
     
-    Avatar avatar;
     
     Humania humania;
     

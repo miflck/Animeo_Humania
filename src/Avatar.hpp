@@ -84,6 +84,10 @@ public:
 
     
     
+    bool bIsBound=false;
+    void bindSkeletton(bool _b);
+    
+    
 protected:
     ofVec2f leftHand;
     ofVec2f leftShoulder;
@@ -159,6 +163,9 @@ protected:
     
     MappedPoints actualBonesPositions;
     MappedPoints siblingBonesPositions;
+    
+    
+
 
    
 };

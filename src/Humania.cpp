@@ -23,14 +23,20 @@ void Humania::setup(){
 
     Avatar::setup();
     state=IDLE;
-    headRadiusTarget=0;
-    headEasingDuration=20;
-    actualHeadRadius=0;
+  
     setPosition(ofGetWidth()/3,ofGetHeight()/2);
     setTarget(ofVec2f(2*ofGetWidth()/3,ofGetHeight()/2));
     startposition=&Settings::getVec2("humania/startposition");
    // startposition=&Settings::getVec2("LightPointApp/homeposition");
 
+    
+    
+    headRadiusBig=300;
+    headRadiusNormal=80;
+    
+    headRadiusTarget=0;
+    headEasingDuration=20;
+    actualHeadRadius=0;
     
     // FACE
     
@@ -44,6 +50,16 @@ void Humania::setup(){
     
     eyeDiameterTarget=0;
     actualEyeDiameter=0;
+    
+    
+    //cheeks
+    actualCheeksAlpha=0;
+    cheeksEasingDuration=10;
+    
+    //nose
+    actualNoseAlpha=0;
+    noseEasingDuration=10;
+    
     
     
      bHasEyes=false;
@@ -63,11 +79,25 @@ void Humania::update(){
     auto now = ofGetElapsedTimef();
     actualHeadRadius = ofxeasing::map_clamp(now, headEasingInitTime, headEasingEndTime, actualHeadRadius, headRadiusTarget, &ofxeasing::linear::easeIn);
     
+    scaleFactor=actualHeadRadius/headRadiusNormal;
+    
+    
+    
     auto eyeEasingEndTime = eyeEasingInitTime + eyeEasingDuration;
     
     
     actualEyeRadius = ofxeasing::map_clamp(now, eyeEasingInitTime, eyeEasingEndTime, actualEyeRadius, eyeRadiusTarget, &ofxeasing::linear::easeIn);
     actualEyeDiameter= ofxeasing::map_clamp(now, eyeEasingInitTime, eyeEasingEndTime, actualEyeDiameter, eyeDiameterTarget, &ofxeasing::linear::easeIn);
+    
+    
+    auto cheeksEasingEndTime = cheeksInitTime + cheeksEasingDuration;
+    actualCheeksAlpha= ofxeasing::map_clamp(now, cheeksInitTime, cheeksEasingEndTime, actualCheeksAlpha, cheeksAlphaTarget, &ofxeasing::linear::easeInOut);
+    
+    
+    auto noseEasingEndTime = noseInitTime + noseEasingDuration;
+    actualNoseAlpha= ofxeasing::map_clamp(now, noseInitTime, cheeksEasingEndTime, actualNoseAlpha, noseAlphaTarget, &ofxeasing::linear::easeInOut);
+    
+    
 
     if(!bHasEyes && (actualEyeRadius==bigEyeRadius)){
         bHasEyes=true;
@@ -190,11 +220,11 @@ void Humania::setState(int _state){
         case FACE:
             resetToStart();
             headEasingInitTime= ofGetElapsedTimef();
-            headRadiusTarget=300;
+            headRadiusTarget=headRadiusBig;
            
             break;
         case AVATAR:
-            headRadiusTarget=80;
+            headRadiusTarget=headRadiusNormal;
             setSmallEyes();
             break;
         
@@ -222,6 +252,96 @@ void Humania::setBigEyes(){
     eyeEasingInitTime=ofGetElapsedTimef();
     eyeDiameterTarget=bigEyeRadius;
     actualEyeDiameter=bigEyeRadius;
+}
+
+void Humania::toggleCheeks(){
+    if(bHasCheecks){
+        bHasCheecks=false;
+        cheeksInitTime=ofGetElapsedTimef();
+        cheeksAlphaTarget=0;
+        cheeksEasingDuration=10;
+
+    }else{
+        bHasCheecks=true;
+        cheeksInitTime=ofGetElapsedTimef();
+        cheeksAlphaTarget=255;
+        cheeksEasingDuration=10;
+    }
+}
+
+void Humania::showCheeks(bool _b){
+    if(_b){
+        bHasCheecks=true;
+        cheeksInitTime=ofGetElapsedTimef();
+        cheeksAlphaTarget=255;
+        cheeksEasingDuration=10;
+        
+   
+        
+    }else{
+        bHasCheecks=false;
+        cheeksInitTime=ofGetElapsedTimef();
+        cheeksAlphaTarget=0;
+        cheeksEasingDuration=10;
+    }
+}
+
+
+
+void Humania::toggleNose(){
+    if(bHasNose){
+        bHasNose=false;
+        noseInitTime=ofGetElapsedTimef();
+        noseAlphaTarget=0;
+        noseEasingDuration=10;
+    }else{
+        bHasNose=true;
+        noseInitTime=ofGetElapsedTimef();
+        noseAlphaTarget=255;
+        noseEasingDuration=10;
+    }
+}
+
+void Humania::showNose(bool _b){
+    if(_b){
+        bHasNose=true;
+        noseInitTime=ofGetElapsedTimef();
+        noseAlphaTarget=255;
+        noseEasingDuration=10;
+    }else{
+        bHasNose=false;
+        noseInitTime=ofGetElapsedTimef();
+        noseAlphaTarget=0;
+        noseEasingDuration=10;
+    }
+}
+
+
+void Humania::toggleBody(){
+    if(bHasBody){
+        bHasBody=false;
+    }else{
+        for(int i=0;i<movers.size();i++){
+            movers[i]->setPosition(0, 0);
+            movers[i]->setMaxSpeed(80);
+        }
+        bHasBody=true;
+    }
+}
+
+void Humania::showBody(bool _b){
+    if(_b){
+        bHasBody=true;
+
+        for(int i=0;i<movers.size();i++){
+            movers[i]->setPosition(0, 0);
+            movers[i]->setMaxSpeed(80);
+        }
+        
+    }else{
+        bHasBody=false;
+
+    }
 }
 
 void Humania::saveStartposition(ofVec2f _p){
@@ -295,42 +415,50 @@ void Humania::drawAvatar(){
     
     
     
-    ofSetLineWidth(avatarLineWidth);
+
+    ofPopStyle();
+    ofPopMatrix();
     
+    
+    drawBody();
+    
+    
+    ofPopStyle();
+    ofPopMatrix();
+    
+  
+    
+}
+
+
+
+void Humania::drawBody(){
+    
+    ofSetLineWidth(avatarLineWidth);
     float rotation=40;
     if(head.x-spineBase.x>0){
         rotation=-40;
     }else{
         rotation=40;
     }
-    
     ofVec2f mid=spineBase-neck;
     ofVec2f cp1=mid.getRotated(rotation);
     cp1/=3;
     cp1+=neck;
-    
     ofVec2f cp2=mid.getRotated(-rotation);
     cp2/=-3;
     cp2+=spineBase;
     
-    ofPopStyle();
-    ofPopMatrix();
-    
-    
-
     
     ofNoFill();
-    
     ofPolyline rough;
     ofMesh smooth;
-    
     rough.clear();
     smooth.clear();
     rough.addVertex(neck);
     rough.bezierTo(spineCP1Mover.getPosition(), spineCP2Mover.getPosition(), spineBase);
     ofxPolyToMesh(smooth, rough, 4);
     smooth.draw();
-    
     
     if(APPC->debug){
         ofSetColor(255,0,0);
@@ -342,16 +470,10 @@ void Humania::drawAvatar(){
         ofSetColor(255);
     }
     
-    
-    
-    
-    
-    
     mid=leftKnee-spineBase;
     cp1=mid;//.getRotated(-40);
     cp1*=0.75;
     cp1+=spineBase;
-    
     mid=leftKnee-leftFoot;
     cp2=mid;//.getRotated(40);
     cp2*=0.75;
@@ -359,7 +481,6 @@ void Humania::drawAvatar(){
     
     ofNoFill();
     ofSetLineWidth(avatarLineWidth);
-    
     
     rough.clear();
     smooth.clear();
@@ -513,12 +634,15 @@ void Humania::drawAvatar(){
     rightfootpath.close();
     rightfootpath.draw();
     
-    ofPopStyle();
-    ofPopMatrix();
-    
-  
+    ofSetColor(255, 0, 0);
+    ofDrawCircle(neck,20);
+    ofSetColor(255, 255, 0);
+
+    ofDrawCircle(head,20);
+
     
 }
+
 
 
 void Humania::drawFaceAvatar(){
@@ -560,13 +684,19 @@ void Humania::drawFaceAvatar(){
     ofPopMatrix();
     */
     
-    
+    ofPushMatrix();
+    ofScale(scaleFactor, scaleFactor);
     //Cheeks
-  /*  ofSetColor(255,0,0);
+  ofSetColor(255,0,0,actualCheeksAlpha);
     ofDrawCircle(headCenter.x-50,headCenter.y+30,20);
     ofDrawCircle(headCenter.x+50,headCenter.y+30,20);
-    ofSetColor(0);
+   
+    
+    ofSetColor(0,actualNoseAlpha);
     ofDrawTriangle(headCenter.x, headCenter.y, headCenter.x+20, headCenter.y+40,headCenter.x-20, headCenter.y+40);
+    ofPopMatrix();
+     /*
+     
     // Hair
     ofSetColor(0);
     ofNoFill();
@@ -603,9 +733,14 @@ void Humania::drawFaceAvatar(){
         mouth.draw();
     }
     
-    //ofSetLineWidth(avatarLineWidth);
-    
-   
+    if(bHasBody){
+        ofPushMatrix();
+        ofTranslate(0, actualHeadRadius);
+        drawBody();
+        ofPopMatrix();
+    }
+    ofSetColor(0,255,0);
+    ofDrawCircle(relativeHeadPosition, 20);
     
     ofPopStyle();
     ofPopMatrix();

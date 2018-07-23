@@ -46,9 +46,7 @@ void AvatarApp::init(){
     leftHandMover.setSeekForce(2);
     
     
-    avatar.setup();
-    avatar.bSeekTarget=true;
-    
+  
     humania.setup();
     humania.bSeekTarget=true;
     
@@ -71,17 +69,15 @@ void AvatarApp::update(){
     }
     
     if(mskel.size()>0 && bindPositionToSkeletton){
-        avatar.setTarget(mskel[skelettonId].spineBase+mainAvatarOffset);
         humania.setTarget(mskel[skelettonId].spineBase+mainAvatarOffset);
 
     }
-    avatar.update();
     humania.update();
     box2d.update();
   
     if(avatars.size()>0){
-        avatars[0]->setTarget(avatar.getPosition()-avatarOffset);
-        avatars[0]->setSiblingBones(avatar.getBonesPositions());
+        avatars[0]->setTarget(humania.getPosition()-avatarOffset);
+        avatars[0]->setSiblingBones(humania.getBonesPositions());
         avatars[0]->update();
 
         for(int i=1;i<avatars.size();i++){
@@ -147,7 +143,6 @@ void AvatarApp::draw(){
         }
     }
     
-   // avatar.draw();
     humania.draw();
     
     /*for(int i=0;i<avatars.size();i++){
@@ -265,11 +260,12 @@ void AvatarApp::addAvatar(){
     Avatar * a =new Avatar();
     a->setup();
     a->setTarget(ofVec2f(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
-    a->setPosition(avatar.getPosition().x,avatar.getPosition().y);
+    a->setPosition(humania.getPosition().x,humania.getPosition().y);
     a->bSeekTarget=true;
     a->setSeekForce(50);
     a->setMaxSpeed(100);
     avatars.push_back(a);
+    a->bindSkeletton(true);
 }
 
 
@@ -286,7 +282,7 @@ void AvatarApp::removeAvatar(){
 
 void AvatarApp::setSkelettonId(int id){
     skelettonId= id;
-    avatar.setSkelettonId(skelettonId);
+    humania.setSkelettonId(skelettonId);
     for(int i=0;i<avatars.size();i++){
         avatars[i]->setSkelettonId(skelettonId);
     }
@@ -339,7 +335,7 @@ void AvatarApp::setAvatarReactionSpeed(float _speed){
 //--------------------------------------------------------------
 void AvatarApp::keyPressed(ofKeyEventArgs &e){
     if(e.key == 'e') {
-        bHasEyes=!bHasEyes;
+      //  bHasEyes=!bHasEyes;
     }
     
     
@@ -358,20 +354,20 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
     }*/
     
     if(e.key=='R'){
-        avatar.startRecording();
+        humania.startRecording();
     }
     
     if(e.key=='r'){
-        avatar.stopRecording();
+        humania.stopRecording();
     }
     
     
     if(e.key=='p'){
-        avatar.startPlayback();
+        humania.startPlayback();
     }
     
     if(e.key=='P'){
-        avatar.stopPlayback();
+        humania.stopPlayback();
     }
     
     if(e.key=='i'){
@@ -396,6 +392,10 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
     
     if(e.key=='e'){
         //humania.startEyes();
+        
+        humania.toggleCheeks();
+        humania.toggleNose();
+        humania.toggleBody();
     }
     
     
@@ -467,7 +467,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         float y=msg.getArgAsFloat(1);
         x=ofMap(x,0,1,0,ofGetWidth());
         y=ofMap(y,0,1,0,ofGetHeight());
-        avatar.setTarget(ofVec2f(x,y));
+        humania.setTarget(ofVec2f(x,y));
     }
     
     if(msg.getAddress() == "/avatar/push19")
@@ -555,6 +555,30 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     
     
     
+    if(msg.getAddress() == "/Face/toggle14")
+    {
+        float m=msg.getArgAsBool(0);
+        humania.showCheeks(m);
+    }
+    
+    if(msg.getAddress() == "/Face/toggle16")
+    {
+        float m=msg.getArgAsBool(0);
+        humania.showNose(m);
+    }
+    
+    if(msg.getAddress() == "/Face/toggle12")
+    {
+        float m=msg.getArgAsBool(0);
+        humania.showBody(m);
+    }
+    
+    if(msg.getAddress() == "/Face/toggle13")
+    {
+        float m=msg.getArgAsBool(0);
+        humania.bindSkeletton(m);
+
+    }
     
     
     
