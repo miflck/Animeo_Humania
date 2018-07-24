@@ -73,6 +73,7 @@ void Stern::update(){
             
         case PHYSICS:
             setPosition(anchor.getPosition().x, anchor.getPosition().y);
+            if(!bHasGravity)anchor.addForce(ofVec2f(-world->GetGravity().x,-world->GetGravity().y), 1);
             break;
             
         case FADEOUT:
@@ -127,6 +128,10 @@ bool Stern::getIsPhysicsOn(){
     return bPhysics;
 }
 
+void Stern::setGravity(bool _b){
+    bHasGravity=_b;
+}
+
 void Stern::setState(int _state){
     stateBefore=state;
     state=_state;
@@ -138,7 +143,6 @@ void Stern::setState(int _state){
             anchor.body->SetType(b2_kinematicBody);
             break;
         case PHYSICS:
-            cout<<"State "<<state<<endl;
             anchor.setPosition(getPosition());
             anchor.setPhysics(1, 0.5, 0.9);
             anchor.body->SetType(b2_dynamicBody);

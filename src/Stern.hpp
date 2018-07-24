@@ -61,6 +61,9 @@ public:
     
     bool bShouldRemove=false;
     
+    bool bHasGravity=false;
+    void setGravity(bool _b);
+    
     
     ofRectangle screen;
 

@@ -669,17 +669,19 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     }
     
     // KREIS
-    if(msg.getAddress() == "/EmotionWorld/push21")
+    if(msg.getAddress() == "/EmotionWorld/push27")
     {
         kreise.push_back(shared_ptr<Kreis>(new Kreis));
         kreise.back().get()->setWorld(box2d.getWorld());
         kreise.back().get()->bSeekTarget=true;
         kreise.back().get()->setRadius(ofRandom(200,500));
         kreise.back().get()->setPosition(emitterposition.x,emitterposition.y);
+        kreise.back().get()->setSpeed(0,-5);
+
         kreise.back().get()->setTarget(ofVec2f(emitterposition.x+400,emitterposition.y));
         kreise.back().get()->setup();
     }
-    if(msg.getAddress() == "/EmotionWorld/push22")
+    if(msg.getAddress() == "/EmotionWorld/push28")
     {
         for(int i=0;i<kreise.size();i++){
             if(kreise[i]->getState()==MOVINGOBJECT){
@@ -688,7 +690,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
             }
         }
     }
-    if(msg.getAddress() == "/EmotionWorld/push23")
+    if(msg.getAddress() == "/EmotionWorld/push29")
     {
         for(int i=0;i<kreise.size();i++){
             kreise[i]->setState(FADEOUT);
@@ -717,6 +719,14 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
             sterne[i]->setState(PHYSICS);
         }
     }
+    
+    if(msg.getAddress() == "/EmotionWorld/push30")
+    {
+        for(int i=0;i<sterne.size();i++){
+            sterne[i]->setGravity(true);
+        }
+    }
+    
     
     if(msg.getAddress() == "/EmotionWorld/push26")
     {
