@@ -483,6 +483,9 @@ private:
     
     void emitShapes();
     
+    void emitMultiShapes(int n);
+
+    
     
     bool bEmitHearts=false;
     float emitFrequency=0.7;
@@ -514,6 +517,20 @@ private:
     bool bBindToHead=false;
     
     void bindToSkeletton(bool _b);
+    
+    
+    
+    
+    // Sound
+    vector<ofSoundPlayer>ploppsounds;
+    void playRandomPlopp();
+    vector<ofSoundPlayer>multiploppsounds;
+    void playRandomMultiplopp();
+
+    ofSoundPlayer anchorSound;
+
+
+    
     
 };
 

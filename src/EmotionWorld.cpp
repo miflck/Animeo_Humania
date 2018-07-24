@@ -61,6 +61,28 @@ void EmotionWorld::init(){
     emitterposition.set(savedemitterposition->x,savedemitterposition->y);
     
     
+    ofDirectory dir;
+    dir.listDir("Sounds/Multiplopp");
+    dir.sort();
+    multiploppsounds.resize(dir.size());
+    
+    for(int i=0; i<dir.size(); i++ ){
+        multiploppsounds[i].load(dir.getPath(i));
+        ofLog(OF_LOG_NOTICE,"songs loaded")<<i<<" path "<<dir.getPath(i);
+    }
+    
+    
+     dir;
+    dir.listDir("Sounds/Plopp");
+    dir.sort();
+    ploppsounds.resize(dir.size());
+    
+    for(int i=0; i<dir.size(); i++ ){
+        ploppsounds[i].load(dir.getPath(i));
+        ofLog(OF_LOG_NOTICE,"songs loaded")<<i<<" path "<<dir.getPath(i);
+    }
+    
+    
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &EmotionWorld::onMessageReceived);
 }
 
@@ -270,6 +292,7 @@ void EmotionWorld::emitShapes(){
         shapes.back().get()->setPhysics(5, 0.6, 0.1);
         shapes.back().get()->setup(box2d.getWorld(), emitterposition.x, emitterposition.y,r);
         shapes.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
+        playRandomPlopp();
     }
     
     rAdd=ofRandom(-1,1);
@@ -284,8 +307,41 @@ void EmotionWorld::emitShapes(){
         triangles.back().get()->create(box2d.getWorld());
         triangles.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
         triangles.back().get()->setAngularVelocity(2);
+        playRandomPlopp();
     }
 }
+
+
+void EmotionWorld::emitMultiShapes(int _n){
+    
+    
+    for(int i=0;i<_n;i++){
+        float rAdd=ofRandom(-1,1);
+        if(rAdd>emitShapeFrequency){
+            float r =0;        // a random radius 4px - 20px
+            shapes.push_back(shared_ptr<Shape>(new Shape));
+            shapes.back().get()->setPhysics(5, 0.6, 0.1);
+            shapes.back().get()->setup(box2d.getWorld(), emitterposition.x, emitterposition.y,r);
+            shapes.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
+        }
+        
+        rAdd=ofRandom(-1,1);
+        if(rAdd<-emitShapeFrequency){
+            float r=ofRandom(20,30);
+            ofVec2f a =ofVec2f(emitterposition.x-r/2,emitterposition.y);
+            ofVec2f b =ofVec2f(emitterposition.x+r/2,emitterposition.y);
+            ofVec2f c =ofVec2f(emitterposition.x,emitterposition.y+r);
+            triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
+            triangles.back().get()->setWorld(box2d.getWorld());
+            triangles.back().get()->setPhysics(5.0, 0.6, 0.1);
+            triangles.back().get()->create(box2d.getWorld());
+            triangles.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
+            triangles.back().get()->setAngularVelocity(2);
+        }
+    }
+    playRandomMultiplopp();
+}
+
 
 void EmotionWorld::toggleHearts(){
     bEmitHearts=!bEmitHearts;
@@ -327,6 +383,19 @@ void EmotionWorld::saveEmitterposition(ofVec2f _p){
     Settings::get().save("data.json");
 }
 
+
+void EmotionWorld::playRandomMultiplopp(){
+    int randNum;
+    randNum=(int)(ofRandom(0,multiploppsounds.size()));
+    cout<<randNum<<endl;
+    multiploppsounds[randNum].play();
+}
+
+void EmotionWorld::playRandomPlopp(){
+    int randNum;
+    randNum=(int)(ofRandom(0,multiploppsounds.size()));
+    ploppsounds[randNum].play();
+}
 
 
 //KEY LISTENER
@@ -639,9 +708,12 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/EmotionWorld/push17")
     {
-        for(int i=0;i<20;i++){
+       /* for(int i=0;i<20;i++){
             emitShapes();
-        }
+            playRandomMultiplopp();
+        }*/
+        emitMultiShapes(20);
+        //playRandomMultiplopp();
     }
     
     
