@@ -122,8 +122,11 @@ public:
     int size2=50;
     int size3=150;
     
-     int soundsLength=4;
-    ofSoundPlayer boucesounds[4];
+    /* int soundsLength=4;
+    ofSoundPlayer bouncesounds[4];
+    */
+    vector<ofSoundPlayer>bouncesounds;
+
 
     void playRandomSound();
     

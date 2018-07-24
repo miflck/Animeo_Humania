@@ -2,16 +2,15 @@
    "LightPointApp" : {
       "cabindimension" : [ 458, 444 ],
       "cabinposition" : [ 1332, 674 ],
-      "homeposition" : [ 1064, 503 ],
+      "homeposition" : [ 1792, 368 ],
       "scaredposition" : [ 702, 208 ],
       "startposition" : [ 696, 346 ]
    },
    "LinieApp" : {
-      "anchorStartPositionBottom" : [ 1836, 643 ],
+      "anchorStartPositionBottom" : [ 1875, 406 ],
       "anchorStartPositionTop" : [ 73, 510 ]
    },
    "emotions" : {
-      "emitterposition" : [ 1251, 316 ],
       "startposition" : [ 1226, 598 ]
    },
    "humania" : {

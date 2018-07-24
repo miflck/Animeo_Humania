@@ -66,9 +66,19 @@ void LightPointApp::init(){
    /* char* files;
     for(int i=0;i<soundsLength;i++){
         sprintf(files,"BallBounces/Boing%i.wav",i);
-        boucesounds[i].load(files);
+        bouncesounds[i].load(files);
     }*/
 
+    
+    ofDirectory dir;
+    dir.listDir("BallBounces");
+    dir.sort();
+    bouncesounds.resize(dir.size());
+    
+    for(int i=0; i<dir.size(); i++ ){
+        bouncesounds[i].load(dir.getPath(i));
+        ofLog(OF_LOG_NOTICE,"songs loaded")<<i<<" path "<<dir.getPath(i);
+    }
     
 
 }
@@ -215,7 +225,7 @@ bool LightPointApp::bounceFromCabin(){
             sReflected*=-1;
             mover.setSpeed(speed.x, sReflected.y);
             
-            //playRandomSound();
+            playRandomSound();
         }
         
     }
@@ -233,7 +243,7 @@ bool LightPointApp::bounceFromCabin(){
             ofVec2f sReflected=speed;
             sReflected*=-1;
             mover.setSpeed(sReflected.x, speed.y);
-            //playRandomSound();
+            playRandomSound();
 
         }
         //check for right collision:
@@ -246,7 +256,7 @@ bool LightPointApp::bounceFromCabin(){
             ofVec2f sReflected=speed;
             sReflected*=-1;
             mover.setSpeed(sReflected.x, speed.y);
-            //playRandomSound();
+            playRandomSound();
 
         }
     }
@@ -320,8 +330,8 @@ void LightPointApp::exit(){
 
 void LightPointApp::playRandomSound(){
     int randNum;
-    randNum=(int)(ofRandom(0,soundsLength));
-    boucesounds[randNum].play();
+    randNum=(int)(ofRandom(0,bouncesounds.size()));
+    bouncesounds[randNum].play();
 }
 
 

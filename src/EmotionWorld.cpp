@@ -57,6 +57,13 @@ void EmotionWorld::init(){
     baloon.setup();
     baloon.bSeekTarget=true;
     
+    
+    emitterposition=&Settings::getVec2("emotions/emitterposition");
+
+    
+    
+    
+    
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &EmotionWorld::onMessageReceived);
     
 
@@ -316,6 +323,12 @@ void EmotionWorld::drawFeeling(){
 }
 
 
+void EmotionWorld::saveEmitterposition(ofVec2f _p){
+    emitterposition->set(_p.x,_p.y);
+    Settings::get().save("data.json");
+}
+
+
 
 //KEY LISTENER
 //--------------------------------------------------------------
@@ -406,7 +419,9 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
     if(e.key=='s'){
        // toggleSun();
         
-        bEmitShapes=!bEmitShapes;
+       // bEmitShapes=!bEmitShapes;
+        
+        saveEmitterposition(ofVec2f(ofGetMouseX(),ofGetMouseY()));
     }
     
     if(e.key=='q'){

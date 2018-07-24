@@ -51,7 +51,7 @@ void OscManager::draw(){
 
 void OscManager::sendMessage(int _x){
     ofxOscMessage m;
-    m.setAddress("/md8key/ctrl_layer_position_x/1");
+    m.setAddress("/md8key/ctrl_layer_position_x/1"); 
     m.addIntArg(_x);
     sender.sendMessage(m, false);
     cout<<_x<<endl;

@@ -27,6 +27,10 @@
 #include "ofxEasing.h"
 
 
+#include "ofxJsonSettings.h"
+
+
+
 
 // ------------------------------------------------- a simple extended box2d circle
 class Heart : public ofxBox2dCircle {
@@ -500,6 +504,12 @@ private:
     
     bool bCircleFollowMouse=false;
   
+    
+    
+    
+    // Settings
+    ofVec2f *emitterposition;
+    void saveEmitterposition(ofVec2f _p);
     
 };
 
