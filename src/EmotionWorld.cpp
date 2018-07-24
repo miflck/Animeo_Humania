@@ -57,17 +57,11 @@ void EmotionWorld::init(){
     baloon.setup();
     baloon.bSeekTarget=true;
     
-    
-    emitterposition=&Settings::getVec2("emotions/emitterposition");
-
-    
-    
+    savedemitterposition=&Settings::getVec2("emotions/emitterposition");
+    emitterposition.set(savedemitterposition->x,savedemitterposition->y);
     
     
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &EmotionWorld::onMessageReceived);
-    
-
-    
 }
 
 void EmotionWorld::update(){
@@ -102,7 +96,10 @@ void EmotionWorld::update(){
     
     box2d.update();
     
-    headposition=ofVec2f(ofGetMouseX(),ofGetMouseY());
+    //headposition=ofVec2f(ofGetMouseX(),ofGetMouseY());
+    
+   // emitterposition=ofVec2f(ofGetMouseX(),ofGetMouseY());
+    
     ofVec2f hand;
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
    
@@ -132,23 +129,19 @@ void EmotionWorld::update(){
         flashes[i]->update();
     }
     
-    if(mskel.size()>0){
+    if(mskel.size()>0 && bBindToHead){
         headposition=mskel[0].head;
         headposition=ofVec2f(headposition.x, headposition.y);
+        emitterposition=headposition;
         anchor.setPosition(mskel[0].leftHand.x, mskel[0].leftHand.y);
     }
-       // box2d.setGravity(0, (mskel[0].head.y-mskel[0].rightHand.y)/10);
 
-    
-
-    
-    
         float rAdd=ofRandom(1);
         if(rAdd>emitFrequency && bEmitHearts){
            float r = ofRandom(10, 40);        // a random radius 4px - 20px
             hearts.push_back(shared_ptr<Heart>(new Heart));
             hearts.back().get()->setPhysics(3.0, 0.53, 0.5);
-            hearts.back().get()->setup(box2d.getWorld(), headposition.x, headposition.y, 0);
+            hearts.back().get()->setup(box2d.getWorld(), emitterposition.x, emitterposition.y, 0);
             hearts.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,-10));
             hearts.back().get()->setAngularVelocity(ofRandom(1));
         }
@@ -263,22 +256,28 @@ void EmotionWorld::exit(){
 }
 
 
+
+void EmotionWorld::bindToSkeletton(bool _b){
+    bBindToHead=_b;
+}
+
+
 void EmotionWorld::emitShapes(){
     float rAdd=ofRandom(-1,1);
     if(rAdd>emitShapeFrequency){
         float r =0;        // a random radius 4px - 20px
         shapes.push_back(shared_ptr<Shape>(new Shape));
         shapes.back().get()->setPhysics(5, 0.6, 0.1);
-        shapes.back().get()->setup(box2d.getWorld(), headposition.x, headposition.y,r);
+        shapes.back().get()->setup(box2d.getWorld(), emitterposition.x, emitterposition.y,r);
         shapes.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
     }
     
     rAdd=ofRandom(-1,1);
     if(rAdd<-emitShapeFrequency){
         float r=ofRandom(20,30);
-        ofVec2f a =ofVec2f(headposition.x-r/2,headposition.y);
-        ofVec2f b =ofVec2f(headposition.x+r/2,headposition.y);
-        ofVec2f c =ofVec2f(headposition.x,headposition.y+r);
+        ofVec2f a =ofVec2f(emitterposition.x-r/2,emitterposition.y);
+        ofVec2f b =ofVec2f(emitterposition.x+r/2,emitterposition.y);
+        ofVec2f c =ofVec2f(emitterposition.x,emitterposition.y+r);
         triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
         triangles.back().get()->setWorld(box2d.getWorld());
         triangles.back().get()->setPhysics(5.0, 0.6, 0.1);
@@ -324,7 +323,7 @@ void EmotionWorld::drawFeeling(){
 
 
 void EmotionWorld::saveEmitterposition(ofVec2f _p){
-    emitterposition->set(_p.x,_p.y);
+    savedemitterposition->set(_p.x,_p.y);
     Settings::get().save("data.json");
 }
 
@@ -657,9 +656,9 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         dir*=10;
  
         r=150;
-        ofVec2f a =ofVec2f(headposition.x-r/2,headposition.y);
-        ofVec2f b =ofVec2f(headposition.x+r/2,headposition.y);
-        ofVec2f c =ofVec2f(headposition.x,headposition.y-r*1.1);
+        ofVec2f a =ofVec2f(emitterposition.x-r/2,emitterposition.y);
+        ofVec2f b =ofVec2f(emitterposition.x+r/2,emitterposition.y);
+        ofVec2f c =ofVec2f(emitterposition.x,emitterposition.y-r*1.1);
         anchors.push_back(shared_ptr<AnchorTriangle>(new AnchorTriangle(a,b,c)));
         anchors.back().get()->setWorld(box2d.getWorld());
         anchors.back().get()->setPhysics(300.0, 0.2, 100);
@@ -676,8 +675,8 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         kreise.back().get()->setWorld(box2d.getWorld());
         kreise.back().get()->bSeekTarget=true;
         kreise.back().get()->setRadius(ofRandom(200,500));
-        kreise.back().get()->setPosition(headposition.x,headposition.y);
-        kreise.back().get()->setTarget(ofVec2f(headposition.x+400,headposition.y));
+        kreise.back().get()->setPosition(emitterposition.x,emitterposition.y);
+        kreise.back().get()->setTarget(ofVec2f(emitterposition.x+400,emitterposition.y));
         kreise.back().get()->setup();
     }
     if(msg.getAddress() == "/EmotionWorld/push22")
@@ -704,8 +703,8 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         sterne.push_back(shared_ptr<Stern>(new Stern));
         sterne.back().get()->setWorld(box2d.getWorld());
         sterne.back().get()->bSeekTarget=true;
-        sterne.back().get()->setPosition(headposition.x,headposition.y);
-        sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,headposition.y)));
+        sterne.back().get()->setPosition(emitterposition.x,emitterposition.y);
+        sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,emitterposition.y)));
         sterne.back().get()->setup();
         sterne.back().get()->setTargetRadius(ofRandom(5,20));
 
@@ -725,6 +724,14 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
             sterne[i]->setState(FADEOUT);
         }
     }
+    
+    
+    if(msg.getAddress() == "/EmotionWorld/toggle23")
+    {
+        float m=msg.getArgAsBool(0);
+        bindToSkeletton(m);
+    }
+    
     
 }
 
