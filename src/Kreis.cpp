@@ -113,7 +113,7 @@ void Kreis::turnPhysicsOn(bool _on){
     bPhysics=_on;
     if(bPhysics){
         anchor.setPosition(getPosition());
-        anchor.setPhysics(50, 0.5, 0.9);
+        anchor.setPhysics(50, 0.5, 0.6);
         anchor.body->SetType(b2_dynamicBody);
     }
 }
@@ -129,13 +129,13 @@ void Kreis::setState(int _state){
         case START:
             break;
         case MOVINGOBJECT:
-            anchor.setPhysics(0, 0.5, 0.9);
+            anchor.setPhysics(0, 0.5, 0.4);
             anchor.body->SetType(b2_kinematicBody);
             break;
         case PHYSICS:
             cout<<"State "<<state<<endl;
             anchor.setPosition(getPosition());
-            anchor.setPhysics(50, 0.5, 0.9);
+            anchor.setPhysics(50, 0.5, 0.4);
             anchor.body->SetType(b2_dynamicBody);
             break;
         case FADEOUT:

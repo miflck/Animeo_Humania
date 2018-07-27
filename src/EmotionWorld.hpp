@@ -30,7 +30,11 @@
 
 #include "ofxJsonSettings.h"
 
-
+class SoundData {
+public:
+    int     soundID;
+    bool bHit;
+};
 
 
 // ------------------------------------------------- a simple extended box2d circle
@@ -120,7 +124,7 @@ public:
     
     
     void draw() {
-        ofSetColor(255);
+
        // ofxBox2dCircle::draw();
         float radius = getRadius();
         ofPushMatrix();
@@ -257,7 +261,7 @@ public:
     
     void draw() {
       //  float radius = getRadius();
-       ofxBox2dPolygon::draw();
+     //  ofxBox2dPolygon::draw();
         ofPushStyle();
         ofPoint ct = getCentroid2D();
         ofPushMatrix();
@@ -268,11 +272,7 @@ public:
         ofSetColor(col);
         ofFill();
         ofDrawTriangle(a, b,c);
-       // ofSetColor(255,0,0);
-      //  ofDrawCircle(center,5);
-       // ofDrawCircle(b,5);
-
-      //  ofDrawCircle(0,0,radius);
+    
         ofPopMatrix();
         ofNoFill();
         //ofSetColor(255);
@@ -354,16 +354,21 @@ public:
     
     void draw() {
         //  float radius = getRadius();
-        //  ofxBox2dPolygon::draw();
+         // ofxBox2dPolygon::draw();
         ofPushStyle();
         ofSetColor(col);
+        
+       // SoundData * data = (SoundData*) getData();
+       // if(data && data->bHit) ofSetHexColor(0xff0000);
+       // else
+       //     ofSetColor(255);
 
         ofPoint ct = getCentroid2D();
         ofPushMatrix();
         ofTranslate(getPosition().x,getPosition().y);
         ofRotate(getRotation());
         ofScale(actualRadius,actualRadius);
-        anchor.draw(-anchor.getWidth()/2,-anchor.getHeight()/2);
+        anchor.draw(-anchor.getWidth()/2,-anchor.getHeight()/2-20);
         ofTranslate(-ct.x,-ct.y);
         ofFill();
        // ofDrawTriangle(a, b,c);
@@ -532,7 +537,9 @@ private:
 
     ofSoundPlayer anchorSound;
 
-
+    // this is the function for contacts
+    void contactStart(ofxBox2dContactArgs &e);
+    void contactEnd(ofxBox2dContactArgs &e);
     
     
 };

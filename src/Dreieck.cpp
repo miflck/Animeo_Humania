@@ -105,9 +105,9 @@ void Dreieck::update(){
 }
 
 void Dreieck::draw(){
-    triangleAnchor.draw();
+  //  triangleAnchor.draw();
 
-    ofPushMatrix();
+    /*ofPushMatrix();
     ofPushStyle();
     ofTranslate(getPosition().x, getPosition().y);
     ofSetColor(color);
@@ -115,49 +115,29 @@ void Dreieck::draw(){
     ofDrawCircle(0,0,10);
     ofPopStyle();
     ofPopMatrix();
-    
+    */
     
     
     
     ofPushStyle();
-    //ofSetColor(col);
+    ofSetColor(color);
     
     ofPoint ct = triangleAnchor.getCentroid2D();
     ofPushMatrix();
     ofTranslate(getPosition().x,getPosition().y);
     ofTranslate(ct.x,ct.y);
     ofRotate(triangleAnchor.getRotation());
-    
     ofScale(actualRadius,actualRadius);
-    ofDrawCircle(ct,5);
-
     ofTranslate(-ct.x,-ct.y);
-    ofSetColor(255,0,0);
     ofFill();
-   ofDrawTriangle(a, b,c);
-    // ofSetColor(255,0,0);
-    //  ofDrawCircle(center,5);
-    // ofDrawCircle(b,5);
-    ofDrawCircle(a,5);
-
-   ofDrawCircle(b,5);
-    ofDrawCircle(c,5);
-
-    
-    //  ofDrawCircle(0,0,radius);
+    ofDrawTriangle(a, b,c);
     ofPopMatrix();
     ofNoFill();
-    //ofSetColor(255);
     
     ofPopStyle();
-    ofPushStyle();
 
-     ct = triangleAnchor.getCentroid2D();
-    ofFill();
-    ofSetColor(0, 255, 0);
-    ofDrawCircle(ct.x, ct.y, 10);
-    ofPopStyle();
-}
+
+     }
 
 void Dreieck::setWorld(b2World* w){
     world=w;
@@ -168,7 +148,7 @@ void Dreieck::turnPhysicsOn(bool _on){
     bPhysics=_on;
     if(bPhysics){
         triangleAnchor.setPosition(getPosition());
-        triangleAnchor.setPhysics(50, 0.5, 0.9);
+        triangleAnchor.setPhysics(50, 0.5, 0.5);
         triangleAnchor.body->SetType(b2_dynamicBody);
     }
 }
@@ -184,13 +164,13 @@ void Dreieck::setState(int _state){
         case START:
             break;
         case MOVINGOBJECT:
-            triangleAnchor.setPhysics(0, 0.5, 0.9);
+            triangleAnchor.setPhysics(0, 0.5, 0.6);
             triangleAnchor.body->SetType(b2_kinematicBody);
             break;
         case PHYSICS:
             cout<<"State "<<state<<endl;
             triangleAnchor.setPosition(getPosition());
-            triangleAnchor.setPhysics(50, 0.5, 0.9);
+            triangleAnchor.setPhysics(50, 0.5, 0.6);
             triangleAnchor.body->SetType(b2_dynamicBody);
             break;
         case FADEOUT:

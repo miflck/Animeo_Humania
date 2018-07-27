@@ -29,11 +29,16 @@ void EmotionWorld::init(){
 
     
     box2d.init();
+    box2d.enableEvents();   // <-- turn on the event listener
     box2d.setGravity(0, gravityY);
     box2d.createGround();
     box2d.setFPS(60.0);
     box2d.registerGrabbing();
     
+    
+    // register the listener so that we get the events
+    ofAddListener(box2d.contactStartEvents, this, &EmotionWorld::contactStart);
+    ofAddListener(box2d.contactEndEvents, this, &EmotionWorld::contactEnd);
     
     anchor.setPhysics(50, 0.5, 0.9);
     anchor.setup(box2d.getWorld(), 0, 0, 50);
@@ -81,7 +86,8 @@ void EmotionWorld::init(){
         ploppsounds[i].load(dir.getPath(i));
         ofLog(OF_LOG_NOTICE,"songs loaded")<<i<<" path "<<dir.getPath(i);
     }
-    
+    anchorSound.load("Sounds/Anker0.wav");
+    anchorSound.setMultiPlay(true);
     
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &EmotionWorld::onMessageReceived);
 }
@@ -104,6 +110,7 @@ void EmotionWorld::update(){
     for(int i=0;i<anchors.size();i++){
          anchors[i]->setRotationFriction(0.8);
         anchors[i]->update();
+        
         
     }
     
@@ -300,7 +307,7 @@ void EmotionWorld::emitShapes(){
     if(rAdd>emitShapeFrequency){
         float r =0;        // a random radius 4px - 20px
         shapes.push_back(shared_ptr<Shape>(new Shape));
-        shapes.back().get()->setPhysics(5, 0.6, 0.1);
+        shapes.back().get()->setPhysics(5, 0.6, 0.3);
         shapes.back().get()->setup(box2d.getWorld(), emitterposition.x, emitterposition.y,r);
         shapes.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
         playRandomPlopp();
@@ -314,7 +321,7 @@ void EmotionWorld::emitShapes(){
         ofVec2f c =ofVec2f(emitterposition.x,emitterposition.y+r);
         triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
         triangles.back().get()->setWorld(box2d.getWorld());
-        triangles.back().get()->setPhysics(5.0, 0.6, 0.1);
+        triangles.back().get()->setPhysics(5.0, 0.6, 0.3);
         triangles.back().get()->create(box2d.getWorld());
         triangles.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
         triangles.back().get()->setAngularVelocity(2);
@@ -331,7 +338,7 @@ void EmotionWorld::emitMultiShapes(int _n){
         if(rAdd>emitShapeFrequency){
             float r =0;        // a random radius 4px - 20px
             shapes.push_back(shared_ptr<Shape>(new Shape));
-            shapes.back().get()->setPhysics(5, 0.6, 0.1);
+            shapes.back().get()->setPhysics(5, 0.6, 0.3);
             shapes.back().get()->setup(box2d.getWorld(), emitterposition.x, emitterposition.y,r);
             shapes.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
         }
@@ -344,7 +351,7 @@ void EmotionWorld::emitMultiShapes(int _n){
             ofVec2f c =ofVec2f(emitterposition.x,emitterposition.y+r);
             triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
             triangles.back().get()->setWorld(box2d.getWorld());
-            triangles.back().get()->setPhysics(5.0, 0.6, 0.1);
+            triangles.back().get()->setPhysics(5.0, 0.6, 0.3);
             triangles.back().get()->create(box2d.getWorld());
             triangles.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
             triangles.back().get()->setAngularVelocity(2);
@@ -572,6 +579,59 @@ void EmotionWorld::mouseExited(ofMouseEventArgs &a){
 }
 
 
+
+
+//--------------------------------------------------------------
+void EmotionWorld::contactStart(ofxBox2dContactArgs &e) {
+
+    if(e.a != NULL && e.b != NULL) {
+        
+        // if we collide with the ground we do not
+        // want to play a sound. this is how you do that
+        if(e.a->GetType() == b2Shape::e_edge && e.b->GetType() == b2Shape::e_polygon) {
+            
+            SoundData * aData = (SoundData*)e.a->GetBody()->GetUserData();
+            SoundData * bData = (SoundData*)e.b->GetBody()->GetUserData();
+            
+            if(aData) {
+              aData->bHit = true;
+                //sound[aData->soundID].play();
+                //playRandomPlopp();
+            }
+            
+            if(bData && !bData->bHit) {
+               bData->bHit = true;
+                //sound[bData->soundID].play();
+                //playRandomPlopp();
+                anchorSound.play();
+
+            }
+        }
+    }
+}
+
+//--------------------------------------------------------------
+void EmotionWorld::contactEnd(ofxBox2dContactArgs &e) {
+
+    if(e.a != NULL && e.b != NULL) {
+        
+        SoundData * aData = (SoundData*)e.a->GetBody()->GetUserData();
+        SoundData * bData = (SoundData*)e.b->GetBody()->GetUserData();
+        
+        if(aData) {
+            //aData->bHit = false;
+        }
+        
+        if(bData) {
+           // bData->bHit = false;
+        }
+    }
+}
+
+
+
+
+
 void EmotionWorld::toggleMouseActive(){
     bIsMouseActive=!bIsMouseActive;
 }
@@ -741,13 +801,21 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         r=150;
         ofVec2f a =ofVec2f(emitterposition.x-r/2,emitterposition.y);
         ofVec2f b =ofVec2f(emitterposition.x+r/2,emitterposition.y);
-        ofVec2f c =ofVec2f(emitterposition.x,emitterposition.y-r*1.1);
+        ofVec2f c =ofVec2f(emitterposition.x,emitterposition.y-r);
         anchors.push_back(shared_ptr<AnchorTriangle>(new AnchorTriangle(a,b,c)));
         anchors.back().get()->setWorld(box2d.getWorld());
-        anchors.back().get()->setPhysics(300.0, 0.2, 100);
+        anchors.back().get()->setPhysics(800.0, 0.2, 0.5);
         anchors.back().get()->create(box2d.getWorld());
         anchors.back().get()->setVelocity(dir);
         anchors.back().get()->setAngularVelocity(0);
+        playRandomPlopp();
+        
+        
+        anchors.back().get()->setData(new SoundData());
+        SoundData * sd = (SoundData*) anchors.back().get()->getData();
+        sd->soundID = ofRandom(0, ploppsounds.size());
+        sd->bHit    = false;
+
         
     }
     
@@ -763,6 +831,8 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
 
         kreise.back().get()->setTarget(ofVec2f(emitterposition.x+400,emitterposition.y));
         kreise.back().get()->setup();
+        playRandomPlopp();
+
     }
     if(msg.getAddress() == "/EmotionWorld/push28")
     {
@@ -787,25 +857,11 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         
         float r=ofRandom(100,200);
       
-        
         ofVec2f a =ofVec2f(-r/2,0);
         ofVec2f b =ofVec2f(+r/2,0);
         ofVec2f c =ofVec2f(0,+r);
-        
-     /*   triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
-        triangles.back().get()->setWorld(box2d.getWorld());
-        triangles.back().get()->setPhysics(5.0, 0.6, 0.1);
-        triangles.back().get()->create(box2d.getWorld());
-        triangles.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
-        triangles.back().get()->setAngularVelocity(2);
-*/
-        
-  
-
-        
+    
         dreiecke.push_back(shared_ptr<Dreieck>(new Dreieck (a,b,c)));
-       // dreiecke.back().get()->setPhysics(5.0, 0.6, 0.1);
-
         dreiecke.back().get()->setWorld(box2d.getWorld());
         dreiecke.back().get()->bSeekTarget=true;
         dreiecke.back().get()->setRadius(r);
@@ -814,6 +870,8 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         
         dreiecke.back().get()->setTarget(ofVec2f(emitterposition.x+600,emitterposition.y));
         dreiecke.back().get()->setup();
+        playRandomPlopp();
+
     }
     if(msg.getAddress() == "/EmotionWorld/push32")
     {
@@ -861,7 +919,6 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         }
     }
     
-    
     if(msg.getAddress() == "/EmotionWorld/push26")
     {
         for(int i=0;i<sterne.size();i++){
@@ -869,14 +926,11 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         }
     }
     
-    
     if(msg.getAddress() == "/EmotionWorld/toggle23")
     {
         float m=msg.getArgAsBool(0);
         bindToSkeletton(m);
     }
-    
-    
 }
 
 
