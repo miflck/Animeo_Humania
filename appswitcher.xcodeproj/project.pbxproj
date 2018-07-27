@@ -133,6 +133,8 @@
 		FA7CD91720E0E7300087B055 /* Flash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA7CD91520E0E72F0087B055 /* Flash.cpp */; };
 		FAAD101C20FE8AA1004B064D /* Humania.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAAD101A20FE8AA1004B064D /* Humania.cpp */; };
 		FAB0AF3220FDE18C002F7FA7 /* helper.hpp in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AF3120FDE18C002F7FA7 /* helper.hpp */; };
+		FACE81F2210AF9300061E979 /* Dreieck.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FACE81F0210AF92F0061E979 /* Dreieck.cpp */; };
+		FACE81F5210AF98A0061E979 /* ExtrashapeBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FACE81F3210AF98A0061E979 /* ExtrashapeBase.cpp */; };
 		FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21BDE665988474F1B1F4D302 /* jsoncpp.cpp */; };
 /* End PBXBuildFile section */
 
@@ -440,6 +442,10 @@
 		FAAD101A20FE8AA1004B064D /* Humania.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Humania.cpp; sourceTree = "<group>"; };
 		FAAD101B20FE8AA1004B064D /* Humania.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Humania.hpp; sourceTree = "<group>"; };
 		FAB0AF3120FDE18C002F7FA7 /* helper.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = helper.hpp; sourceTree = "<group>"; };
+		FACE81F0210AF92F0061E979 /* Dreieck.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Dreieck.cpp; sourceTree = "<group>"; };
+		FACE81F1210AF92F0061E979 /* Dreieck.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Dreieck.hpp; sourceTree = "<group>"; };
+		FACE81F3210AF98A0061E979 /* ExtrashapeBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ExtrashapeBase.cpp; sourceTree = "<group>"; };
+		FACE81F4210AF98A0061E979 /* ExtrashapeBase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExtrashapeBase.hpp; sourceTree = "<group>"; };
 		FD20B1FFE795860DB1C68BF2 /* b2ChainAndCircleContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2ChainAndCircleContact.cpp; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp; sourceTree = SOURCE_ROOT; };
 		FF2B018E24837032A4878576 /* ofxEasing.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasing.h; path = ../../../addons/ofxEasing/src/ofxEasing.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -989,6 +995,10 @@
 				9B08EE0CAE86BA45D6CAA881 /* EmotionWorld.hpp */,
 				FA043E1A20E6BEEE0080E2D2 /* Kreis.cpp */,
 				FA043E1920E6BEEE0080E2D2 /* Kreis.hpp */,
+				FACE81F0210AF92F0061E979 /* Dreieck.cpp */,
+				FACE81F1210AF92F0061E979 /* Dreieck.hpp */,
+				FACE81F3210AF98A0061E979 /* ExtrashapeBase.cpp */,
+				FACE81F4210AF98A0061E979 /* ExtrashapeBase.hpp */,
 				FA043E1D20E76EF70080E2D2 /* Stern.hpp */,
 				FA043E1E20E76EF70080E2D2 /* Stern.cpp */,
 				681C3C4B598E15BBEB8BCA7D /* Face.cpp */,
@@ -1278,6 +1288,7 @@
 				408954594723264E14D73311 /* ofxBox2dConvexPoly.cpp in Sources */,
 				4D09B9611BCF4603581DFEE4 /* ofxBox2dEdge.cpp in Sources */,
 				12548B44285B5C07EEA5379C /* ofxBox2dJoint.cpp in Sources */,
+				FACE81F2210AF9300061E979 /* Dreieck.cpp in Sources */,
 				DFACEC3A1E9D23315321D7EA /* ofxBox2dPolygon.cpp in Sources */,
 				B103DF2084E0F38D03E0E6F1 /* ofxBox2dRect.cpp in Sources */,
 				1B19FD7E51B73109C4AC02D9 /* b2BroadPhase.cpp in Sources */,
@@ -1312,6 +1323,7 @@
 				70ACBBD5DBE2725EC1E99CCF /* b2CircleContact.cpp in Sources */,
 				BFD2A0EEBE3B4153659EC355 /* b2Contact.cpp in Sources */,
 				F32187D344F58022DFD48C0F /* b2ContactSolver.cpp in Sources */,
+				FACE81F5210AF98A0061E979 /* ExtrashapeBase.cpp in Sources */,
 				ACB31C66D0D7C71A43276982 /* b2EdgeAndCircleContact.cpp in Sources */,
 				0B399DEC7ADBF7A3B1CF81A9 /* b2EdgeAndPolygonContact.cpp in Sources */,
 				7E1AAAB7A2F92465251AE49E /* b2PolygonAndCircleContact.cpp in Sources */,

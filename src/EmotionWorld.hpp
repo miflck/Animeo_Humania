@@ -18,6 +18,7 @@
 
 #include "Baloon.hpp"
 #include "Kreis.hpp"
+#include "Dreieck.hpp"
 #include "Stern.hpp"
 
 
@@ -256,7 +257,7 @@ public:
     
     void draw() {
       //  float radius = getRadius();
-      //  ofxBox2dPolygon::draw();
+       ofxBox2dPolygon::draw();
         ofPushStyle();
         ofPoint ct = getCentroid2D();
         ofPushMatrix();
@@ -437,6 +438,8 @@ public:
     
     vector      <shared_ptr<Kreis> > kreise; // default box2d circles
     vector      <shared_ptr<Stern> > sterne; // default box2d circles
+    vector      <shared_ptr<Dreieck> > dreiecke; // default box2d circles
+
 
 
 

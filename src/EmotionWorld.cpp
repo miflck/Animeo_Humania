@@ -112,6 +112,11 @@ void EmotionWorld::update(){
         kreise[i]->update();
     }
     
+    for(int i=0;i<dreiecke.size();i++){
+        if(bCircleFollowMouse)dreiecke[i]->setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+        dreiecke[i]->update();
+    }
+    
     for(int i=0;i<sterne.size();i++){
         sterne[i]->update();
     }
@@ -184,6 +189,8 @@ void EmotionWorld::update(){
     ofRemove(triangles, Triangle::shouldRemoveOffScreen);
     ofRemove(anchors, AnchorTriangle::shouldRemoveOffScreen);    
     ofRemove(kreise, Kreis::shouldRemoveFromScreen);
+    ofRemove(dreiecke, Dreieck::shouldRemoveFromScreen);
+
    
     ofRemove(sterne, Stern::shouldRemoveFromScreen);
 
@@ -243,6 +250,10 @@ void EmotionWorld::draw(){
  
     for(int i=0;i<kreise.size();i++){
         kreise[i]->draw();
+    }
+    
+    for(int i=0;i<dreiecke.size();i++){
+        dreiecke[i]->draw();
     }
     
     for(int i=0;i<sterne.size();i++){
@@ -766,6 +777,57 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     {
         for(int i=0;i<kreise.size();i++){
             kreise[i]->setState(FADEOUT);
+        }
+    }
+    
+    
+    // Dreieck
+    if(msg.getAddress() == "/EmotionWorld/push31")
+    {
+        
+        float r=ofRandom(100,200);
+      
+        
+        ofVec2f a =ofVec2f(-r/2,0);
+        ofVec2f b =ofVec2f(+r/2,0);
+        ofVec2f c =ofVec2f(0,+r);
+        
+     /*   triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
+        triangles.back().get()->setWorld(box2d.getWorld());
+        triangles.back().get()->setPhysics(5.0, 0.6, 0.1);
+        triangles.back().get()->create(box2d.getWorld());
+        triangles.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
+        triangles.back().get()->setAngularVelocity(2);
+*/
+        
+  
+
+        
+        dreiecke.push_back(shared_ptr<Dreieck>(new Dreieck (a,b,c)));
+       // dreiecke.back().get()->setPhysics(5.0, 0.6, 0.1);
+
+        dreiecke.back().get()->setWorld(box2d.getWorld());
+        dreiecke.back().get()->bSeekTarget=true;
+        dreiecke.back().get()->setRadius(r);
+        dreiecke.back().get()->setPosition(emitterposition.x,emitterposition.y);
+        dreiecke.back().get()->setSpeed(0,-5);
+        
+        dreiecke.back().get()->setTarget(ofVec2f(emitterposition.x+600,emitterposition.y));
+        dreiecke.back().get()->setup();
+    }
+    if(msg.getAddress() == "/EmotionWorld/push32")
+    {
+        for(int i=0;i<dreiecke.size();i++){
+            if(dreiecke[i]->getState()==MOVINGOBJECT){
+                dreiecke[i]->setState(PHYSICS);
+                break;
+            }
+        }
+    }
+    if(msg.getAddress() == "/EmotionWorld/push33")
+    {
+        for(int i=0;i<dreiecke.size();i++){
+            dreiecke[i]->setState(FADEOUT);
         }
     }
 
