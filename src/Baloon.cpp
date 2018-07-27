@@ -18,6 +18,15 @@ Baloon::~Baloon(){
 
 void Baloon::setup(){
     actualRadius=200;
+    bWander=true;
+    wanderforce=0.1;
+    setSeekForce(0.01);
+
+    bSeekTarget=true;
+    
+    setSpeed(0,-1);
+    setMaxSpeed(5);
+
 }
 
 void Baloon::update(){
@@ -29,7 +38,6 @@ void Baloon::update(){
    // move();
     //position+=speed;
     //skeletons=KINECTMANAGER->getSkelettons();
-    
     
 }
 

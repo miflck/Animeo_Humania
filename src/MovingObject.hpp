@@ -74,6 +74,21 @@ public:
     
 
     
+    float wanderR=50;
+    float wanderD=500.0f;
+    float change=0.3f;
+    float wanderforce;
+    void setWanderForce(float f);
+    void setOffscreenForce(float f);
+    float offscreenforce;
+
+    float wandertheta;
+
+    bool bWander=false;
+    void makeNewWanderTarget();
+    ofVec3f wander(float f);
+
+    
     
 private:
     ofVec2f position;

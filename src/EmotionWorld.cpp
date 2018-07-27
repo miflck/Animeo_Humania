@@ -60,7 +60,7 @@ void EmotionWorld::init(){
     
     
     baloon.setup();
-    baloon.bSeekTarget=true;
+   // baloon.bSeekTarget=true;
     
     savedemitterposition=&Settings::getVec2("emotions/emitterposition");
     emitterposition.set(savedemitterposition->x,savedemitterposition->y);
