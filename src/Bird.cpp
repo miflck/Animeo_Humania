@@ -26,6 +26,7 @@ void Bird::setup(){
     
     setSpeed(0,-1);
     setMaxSpeed(5);
+    setSlowDown(true);
 
 }
 
