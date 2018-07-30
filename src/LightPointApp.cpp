@@ -604,13 +604,13 @@ void LightPointApp::getScared(){
 }
 
 void LightPointApp::getWatch(){
+    if(mover.getState()==WATCH){
+        mover.setState(FREE);
+    }else{
     mover.setTarget(*watchposition);
     mover.setState(WATCH);
-    mover.setWatch(!mover.getWatch());
-
-    //mover.scaleTo(size1,0.5);
     skelettonNodeId=2;
-    //mover.setSeekForce(50);
+    }
     ofxOscMessage m;
     m.addFloatArg(ofMap(watchposition->y,0,ofGetHeight(),0,1));
     m.addFloatArg(ofMap(watchposition->x,0,ofGetWidth(),0,1));

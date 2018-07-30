@@ -26,7 +26,6 @@ void MovingObject::setup(){
      wanderD=400.0f;
      change=0.1f;
     
-    
 }
 
 void MovingObject::update(){
@@ -62,6 +61,8 @@ void MovingObject::move(){
     }
 
     */
+    
+   
     
     if(bSeekTarget) applyForce(seek(target,seekforce));
     if(bWander) applyForce(wander(wanderforce));
@@ -141,7 +142,25 @@ ofVec2f MovingObject::getSpeed(){
 
 
 void MovingObject::setTarget(ofVec2f _target){
+    oldtarget.set(target);
     target.set(_target);
+    
+    // make slower moves if target move slow
+    if(bMovingMaxspeed){
+        ofVec2f p(position);
+        ofVec2f desired=target-p;
+        float d = ABS(desired.length());
+       
+        if(d<200){
+            maxspeed=ofMap(d,0,100,0,initmaxspeed);
+            cout<<d<<" "<<maxspeed<<endl;
+        }else{
+            maxspeed=initmaxspeed;
+        }
+    }else{
+        maxspeed=initmaxspeed;
+    }
+
 }
 
 void MovingObject::applyForce(ofVec2f _force){

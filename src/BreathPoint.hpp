@@ -62,7 +62,8 @@ public:
     int size3=150;
     int sizeWatch=60;
 
-    
+    float seekforce0=0.9;
+
     int seekforce1=5;
     int seekforce2=10;
     int seekforce3=50;

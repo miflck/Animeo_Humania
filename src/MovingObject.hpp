@@ -90,14 +90,20 @@ public:
     void makeNewWanderTarget();
     ofVec3f wander(float f);
 
+    bool bMovingMaxspeed=false;
     
+    float initmaxspeed=50;
+
     
 private:
     ofVec2f position;
     
     ofVec2f velocity;
     ofVec2f target;
+    ofVec2f oldtarget;
+
    float maxspeed=50;
+
     
     ofVec2f acceleration;
     float seekforce=0.5;
