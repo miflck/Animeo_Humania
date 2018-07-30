@@ -26,6 +26,10 @@ public:
     
     int strokeWeight=6;
     
+    float actualTriangleAngle;
+    float triangleAngleTarget;
+
+    
 private:
    
 };

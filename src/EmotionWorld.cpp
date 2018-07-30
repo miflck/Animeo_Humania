@@ -138,7 +138,8 @@ void EmotionWorld::update(){
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
    
     
-    baloon.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+    //baloon.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+   // baloon.setTarget(emitterposition.x,emitterposition.y);
 
     
     
@@ -678,6 +679,33 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         baloon.setPosition(pos.x,pos.y);
         showBaloon(f);
     }
+    
+    if(msg.getAddress() == "/Baloon/toggle24")
+    {
+        float f=msg.getArgAsBool(0);
+        baloon.setPosition(emitterposition.x,emitterposition.y);
+        baloon.setTarget(ofVec2f(emitterposition.x,emitterposition.y));
+
+        showBaloon(f);
+        
+        ofxOscMessage m;
+        m.addFloatArg(ofMap(emitterposition.y,0,ofGetHeight(),0,1));
+        m.addFloatArg(ofMap(emitterposition.x,0,ofGetWidth(),0,1));
+        m.setAddress("/Baloon/xy3");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    
+    if(msg.getAddress() == "/Baloon/xy3")
+    {
+        float x=msg.getArgAsFloat(0);
+        float y=msg.getArgAsFloat(1);
+        x=ofMap(x,0,1,-150,ofGetWidth()+150);
+        y=ofMap(y,0,1,-150,ofGetHeight()+150);
+        baloon.setTarget(ofVec2f(x,y));
+    }
+    
+    
     
     if(msg.getAddress() == "/EmotionWorld/toggle3")
     {

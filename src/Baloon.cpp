@@ -19,8 +19,8 @@ Baloon::~Baloon(){
 void Baloon::setup(){
     actualRadius=200;
     bWander=true;
-    wanderforce=0.1;
-    setSeekForce(0.01);
+    wanderforce=0.0;
+    setSeekForce(0.5);
 
     bSeekTarget=true;
     
@@ -33,8 +33,21 @@ void Baloon::update(){
     
     auto endTime = easingInitTime + scaleDuration;
     auto now = ofGetElapsedTimef();
+  //  wanderforce=ofRandom(0,1);
+//    setSeekForce(1-wanderforce);
+
     move();
     actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
+    
+    ofVec2f s=getSpeed();
+    float a=s.angle(ofVec2f(0,-1));
+    a=ofMap(a,-90,90,-20,20,true);
+    a=ofMap(s.length(),0,5,0,a,true);
+
+    triangleAngleTarget=a;
+    actualTriangleAngle = ofLerp(actualTriangleAngle, triangleAngleTarget, 0.1);
+
+    
    // move();
     //position+=speed;
     //skeletons=KINECTMANAGER->getSkelettons();
@@ -58,6 +71,11 @@ void Baloon::draw(){
     ofSetColor(255,0,0);
 
     ofDrawEllipse(0,0,130,150);
+    ofTranslate(0,75);
+   
+    ofRotate(-actualTriangleAngle);
+    ofDrawTriangle(0, 0, 20, 30, -20, 30);
+
     ofPopStyle();
     ofPopMatrix();
 }
