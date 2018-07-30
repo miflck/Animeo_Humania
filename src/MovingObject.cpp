@@ -240,7 +240,7 @@ ofVec3f MovingObject::wander(float f){
     ofVec3f steer=desired-velocity;
     steer.limit(f);
     
-    cout<<circlepos<<" "<<steer<<endl;
+    //cout<<circlepos<<" "<<steer<<endl;
 
     return steer;
 

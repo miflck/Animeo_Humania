@@ -59,7 +59,9 @@ void EmotionWorld::init(){
     sun.bSeekTarget=true;
     
     
-    baloon.setup();
+    balloon.setup();
+    bird.setup();
+
    // baloon.bSeekTarget=true;
     
     savedemitterposition=&Settings::getVec2("emotions/emitterposition");
@@ -153,7 +155,8 @@ void EmotionWorld::update(){
 
     }
     sun.update();
-    baloon.update();
+    balloon.update();
+    bird.update();
     
     for(int i=0;i<movingObjects.size();i++){
         movingObjects[i].setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
@@ -227,7 +230,8 @@ void EmotionWorld::draw(){
     ofPushStyle();
    if(bShowSun)sun.draw();
     
-    if(bShowBaloon)baloon.draw();
+    if(bShowBalloon)balloon.draw();
+    if(bShowBird)bird.draw();
 
     
     
@@ -374,8 +378,12 @@ void EmotionWorld::showSun(bool _s){
 }
 
 
-void EmotionWorld::showBaloon(bool _s){
-    bShowBaloon=_s;
+void EmotionWorld::showBalloon(bool _s){
+    bShowBalloon=_s;
+}
+
+void EmotionWorld::showBird(bool _s){
+    bShowBird=_s;
 }
 
 
@@ -676,33 +684,50 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         if(mskel.size()>0 && f){
            pos=mskel[0].head;
         }
-        baloon.setPosition(pos.x,pos.y);
-        showBaloon(f);
+        balloon.setPosition(pos.x,pos.y);
+        showBalloon(f);
     }
     
-    if(msg.getAddress() == "/Baloon/toggle24")
+    if(msg.getAddress() == "/Balloon/toggle24")
     {
         float f=msg.getArgAsBool(0);
-        baloon.setPosition(emitterposition.x,emitterposition.y);
-        baloon.setTarget(ofVec2f(emitterposition.x,emitterposition.y));
+        balloon.setPosition(emitterposition.x,emitterposition.y);
+        balloon.setTarget(ofVec2f(emitterposition.x,emitterposition.y));
 
-        showBaloon(f);
+        showBalloon(f);
         
         ofxOscMessage m;
         m.addFloatArg(ofMap(emitterposition.y,0,ofGetHeight(),0,1));
         m.addFloatArg(ofMap(emitterposition.x,0,ofGetWidth(),0,1));
-        m.setAddress("/Baloon/xy3");
+        m.setAddress("/Balloon/xy3");
         APPC->oscmanager.touchOscSender.sendMessage(m);
     }
     
     
-    if(msg.getAddress() == "/Baloon/xy3")
+    if(msg.getAddress() == "/Balloon/toggle25")
+    {
+        float f=msg.getArgAsBool(0);
+        bird.setPosition(emitterposition.x,emitterposition.y);
+        bird.setTarget(ofVec2f(emitterposition.x,emitterposition.y));
+        
+        showBird(f);
+        
+        ofxOscMessage m;
+        m.addFloatArg(ofMap(emitterposition.y,0,ofGetHeight(),0,1));
+        m.addFloatArg(ofMap(emitterposition.x,0,ofGetWidth(),0,1));
+        m.setAddress("/Balloon/xy3");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    
+    if(msg.getAddress() == "/Balloon/xy3")
     {
         float x=msg.getArgAsFloat(0);
         float y=msg.getArgAsFloat(1);
         x=ofMap(x,0,1,-150,ofGetWidth()+150);
         y=ofMap(y,0,1,-150,ofGetHeight()+150);
-        baloon.setTarget(ofVec2f(x,y));
+        balloon.setTarget(ofVec2f(x,y));
+        bird.setTarget(ofVec2f(x,y));
     }
     
     

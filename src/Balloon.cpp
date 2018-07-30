@@ -5,18 +5,18 @@
 //  Created by Flückiger Michael on 08.05.18.
 //
 
-#include "Baloon.hpp"
+#include "Balloon.hpp"
 #include "ofxEasing.h"
 
-Baloon::Baloon(){
+Balloon::Balloon(){
     
 }
 
-Baloon::~Baloon(){
+Balloon::~Balloon(){
     
 }
 
-void Baloon::setup(){
+void Balloon::setup(){
     actualRadius=200;
     bWander=true;
     wanderforce=0.0;
@@ -29,7 +29,7 @@ void Baloon::setup(){
 
 }
 
-void Baloon::update(){
+void Balloon::update(){
     
     auto endTime = easingInitTime + scaleDuration;
     auto now = ofGetElapsedTimef();
@@ -58,7 +58,7 @@ void Baloon::update(){
 
 
 
-void Baloon::draw(){
+void Balloon::draw(){
     
     ofPushMatrix();
     ofPushStyle();
