@@ -38,7 +38,7 @@ public:
     
     void setSpeed(int _x, int _y);
     
-    void setTarget(ofVec2f _target);
+    virtual void setTarget(ofVec2f _target);
     void setMaxSpeed(float _m);
     void move();
     void applyForce(ofVec2f _force);

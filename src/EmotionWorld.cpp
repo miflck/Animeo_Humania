@@ -66,7 +66,7 @@ void EmotionWorld::init(){
     
     savedemitterposition=&Settings::getVec2("emotions/emitterposition");
     emitterposition.set(savedemitterposition->x,savedemitterposition->y);
-    
+    emitteroffset.set(400,0);
     
     ofDirectory dir;
     dir.listDir("Sounds/Multiplopp");
@@ -692,13 +692,16 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     {
         float f=msg.getArgAsBool(0);
         balloon.setPosition(emitterposition.x,emitterposition.y);
-        balloon.setTarget(ofVec2f(emitterposition.x,emitterposition.y));
+        balloon.setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
 
+        if(f)balloon.startEasingIn();
         showBalloon(f);
+        playRandomPlopp();
+
         
         ofxOscMessage m;
-        m.addFloatArg(ofMap(emitterposition.y,0,ofGetHeight(),0,1));
-        m.addFloatArg(ofMap(emitterposition.x,0,ofGetWidth(),0,1));
+        m.addFloatArg(ofMap(emitterposition.y+emitteroffset.y,0,ofGetHeight(),0,1));
+        m.addFloatArg(ofMap(emitterposition.x+emitteroffset.x,0,ofGetWidth(),0,1));
         m.setAddress("/Balloon/xy3");
         APPC->oscmanager.touchOscSender.sendMessage(m);
     }
@@ -708,13 +711,16 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     {
         float f=msg.getArgAsBool(0);
         bird.setPosition(emitterposition.x,emitterposition.y);
-        bird.setTarget(ofVec2f(emitterposition.x,emitterposition.y));
+        bird.setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
         
         showBird(f);
         
+        playRandomPlopp();
+
+        
         ofxOscMessage m;
-        m.addFloatArg(ofMap(emitterposition.y,0,ofGetHeight(),0,1));
-        m.addFloatArg(ofMap(emitterposition.x,0,ofGetWidth(),0,1));
+        m.addFloatArg(ofMap(emitterposition.y+emitteroffset.y,0,ofGetHeight(),0,1));
+        m.addFloatArg(ofMap(emitterposition.x+emitteroffset.x,0,ofGetWidth(),0,1));
         m.setAddress("/Balloon/xy3");
         APPC->oscmanager.touchOscSender.sendMessage(m);
     }
@@ -882,7 +888,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         kreise.back().get()->setPosition(emitterposition.x,emitterposition.y);
         kreise.back().get()->setSpeed(0,-5);
 
-        kreise.back().get()->setTarget(ofVec2f(emitterposition.x+400,emitterposition.y));
+        kreise.back().get()->setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
         kreise.back().get()->setup();
         playRandomPlopp();
 
@@ -921,7 +927,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         dreiecke.back().get()->setPosition(emitterposition.x,emitterposition.y);
         dreiecke.back().get()->setSpeed(0,-5);
         
-        dreiecke.back().get()->setTarget(ofVec2f(emitterposition.x+600,emitterposition.y));
+        dreiecke.back().get()->setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
         dreiecke.back().get()->setup();
         playRandomPlopp();
 

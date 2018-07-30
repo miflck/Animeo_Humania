@@ -29,6 +29,7 @@ public:
     float actualTriangleAngle;
     float triangleAngleTarget;
 
+    void startEasingIn();
     
 private:
    

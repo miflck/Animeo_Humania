@@ -17,7 +17,10 @@ Balloon::~Balloon(){
 }
 
 void Balloon::setup(){
-    actualRadius=200;
+    actualRadius=0.2;
+    radiusTarget=1;
+    scaleDuration=20;
+    
     bWander=true;
     wanderforce=0.0;
     setSeekForce(0.5);
@@ -39,6 +42,8 @@ void Balloon::update(){
     move();
     actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
     
+    cout<<actualRadius<<endl;
+    
     ofVec2f s=getSpeed();
     float a=s.angle(ofVec2f(0,-1));
     a=ofMap(a,-90,90,-20,20,true);
@@ -56,7 +61,10 @@ void Balloon::update(){
 
 
 
-
+void Balloon::startEasingIn(){
+    actualRadius=0.2;
+    easingInitTime=ofGetElapsedTimef();
+}
 
 void Balloon::draw(){
     
@@ -66,8 +74,8 @@ void Balloon::draw(){
     ofSetLineWidth(strokeWeight);
     ofTranslate(getPosition().x, getPosition().y);
     ofPushMatrix();
-   
-    ofPopMatrix();
+    ofScale(actualRadius, actualRadius);
+
     ofSetColor(255,0,0);
 
     ofDrawEllipse(0,0,130,150);
@@ -75,6 +83,7 @@ void Balloon::draw(){
    
     ofRotate(-actualTriangleAngle);
     ofDrawTriangle(0, 0, 20, 30, -20, 30);
+    ofPopMatrix();
 
     ofPopStyle();
     ofPopMatrix();

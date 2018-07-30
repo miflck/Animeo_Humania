@@ -585,9 +585,10 @@ void LightPointApp::goHome(){
 
 void LightPointApp::getScared(){
     mover.setTarget(*scaredposition);
-    mover.scaleTo(size1,0.5);
+    mover.setState(SCARED);
+    //mover.scaleTo(size1,0.5);
     skelettonNodeId=2;
-    mover.setSeekForce(50);
+    //mover.setSeekForce(50);
     ofxOscMessage m;
     m.addFloatArg(ofMap(scaredposition->y,0,ofGetHeight(),0,1));
     m.addFloatArg(ofMap(scaredposition->x,0,ofGetWidth(),0,1));
@@ -695,8 +696,15 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
         
     }
     
+    if(msg.getAddress() == "/Light/push34")
+    {
+      //  mover.setState(WATCH);
+        mover.setWatch(!mover.getWatch());
+    }
     
 }
+
+
 
 void LightPointApp::onOSCSetup(ofxOscMessage &msg){
     ofxOscMessage m;

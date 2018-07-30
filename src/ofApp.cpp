@@ -58,6 +58,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    ofEnableSmoothing();
+
     if(bGreenScreen){
         ofColor c=ofColor(255,0,0);
         c.setHueAngle(139);

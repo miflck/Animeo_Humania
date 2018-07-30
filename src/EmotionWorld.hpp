@@ -528,6 +528,10 @@ private:
     ofVec2f *savedemitterposition;
     void saveEmitterposition(ofVec2f _p);
     ofVec2f emitterposition;
+    
+    ofVec2f emitteroffset;
+
+    
     bool bBindToHead=false;
     
     void bindToSkeletton(bool _b);

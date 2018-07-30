@@ -11,6 +11,12 @@
 #include <stdio.h>
 #include "MovingObject.hpp"
 
+#define FREE 1
+#define SCARED 2
+#define HOME 3
+#define INSIDE 4
+#define WATCH 5
+
 
 
 class BreathPoint:public MovingObject {
@@ -24,6 +30,8 @@ public:
     void update();
     void draw();
     
+    void setTarget(ofVec2f _target);
+    
     float getRadius();
     
     int strokeWeight=6;
@@ -33,6 +41,27 @@ public:
     bool bReflect=false;
     void setReflection(bool _r);
   bool  bBreathe=true;
+    
+    
+    bool bWatch=false;
+    void setWatch(bool _b);
+    bool getWatch();
+    
+    float initTime;
+    
+    
+    
+    int state;
+    int stateBefore;
+    void setState(int _state);
+    int getState();
+    
+    
+    int size1=20;
+    int size2=50;
+    int size3=150;
+    
+    
 private:
    
 };
