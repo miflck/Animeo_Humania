@@ -4,8 +4,7 @@
       "cabinposition" : [ 1332, 674 ],
       "homeposition" : [ 1064, 503 ],
       "scaredposition" : [ 702, 208 ],
-      "startposition" : [ 696, 346 ],
-      "watchposition" : [ 1700, 757 ]
+      "startposition" : [ 696, 346 ]
    },
    "LinieApp" : {
       "anchorStartPositionBottom" : [ 1836, 643 ],

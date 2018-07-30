@@ -59,6 +59,7 @@ public:
     void setMoverToStartPosition();
     void goHome();
     void getScared();
+    void getWatch();
    // void goInside();
     
     
@@ -94,6 +95,9 @@ public:
     ofVec2f *startposition;
     ofVec2f *scaredposition;
     ofVec2f *insidePoisiton;
+    
+    ofVec2f *watchposition;
+
 
   //  bool keyIsDown[255];
     
@@ -121,6 +125,7 @@ public:
     int size1=20;
     int size2=50;
     int size3=150;
+    int sizeWatch=30;
     
     /* int soundsLength=4;
     ofSoundPlayer bouncesounds[4];

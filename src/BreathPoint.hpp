@@ -60,7 +60,13 @@ public:
     int size1=20;
     int size2=50;
     int size3=150;
+    int sizeWatch=60;
+
     
+    int seekforce1=5;
+    int seekforce2=10;
+    int seekforce3=50;
+
     
 private:
    

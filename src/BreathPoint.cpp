@@ -24,6 +24,8 @@ void BreathPoint::setup(){
     radiusTarget=50;
     reflectionpoint=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
     initTime=ofGetElapsedTimeMillis();
+    setSlowDown(true);
+    setSlowDownDistance(300);
 
 
 }
@@ -250,14 +252,19 @@ void BreathPoint::setState(int _state){
         case FREE:
             break;
         case SCARED:
-            mover.scaleTo(size1,0.5);
-
+            scaleTo(size1,0.5);
+            setSeekForce(seekforce3);
             break;
         case HOME:
+            
+           scaleTo(size2,0.5);
+           setSeekForce(seekforce1);
             break;
         case INSIDE:
             break;
         case WATCH:
+            scaleTo(sizeWatch,0.5);
+            setSeekForce(seekforce1);
             break;
        
             
