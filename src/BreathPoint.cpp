@@ -25,9 +25,10 @@ void BreathPoint::setup(){
     reflectionpoint=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
     initTime=ofGetElapsedTimeMillis();
     setSlowDown(true);
-    setSlowDownDistance(300);
-    bMovingMaxspeed=true;
+    setSlowDownDistance(100);
+  //  bMovingMaxspeed=true;
     initmaxspeed=50;
+    setMaxSpeed(50);
 
 
 }

@@ -47,6 +47,7 @@ public:
     
     ofVec2f seek(ofVec2f t, float f);
     ofVec2f arrive(ofVec2f t);
+    float getArriveSpeed(ofVec2f t);
 
 
     bool bSeekTarget=false;
@@ -93,6 +94,8 @@ public:
     bool bMovingMaxspeed=false;
     
     float initmaxspeed=50;
+    
+    float arriveMaxSpeed;
 
     
 private:

@@ -512,11 +512,11 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='i'){
-        mover.setReflection(true);
+        //mover.setReflection(true);
     }
     
     if(e.key=='I'){
-        mover.setReflection(false);
+        //mover.setReflection(false);
     }
     
     if(e.key==OF_KEY_CONTROL){
