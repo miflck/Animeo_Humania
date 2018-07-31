@@ -88,10 +88,51 @@ void LinieApp::init(){
     joints.push_back(joint);
     
     
+    mover1.setup();
+    
+    mover1.actualRadius=0.2;
+    mover1.radiusTarget=10;
+    mover1.scaleDuration=20;
+    
+    moverCircleCenter.set(ofGetWidth()/2,ofGetHeight()/2);
+
+    
+    mover1.setPosition(moverCircleCenter);
+    mover1.setTarget(ofVec2f(ofGetWidth()/3,ofGetHeight()/3));
+
+    mover1.setSeekForce(10);
+    mover1.setMaxSpeed(30);
+    
+    mover1.bSeekTarget=true;
+    moverCircleRadius.set(300,0);
+    
+    
+    
 }
 
 void LinieApp::update(){
     box2d.update();
+    if(bMakeCircle){
+        moverCircleRadius.rotate(moverCircleSpeed);
+        //moverCircleAngle+=moverCircleSpeed;
+        mover1.setTarget(moverCircleCenter+moverCircleRadius);
+        //mover1.setTarget(ofVec2f());
+        mover1.update();
+        anchor.setPosition(mover1.getPosition());
+        
+        for(int i=0; i<circles.size(); i++) {
+            /* float dis = mouse.distance(circles[i].get()->getPosition());
+             if(dis < minDis && bIsMouseActive) circles[i].get()->addRepulsionForce(mouse,10);
+             if(mskel.size()>0){
+             float handDist = leftHand.distance(circles[i].get()->getPosition());
+             if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
+             }*/
+            // circles[i].get()->setDamping(generalDamping);
+          circles[i].get()->setDamping(damping);
+            
+        }
+        
+    }
     
     ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
     float minDis = ofGetMousePressed() ? 200 : 100;
@@ -110,7 +151,7 @@ void LinieApp::update(){
                 if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
             }*/
       // circles[i].get()->setDamping(generalDamping);
-        circles[i].get()->setDamping(0.98);
+       if(!bMakeCircle) circles[i].get()->setDamping(0.98);
 
     }
     
@@ -133,7 +174,7 @@ void LinieApp::update(){
      }*/
     
    // circles[0].get()->addRepulsionForce(ofGetWidth()/2,ofGetHeight()/2,mV);
-    cout<<mV<<endl;
+   // cout<<mV<<endl;
   
     if(mV>10 && !bHasStartWave)startWave(mV,mV,10*PI);
    // if(bHasStartWave && mV<15){
@@ -205,6 +246,11 @@ void LinieApp::draw(){
    // ofDrawRectangle(0,0,ofGetWidth(),ofGetHeight());
     
     
+    
+    ofPushMatrix();
+    ofDrawCircle(moverCircleCenter+moverCircleRadius, 10);
+    ofPopMatrix();
+    
     ofPushStyle();
     ofSetColor(255);
     ofSetLineWidth(8);
@@ -219,6 +265,9 @@ void LinieApp::draw(){
 
     if(APPC->debug){
         ofPushStyle();
+        
+        mover1.draw();
+        
         vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
 
         ofVec2f leftHand;
@@ -263,6 +312,10 @@ void LinieApp::exit(){
     cout<<"exit LinieApp"<<endl;
 }
 
+void LinieApp::makeCircle(bool _b){
+    bMakeCircle=_b;
+}
+
 
 
 //KEY LISTENER
@@ -276,7 +329,7 @@ void LinieApp::keyPressed(ofKeyEventArgs &e){
     
     
     if(e.key=='r'){
-        anchor2.setPhysics(10, 1, 10);
+        anchor2.setPhysics(1, 1, 10);
         anchor2.body->SetType(b2_dynamicBody);
         
     }
@@ -490,6 +543,9 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         m.setAddress("/4/label10");
         APPC->oscmanager.touchOscSender.sendMessage(m);
         
+        
+        
+        
     }
     
     if(msg.getAddress() == "/4/rotary5")
@@ -507,7 +563,7 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/4/rotary6")
     {
-        float dmp=msg.getArgAsFloat(0);
+       /* float dmp=msg.getArgAsFloat(0);
         for(int i=0; i<joints.size(); i++) {
             joints[i].get()->setDamping(dmp);
         }
@@ -515,6 +571,9 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         m.addFloatArg(dmp);
         m.setAddress("/4/label12");
         APPC->oscmanager.touchOscSender.sendMessage(m);
+        */
+        float dmp=msg.getArgAsFloat(0);
+        moverCircleSpeed=ofMap(dmp, 0, 1, 0, 20);
     }
     
     if(msg.getAddress() == "/4/rotary7")
@@ -538,6 +597,32 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         m.addFloatArg(damp);
         m.setAddress("/4/label14");
         APPC->oscmanager.touchOscSender.sendMessage(m);*/
+        
+        float den=msg.getArgAsFloat(0);
+        den=ofMap(den, 0, 1, 0, 10);
+        for(int i=0; i<circles.size(); i++) {
+            circles[i].get()->setPhysics(den, 0.5, 0.5);
+        }
+        
+    }
+    
+    if(msg.getAddress() == "/4/rotary9")
+    {
+        /* float damp=msg.getArgAsFloat(0);
+         generalDamping=damp;
+         ofxOscMessage m;
+         m.addFloatArg(damp);
+         m.setAddress("/4/label14");
+         APPC->oscmanager.touchOscSender.sendMessage(m);*/
+        
+        float damp=msg.getArgAsFloat(0);
+        damp=ofMap(damp, 0, 1, 0.8, 1);
+        damping=damp;
+        ofxOscMessage m;
+        m.addFloatArg(damp);
+        m.setAddress("/4/label59");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
     }
     
     

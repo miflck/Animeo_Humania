@@ -14,6 +14,7 @@
 #include "ofxBox2d.h"
 #include "ofxJsonSettings.h"
 #include "ofxOsc.h"
+#include "MovingObject.hpp"
 
 
 
@@ -93,8 +94,17 @@ public:
     
     bool bOrganic=false;
     
+    bool bMakeCircle=true;
+    void makeCircle(bool _b);
+    
+    MovingObject mover1;
+    ofVec2f moverCircleRadius;
+    ofVec2f moverCircleCenter;
 
-
+    float moverCircleAngle=0;
+    float moverCircleSpeed=5;
+    
+    float damping;
     
 private:
     ofxBox2d                                  box2d;   // the box2d world
