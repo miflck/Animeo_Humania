@@ -67,7 +67,7 @@ void MovingObject::move(){
     if(bSeekTarget) applyForce(seek(target,seekforce));
     if(bWander) applyForce(wander(wanderforce));
     //applyForce(arrive(target),1);
-    arrive(target);
+   // arrive(target);
     
     velocity+=acceleration;
     
@@ -234,8 +234,8 @@ ofVec2f MovingObject::seek(ofVec2f t, float f){
 
         //float m=ofMap(d,0,slowdowndistance,0,-velocity);
     //    desired*=maxspeed*(d/slowdowndistance);
-        desired*=maxspeed*m;
-      //  cout<<d<<" "<<desired<<endl;
+        desired*=m;
+       //cout<<d<<" "<<desired.length()<<endl;
        // desired*=maxspeed;
 
     }else{

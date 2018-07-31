@@ -134,6 +134,7 @@ void LinieApp::update(){
     
    // circles[0].get()->addRepulsionForce(ofGetWidth()/2,ofGetHeight()/2,mV);
     cout<<mV<<endl;
+  
     if(mV>10 && !bHasStartWave)startWave(mV,mV,10*PI);
    // if(bHasStartWave && mV<15){
     if( mV<10){
@@ -549,6 +550,7 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/4/push12")
     {
+        cout<<"start wave"<<endl;
         startWave(10,500,PI);
 
     }
