@@ -38,7 +38,7 @@ public:
     
     void setSpeed(int _x, int _y);
     
-    void setTarget(ofVec2f _target);
+    virtual void setTarget(ofVec2f _target);
     void setMaxSpeed(float _m);
     void move();
     void applyForce(ofVec2f _force);
@@ -46,6 +46,9 @@ public:
 
     
     ofVec2f seek(ofVec2f t, float f);
+    ofVec2f arrive(ofVec2f t);
+    float getArriveSpeed(ofVec2f t);
+
 
     bool bSeekTarget=false;
     bool bSeekMouse=false;
@@ -74,13 +77,36 @@ public:
     
 
     
+    float wanderR=50;
+    float wanderD=500.0f;
+    float change=0.3f;
+    float wanderforce;
+    void setWanderForce(float f);
+    void setOffscreenForce(float f);
+    float offscreenforce;
+
+    float wandertheta;
+
+    bool bWander=false;
+    void makeNewWanderTarget();
+    ofVec3f wander(float f);
+
+    bool bMovingMaxspeed=false;
+    
+    float initmaxspeed=50;
+    
+    float arriveMaxSpeed;
+
     
 private:
     ofVec2f position;
     
     ofVec2f velocity;
     ofVec2f target;
+    ofVec2f oldtarget;
+
    float maxspeed=50;
+
     
     ofVec2f acceleration;
     float seekforce=0.5;

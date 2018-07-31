@@ -59,12 +59,14 @@ void EmotionWorld::init(){
     sun.bSeekTarget=true;
     
     
-    baloon.setup();
-    baloon.bSeekTarget=true;
+    balloon.setup();
+    bird.setup();
+
+   // baloon.bSeekTarget=true;
     
     savedemitterposition=&Settings::getVec2("emotions/emitterposition");
     emitterposition.set(savedemitterposition->x,savedemitterposition->y);
-    
+    emitteroffset.set(400,0);
     
     ofDirectory dir;
     dir.listDir("Sounds/Multiplopp");
@@ -138,7 +140,8 @@ void EmotionWorld::update(){
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
    
     
-    baloon.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+    //baloon.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+   // baloon.setTarget(emitterposition.x,emitterposition.y);
 
     
     
@@ -152,7 +155,8 @@ void EmotionWorld::update(){
 
     }
     sun.update();
-    baloon.update();
+    balloon.update();
+    bird.update();
     
     for(int i=0;i<movingObjects.size();i++){
         movingObjects[i].setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
@@ -226,7 +230,8 @@ void EmotionWorld::draw(){
     ofPushStyle();
    if(bShowSun)sun.draw();
     
-    if(bShowBaloon)baloon.draw();
+    if(bShowBalloon)balloon.draw();
+    if(bShowBird)bird.draw();
 
     
     
@@ -373,8 +378,12 @@ void EmotionWorld::showSun(bool _s){
 }
 
 
-void EmotionWorld::showBaloon(bool _s){
-    bShowBaloon=_s;
+void EmotionWorld::showBalloon(bool _s){
+    bShowBalloon=_s;
+}
+
+void EmotionWorld::showBird(bool _s){
+    bShowBird=_s;
 }
 
 
@@ -675,9 +684,59 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         if(mskel.size()>0 && f){
            pos=mskel[0].head;
         }
-        baloon.setPosition(pos.x,pos.y);
-        showBaloon(f);
+        balloon.setPosition(pos.x,pos.y);
+        showBalloon(f);
     }
+    
+    if(msg.getAddress() == "/Balloon/toggle24")
+    {
+        float f=msg.getArgAsBool(0);
+        balloon.setPosition(emitterposition.x,emitterposition.y);
+        balloon.setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
+
+        if(f)balloon.startEasingIn();
+        showBalloon(f);
+        playRandomPlopp();
+
+        
+        ofxOscMessage m;
+        m.addFloatArg(ofMap(emitterposition.y+emitteroffset.y,0,ofGetHeight(),0,1));
+        m.addFloatArg(ofMap(emitterposition.x+emitteroffset.x,0,ofGetWidth(),0,1));
+        m.setAddress("/Balloon/xy3");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    
+    if(msg.getAddress() == "/Balloon/toggle25")
+    {
+        float f=msg.getArgAsBool(0);
+        bird.setPosition(emitterposition.x,emitterposition.y);
+        bird.setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
+        
+        showBird(f);
+        
+        playRandomPlopp();
+
+        
+        ofxOscMessage m;
+        m.addFloatArg(ofMap(emitterposition.y+emitteroffset.y,0,ofGetHeight(),0,1));
+        m.addFloatArg(ofMap(emitterposition.x+emitteroffset.x,0,ofGetWidth(),0,1));
+        m.setAddress("/Balloon/xy3");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    
+    if(msg.getAddress() == "/Balloon/xy3")
+    {
+        float x=msg.getArgAsFloat(0);
+        float y=msg.getArgAsFloat(1);
+        x=ofMap(x,0,1,-150,ofGetWidth()+150);
+        y=ofMap(y,0,1,-150,ofGetHeight()+150);
+        balloon.setTarget(ofVec2f(x,y));
+        bird.setTarget(ofVec2f(x,y));
+    }
+    
+    
     
     if(msg.getAddress() == "/EmotionWorld/toggle3")
     {
@@ -829,7 +888,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         kreise.back().get()->setPosition(emitterposition.x,emitterposition.y);
         kreise.back().get()->setSpeed(0,-5);
 
-        kreise.back().get()->setTarget(ofVec2f(emitterposition.x+400,emitterposition.y));
+        kreise.back().get()->setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
         kreise.back().get()->setup();
         playRandomPlopp();
 
@@ -868,7 +927,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         dreiecke.back().get()->setPosition(emitterposition.x,emitterposition.y);
         dreiecke.back().get()->setSpeed(0,-5);
         
-        dreiecke.back().get()->setTarget(ofVec2f(emitterposition.x+600,emitterposition.y));
+        dreiecke.back().get()->setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
         dreiecke.back().get()->setup();
         playRandomPlopp();
 

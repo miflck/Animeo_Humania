@@ -20,7 +20,12 @@ void MovingObject::setup(){
     actualRadius=0;
     easingInitTime = ofGetElapsedTimef();
     radiusTarget=50;
-
+   // makeNewWanderTarget();
+    
+     wanderR=300.f;
+     wanderD=400.0f;
+     change=0.1f;
+    
 }
 
 void MovingObject::update(){
@@ -57,18 +62,49 @@ void MovingObject::move(){
 
     */
     
-    if(bSeekTarget) applyForce(seek(target,seekforce));
+   
     
+    if(bSeekTarget) applyForce(seek(target,seekforce));
+    if(bWander) applyForce(wander(wanderforce));
+    //applyForce(arrive(target),1);
+   // arrive(target);
     
     velocity+=acceleration;
-    velocity*=0.99;
+    
+    velocity.limit(maxspeed);
+   // if(bSlowDown)velocity.limit(getArriveSpeed(target));
+
+    
     position+= velocity;
     acceleration.set(0,0);
+    velocity*=0.99;
     
 
 }
 
-
+void MovingObject::makeNewWanderTarget(){
+    float wanderR=30.f;
+    float wanderD=50.0f;
+    float change=0.25f;
+    
+    
+    ofVec3f circlepos=velocity;
+    circlepos.normalize();
+    circlepos*=wanderD;
+    circlepos+=position;
+    
+    ofVec3f rad=velocity;
+    rad.normalize();
+    rad*=wanderR;
+    wandertheta+=ofRandom(-change,change);
+    rad.rotate(wandertheta, ofVec3f(0,0,1));
+    target=position+rad;
+    
+    
+    
+    
+    
+}
 
 
 
@@ -112,7 +148,23 @@ ofVec2f MovingObject::getSpeed(){
 
 
 void MovingObject::setTarget(ofVec2f _target){
+    oldtarget.set(target);
     target.set(_target);
+    
+    // make slower moves if target move slow
+  /*  if(bMovingMaxspeed){
+        ofVec2f p(position);
+        ofVec2f desired=target-p;
+        float d = ABS(desired.length());
+        if(d<200){
+            maxspeed=ofMap(d,0,100,0,initmaxspeed);
+            cout<<d<<" "<<maxspeed<<endl;
+        }else{
+            maxspeed=initmaxspeed;
+        }
+    }else{
+        maxspeed=initmaxspeed;
+    }*/
 }
 
 void MovingObject::applyForce(ofVec2f _force){
@@ -174,9 +226,18 @@ ofVec2f MovingObject::seek(ofVec2f t, float f){
     ofVec2f desired=t-p;
     float d = desired.length();
     desired.normalize();
+  
     if(d<slowdowndistance && bSlowDown){
+       // desired_velocity = normalize(desired_velocity) * max_velocity * (distance / slowingRadius)
         float m=ofMap(d,0,slowdowndistance,0,maxspeed);
+         //float m=ofMap(d,0,slowdowndistance,0,-velocity.length());
+
+        //float m=ofMap(d,0,slowdowndistance,0,-velocity);
+    //    desired*=maxspeed*(d/slowdowndistance);
         desired*=m;
+       //cout<<d<<" "<<desired.length()<<endl;
+       // desired*=maxspeed;
+
     }else{
         desired*=maxspeed;
     }
@@ -184,3 +245,74 @@ ofVec2f MovingObject::seek(ofVec2f t, float f){
     steer.limit(f);
     return steer;
 }
+
+
+ofVec2f MovingObject::arrive(ofVec2f t){
+    ofVec2f p(position);
+    ofVec2f desired=t-p;
+    float d = desired.length();
+    desired.normalize();
+    /*if(d<slowdowndistance && bSlowDown){
+        // desired_velocity = normalize(desired_velocity) * max_velocity * (distance / slowingRadius)
+        
+        //float m=ofMap(d,0,slowdowndistance,0,maxspeed);
+        desired*=maxspeed*(d/slowdowndistance);
+    }*/
+    ofVec2f steer=desired-velocity;
+    steer.limit(1);
+    return steer;
+}
+
+
+
+float MovingObject::getArriveSpeed(ofVec2f t){
+    ofVec2f p(position);
+    ofVec2f desired=t-p;
+    float ms=maxspeed;
+    float d = desired.length();
+    desired.normalize();
+    if(d<slowdowndistance){
+        // desired_velocity = normalize(desired_velocity) * max_velocity * (distance / slowingRadius)
+        
+        float m=ofMap(d,0,slowdowndistance,0,maxspeed);
+        ms=m;
+    }
+    return ms;
+}
+
+
+ofVec3f MovingObject::wander(float f){
+    /*   float wanderR=50;
+     float wanderD=500.0f;
+     float change=0.3f;
+     */
+    
+    ofVec3f circlepos=velocity;
+    circlepos.normalize();
+    circlepos*=wanderD;
+    //circlepos+=position;
+    
+    ofVec3f rad=velocity;
+    rad.normalize();
+    rad*=wanderR;
+    wandertheta+=ofRandom(-change,change);
+    rad.rotateRad(wandertheta, ofVec3f(0,0,1));
+    ofVec3f wandertarget=position+rad+circlepos;
+    
+    
+    ofVec3f p(position);
+    ofVec3f desired=wandertarget-p;
+    desired.normalize();
+    desired*=maxspeed;
+    ofVec3f steer=desired-velocity;
+    steer.limit(f);
+    
+    //cout<<circlepos<<" "<<steer<<endl;
+
+    return steer;
+
+}
+
+
+
+

@@ -284,6 +284,7 @@ void AvatarApp::removeAvatar(){
 void AvatarApp::setSkelettonId(int id){
     skelettonId= id;
     humania.setSkelettonId(skelettonId);
+    
     for(int i=0;i<avatars.size();i++){
         avatars[i]->setSkelettonId(skelettonId);
     }
@@ -292,7 +293,6 @@ void AvatarApp::setSkelettonId(int id){
     m.addIntArg(skelettonId);
     m.setAddress("/avatar/label21");
     APPC->oscmanager.touchOscSender.sendMessage(m);
-    
 }
 
 int AvatarApp::cycleSkelettonId(){

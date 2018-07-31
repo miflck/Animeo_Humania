@@ -16,7 +16,8 @@
 #include "Sun.hpp"
 #include "Flash.hpp"
 
-#include "Baloon.hpp"
+#include "Balloon.hpp"
+#include "Bird.hpp"
 #include "Kreis.hpp"
 #include "Dreieck.hpp"
 #include "Stern.hpp"
@@ -427,9 +428,14 @@ public:
     Sun sun;
     
     
-    Baloon baloon;
-    bool bShowBaloon=false;
-    void showBaloon(bool _s);
+    Balloon balloon;
+    bool bShowBalloon=false;
+    void showBalloon(bool _s);
+    
+    
+    Bird bird;
+    bool bShowBird=false;
+    void showBird(bool _s);
 
     
     void toggleHearts();
@@ -522,6 +528,10 @@ private:
     ofVec2f *savedemitterposition;
     void saveEmitterposition(ofVec2f _p);
     ofVec2f emitterposition;
+    
+    ofVec2f emitteroffset;
+
+    
     bool bBindToHead=false;
     
     void bindToSkeletton(bool _b);

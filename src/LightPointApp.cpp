@@ -52,6 +52,8 @@ void LightPointApp::init(){
     scaredposition=&Settings::getVec2("LightPointApp/scaredposition");
     cabinposition=&Settings::getVec2("LightPointApp/cabinposition");
     cabindimension=&Settings::getVec2("LightPointApp/cabindimension");
+    watchposition=&Settings::getVec2("LightPointApp/watchposition");
+
 
     setMoverToStartPosition();
     
@@ -476,6 +478,11 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
         Settings::get().save("data.json");
     }
     
+    if(e.key =='w'){
+        watchposition->set(ofGetMouseX(),ofGetMouseY());
+        Settings::get().save("data.json");
+    }
+    
     
     if(e.key =='g'){
         cabinposition->set(ofGetMouseX(),ofGetMouseY());
@@ -505,11 +512,11 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='i'){
-        mover.setReflection(true);
+        //mover.setReflection(true);
     }
     
     if(e.key=='I'){
-        mover.setReflection(false);
+        //mover.setReflection(false);
     }
     
     if(e.key==OF_KEY_CONTROL){
@@ -573,9 +580,9 @@ void LightPointApp::setMoverToStartPosition(){
 
 void LightPointApp::goHome(){
     mover.setTarget(*homeposition);
-    mover.scaleTo(size2,0.5);
+    //mover.scaleTo(size2,0.5);
     skelettonNodeId=2;
-    mover.setSeekForce(5);
+    //mover.setSeekForce(5);
     ofxOscMessage m;
     m.addFloatArg(ofMap(homeposition->y,0,ofGetHeight(),0,1));
     m.addFloatArg(ofMap(homeposition->x,0,ofGetWidth(),0,1));
@@ -585,12 +592,28 @@ void LightPointApp::goHome(){
 
 void LightPointApp::getScared(){
     mover.setTarget(*scaredposition);
-    mover.scaleTo(size1,0.5);
+    mover.setState(SCARED);
+    //mover.scaleTo(size1,0.5);
     skelettonNodeId=2;
-    mover.setSeekForce(50);
+    //mover.setSeekForce(50);
     ofxOscMessage m;
     m.addFloatArg(ofMap(scaredposition->y,0,ofGetHeight(),0,1));
     m.addFloatArg(ofMap(scaredposition->x,0,ofGetWidth(),0,1));
+    m.setAddress("/Light/xy1");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+}
+
+void LightPointApp::getWatch(){
+    if(mover.getState()==WATCH){
+        mover.setState(FREE);
+    }else{
+    mover.setTarget(*watchposition);
+    mover.setState(WATCH);
+    skelettonNodeId=2;
+    }
+    ofxOscMessage m;
+    m.addFloatArg(ofMap(watchposition->y,0,ofGetHeight(),0,1));
+    m.addFloatArg(ofMap(watchposition->x,0,ofGetWidth(),0,1));
     m.setAddress("/Light/xy1");
     APPC->oscmanager.touchOscSender.sendMessage(m);
 }
@@ -656,7 +679,7 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Light/push3")
     {
         float f=msg.getArgAsFloat(0);
-        mover.setSeekForce(2);
+        mover.setSeekForce(0.5);
     }
     if(msg.getAddress() == "/Light/push4")
     {
@@ -671,15 +694,15 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/Light/push6")
     {
-        mover.scaleTo(20,0.5);
+        mover.scaleTo(mover.size1,0.5);
     }
     if(msg.getAddress() == "/Light/push7")
     {
-        mover.scaleTo(50,0.6f);
+        mover.scaleTo(mover.size2,0.6f);
     }
     if(msg.getAddress() == "/Light/push8")
     {
-        mover.scaleTo(150,1.f);
+        mover.scaleTo(mover.size3,1.f);
     }
     
     
@@ -695,8 +718,15 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
         
     }
     
+    if(msg.getAddress() == "/Light/push34")
+    {
+      //  mover.setState(WATCH);
+        getWatch();
+    }
     
 }
+
+
 
 void LightPointApp::onOSCSetup(ofxOscMessage &msg){
     ofxOscMessage m;

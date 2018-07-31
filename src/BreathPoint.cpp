@@ -22,8 +22,13 @@ void BreathPoint::setup(){
     actualRadius=0;
     easingInitTime = ofGetElapsedTimef();
     radiusTarget=50;
-    
     reflectionpoint=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
+    initTime=ofGetElapsedTimeMillis();
+    setSlowDown(true);
+    setSlowDownDistance(150);
+  //  bMovingMaxspeed=true;
+    initmaxspeed=50;
+    setMaxSpeed(50);
 
 
 }
@@ -106,21 +111,94 @@ void BreathPoint::draw(){
     }
     ofPopStyle();
     ofPopMatrix();
-    
     }
+    
+    
     float r=0;
     float v=0;
-
     if(bBreathe){
-         r=4.f*sin(ofGetElapsedTimef()*2);
+        r=4.f*sin(ofGetElapsedTimef()*2);
         v=2.f*cos(ofGetElapsedTimef()*2);
-
     }
     
     ofPushMatrix();
     ofPushStyle();
     ofSetColor(255);
-    ofDrawEllipse(getPosition().x, getPosition().y, actualRadius+r, actualRadius+v);
+    ofTranslate(getPosition().x, getPosition().y);
+    //ofDrawEllipse(getPosition().x, getPosition().y, actualRadius+r, actualRadius+v);
+    ofDrawEllipse(0,0, actualRadius+r, actualRadius+v);
+    
+    
+    
+    switch (state) {
+        case FREE:
+            break;
+        case SCARED:
+            break;
+        case HOME:
+            break;
+        case INSIDE:
+            break;
+        case WATCH:
+         
+           
+            
+            break;
+            
+            
+        default:
+            break;
+    }
+    
+    
+    if(bWatch){
+        
+        ofPushStyle();
+        ofSetLineWidth(3);
+        ofSetColor(0);
+        
+        ofPushMatrix();
+        int angle=90;
+        for(int i=0;i<4;i++){
+            ofRotate(angle);
+            ofDrawLine(actualRadius/2, 0, actualRadius/2-10, 0);
+        }
+        ofPopMatrix();
+        
+        angle=30;
+        ofPushMatrix();
+        
+        for(int i=0;i<12;i++){
+            ofRotate(angle);
+            ofDrawLine(actualRadius/2, 0, actualRadius/2-5, 0);
+        }
+        
+        ofPopMatrix();
+        
+        ofPushMatrix();
+        ofRotate(-30);
+        ofDrawLine(-5, 0, actualRadius/2, 0);
+        ofRotate(-110);
+        ofDrawLine(-5, 0, actualRadius/3, 0);
+        ofPopMatrix();
+        
+        ofPushMatrix();
+        
+        int t=ofGetElapsedTimeMillis();
+        int time=t/1000;
+        time=time%60;
+        int a=int(ofMap(time, 0, 60, 0, 360));
+        ofRotate(a);
+        ofSetLineWidth(3);
+        
+        ofDrawLine(0, 0, actualRadius/2, 0);
+        
+        ofDrawCircle(0, 0, 2);
+        ofPopMatrix();
+        ofPopStyle();
+     
+    }
+    
     ofPopStyle();
     ofPopMatrix();
     
@@ -136,6 +214,22 @@ void BreathPoint::draw(){
     
 }
 
+
+
+bool BreathPoint::getWatch(){
+    return bWatch;
+}
+
+void BreathPoint::setWatch(bool _b){
+    bWatch=_b;
+    if(_b){
+        setState(WATCH);
+    }
+    else {
+        setState(FREE);
+    };
+}
+
 float BreathPoint::getRadius(){
     return actualRadius/2;
 }
@@ -146,5 +240,81 @@ void BreathPoint::setReflectionPoint(ofVec2f _r){
 
 void BreathPoint::setReflection(bool _r){
     bReflect=_r;
+}
+
+
+void BreathPoint::setTarget(ofVec2f _target){
+    MovingObject::setTarget(_target);
+    
+    switch (state) {
+        case FREE:
+            break;
+        case SCARED:
+            setState(FREE);
+            break;
+        case HOME:
+            
+           // scaleTo(size2,0.5);
+           // setSeekForce(seekforce1);
+            
+            setState(FREE);
+
+            
+            break;
+        case INSIDE:
+            break;
+        case WATCH:
+            scaleTo(sizeWatch,0.5);
+            setSeekForce(seekforce1);
+            
+            setState(FREE);
+
+            
+            break;
+            
+            
+        default:
+            break;
+    }
+    
+    
+}
+
+
+void BreathPoint::setState(int _state){
+    stateBefore=state;
+    state=_state;
+    switch (state) {
+        case FREE:
+            //setWatch(false);
+            scaleTo(size2,0.5);
+            setSeekForce(seekforce0);
+            bWatch=false;
+            break;
+        case SCARED:
+            scaleTo(size1,0.5);
+            setSeekForce(seekforce3);
+            break;
+        case HOME:
+            
+           scaleTo(size2,0.5);
+           setSeekForce(seekforce1);
+            break;
+        case INSIDE:
+            break;
+        case WATCH:
+            scaleTo(sizeWatch,0.5);
+            setSeekForce(seekforce1);
+            bWatch=true;
+            break;
+       
+            
+        default:
+            break;
+    }
+}
+
+int BreathPoint::getState(){
+    return state;
 }
 
