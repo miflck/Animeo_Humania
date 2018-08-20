@@ -152,6 +152,15 @@ void ofApp::keyPressed(int key){
             APPC->toggleDebug();
     break;
             
+            
+        case 'l':
+            ofShowCursor();
+            break;
+        case 'L':
+            ofHideCursor();
+            break;
+            
+            
         case '-':
             KINECTMANAGER->addInputListeners();
             break;

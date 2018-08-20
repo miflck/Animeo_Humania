@@ -41,7 +41,7 @@ class ofApp : public ofBaseApp{
     
     ofSoundStream soundStream;
 
-    bool bGreenScreen=true;
+    bool bGreenScreen=false;
 
 
 };

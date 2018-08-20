@@ -58,7 +58,7 @@ void LightPointApp::init(){
 
 
     setMoverToStartPosition();
-    
+    mover.bSeekTarget=true;
     state=BOUNCE;
     mover.scaleTo(size2,0.1);
     
@@ -378,7 +378,8 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
    
 
     if(e.key=='l'){
-        bSendOSCPosition=!bSendOSCPosition;
+       // bSendOSCPosition=!bSendOSCPosition;
+        setMoverToStartPosition();
     }
     
     if(e.key=='8'){
