@@ -124,8 +124,10 @@ void MovingObject::draw(){
 
 void MovingObject::setPosition(int _x, int _y){
     position.set(_x, _y);
+}
 
-
+void MovingObject::setPosition(ofVec2f _p){
+    position.set(_p);
 }
 
 

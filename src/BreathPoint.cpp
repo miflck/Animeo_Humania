@@ -25,7 +25,7 @@ void BreathPoint::setup(){
     reflectionpoint=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
     initTime=ofGetElapsedTimeMillis();
     setSlowDown(true);
-    setSlowDownDistance(150);
+    setSlowDownDistance(500);
   //  bMovingMaxspeed=true;
     initmaxspeed=50;
     setMaxSpeed(50);
@@ -289,22 +289,29 @@ void BreathPoint::setState(int _state){
             //setWatch(false);
             scaleTo(size2,0.5);
             setSeekForce(seekforce0);
+            setSlowDownDistance(1000);
             bWatch=false;
             break;
         case SCARED:
             scaleTo(size1,0.5);
             setSeekForce(seekforce3);
+            setSlowDownDistance(500);
+
             break;
         case HOME:
             
            scaleTo(size2,0.5);
-           setSeekForce(seekforce1);
+           setSeekForce(seekforce2);
+            setSlowDownDistance(500);
+
             break;
         case INSIDE:
             break;
         case WATCH:
             scaleTo(sizeWatch,0.5);
             setSeekForce(seekforce1);
+            setSlowDownDistance(200);
+
             bWatch=true;
             break;
        

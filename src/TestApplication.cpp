@@ -183,7 +183,7 @@ void TestApplication::keyPressed(ofKeyEventArgs &e){
     }
 
     if(e.key=='l'){
-        bSendOSCPosition=!bSendOSCPosition;
+      //  bSendOSCPosition=!bSendOSCPosition;
     }
     
     if(e.key=='8'){

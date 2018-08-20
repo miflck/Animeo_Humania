@@ -51,7 +51,7 @@ void AvatarApp::init(){
     humania.bSeekTarget=true;
     
     
-    mainAvatarOffset.set(0,0);
+    mainAvatarOffset.set(0,-300);
     
     avatarOffset.set(250,0);
     
@@ -531,8 +531,11 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     {
         float x=msg.getArgAsFloat(0);
         x=ofMap(x,0,1,0,500);
-        avatarOffset.set(x,0);
+        avatarOffset.set(x,avatarOffset.y);
     }
+    
+
+    
     
     if(msg.getAddress() == "/avatar/push20")
     {
@@ -560,8 +563,17 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     {
         float x=msg.getArgAsFloat(0);
         x=ofMap(x,-1,1,-500,500);
-        mainAvatarOffset.set(x,0);
+        mainAvatarOffset.set(x,mainAvatarOffset.y);
     }
+    
+    if(msg.getAddress() == "/avatar/fader10")
+    {
+        float y=msg.getArgAsFloat(0);
+        y=ofMap(y,-1,1,-500,500);
+        mainAvatarOffset.set(mainAvatarOffset.x,y);
+    }
+    
+    
    
     // reaction speed
     if(msg.getAddress() == "/avatar/fader8")

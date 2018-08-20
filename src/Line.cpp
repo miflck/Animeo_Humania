@@ -31,7 +31,7 @@ void Line::update(){
 
 void Line::draw(){
     ofDrawEllipse(0,0,10,10);
-    APPC->sayHello();
+    ///APPC->sayHello();
 }
 
 void Line::exit(){

@@ -51,21 +51,20 @@ void LinieApp::init(){
     
     waveInitPosition = *anchorStartPositionTop;
     
-    int num=40;
     int jointlength=3;
     
     // first we add just a few circles
-    for(int i=0; i<num; i++) {
+    for(int i=0; i<numCircles; i++) {
         
         auto circle = std::make_shared<ofxBox2dCircle>();
         circle.get()->setPhysics(5, 0.53, 0.9);
       
         float offset=anchorStartPositionBottom->y-anchorStartPositionTop->y;
-        offset/=num;
+        offset/=numCircles;
         
         circle.get()->setup(box2d.getWorld(), anchorStartPositionTop->x, anchorStartPositionTop->y+(offset*i), 5);
         circles.push_back(circle);
-        positions.push_back(ofVec2f(xPos, (ofGetHeight()/(num+1))+(ofGetHeight()/(num+1))*i));
+        positions.push_back(ofVec2f(xPos, (ofGetHeight()/(numCircles+1))+(ofGetHeight()/(numCircles+1))*i));
     }
     
     // now connect each circle with a joint
@@ -73,25 +72,75 @@ void LinieApp::init(){
         auto joint = std::make_shared<ofxBox2dJoint>();
         // if this is the first point connect to the top anchor.
         if(i == 0) {
-            joint.get()->setup(box2d.getWorld(), anchor.body, circles[i].get()->body,5,1);
+            joint.get()->setup(box2d.getWorld(), anchor.body, circles[i].get()->body,5,1,false);
         }
         else {
-            joint.get()->setup(box2d.getWorld(), circles[i-1].get()->body, circles[i].get()->body,5,1);
+            joint.get()->setup(box2d.getWorld(), circles[i-1].get()->body, circles[i].get()->body,5,1,false);
         }
        joint.get()->setLength(jointlength);
         joints.push_back(joint);
     }
     
     auto joint = std::make_shared<ofxBox2dJoint>();
-    joint.get()->setup(box2d.getWorld(), circles[circles.size()-1].get()->body, anchor2.body,5,1);
+    joint.get()->setup(box2d.getWorld(), circles[circles.size()-1].get()->body, anchor2.body,5,1,false);
     joint.get()->setLength(jointlength);
     joints.push_back(joint);
     
+    
+    mover1.setup();
+    
+    mover1.actualRadius=0.2;
+    mover1.radiusTarget=10;
+    mover1.scaleDuration=20;
+    
+    moverCircleCenter.set(ofGetWidth()/2,ofGetHeight()/2);
+
+    
+    mover1.setPosition(moverCircleCenter);
+    mover1.setTarget(ofVec2f(ofGetWidth()/3,ofGetHeight()/3));
+
+    mover1.setSeekForce(10);
+    mover1.setMaxSpeed(100);
+    
+    mover1.bSeekTarget=true;
+    moverCircleRadius.set(300,0);
+    
+    damping=0.99;
     
 }
 
 void LinieApp::update(){
     box2d.update();
+    if(bMakeCircle){
+        moverCircleRadius.rotate(moverCircleSpeed);
+        mover1.setTarget(moverCircleCenter+moverCircleRadius);
+        mover1.update();
+        //anchor.setPosition(mover1.getPosition());
+        anchor.addAttractionPoint((moverCircleCenter+moverCircleRadius),circleAttractionForce);
+
+
+        float ang=(360/(circles.size()+1));
+        ofVec2f r=moverCircleRadius.getRotated(-ang);
+
+        if(circleBoundindex>circles.size())circleBoundindex=circles.size();
+        
+        for(int i=0; i<circleBoundindex; i++) {
+            /* float dis = mouse.distance(circles[i].get()->getPosition());
+             if(dis < minDis && bIsMouseActive) circles[i].get()->addRepulsionForce(mouse,10);
+             if(mskel.size()>0){
+             float handDist = leftHand.distance(circles[i].get()->getPosition());
+             if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
+             }*/
+            // circles[i].get()->setDamping(generalDamping);
+            ofVec2f r=moverCircleRadius.getRotated(-ang*(i+1));
+         // circles[i].get()->setDamping(damping);
+             circles[i]->addAttractionPoint((moverCircleCenter+r),circleAttractionForce);
+
+            
+        }
+        if(circleBoundindex>=circles.size())anchor2.addAttractionPoint((moverCircleCenter+moverCircleRadius),circleAttractionForce);
+       // if(ofGetFrameNum()%10==0)circleBoundindex++;
+    }
     
     ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
     float minDis = ofGetMousePressed() ? 200 : 100;
@@ -110,14 +159,25 @@ void LinieApp::update(){
                 if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
             }*/
       // circles[i].get()->setDamping(generalDamping);
-        circles[i].get()->setDamping(0.98);
+    //   if(!bMakeCircle) circles[i].get()->setDamping(0.98);
+       circles[i].get()->setDamping(damping);
+
 
     }
     
-    anchor.setDamping(0.98);
-    anchor2.setDamping(0.98);
+    if(!bMakeCircle){
+        anchor.setDamping(0.98);
+        anchor2.setDamping(0.98);
+
+    }else{
+        anchor.setDamping(1);
+        anchor2.setDamping(1);
+
+
+    }
     
     float mV=ofMap(APPC->audioInVolume,0,0.05,0,50);
+    cout<<mV<<endl;
     int c=0;
  /* for(int i=0;i<circles.size();i+=5){
         if(c%2==0 || circles[i].get()->getPosition().y>ofGetHeight()-100)mV*=-1;
@@ -133,23 +193,20 @@ void LinieApp::update(){
      }*/
     
    // circles[0].get()->addRepulsionForce(ofGetWidth()/2,ofGetHeight()/2,mV);
-    cout<<mV<<endl;
+   // cout<<mV<<endl;
   
+    if(!bMakeCircle){
     if(mV>10 && !bHasStartWave)startWave(mV,mV,10*PI);
    // if(bHasStartWave && mV<15){
     if( mV<10){
        endWave();
     bHasStartWave=false;
     }
-    
-    
-    
-    
-    if(bMakeWave){
-        waveAmplitude=maxWaveVol(mV);
-        wave();
+        if(bMakeWave){
+            waveAmplitude=maxWaveVol(mV);
+            wave();
+        }
     }
-    
 
     
     if( bUseHand){
@@ -181,7 +238,7 @@ void LinieApp::update(){
         }
     }
     
-    anchor2.setDamping(0.9);
+   // anchor2.setDamping(0.9);
 
     //ofVec2f distance=mouse-anchor.getPosition();
   //  anchor2.setVelocity(distance.normalize()*-1);
@@ -205,6 +262,11 @@ void LinieApp::draw(){
    // ofDrawRectangle(0,0,ofGetWidth(),ofGetHeight());
     
     
+    
+    ofPushMatrix();
+    ofDrawCircle(moverCircleCenter+moverCircleRadius, 10);
+    ofPopMatrix();
+    
     ofPushStyle();
     ofSetColor(255);
     ofSetLineWidth(8);
@@ -219,6 +281,9 @@ void LinieApp::draw(){
 
     if(APPC->debug){
         ofPushStyle();
+        
+        mover1.draw();
+        
         vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
 
         ofVec2f leftHand;
@@ -263,20 +328,24 @@ void LinieApp::exit(){
     cout<<"exit LinieApp"<<endl;
 }
 
+void LinieApp::makeCircle(bool _b){
+    bMakeCircle=_b;
+}
+
 
 
 //KEY LISTENER
 //--------------------------------------------------------------
 void LinieApp::keyPressed(ofKeyEventArgs &e){
    if(e.key=='R'){
-        anchor.setPhysics(10, 0.5, 0.9);
+        anchor.setPhysics(1, 0.5, 0.9);
         anchor.body->SetType(b2_dynamicBody);
         
     }
     
     
     if(e.key=='r'){
-        anchor2.setPhysics(10, 1, 10);
+        anchor2.setPhysics(1, 1, 10);
         anchor2.body->SetType(b2_dynamicBody);
         
     }
@@ -490,12 +559,19 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         m.setAddress("/4/label10");
         APPC->oscmanager.touchOscSender.sendMessage(m);
         
+        
+        
+        
     }
     
     if(msg.getAddress() == "/4/rotary5")
     {
         
         float freq=msg.getArgAsFloat(0);
+        
+        freq=ofMap(freq, 0, 1, 0.2, 20);
+
+        
         for(int i=0; i<joints.size(); i++) {
             joints[i].get()->setFrequency(freq);
         }
@@ -507,7 +583,7 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/4/rotary6")
     {
-        float dmp=msg.getArgAsFloat(0);
+       /* float dmp=msg.getArgAsFloat(0);
         for(int i=0; i<joints.size(); i++) {
             joints[i].get()->setDamping(dmp);
         }
@@ -515,6 +591,9 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         m.addFloatArg(dmp);
         m.setAddress("/4/label12");
         APPC->oscmanager.touchOscSender.sendMessage(m);
+        */
+        float dmp=msg.getArgAsFloat(0);
+        moverCircleSpeed=ofMap(dmp, 0, 1, 0, 5);
     }
     
     if(msg.getAddress() == "/4/rotary7")
@@ -538,6 +617,32 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         m.addFloatArg(damp);
         m.setAddress("/4/label14");
         APPC->oscmanager.touchOscSender.sendMessage(m);*/
+        
+        float den=msg.getArgAsFloat(0);
+        den=ofMap(den, 0, 1, 0, 10);
+        for(int i=0; i<circles.size(); i++) {
+            circles[i].get()->setPhysics(den, 0.5, 0.5);
+        }
+        
+    }
+    
+    if(msg.getAddress() == "/4/rotary9")
+    {
+        /* float damp=msg.getArgAsFloat(0);
+         generalDamping=damp;
+         ofxOscMessage m;
+         m.addFloatArg(damp);
+         m.setAddress("/4/label14");
+         APPC->oscmanager.touchOscSender.sendMessage(m);*/
+        
+        float damp=msg.getArgAsFloat(0);
+        damp=ofMap(damp, 0, 1, 0.8, 1);
+        damping=damp;
+        ofxOscMessage m;
+        m.addFloatArg(damp);
+        m.setAddress("/4/label59");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
     }
     
     
@@ -560,6 +665,66 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         startWave(10,500,PI);
 
     }
+    
+    
+    if(msg.getAddress() == "/4/push35")
+    {
+        bMakeCircle=!bMakeCircle;
+        
+        anchor.setPhysics(1, 0.5, 0.9);
+        anchor.body->SetType(b2_dynamicBody);
+        
+    }
+    if(msg.getAddress() == "/4/push36")
+    {
+       // anchor.setup(box2d.getWorld(), anchorStartPositionTop->x, anchorStartPositionTop->y, 10);
+       // anchor2.setup(box2d.getWorld(), anchorStartPositionBottom->x, anchorStartPositionBottom->y, 10);
+        
+        anchor.setPosition( anchorStartPositionTop->x, anchorStartPositionTop->y);
+        anchor.setPhysics(0, 0.5, 0.9);
+        anchor.body->SetType(b2_staticBody);
+        
+        anchor2.setPosition(anchorStartPositionBottom->x, anchorStartPositionBottom->y);
+        anchor2.setPhysics(0, 0.5, 0.9);
+        anchor2.body->SetType(b2_staticBody);
+        
+        circleBoundindex=0;
+        
+        
+    }
+    if(msg.getAddress() == "/4/push37")
+    {
+        circleBoundindex++;
+    }
+
+    if(msg.getAddress() == "/4/push38")
+    {
+        anchor.setPhysics(1, 0.5, 0.9);
+        anchor.body->SetType(b2_dynamicBody);
+        
+    }
+    
+    if(msg.getAddress() == "/4/push39")
+    {
+        anchor2.setPhysics(1, 0.5, 0.9);
+        anchor2.body->SetType(b2_dynamicBody);
+        
+    }
+    
+    
+    if(msg.getAddress() == "/4/rotary11")
+    {
+        float f=msg.getArgAsFloat(0);
+        f=ofMap(f, 0, 1, 0, 50);
+        circleAttractionForce=f;
+        
+        ofxOscMessage m;
+        m.addFloatArg(f);
+        m.setAddress("/4/label64");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+    }
+    
     
 }
 

@@ -42,7 +42,7 @@ void Balloon::update(){
     move();
     actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
     
-    cout<<actualRadius<<endl;
+    //cout<<actualRadius<<endl;
     
     ofVec2f s=getSpeed();
     float a=s.angle(ofVec2f(0,-1));

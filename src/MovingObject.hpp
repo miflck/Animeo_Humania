@@ -25,6 +25,8 @@ public:
     
     
     void setPosition(int x, int y);
+    void setPosition(ofVec2f _p);
+
     ofVec2f getPosition();
     
     bool isOnScreen();

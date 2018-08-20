@@ -1,18 +1,18 @@
 {
    "LightPointApp" : {
-      "cabindimension" : [ 458, 444 ],
-      "cabinposition" : [ 1332, 674 ],
-      "homeposition" : [ 1064, 503 ],
+      "cabindimension" : [ 591, 531 ],
+      "cabinposition" : [ 1243, 517 ],
+      "homeposition" : [ 1733, 438 ],
       "scaredposition" : [ 702, 208 ],
       "startposition" : [ 696, 346 ],
-      "watchposition" : [ 1751, 716 ]
+      "watchposition" : [ 1732, 590 ]
    },
    "LinieApp" : {
-      "anchorStartPositionBottom" : [ 1796, 504 ],
+      "anchorStartPositionBottom" : [ 1877, 520 ],
       "anchorStartPositionTop" : [ 73, 510 ]
    },
    "emotions" : {
-      "emitterposition" : [ 593, 484 ],
+      "emitterposition" : [ 989, 554 ],
       "startposition" : [ 1226, 598 ]
    },
    "humania" : {

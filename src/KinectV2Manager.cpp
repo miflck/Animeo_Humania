@@ -350,6 +350,8 @@ void KinectV2Manager::keyPressed(ofKeyEventArgs &e){
     cout<<"KEY"<<e.key<<endl;
     if(e.key >= '1' && e.key <= '6'){
         iMainCamera = e.key - '1';
+        cout<<"Main Camera"<<iMainCamera<<endl;
+
     }
 }
 
@@ -448,7 +450,7 @@ void KinectV2Manager::drawScene(int iCameraDraw){
     hand.draw();
     testnode.draw();
     
-    cout<<"hello"<<endl;
+   // cout<<"hello"<<endl;
 
     ofDrawBox(-200, 0, 0, 100, 100, 100);
     

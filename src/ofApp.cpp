@@ -8,8 +8,8 @@ void ofApp::setup(){
 
     soundStream.printDeviceList();
     //if you want to set a different device id
-     soundStream.setDeviceID(0); //bear in mind the device id corresponds to all audio devices, including  input-only and output-only devices.
-   //soundStream.setDeviceID(4);
+  //   soundStream.setDeviceID(0); //bear in mind the device id corresponds to all audio devices, including  input-only and output-only devices.
+   soundStream.setDeviceID(4);
     
     int bufferSize = 256;
     
@@ -152,12 +152,26 @@ void ofApp::keyPressed(int key){
             APPC->toggleDebug();
     break;
             
+            
+        case 'l':
+            ofShowCursor();
+            break;
+        case 'L':
+            ofHideCursor();
+            break;
+            
+            
         case '-':
             KINECTMANAGER->addInputListeners();
             break;
             
         case '_':
             KINECTMANAGER->removeInputListeners();
+            break;
+        
+            
+        case '$':
+            APPC->setAppNull();
             break;
             
             
