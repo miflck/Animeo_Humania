@@ -94,17 +94,23 @@ public:
     
     bool bOrganic=false;
     
-    bool bMakeCircle=true;
+    bool bMakeCircle=false;
     void makeCircle(bool _b);
+    int circleBoundindex=0;
     
     MovingObject mover1;
     ofVec2f moverCircleRadius;
     ofVec2f moverCircleCenter;
 
     float moverCircleAngle=0;
-    float moverCircleSpeed=5;
+    float moverCircleSpeed=1;
     
     float damping;
+    
+    int numCircles=40;
+    float circleAttractionForce=3;
+
+    
     
 private:
     ofxBox2d                                  box2d;   // the box2d world

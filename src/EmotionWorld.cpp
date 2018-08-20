@@ -167,6 +167,11 @@ void EmotionWorld::update(){
         flashes[i]->update();
     }
     
+    //emitterposition=savedemitterposition;
+    
+    emitterposition.set(savedemitterposition->x,savedemitterposition->y);
+
+    
     if(mskel.size()>0 && bBindToHead){
         headposition=mskel[0].head;
         headposition=ofVec2f(headposition.x, headposition.y);
@@ -182,6 +187,8 @@ void EmotionWorld::update(){
             hearts.back().get()->setup(box2d.getWorld(), emitterposition.x, emitterposition.y, 0);
             hearts.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,-10));
             hearts.back().get()->setAngularVelocity(ofRandom(1));
+            playRandomPlopp();
+
         }
     
 
@@ -827,6 +834,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     {
         float m=msg.getArgAsBool(0);
         bEmitShapes=m;
+        cout<<bEmitShapes<<endl;
         
     }
     if(msg.getAddress() == "/EmotionWorld/fader5")

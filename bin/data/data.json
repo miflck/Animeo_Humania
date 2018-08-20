@@ -8,11 +8,11 @@
       "watchposition" : [ 1751, 716 ]
    },
    "LinieApp" : {
-      "anchorStartPositionBottom" : [ 1796, 504 ],
+      "anchorStartPositionBottom" : [ 1877, 520 ],
       "anchorStartPositionTop" : [ 73, 510 ]
    },
    "emotions" : {
-      "emitterposition" : [ 593, 484 ],
+      "emitterposition" : [ 280, 555 ],
       "startposition" : [ 1226, 598 ]
    },
    "humania" : {
