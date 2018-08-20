@@ -9,7 +9,8 @@
    },
    "LinieApp" : {
       "anchorStartPositionBottom" : [ 1877, 520 ],
-      "anchorStartPositionTop" : [ 73, 510 ]
+      "anchorStartPositionTop" : [ 73, 510 ],
+      "finalCirclePosition" : [ 866, 585 ]
    },
    "emotions" : {
       "emitterposition" : [ 989, 554 ],

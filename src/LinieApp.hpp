@@ -68,6 +68,11 @@ public:
     ofVec2f *anchorStartPositionTop;
     ofVec2f *anchorStartPositionBottom;
     
+    
+    ofVec2f *finalCirclePosition;
+
+    
+    
     bool bMakeWave=false;
     bool bHasStartWave=false;
     
