@@ -169,7 +169,6 @@ void EmotionWorld::update(){
     
     //emitterposition=savedemitterposition;
     
-    emitterposition.set(savedemitterposition->x,savedemitterposition->y);
 
     
     if(mskel.size()>0 && bBindToHead){
@@ -311,6 +310,8 @@ void EmotionWorld::exit(){
 
 void EmotionWorld::bindToSkeletton(bool _b){
     bBindToHead=_b;
+    if(!bBindToHead) emitterposition.set(savedemitterposition->x,savedemitterposition->y);
+
 }
 
 
@@ -415,6 +416,7 @@ void EmotionWorld::drawFeeling(){
 void EmotionWorld::saveEmitterposition(ofVec2f _p){
     savedemitterposition->set(_p.x,_p.y);
     Settings::get().save("data.json");
+    emitterposition.set(savedemitterposition->x,savedemitterposition->y);
 }
 
 
