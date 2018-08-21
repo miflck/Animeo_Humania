@@ -32,7 +32,6 @@ void LightPointApp::init(){
     mover.setup();
     mover.setTarget(ofVec2f(ofGetWidth(),ofGetHeight()));
     
-    mover.setSlowDownDistance(500);
     
     screen.allocate(1920,1080, GL_RGB);
     screen.begin();
@@ -61,6 +60,7 @@ void LightPointApp::init(){
     mover.bSeekTarget=true;
     state=BOUNCE;
     mover.scaleTo(size2,0.1);
+    mover.setSlowDownDistance(200);
     
     
     //string bp = ofSystem("/usr/local/bin/SwitchAudioSource -s 'iRig PRO DUO'");
@@ -680,14 +680,14 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
     {
         float f=msg.getArgAsFloat(0);
         mover.setSeekForce(5);
-        mover.setSlowDownDistance(500);
+      //  mover.setSlowDownDistance(500);
 
     }
     if(msg.getAddress() == "/Light/push3")
     {
         float f=msg.getArgAsFloat(0);
         mover.setSeekForce(0.9);
-        mover.setSlowDownDistance(1000);
+    //    mover.setSlowDownDistance(1000);
     }
     if(msg.getAddress() == "/Light/push4")
     {

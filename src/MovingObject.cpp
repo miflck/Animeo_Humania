@@ -64,18 +64,26 @@ void MovingObject::move(){
     
    
     
-    if(bSeekTarget) applyForce(seek(target,seekforce));
+    if(bSeekTarget) applyForce(seek(target),seekforce);
     if(bWander) applyForce(wander(wanderforce));
-    //applyForce(arrive(target),1);
+    applyForce(arrive(target));
    // arrive(target);
     
     velocity+=acceleration;
-    
     velocity.limit(maxspeed);
    // if(bSlowDown)velocity.limit(getArriveSpeed(target));
 
     
+    ofVec2f desired=target-position;
+    float d = desired.length();
+    if(d<5){
+        position=target;
+        velocity.set(0,0);
+    }else{
+    
     position+= velocity;
+    }
+    
     acceleration.set(0,0);
     velocity*=0.99;
     
@@ -169,6 +177,10 @@ void MovingObject::setTarget(ofVec2f _target){
     }*/
 }
 
+ofVec2f MovingObject::getTarget(){
+    return target;
+}
+
 void MovingObject::applyForce(ofVec2f _force){
     acceleration+= _force;
 }
@@ -202,6 +214,9 @@ void MovingObject::setSlowDown(bool _b){
 void MovingObject::setSlowDownDistance(int _d){
     slowdowndistance=_d;
 }
+int MovingObject::getSlowDownDistance(){
+    return slowdowndistance;
+}
 
 
 bool MovingObject::shouldRemoveOffScreen(shared_ptr<MovingObject> shape) {
@@ -229,24 +244,57 @@ ofVec2f MovingObject::seek(ofVec2f t, float f){
     float d = desired.length();
     desired.normalize();
   
-    if(d<slowdowndistance && bSlowDown){
+   /* if(d<slowdowndistance && bSlowDown){
        // desired_velocity = normalize(desired_velocity) * max_velocity * (distance / slowingRadius)
         float m=ofMap(d,0,slowdowndistance,0,maxspeed);
+        
+        ofVec2f dV=desired*maxspeed*(d/slowdowndistance);
          //float m=ofMap(d,0,slowdowndistance,0,-velocity.length());
 
         //float m=ofMap(d,0,slowdowndistance,0,-velocity);
     //    desired*=maxspeed*(d/slowdowndistance);
-        desired*=m;
+        //desired*=m;
+        desired=dV;
        //cout<<d<<" "<<desired.length()<<endl;
        // desired*=maxspeed;
 
-    }else{
+    }else{*/
         desired*=maxspeed;
-    }
+   // }
     ofVec2f steer=desired-velocity;
     steer.limit(f);
     return steer;
 }
+
+ofVec2f MovingObject::seek(ofVec2f t){
+    ofVec2f p(position);
+    ofVec2f desired=t-p;
+    float d = desired.length();
+    desired.normalize();
+    
+    /* if(d<slowdowndistance && bSlowDown){
+     // desired_velocity = normalize(desired_velocity) * max_velocity * (distance / slowingRadius)
+     float m=ofMap(d,0,slowdowndistance,0,maxspeed);
+     
+     ofVec2f dV=desired*maxspeed*(d/slowdowndistance);
+     //float m=ofMap(d,0,slowdowndistance,0,-velocity.length());
+     
+     //float m=ofMap(d,0,slowdowndistance,0,-velocity);
+     //    desired*=maxspeed*(d/slowdowndistance);
+     //desired*=m;
+     desired=dV;
+     //cout<<d<<" "<<desired.length()<<endl;
+     // desired*=maxspeed;
+     
+     }else{*/
+    desired*=maxspeed;
+    // }
+    ofVec2f steer=desired-velocity;
+    return steer;
+}
+
+
+
 
 
 ofVec2f MovingObject::arrive(ofVec2f t){
@@ -254,14 +302,14 @@ ofVec2f MovingObject::arrive(ofVec2f t){
     ofVec2f desired=t-p;
     float d = desired.length();
     desired.normalize();
-    /*if(d<slowdowndistance && bSlowDown){
-        // desired_velocity = normalize(desired_velocity) * max_velocity * (distance / slowingRadius)
-        
-        //float m=ofMap(d,0,slowdowndistance,0,maxspeed);
-        desired*=maxspeed*(d/slowdowndistance);
-    }*/
-    ofVec2f steer=desired-velocity;
-    steer.limit(1);
+    ofVec2f steer(0,0);
+   
+    if(d<slowdowndistance && bSlowDown){
+        ofVec2f dV=desired*maxspeed*(d/slowdowndistance);
+        desired=dV;
+       // desired.limit(velocity.length());
+        steer=desired-velocity;
+        }
     return steer;
 }
 

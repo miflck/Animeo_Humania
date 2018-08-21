@@ -41,6 +41,10 @@ public:
     void setSpeed(int _x, int _y);
     
     virtual void setTarget(ofVec2f _target);
+    virtual ofVec2f getTarget();
+    
+    
+    
     void setMaxSpeed(float _m);
     void move();
     void applyForce(ofVec2f _force);
@@ -48,6 +52,8 @@ public:
 
     
     ofVec2f seek(ofVec2f t, float f);
+    ofVec2f seek(ofVec2f t);
+
     ofVec2f arrive(ofVec2f t);
     float getArriveSpeed(ofVec2f t);
 
@@ -69,7 +75,7 @@ public:
         
     void setSlowDown(bool _b);
     void setSlowDownDistance(int _d);
-    
+    int getSlowDownDistance();
     
     int radius;
 
@@ -114,7 +120,7 @@ private:
     float seekforce=0.5;
     
     bool bSlowDown=true;
-    int slowdowndistance=300;
+    int slowdowndistance=100;
     
 };
 

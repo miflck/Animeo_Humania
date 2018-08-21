@@ -7,6 +7,7 @@
 
 #include "BreathPoint.hpp"
 #include "ofxEasing.h"
+#include "ApplicationController.h"
 
 BreathPoint::BreathPoint(){
     
@@ -25,7 +26,7 @@ void BreathPoint::setup(){
     reflectionpoint=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
     initTime=ofGetElapsedTimeMillis();
     setSlowDown(true);
-    setSlowDownDistance(500);
+    setSlowDownDistance(100);
   //  bMovingMaxspeed=true;
     initmaxspeed=50;
     setMaxSpeed(50);
@@ -120,6 +121,23 @@ void BreathPoint::draw(){
         r=4.f*sin(ofGetElapsedTimef()*2);
         v=2.f*cos(ofGetElapsedTimef()*2);
     }
+
+    if(APPC->debug){
+        ofPushMatrix();
+        ofPushStyle();
+        ofTranslate(getTarget());
+        ofSetColor(255,50);
+
+        ofDrawCircle(0, 0, getSlowDownDistance());
+        ofSetColor(255,0,0,200);
+
+        ofDrawCircle(0, 0, 10);
+
+        ofPopStyle();
+        ofPopMatrix();
+        
+    }
+    
     
     ofPushMatrix();
     ofPushStyle();
@@ -128,7 +146,7 @@ void BreathPoint::draw(){
     //ofDrawEllipse(getPosition().x, getPosition().y, actualRadius+r, actualRadius+v);
     ofDrawEllipse(0,0, actualRadius+r, actualRadius+v);
     
-    
+ 
     
     switch (state) {
         case FREE:
@@ -289,20 +307,20 @@ void BreathPoint::setState(int _state){
             //setWatch(false);
             scaleTo(size2,0.5);
             setSeekForce(seekforce0);
-            setSlowDownDistance(1000);
+          setSlowDownDistance(10);
             bWatch=false;
             break;
         case SCARED:
             scaleTo(size1,0.5);
             setSeekForce(seekforce3);
-            setSlowDownDistance(500);
+            setSlowDownDistance(50);
 
             break;
         case HOME:
             
            scaleTo(size2,0.5);
            setSeekForce(seekforce2);
-            setSlowDownDistance(500);
+            setSlowDownDistance(50);
 
             break;
         case INSIDE:
@@ -310,7 +328,7 @@ void BreathPoint::setState(int _state){
         case WATCH:
             scaleTo(sizeWatch,0.5);
             setSeekForce(seekforce1);
-            setSlowDownDistance(200);
+           // setSlowDownDistance(200);
 
             bWatch=true;
             break;
