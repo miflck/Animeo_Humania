@@ -1,7 +1,7 @@
 {
    "LightPointApp" : {
       "cabindimension" : [ 496, 479 ],
-      "cabinposition" : [ 1256, 519 ],
+      "cabinposition" : [ 1241, 541 ],
       "homeposition" : [ 1733, 438 ],
       "insidePoisiton" : [ 1624, 827 ],
       "scaredposition" : [ 702, 208 ],
@@ -9,12 +9,12 @@
       "watchposition" : [ 1660, 602 ]
    },
    "LinieApp" : {
-      "anchorStartPositionBottom" : [ 1812, 540 ],
-      "anchorStartPositionTop" : [ 268, 321 ],
+      "anchorStartPositionBottom" : [ 1808, 545 ],
+      "anchorStartPositionTop" : [ 154, 548 ],
       "finalCirclePosition" : [ 866, 585 ]
    },
    "emotions" : {
-      "emitterposition" : [ 1234, 535 ],
+      "emitterposition" : [ 483, 493 ],
       "startposition" : [ 1226, 598 ]
    },
    "humania" : {

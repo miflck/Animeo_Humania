@@ -753,7 +753,6 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         bEmitHearts=m;
         cout<<"Hearts"<<bEmitHearts<<endl;
     }
-    
     if(msg.getAddress() == "/EmotionWorld/fader3")
     {
         float f=msg.getArgAsFloat(0);
@@ -768,8 +767,18 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         box2d.setGravity(gravityX, gravityY);
     }
     
+    if(msg.getAddress() == "/EmotionWorld/fader10")
+    {
+        float f=msg.getArgAsFloat(0);
+        f=ofMap(f, -1.f, 1.f, -40, 40);
+        shapeDir=f;
+    }
+
+    
+    
     if(msg.getAddress() == "/EmotionWorld/fader4")
     {
+    
         float f=msg.getArgAsFloat(0);
         f=ofMap(f, -1.f, 1.f, -10, 10);
         gravityX=f;

@@ -598,6 +598,9 @@ private:
     void contactEnd(ofxBox2dContactArgs &e);
     
     
+    float shapeDir=0;
+    
+    
 };
 
 
