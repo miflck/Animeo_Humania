@@ -591,6 +591,13 @@ void LightPointApp::toggleRepulsion(){
 void LightPointApp::setMoverToStartPosition(){
     mover.setPosition(startposition->x, startposition->y);
     mover.setTarget(ofVec2f(startposition->x, startposition->y));
+    
+    ofxOscMessage m;
+    m.addFloatArg(ofMap(startposition->y,0,ofGetHeight(),0,1));
+    m.addFloatArg(ofMap(startposition->x,0,ofGetWidth(),0,1));
+    m.setAddress("/Light/xy1");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+    
 }
 
 

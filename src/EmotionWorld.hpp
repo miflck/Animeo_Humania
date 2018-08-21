@@ -186,6 +186,52 @@ public:
 };
 
 
+// ------------------------------------------------- a simple extended box2d circle
+class RectShape : public ofxBox2dRect {
+    
+public:
+    ofColor col;
+    ofRectangle screen;
+    float actualRadius;
+    float easingInitTime;
+    float radiusTarget;
+    float scaleDuration=2.f;
+    
+    
+    RectShape() {
+        col=ofColor(220+ofRandom(-30,30),37+ofRandom(-30,30),151+ofRandom(-30,30));
+        screen.set(0,0,ofGetWidth(),ofGetHeight());
+        actualRadius=0;
+        easingInitTime = ofGetElapsedTimef();
+        radiusTarget=ofRandom(5,30);
+    }
+    ofColor color;
+    
+    static bool shouldRemoveOffScreen(shared_ptr<RectShape> shape) {
+        return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
+    }
+    
+    
+    void update(){
+        auto endTime = easingInitTime + scaleDuration;
+        auto now = ofGetElapsedTimef();
+        actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
+       // if(actualRadius!=radiusTarget)setRadius(actualRadius);
+    }
+    
+    void draw() {
+      //  float radius = getRadius();
+        ofPushMatrix();
+        ofTranslate(getPosition().x,getPosition().y);
+        ofRotate(getRotation());
+        ofSetColor(col);
+        ofFill();
+      //m  ofDrawCircle(0,0,radius);
+        ofPopMatrix();
+    }
+};
+
+
 
 
 

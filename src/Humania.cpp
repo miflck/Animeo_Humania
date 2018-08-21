@@ -221,6 +221,10 @@ void Humania::updateFace(){
     rightMouthOffset=rightHand-rightEllbow;
     leftMouthCornerOffset=leftEllbow-spineBase;
     rightMouthCornerOffset=rightHand-spineBase;
+        
+       // leftMouthCornerOffset=ofVec2f(-100,0);
+       // rightMouthCornerOffset=ofVec2f(100,0);
+        
     }else{
         leftMouthOffset=ofVec2f(0,-30);
         rightMouthOffset=ofVec2f(0,-30);

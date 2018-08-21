@@ -5,16 +5,16 @@
       "homeposition" : [ 1733, 438 ],
       "insidePoisiton" : [ 1624, 827 ],
       "scaredposition" : [ 702, 208 ],
-      "startposition" : [ 705, 582 ],
+      "startposition" : [ 677, 713 ],
       "watchposition" : [ 1660, 602 ]
    },
    "LinieApp" : {
-      "anchorStartPositionBottom" : [ 1877, 520 ],
-      "anchorStartPositionTop" : [ 73, 510 ],
+      "anchorStartPositionBottom" : [ 1812, 540 ],
+      "anchorStartPositionTop" : [ 268, 321 ],
       "finalCirclePosition" : [ 866, 585 ]
    },
    "emotions" : {
-      "emitterposition" : [ 989, 554 ],
+      "emitterposition" : [ 1234, 535 ],
       "startposition" : [ 1226, 598 ]
    },
    "humania" : {
