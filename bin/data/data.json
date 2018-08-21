@@ -3,6 +3,7 @@
       "cabindimension" : [ 496, 479 ],
       "cabinposition" : [ 1256, 519 ],
       "homeposition" : [ 1733, 438 ],
+      "insidePoisiton" : [ 1624, 827 ],
       "scaredposition" : [ 702, 208 ],
       "startposition" : [ 705, 582 ],
       "watchposition" : [ 1660, 602 ]

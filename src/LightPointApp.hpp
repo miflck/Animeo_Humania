@@ -94,7 +94,7 @@ public:
     ofVec2f *homeposition;
     ofVec2f *startposition;
     ofVec2f *scaredposition;
-    ofVec2f *insidePoisiton;
+    ofVec2f *insidepositon;
     
     ofVec2f *watchposition;
 

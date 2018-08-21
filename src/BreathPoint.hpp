@@ -60,7 +60,9 @@ public:
     int size1=20;
     int size2=50;
     int size3=150;
-    int sizeWatch=60;
+  //  int sizeWatch=60;
+    int sizeWatch=120;
+
 
     float seekforce0=0.9;
 

@@ -55,7 +55,7 @@ void LightPointApp::init(){
     cabinposition=&Settings::getVec2("LightPointApp/cabinposition");
     cabindimension=&Settings::getVec2("LightPointApp/cabindimension");
     watchposition=&Settings::getVec2("LightPointApp/watchposition");
-
+    insidepositon=&Settings::getVec2("LightPointApp/insidePoisiton");
 
     setMoverToStartPosition();
     mover.bSeekTarget=true;
@@ -214,24 +214,32 @@ bool LightPointApp::bounceFromCabin(){
     ofVec2f position=mover.getPosition();
     float radius=mover.getRadius();
     ofVec2f speed=mover.getSpeed();
-
+    
+    cout<<speed.length()<<endl;
     //check for top collision:
     if(position.x+radius>=
        cabinposition->x && position.x-radius<=cabinposition->x+cabindimension->x){
         float ball2topEdge = abs(position.y - cabinposition->y); //look up abs()
+        float ball2topEdgeBalanced = position.y - cabinposition->y; //look up abs()
+        
+        float dist=ball2topEdge-radius;
+
+
         if(ball2topEdge <= radius)
         {
+            
+            cout<<" dist "<<ball2topEdge-radius<<endl;
+
             // anti-warp
             if(position.x+radius>=cabinposition->x){
             mover.setPosition(lastPosition.x,lastPosition.y);
             }
+          
             ofVec2f sReflected=speed;
             sReflected*=-1;
-            mover.setSpeed(speed.x, sReflected.y);
-            
-            playRandomSound();
+             mover.setSpeed(speed.x, sReflected.y);
+           playRandomSound();
         }
-        
     }
     
     //check for left collision:
@@ -241,27 +249,30 @@ bool LightPointApp::bounceFromCabin(){
         //check for left collision:
         if(ball2leftEdge <= radius)
         {
-            if(position.x+radius>=cabinposition->x){
-                mover.setPosition(lastPosition.x,lastPosition.y);
-            }
-            ofVec2f sReflected=speed;
-            sReflected*=-1;
-            mover.setSpeed(sReflected.x, speed.y);
+          
+                if(position.x+radius>=cabinposition->x){
+                    mover.setPosition(lastPosition.x,lastPosition.y);
+                    
+                }
+                ofVec2f sReflected=speed;
+                sReflected*=-1;
+                mover.setSpeed(sReflected.x, speed.y);
             playRandomSound();
-
+            
+           
         }
         //check for right collision:
         float ball2rightEdge = abs(position.x - (cabinposition->x+cabindimension->x));
         if(ball2rightEdge <= radius)
         {
-            if(position.x-radius<=cabinposition->x+cabindimension->x){
-                mover.setPosition(lastPosition.x,lastPosition.y);
-            }
-            ofVec2f sReflected=speed;
-            sReflected*=-1;
-            mover.setSpeed(sReflected.x, speed.y);
-            playRandomSound();
-
+                if(position.x-radius<=cabinposition->x+cabindimension->x){
+                    mover.setPosition(lastPosition.x,lastPosition.y);
+                }
+                ofVec2f sReflected=speed;
+                sReflected*=-1;
+                mover.setSpeed(sReflected.x, speed.y);
+               playRandomSound();
+            
         }
     }
  
@@ -452,11 +463,13 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     
     
     if(e.key=='i'){
-        mover.setSlowDown(true);
+      //  mover.setSlowDown(true);
+        insidepositon->set(ofGetMouseX(),ofGetMouseY());
+        Settings::get().save("data.json");
     }
     
     if(e.key=='o'){
-        mover.setSlowDown(false);
+        //mover.setSlowDown(false);
     }
     
    
@@ -694,6 +707,15 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
   //      float f=msg.getArgAsFloat(0);
 //        mover.setSeekForce(0.9);
         switchState(ENTER);
+        mover.setSeekForce(10);
+        mover.setSlowDownDistance(500);
+        mover.setTarget(*insidepositon);
+        
+        ofxOscMessage m;
+        m.addFloatArg(ofMap(insidepositon->y,0,ofGetHeight(),0,1));
+        m.addFloatArg(ofMap(insidepositon->x,0,ofGetWidth(),0,1));
+        m.setAddress("/Light/xy1");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
 
     }
     
