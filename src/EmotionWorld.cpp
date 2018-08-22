@@ -68,6 +68,15 @@ void EmotionWorld::init(){
     emitterposition.set(savedemitterposition->x,savedemitterposition->y);
     emitteroffset.set(400,0);
     
+    
+    savedeanchorposition=&Settings::getVec2("emotions/anchorposition");
+   anchorposition.set(savedeanchorposition->x,savedeanchorposition->y);
+   
+    
+    savedeanchorpositionBottom=&Settings::getVec2("emotions/anchorposition");
+    anchorpositionBottom.set(savedeanchorpositionBottom->x,savedeanchorpositionBottom->y);
+    
+    
     ofDirectory dir;
     dir.listDir("Sounds/Multiplopp");
     dir.sort();
@@ -92,6 +101,8 @@ void EmotionWorld::init(){
     anchorSound.setMultiPlay(true);
     
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &EmotionWorld::onMessageReceived);
+    
+    
 }
 
 void EmotionWorld::update(){
@@ -102,20 +113,31 @@ void EmotionWorld::update(){
     
     
     for(int i=0;i<shapes.size();i++){
-        shapes[i]->update();
         
-         float dis = repulsionPosition.distance(shapes[i].get()->getPosition());
+        float dis = repulsionPosition.distance(shapes[i].get()->getPosition());
         if(dis < minDis && bIsRepulsionActive){
             shapes[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
         }
         
+        shapes[i]->update();
+        
+     
+        
     }
     
     for(int i=0;i<triangles.size();i++){
+        float dis = repulsionPosition.distance(triangles[i].get()->getPosition());
+        if(dis < minDis && bIsRepulsionActive){
+            triangles[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
+        }
         triangles[i]->update();
     }
     
     for(int i=0;i<hearts.size();i++){
+        float dis = repulsionPosition.distance(hearts[i].get()->getPosition());
+        if(dis < minDis && bIsRepulsionActive){
+            hearts[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
+        }
         hearts[i]->update();
     }
     
@@ -127,6 +149,12 @@ void EmotionWorld::update(){
     }
     
     for(int i=0;i<kreise.size();i++){
+        
+        float dis = repulsionPosition.distance(kreise[i].get()->getPosition());
+        if(dis < minDis && bIsRepulsionActive){
+            kreise[i].get()->anchor.addRepulsionForce(repulsionPosition,repulsionForce);
+        }
+        
         if(bCircleFollowMouse)kreise[i]->setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
         kreise[i]->update();
     }
@@ -137,8 +165,21 @@ void EmotionWorld::update(){
     }
     
     for(int i=0;i<sterne.size();i++){
+        
+        float dis = repulsionPosition.distance(sterne[i].get()->getPosition());
+        if(dis < minDis && bIsRepulsionActive){
+            sterne[i].get()->anchor.addRepulsionForce(repulsionPosition,repulsionForce);
+        }
+        
         sterne[i]->update();
     }
+    
+    for(int i=0;i<ellipsen.size();i++){
+        ellipsen[i]->update();
+        if(ellipsen[i]->bShouldRemove)emitMultiShapes(20,ofVec2f(ellipsen[i]->getPosition().x,50));
+    }
+    
+
     
     box2d.update();
     
@@ -153,6 +194,22 @@ void EmotionWorld::update(){
     //baloon.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
    // baloon.setTarget(emitterposition.x,emitterposition.y);
 
+    
+    
+    if(mskel.size()>0){
+        ofVec2f epos;
+        
+        ofVec2f lefthand=mskel[0].leftHand;
+        ofVec2f righthand=mskel[0].rightHand;
+        ofVec2f middle=(lefthand-righthand)/2;
+        epos.set(righthand+middle);
+        
+       if(ellipsen.size()>0 && ellipsen.back()->getState()==MOVINGOBJECT)ellipsen.back()->setTarget(epos);
+        if(ellipsen.size()>0 && ellipsen.back()->getState()==MOVINGOBJECT)ellipsen.back()->setRadiusTarget(middle.length());
+    }
+    
+
+    
     
     
     if(mskel.size()<=0){
@@ -217,6 +274,8 @@ void EmotionWorld::update(){
     ofRemove(anchors, AnchorTriangle::shouldRemoveOffScreen);    
     ofRemove(kreise, Kreis::shouldRemoveFromScreen);
     ofRemove(dreiecke, Dreieck::shouldRemoveFromScreen);
+
+    ofRemove(ellipsen, IAKreis::shouldRemoveFromScreen);
 
    
     ofRemove(sterne, Stern::shouldRemoveFromScreen);
@@ -287,7 +346,9 @@ void EmotionWorld::draw(){
     for(int i=0;i<sterne.size();i++){
         sterne[i]->draw();
     }
-    
+   for(int i=0;i<ellipsen.size();i++){
+        ellipsen[i]->draw();
+    }
     
     ofPopStyle();
     
@@ -321,6 +382,28 @@ void EmotionWorld::exit(){
 void EmotionWorld::bindToSkeletton(bool _b){
     bBindToHead=_b;
     if(!bBindToHead) emitterposition.set(savedemitterposition->x,savedemitterposition->y);
+
+}
+
+
+void EmotionWorld::addEllipse(){
+    ofVec2f epos(emitterposition);
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+
+    if(mskel.size()>0){
+        ofVec2f lefthand=mskel[0].leftHand;
+        ofVec2f righthand=mskel[0].rightHand;
+        ofVec2f middle=(lefthand-righthand)/2;
+        epos.set(righthand+middle);
+    }
+    ellipsen.push_back(shared_ptr<IAKreis>(new IAKreis));
+    ellipsen.back().get()->setWorld(box2d.getWorld());
+    ellipsen.back().get()->bSeekTarget=true;
+    ellipsen.back().get()->setRadius(ofRandom(200,500));
+    ellipsen.back().get()->setPosition(epos.x,epos.y);
+    ellipsen.back().get()->setTarget(ofVec2f(epos.x,epos.y));
+    ellipsen.back().get()->setup();
+    playRandomPlopp();
 
 }
 
@@ -377,6 +460,36 @@ void EmotionWorld::emitMultiShapes(int _n){
             triangles.back().get()->setPhysics(5.0, 0.6, 0.3);
             triangles.back().get()->create(box2d.getWorld());
             triangles.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
+            triangles.back().get()->setAngularVelocity(2);
+        }
+    }
+    playRandomMultiplopp();
+}
+
+void EmotionWorld::emitMultiShapes(int _n,ofVec2f pos){
+    
+    
+    for(int i=0;i<_n;i++){
+        float rAdd=ofRandom(-1,1);
+        if(rAdd>emitShapeFrequency){
+            float r =0;        // a random radius 4px - 20px
+            shapes.push_back(shared_ptr<Shape>(new Shape));
+            shapes.back().get()->setPhysics(5, 0.6, 0.3);
+            shapes.back().get()->setup(box2d.getWorld(), pos.x, pos.y,r);
+            shapes.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,10));
+        }
+        
+        rAdd=ofRandom(-1,1);
+        if(rAdd<-emitShapeFrequency){
+            float r=ofRandom(20,30);
+            ofVec2f a =ofVec2f(pos.x-r/2,pos.y);
+            ofVec2f b =ofVec2f(pos.x+r/2,pos.y);
+            ofVec2f c =ofVec2f(pos.x,pos.y+r);
+            triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
+            triangles.back().get()->setWorld(box2d.getWorld());
+            triangles.back().get()->setPhysics(5.0, 0.6, 0.3);
+            triangles.back().get()->create(box2d.getWorld());
+            triangles.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,10));
             triangles.back().get()->setAngularVelocity(2);
         }
     }
@@ -547,7 +660,8 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='e'){
-        sun.scaleTo(2000,20.f);
+        //sun.scaleTo(2000,20.f);
+        addEllipse();
     }
     
     if(e.key=='g'){
@@ -566,6 +680,19 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
 
    // circles.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
    // circles.back().get()->setVelocity(ofRandom(-5,5), ofRandom(-1,-5));
+    }
+    
+    
+    if(e.key=='a'){
+        savedeanchorposition->set(ofGetMouseX(),ofGetMouseY());
+        Settings::get().save("data.json");
+        anchorposition.set(savedeanchorposition->x,savedeanchorposition->y);
+    }
+
+    if(e.key=='A'){
+        savedeanchorpositionBottom->set(ofGetMouseX(),ofGetMouseY());
+        Settings::get().save("data.json");
+        anchorpositionBottom.set(savedeanchorpositionBottom->x,savedeanchorpositionBottom->y);
     }
     
 }
@@ -841,8 +968,8 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         float m=msg.getArgAsBool(0);
         if(m){
             box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
-            leftbox.setup(box2d.getWorld(), 0, 150,20,300);
-            rightbox.setup(box2d.getWorld(), ofGetWidth(),150, 20,300);
+            leftbox.setup(box2d.getWorld(), 0, 150,20,600);
+            rightbox.setup(box2d.getWorld(), ofGetWidth(),150, 20,600);
             
         }else{
             box.destroy();
@@ -882,14 +1009,14 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     
 
        // anchors.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
-        ofVec2f dir = ofVec2f(100,-150);
+        ofVec2f dir = ofVec2f(-200,-100);
         dir.normalize();
         dir*=10;
  
         r=150;
-        ofVec2f a =ofVec2f(emitterposition.x-r/2,emitterposition.y);
-        ofVec2f b =ofVec2f(emitterposition.x+r/2,emitterposition.y);
-        ofVec2f c =ofVec2f(emitterposition.x,emitterposition.y-r);
+        ofVec2f a =ofVec2f(anchorposition.x-r/2,anchorposition.y);
+        ofVec2f b =ofVec2f(anchorposition.x+r/2,anchorposition.y);
+        ofVec2f c =ofVec2f(anchorposition.x,anchorposition.y-r);
         anchors.push_back(shared_ptr<AnchorTriangle>(new AnchorTriangle(a,b,c)));
         anchors.back().get()->setWorld(box2d.getWorld());
         anchors.back().get()->setPhysics(800.0, 0.2, 0.5);
@@ -906,6 +1033,39 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
 
         
     }
+    
+    if(msg.getAddress() == "/EmotionWorld/push43")
+    {
+        float r = 400;        // a random radius 4px - 20px
+        
+        
+        // anchors.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
+        ofVec2f dir = ofVec2f(ofRandom(-200,-500),-100);
+        dir.normalize();
+        dir*=ofRandom(10,50);
+        
+        r=150;
+        ofVec2f a =ofVec2f(anchorpositionBottom.x-r/2,anchorpositionBottom.y);
+        ofVec2f b =ofVec2f(anchorpositionBottom.x+r/2,anchorpositionBottom.y);
+        ofVec2f c =ofVec2f(anchorpositionBottom.x,anchorpositionBottom.y-r);
+        anchors.push_back(shared_ptr<AnchorTriangle>(new AnchorTriangle(a,b,c)));
+        anchors.back().get()->setWorld(box2d.getWorld());
+        anchors.back().get()->setPhysics(800.0, 0.2, 0.5);
+        anchors.back().get()->create(box2d.getWorld());
+        anchors.back().get()->setVelocity(dir);
+        anchors.back().get()->setAngularVelocity(0);
+        playRandomPlopp();
+        
+        
+        anchors.back().get()->setData(new SoundData());
+        SoundData * sd = (SoundData*) anchors.back().get()->getData();
+        sd->soundID = ofRandom(0, ploppsounds.size());
+        sd->bHit    = false;
+        
+        
+    }
+    
+    
     
     // KREIS
     if(msg.getAddress() == "/EmotionWorld/push27")
@@ -937,6 +1097,30 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
             kreise[i]->setState(FADEOUT);
         }
     }
+    
+    
+    
+    if(msg.getAddress() == "/EmotionWorld/push40")
+    {
+        addEllipse();
+        
+    }
+    if(msg.getAddress() == "/EmotionWorld/push41")
+    {
+        for(int i=0;i<ellipsen.size();i++){
+            if(ellipsen[i]->getState()==MOVINGOBJECT){
+                ellipsen[i]->setState(PHYSICS);
+                break;
+            }
+        }
+    }
+    if(msg.getAddress() == "/EmotionWorld/push42")
+    {
+        for(int i=0;i<ellipsen.size();i++){
+            ellipsen[i]->setState(FADEOUT);
+        }
+    }
+    
     
     
     // Dreieck
@@ -994,6 +1178,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     }
     
     if(msg.getAddress() == "/EmotionWorld/push25")
+        
     {
         for(int i=0;i<sterne.size();i++){
             sterne[i]->setState(PHYSICS);
@@ -1019,6 +1204,13 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         float m=msg.getArgAsBool(0);
         bindToSkeletton(m);
     }
+
+    if(msg.getAddress() == "/EmotionWorld/toggle26")
+    {
+        float m=msg.getArgAsBool(0);
+        bIsRepulsionActive=m;
+    }
+
 }
 
 
