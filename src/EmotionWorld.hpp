@@ -583,6 +583,11 @@ private:
     void bindToSkeletton(bool _b);
     
     
+    ofVec2f repulsionPosition;
+    float repulsionForce = 50;
+    float minDis =100;
+    bool bIsRepulsionActive=true;
+    
     
     
     // Sound

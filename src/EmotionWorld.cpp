@@ -97,8 +97,18 @@ void EmotionWorld::init(){
 void EmotionWorld::update(){
     //box2d.setGravity(0, APPC->gui->emotionsgravity);
     
+    
+    repulsionPosition.set(ofGetMouseX(),ofGetMouseY());
+    
+    
     for(int i=0;i<shapes.size();i++){
         shapes[i]->update();
+        
+         float dis = repulsionPosition.distance(shapes[i].get()->getPosition());
+        if(dis < minDis && bIsRepulsionActive){
+            shapes[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
+        }
+        
     }
     
     for(int i=0;i<triangles.size();i++){
