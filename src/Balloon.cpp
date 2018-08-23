@@ -76,9 +76,9 @@ void Balloon::draw(){
     ofPushMatrix();
     ofScale(actualRadius, actualRadius);
 
-    ofSetColor(255,0,0);
+    ofSetColor(255);
 
-    ofDrawEllipse(0,0,130,150);
+    ofDrawEllipse(0,0,150,150);
     ofTranslate(0,75);
    
     ofRotate(-actualTriangleAngle);

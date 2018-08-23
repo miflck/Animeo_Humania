@@ -73,7 +73,7 @@ void EmotionWorld::init(){
    anchorposition.set(savedeanchorposition->x,savedeanchorposition->y);
    
     
-    savedeanchorpositionBottom=&Settings::getVec2("emotions/anchorposition");
+    savedeanchorpositionBottom=&Settings::getVec2("emotions/anchorpositionBottom");
     anchorpositionBottom.set(savedeanchorpositionBottom->x,savedeanchorpositionBottom->y);
     
     

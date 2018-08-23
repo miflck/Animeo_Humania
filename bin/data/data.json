@@ -15,6 +15,7 @@
    },
    "emotions" : {
       "anchorposition" : [ 1291, 336 ],
+      "anchorpositionBottom" : [ 1345, 822 ],
       "emitterposition" : [ 783, 560 ],
       "startposition" : [ 1226, 598 ]
    },

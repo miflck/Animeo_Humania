@@ -151,10 +151,16 @@ public:
     float easingInitTime;
     float radiusTarget;
     float scaleDuration=2.f;
+    
+    
+    
 
     
     Shape() {
-        col=ofColor(220+ofRandom(-30,30),37+ofRandom(-30,30),151+ofRandom(-30,30));
+        //col=ofColor(220+ofRandom(-30,30),37+ofRandom(-30,30),151+ofRandom(-30,30));
+       // col=ofColor(220+ofRandom(-30,30),100+ofRandom(-200,200),151+ofRandom(-30,30));
+        col=ofColor(ofRandom(255),ofRandom(255),ofRandom(255));
+
         screen.set(0,0,ofGetWidth(),ofGetHeight());
         actualRadius=0;
         easingInitTime = ofGetElapsedTimef();
@@ -256,7 +262,10 @@ public:
         ofxBox2dPolygon::ofxBox2dPolygon();
 
         //col=ofColor(220+ofRandom(-30,30),37+ofRandom(-30,30),151+ofRandom(-30,30));
-        col=ofColor(255);
+       // col=ofColor(255);
+        
+        col=ofColor(ofRandom(255),ofRandom(255),ofRandom(255));
+
 
         screen.set(0,0,ofGetWidth(),ofGetHeight());
         actualRadius=0.1;
