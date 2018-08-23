@@ -76,6 +76,21 @@ void Humania::setup(){
     
     bBindPosition=true;
     
+    
+    movers.push_back(&leftEyeMover);
+    movers.push_back(&rightEyeMover);
+
+    
+    
+    for(int i=0;i<movers.size();i++){
+        movers[i]->bSeekTarget=true;
+        movers[i]->setSeekForce(20);
+        movers[i]->setMaxSpeed(80);
+        //movers[i]->setSlowDown(false);
+    }
+
+    
+    
 }
 
 
@@ -83,6 +98,12 @@ void Humania::setup(){
 
 
 void Humania::update(){
+    
+    for(int i=0;i<movers.size();i++){
+        movers[i]->move();
+    }
+    
+    
     auto headEasingEndTime = headEasingInitTime + headEasingDuration;
     auto now = ofGetElapsedTimef();
    
@@ -125,6 +146,13 @@ void Humania::update(){
         case FACE:
             Avatar::update();
             updateFace();
+            
+            
+            
+            
+            
+            
+            
             break;
             
         case AVATAR:
@@ -212,8 +240,22 @@ void Humania::updateFace(){
     if(bEyesAreBound) {
         float yoff=ofMap(head.y,0,-170,50,-50,true);
         eyeOffset=ofVec2f(head.x-spineBase.x,yoff);
+        
+        ofVec2f left=leftHand-neck;
+        float length=ofMap(left.length(),50,180,0,50,true);
+        leftEyeMover.setTarget((leftHand-neck).getScaled(length));
+        
+        ofVec2f right=rightHand-neck;
+        length=ofMap(right.length(),50,180,0,50,true);
+        rightEyeMover.setTarget((rightHand-neck).getScaled(length));
+
+        
+        
     }else{
-        eyeOffset=ofVec2f(0,0);
+        
+        leftEyeMover.setTarget(ofVec2f(-20,0));
+        rightEyeMover.setTarget(ofVec2f(+20,0));
+        
     }
     
     if(bMouthIsBound){
@@ -649,8 +691,34 @@ void Humania::drawFaceAvatar(){
     ofDrawCircle(headCenter,actualHeadRadius);
     ofSetColor(0);
     
+    
+    
+    
+    ofPushMatrix();
+    ofSetColor(0);
+    ofScale(scaleFactor, scaleFactor);
+
+    ofTranslate(leftEyeMover.getPosition().x,leftEyeMover.getPosition().y);
+    ofDrawEllipse(0,0,actualEyeDiameter*2,actualEyeRadius*2);
+
+    ofPopMatrix();
+    
+    
+    ofPushMatrix();
+    ofSetColor(0);
+    ofScale(scaleFactor, scaleFactor);
+    ofTranslate(rightEyeMover.getPosition().x,rightEyeMover.getPosition().y);
+    ofDrawEllipse(0,0,actualEyeDiameter*2,actualEyeRadius*2);
+    
+    ofPopMatrix();
+    
+    ofSetColor(0);
+
     // EYES
     ofPushMatrix();
+    
+    
+    
     ofTranslate(eyeOffset.x,eyeOffset.y);
     ofScale(scaleFactor, scaleFactor);
 
@@ -667,9 +735,16 @@ void Humania::drawFaceAvatar(){
           ofDrawEllipse(headCenter.x+2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
     }*/
     
-    ofDrawEllipse(headCenter.x-2*eyeDiameterTarget,headCenter.y-eyeDiameterTarget,actualEyeDiameter*2,actualEyeRadius*2);
-    ofDrawEllipse(headCenter.x+2*eyeDiameterTarget,headCenter.y-eyeDiameterTarget,actualEyeDiameter*2,actualEyeRadius*2);
+    
+    
+    
+    
+    
+  //  ofDrawEllipse(headCenter.x-2*eyeDiameterTarget,headCenter.y-eyeDiameterTarget,actualEyeDiameter*2,actualEyeRadius*2);
+  //  ofDrawEllipse(headCenter.x+2*eyeDiameterTarget,headCenter.y-eyeDiameterTarget,actualEyeDiameter*2,actualEyeRadius*2);
     ofPopMatrix();
+    
+    
 
     
    /* ofPushMatrix();

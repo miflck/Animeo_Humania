@@ -154,6 +154,16 @@ public:
     
     void drawBody();
     
+    
+    
+    MovingObject leftEyeMover;
+    MovingObject rightEyeMover;
+
+    vector<MovingObject*>movers;
+
+
+    
+    
 };
 
 #endif /* Humania_hpp */
