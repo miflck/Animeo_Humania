@@ -103,6 +103,8 @@ public:
     void makeCircle(bool _b);
     int circleBoundindex=0;
     
+    int circlePositionBoundIndex=0;
+    
     MovingObject mover1;
     ofVec2f moverCircleRadius;
     ofVec2f moverCircleCenter;
@@ -114,7 +116,22 @@ public:
     
     int numCircles=40;
     float circleAttractionForce=3;
+    
+    
+    
 
+    
+    bool bEndCircle=false;
+    float endCircleRadius;
+    // circle easing
+    float initAlpha;
+    float actualAlpha;
+    float alphaTarget;
+    float alphaEasingInitTime;
+    float alphaEasingDuration;
+    
+    void startFadeEndCircle();
+    bool bStartFade=false;
     
     
 private:
@@ -122,6 +139,10 @@ private:
     ofxBox2dCircle                            anchor;  // fixed anchor
     vector      <shared_ptr<ofxBox2dCircle> > circles; // default box2d circles
     vector      <shared_ptr<ofxBox2dJoint> >  joints;  // joints
+    
+    vector      <shared_ptr<ofxBox2dJoint> >  circlejoints;  // joints
+
+    
     ofxBox2dCircle                            anchor2;  // fixed anchor
     vector      <ofVec2f>   positions;  // joints
 

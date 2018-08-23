@@ -9,6 +9,7 @@
 #include "ApplicationController.h"
 
 #include "KinectV2Manager.hpp"
+#include "ofxEasing.h"
 
 
 LinieApp::LinieApp(){
@@ -110,23 +111,41 @@ void LinieApp::init(){
     
     damping=0.99;
     
+    
+    
+    initAlpha=0;
+    actualAlpha=0;
+    alphaTarget=255;
+    alphaEasingDuration=3;
+    
 }
 
 void LinieApp::update(){
+    
+    
+    auto now = ofGetElapsedTimef();
+    auto alphaEndTime = alphaEasingInitTime + alphaEasingDuration;
+    actualAlpha = ofxeasing::map_clamp(now, alphaEasingInitTime, alphaEndTime, initAlpha, alphaTarget, &ofxeasing::linear::easeInOut);
+
+    
+    
     box2d.update();
     if(bMakeCircle){
         moverCircleRadius.rotate(moverCircleSpeed);
         mover1.setTarget(moverCircleCenter+moverCircleRadius);
         mover1.update();
-        //anchor.setPosition(mover1.getPosition());
-        anchor.addAttractionPoint((moverCircleCenter+moverCircleRadius),circleAttractionForce);
+        anchor.setPosition(mover1.getPosition());
+      //  anchor.addAttractionPoint((moverCircleCenter+moverCircleRadius),circleAttractionForce);
 
 
-        float ang=(360/(circles.size()+1));
+        float ang=(360/(circles.size()));
         ofVec2f r=moverCircleRadius.getRotated(-ang);
 
-        if(circleBoundindex>circles.size())circleBoundindex=circles.size();
-        
+       /* if(circleBoundindex>circles.size()){
+            circleBoundindex=circles.size();
+            circlePositionBoundIndex++;
+            if(circlePositionBoundIndex>circles.size())circlePositionBoundIndex=circles.size();
+        }*/
         for(int i=0; i<circleBoundindex; i++) {
             /* float dis = mouse.distance(circles[i].get()->getPosition());
              if(dis < minDis && bIsMouseActive) circles[i].get()->addRepulsionForce(mouse,10);
@@ -135,15 +154,35 @@ void LinieApp::update(){
              if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
              }*/
             // circles[i].get()->setDamping(generalDamping);
-            ofVec2f r=moverCircleRadius.getRotated(-ang*(i+1));
+            ofVec2f r=moverCircleRadius.getRotated(-ang*(i));
          // circles[i].get()->setDamping(damping);
              circles[i]->addAttractionPoint((moverCircleCenter+r),circleAttractionForce);
-
+            //circles[i]->setPosition((moverCircleCenter+r));
             
         }
+        
+         ang=(360/(circles.size()));
+        for(int i=0; i<circlePositionBoundIndex; i++) {
+            /* float dis = mouse.distance(circles[i].get()->getPosition());
+             if(dis < minDis && bIsMouseActive) circles[i].get()->addRepulsionForce(mouse,10);
+             if(mskel.size()>0){
+             float handDist = leftHand.distance(circles[i].get()->getPosition());
+             if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
+             }*/
+            // circles[i].get()->setDamping(generalDamping);
+            ofVec2f r=moverCircleRadius.getRotated(-ang*(i));
+            // circles[i].get()->setDamping(damping);
+            //circles[i]->addAttractionPoint((moverCircleCenter+r),circleAttractionForce);
+            circles[i]->setPosition((moverCircleCenter+r));
+            
+        }
+        
+        
+        
         if(circleBoundindex>=circles.size()){
-            anchor2.addAttractionPoint((moverCircleCenter+moverCircleRadius),circleAttractionForce*5);
-            cout<<"Close!"<<endl;
+           // anchor2.addAttractionPoint((moverCircleCenter+moverCircleRadius),circleAttractionForce*5);
+            anchor2.setPosition(mover1.getPosition());
+
         }
        // if(ofGetFrameNum()%10==0)circleBoundindex++;
     }
@@ -183,7 +222,7 @@ void LinieApp::update(){
     }
     
     float mV=ofMap(APPC->audioInVolume,0,0.05,0,50);
-    cout<<mV<<endl;
+   // cout<<mV<<endl;
     int c=0;
  /* for(int i=0;i<circles.size();i+=5){
         if(c%2==0 || circles[i].get()->getPosition().y>ofGetHeight()-100)mV*=-1;
@@ -264,21 +303,27 @@ void LinieApp::update(){
 
 
 void LinieApp::draw(){
-    ofSetColor(0);
+   /// ofSetColor(0);
    // ofDrawRectangle(0,0,ofGetWidth(),ofGetHeight());
     
     
     
+    if(APPC->debug){
+        ofSetColor(0,0,255);
     ofPushMatrix();
     ofDrawCircle(moverCircleCenter+moverCircleRadius, 10);
     ofPopMatrix();
-    
+    }
     ofPushStyle();
     ofSetColor(255);
     ofSetLineWidth(8);
     line.draw();
     
    // ofDrawCircle(anchor.getPosition().x,anchor.getPosition().y,50);
+    if(bEndCircle){
+        ofSetColor(255,actualAlpha);
+        ofDrawCircle(moverCircleCenter,moverCircleRadius.length()+5);
+    }
     ofPopStyle();
     
     
@@ -336,6 +381,13 @@ void LinieApp::exit(){
 
 void LinieApp::makeCircle(bool _b){
     bMakeCircle=_b;
+}
+
+
+void LinieApp::startFadeEndCircle(){
+    bEndCircle=true;
+    alphaEasingInitTime=ofGetElapsedTimef();
+    cout<<"Start Fade"<<endl;
 }
 
 
@@ -399,6 +451,11 @@ void LinieApp::keyPressed(ofKeyEventArgs &e){
             joints[i].get()->setFrequency(joints[i].get()->getFrequency()+0.1);
         }
     }
+    
+    if(e.key=='e'){
+        startFadeEndCircle();
+    }
+    
     
    /* if(e.key=='d'){
         for(int i=0; i<joints.size(); i++) {
@@ -711,16 +768,30 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         anchor2.body->SetType(b2_staticBody);
         
         circleBoundindex=0;
-        
+        circlePositionBoundIndex=0;
         bMakeCircle=false;
+        actualAlpha=0;
+        alphaTarget=255;
+        bStartFade=false;
+        bEndCircle=false;
         
         
     }
     if(msg.getAddress() == "/4/push37")
     {
         //circleBoundindex++;
-        circleBoundindex+=5;
-
+        circleBoundindex+=3;
+        if(circleBoundindex>circles.size()){
+            circleBoundindex=circles.size();
+            circlePositionBoundIndex+=3;
+        }
+        if(circlePositionBoundIndex>circles.size()){
+            circlePositionBoundIndex=circles.size();
+            if(!bStartFade){
+                bStartFade=true;
+                startFadeEndCircle();
+            }
+        }
     }
 
     // Release and make Circle
@@ -730,6 +801,9 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
 
         anchor.setPhysics(1, 0.5, 0.9);
         anchor.body->SetType(b2_dynamicBody);
+        
+        anchor.addAttractionPoint((moverCircleCenter+moverCircleRadius),circleAttractionForce);
+
         
         anchor2.setPhysics(1, 0.5, 0.9);
         anchor2.body->SetType(b2_dynamicBody);
