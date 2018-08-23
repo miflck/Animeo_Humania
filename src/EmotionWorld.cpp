@@ -174,6 +174,7 @@ void EmotionWorld::update(){
         sterne[i]->update();
     }
     
+    
     for(int i=0;i<ellipsen.size();i++){
         ellipsen[i]->update();
         if(ellipsen[i]->bShouldRemove)emitMultiShapes(20,ofVec2f(ellipsen[i]->getPosition().x,50));
@@ -830,15 +831,24 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         if(mskel.size()>0 && f){
            pos=mskel[0].head;
         }
-        balloon.setPosition(pos.x,pos.y);
+        balloon.setPosition(pos.x,-30);
         showBalloon(f);
     }
     
     if(msg.getAddress() == "/Balloon/toggle24")
     {
         float f=msg.getArgAsBool(0);
-        balloon.setPosition(emitterposition.x,emitterposition.y);
-        balloon.setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
+       // balloon.setPosition(emitterposition.x,emitterposition.y);
+       // balloon.setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
+        
+        vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+        ofVec2f pos=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
+        if(mskel.size()>0 && f){
+            pos=mskel[0].head;
+        }
+        balloon.setPosition(pos.x,-30);
+        balloon.setTarget(ofVec2f(pos.x,pos.y));
+        
 
         if(f)balloon.startEasingIn();
         showBalloon(f);

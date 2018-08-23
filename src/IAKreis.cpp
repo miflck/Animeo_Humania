@@ -72,7 +72,6 @@ void IAKreis::update(){
             move();
             if(getPosition().y<actualRadius){
                 bShouldRemove=true;
-            
             }
             break;
             
@@ -147,6 +146,7 @@ void IAKreis::setState(int _state){
            /* anchor.setPosition(getPosition());
             anchor.setPhysics(50, 0.5, 0.4);
             anchor.body->SetType(b2_dynamicBody);*/
+            setSpeed(getSpeedBefore());
             setTarget(ofVec2f(getPosition().x,-200));
             break;
         case FADEOUT:
