@@ -33,6 +33,7 @@ void MovingObject::update(){
     auto now = ofGetElapsedTimef();
     move();
     actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
+    velocityBefore=velocity;
 }
 
 
@@ -144,8 +145,17 @@ void MovingObject::setSpeed(int _x, int _y){
     velocity.set(_x,_y);
 }
 
+
+void MovingObject::setSpeed(ofVec2f _s){
+    velocity.set(_s);
+}
+
 ofVec2f MovingObject::getSpeed(){
     return velocity;
+}
+
+ofVec2f MovingObject::getSpeedBefore(){
+    return velocityBefore;
 }
 
 

@@ -21,6 +21,7 @@
 #include "Kreis.hpp"
 #include "Dreieck.hpp"
 #include "Stern.hpp"
+#include "IAKreis.hpp"
 
 
 
@@ -497,7 +498,7 @@ public:
     vector      <shared_ptr<Stern> > sterne; // default box2d circles
     vector      <shared_ptr<Dreieck> > dreiecke; // default box2d circles
 
-
+    vector      <shared_ptr<IAKreis> > ellipsen; // default box2d circles
 
 
 private:
@@ -544,8 +545,10 @@ private:
     void emitShapes();
     
     void emitMultiShapes(int n);
+    void emitMultiShapes(int n, ofVec2f pos);
 
-    
+
+    void addEllipse();
     
     bool bEmitHearts=false;
     float emitFrequency=0.7;
@@ -576,7 +579,13 @@ private:
     ofVec2f emitterposition;
     
     ofVec2f emitteroffset;
+    
+    
+    ofVec2f *savedeanchorposition;
+    ofVec2f anchorposition;
 
+    ofVec2f *savedeanchorpositionBottom;
+    ofVec2f anchorpositionBottom;
     
     bool bBindToHead=false;
     
@@ -584,9 +593,9 @@ private:
     
     
     ofVec2f repulsionPosition;
-    float repulsionForce = 50;
-    float minDis =100;
-    bool bIsRepulsionActive=true;
+    float repulsionForce = 100;
+    float minDis =200;
+    bool bIsRepulsionActive=false;
     
     
     

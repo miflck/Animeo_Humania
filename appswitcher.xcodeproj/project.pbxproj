@@ -139,6 +139,8 @@
 		F8C594EDF5A25FA2F042074C /* ofxKinectV2OSC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E489615DA9497A4B4D8CEA /* ofxKinectV2OSC.cpp */; };
 		F95BCC5C1FA2CCFBD4F65660 /* ExtrashapeBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A968FFB7A5D95FC11D632E95 /* ExtrashapeBase.cpp */; };
 		FA7300BAC71DAC1ABAF6EE15 /* b2Fixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774DDD1B3F05D3FDF0D37794 /* b2Fixture.cpp */; };
+		FAAB6AD9212D42380099F6EC /* EmotionEllipse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAAB6AD7212D42380099F6EC /* EmotionEllipse.cpp */; };
+		FAAB6ADC212D57DF0099F6EC /* IAKreis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAAB6ADB212D57DF0099F6EC /* IAKreis.cpp */; };
 		FAB3400E211054F800EF8E6C /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAB34008211054F800EF8E6C /* Grid.cpp */; };
 		FAB3400F211054F800EF8E6C /* GuiApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAB3400A211054F800EF8E6C /* GuiApp.cpp */; };
 		FAB34010211054F800EF8E6C /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAB3400C211054F800EF8E6C /* OrthoCamera.cpp */; };
@@ -462,6 +464,10 @@
 		F7D88D45725D5A3C0781C9A8 /* BodyRenderer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = BodyRenderer.cpp; path = "../../../addons/ofxKinectV2-OSC/src/Draw/BodyRenderer.cpp"; sourceTree = SOURCE_ROOT; };
 		F7FBC56859535E597B24BB91 /* NetworkingUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = NetworkingUtils.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h; sourceTree = SOURCE_ROOT; };
 		FA784162B6A8E3A77BBE4D6C /* b2TimeStep.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = b2TimeStep.h; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/b2TimeStep.h; sourceTree = SOURCE_ROOT; };
+		FAAB6AD7212D42380099F6EC /* EmotionEllipse.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EmotionEllipse.cpp; sourceTree = "<group>"; };
+		FAAB6AD8212D42380099F6EC /* EmotionEllipse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EmotionEllipse.hpp; sourceTree = "<group>"; };
+		FAAB6ADA212D57DE0099F6EC /* IAKreis.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = IAKreis.hpp; sourceTree = "<group>"; };
+		FAAB6ADB212D57DF0099F6EC /* IAKreis.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IAKreis.cpp; sourceTree = "<group>"; };
 		FAB34008211054F800EF8E6C /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		FAB34009211054F800EF8E6C /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
 		FAB3400A211054F800EF8E6C /* GuiApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiApp.cpp; sourceTree = "<group>"; };
@@ -1091,6 +1097,8 @@
 				E46DD8FC3D173791D4242395 /* AvatarApp.hpp */,
 				107126D027164F7A9358F50F /* Balloon.cpp */,
 				7FA78DBB584B8BCB98255C9C /* Balloon.hpp */,
+				FAAB6AD7212D42380099F6EC /* EmotionEllipse.cpp */,
+				FAAB6AD8212D42380099F6EC /* EmotionEllipse.hpp */,
 				DB313A17805A753369B36A0A /* Bird.cpp */,
 				FB9A228571C0BCAFDD40FE6F /* Bird.hpp */,
 				6B6B30DA4A91FF46B08110FD /* BreathPoint.cpp */,
@@ -1114,6 +1122,8 @@
 				93DC923572385F2635DBDBC9 /* KinectV2Manager.hpp */,
 				DB6022FE2B056E35AD8F81CF /* Kreis.cpp */,
 				E0A72ED14153AC05E357EEA0 /* Kreis.hpp */,
+				FAAB6ADA212D57DE0099F6EC /* IAKreis.hpp */,
+				FAAB6ADB212D57DF0099F6EC /* IAKreis.cpp */,
 				459C4ADD8DDAD4ED5D4438C7 /* LightPointApp.cpp */,
 				3AFA0972E6C9EA4493E390E9 /* LightPointApp.hpp */,
 				E26359B3F76DB6C94AF4C692 /* Line.cpp */,
@@ -1351,6 +1361,7 @@
 				24F8C56D1B5B291AE4930340 /* Agent.cpp in Sources */,
 				40664AF7B8D94DC90E560872 /* ApplicationBase.cpp in Sources */,
 				2BE7C88D4AAC8DE910D156F0 /* ApplicationController.cpp in Sources */,
+				FAAB6AD9212D42380099F6EC /* EmotionEllipse.cpp in Sources */,
 				A56B6252BA04CD5AB9E74533 /* Arm.cpp in Sources */,
 				EDF7C7F2AAFA8988A9C3F3DD /* Avatar.cpp in Sources */,
 				569A711B54D7FC0966B4A688 /* AvatarApp.cpp in Sources */,
@@ -1378,6 +1389,7 @@
 				BF36BA3327F795ABD4054D64 /* Sun.cpp in Sources */,
 				C4C551CDD9D2BCF918E7C7BD /* TestApplication.cpp in Sources */,
 				B16C89D9CA996CA8FD860D81 /* ofxBox2d.cpp in Sources */,
+				FAAB6ADC212D57DF0099F6EC /* IAKreis.cpp in Sources */,
 				F2FF2F9D6699B4B328CB6BE3 /* ofxBox2dBaseShape.cpp in Sources */,
 				AE9254BC31C3409899D28DC9 /* ofxBox2dCircle.cpp in Sources */,
 				408954594723264E14D73311 /* ofxBox2dConvexPoly.cpp in Sources */,

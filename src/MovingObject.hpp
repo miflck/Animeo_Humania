@@ -33,12 +33,15 @@ public:
     
     
     ofVec2f getDistance(ofVec2f _t);
+    
+    void setSpeed(int _x, int _y);
+    void setSpeed(ofVec2f _s);
     ofVec2f getSpeed();
+    ofVec2f getSpeedBefore();
     
     virtual void setRadius(int radius);
     int getRadius();
     
-    void setSpeed(int _x, int _y);
     
     virtual void setTarget(ofVec2f _target);
     void setMaxSpeed(float _m);
@@ -115,6 +118,8 @@ private:
     
     bool bSlowDown=true;
     int slowdowndistance=300;
+    
+    ofVec2f velocityBefore;
     
 };
 
