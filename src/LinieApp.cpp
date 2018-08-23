@@ -116,7 +116,7 @@ void LinieApp::init(){
     initAlpha=0;
     actualAlpha=0;
     alphaTarget=255;
-    alphaEasingDuration=3;
+    alphaEasingDuration=1;
     
 }
 
@@ -125,7 +125,7 @@ void LinieApp::update(){
     
     auto now = ofGetElapsedTimef();
     auto alphaEndTime = alphaEasingInitTime + alphaEasingDuration;
-    actualAlpha = ofxeasing::map_clamp(now, alphaEasingInitTime, alphaEndTime, initAlpha, alphaTarget, &ofxeasing::linear::easeInOut);
+    actualAlpha = ofxeasing::map_clamp(now, alphaEasingInitTime, alphaEndTime, initAlpha, alphaTarget, &ofxeasing::linear::easeIn);
 
     
     
@@ -361,17 +361,6 @@ void LinieApp::draw(){
     
    // line=line.getResampledBySpacing(20);
   // line=line.getSmoothed(10);
-    
-
-
-    
-    
-    string info = "";
-    info += "Press [n] to add a new joint\n";
-    info += "click and pull the chain around\n";
-    info += "FPS: "+ofToString(ofGetFrameRate(), 1)+"\n";
-    ofSetHexColor(0x444342);
-    ofDrawBitmapString(info, 30, 30);
     
 }
 
@@ -671,7 +660,7 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         APPC->oscmanager.touchOscSender.sendMessage(m);
         */
         float dmp=msg.getArgAsFloat(0);
-        moverCircleSpeed=ofMap(dmp, 0, 1, 0, 5);
+        moverCircleSpeed=ofMap(dmp, 0, 1, 0, 4);
     }
     
     if(msg.getAddress() == "/4/rotary7")
