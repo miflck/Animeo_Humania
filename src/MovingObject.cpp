@@ -81,6 +81,8 @@ void MovingObject::move(){
    // if(bSlowDown)velocity.limit(getArriveSpeed(target));
 
     
+    posistionBefore=position;
+    
     position+= velocity;
     acceleration.set(0,0);
     velocity*=0.99;
@@ -213,6 +215,14 @@ void MovingObject::applyForce(ofVec2f _force, float _strength){
 
 ofVec2f MovingObject::getPosition(){
     return position;
+}
+
+ofVec2f MovingObject::getPositionBefore(){
+    return posistionBefore;
+}
+
+ofVec2f MovingObject::getPositionDifference(){
+    return posistionBefore-position;
 }
 
 void MovingObject::setSeekForce(float _f){

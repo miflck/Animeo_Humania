@@ -28,6 +28,8 @@ public:
     void setPosition(ofVec2f _p);
 
     ofVec2f getPosition();
+    ofVec2f getPositionBefore();
+    ofVec2f getPositionDifference();
     
     bool isOnScreen();
     
@@ -109,6 +111,7 @@ public:
     bool getReached();
     void setReached(bool r);
 
+ 
     
 private:
     
@@ -131,8 +134,9 @@ private:
     
     ofVec2f velocityBefore;
     
-    
-    
+    ofVec2f positionDifference;
+
+    ofVec2f posistionBefore;
     
     
 };

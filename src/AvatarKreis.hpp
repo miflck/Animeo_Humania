@@ -10,6 +10,7 @@
 #include "ofMain.h"
 #include <stdio.h>
 #include "MovingObject.hpp"
+#define IDLE 0
 #define START 1
 #define MOVINGOBJECT 2
 #define RELEASED 3
@@ -52,8 +53,18 @@ public:
     float fadeTarget;
     float fadeDuration;
     
-    void setRadiusTarget(float r);
     
+    
+    void setRadiusTarget(float r);
+    void setRadiusTargetWithStartRadius(float r,float rs);
+    void updateRadiusTarget(float r);
+
+    void setStartRadius(float r);
+    
+    void setActualRadius(float r);
+    float getActualRadius();
+    void setScaleDuration(float t);
+
     bool bShouldRemove=false;
     
     static bool shouldRemoveFromScreen(shared_ptr<AvatarKreis> shape) {

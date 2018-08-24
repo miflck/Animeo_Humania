@@ -97,14 +97,18 @@ void AvatarApp::update(){
     }
     
     
+    
     if(mskel.size()>0){
         ofVec2f epos;
-        
         ofVec2f lefthand=mskel[skelettonId].leftHand;
         ofVec2f righthand=mskel[skelettonId].rightHand;
         ofVec2f middle=(lefthand-righthand)/2;
         epos.set(righthand+middle);
         startposition.set(epos);
+        
+        faceCircle.updateRadiusTarget(middle.length());
+        leftEye.updateRadiusTarget(middle.length());
+        rightEye.updateRadiusTarget(middle.length());
     }
     
     humania.update();
@@ -753,6 +757,9 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         faceCircle.setState(RELEASED);
         faceCircle.setTarget(humania.getPosition());
         faceCircle.setSlowDownDistance(800);
+        faceCircle.setScaleDuration(1);
+        faceCircle.color=ofColor(255);
+
         
     }
     
@@ -765,6 +772,8 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         leftEye.setTarget(ofVec2f(humania.getPosition().x-80,humania.getPosition().y));
         leftEye.setSlowDownDistance(800);
         leftEye.color=ofColor(0);
+        leftEye.setScaleDuration(1);
+
         
     }
     
@@ -777,7 +786,70 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         rightEye.setTarget(ofVec2f(humania.getPosition().x+80,humania.getPosition().y));
         rightEye.setSlowDownDistance(800);
         rightEye.color=ofColor(0);
+        leftEye.setScaleDuration(1);
+
     }
+    
+    
+    if(msg.getAddress() == "/Face/push47")
+    {
+        faceCircle.setPosition(startposition);
+        faceCircle.easingInitTime=ofGetElapsedTimef();
+        faceCircle.startRadius=0;
+        faceCircle.setRadiusTargetWithStartRadius(10,0);
+        faceCircle.setState(MOVINGOBJECT);
+        faceCircle.setTarget(startposition);
+        faceCircle.setScaleDuration(0.3);
+        faceCircle.color=ofColor(255);
+
+        
+    }
+    
+    if(msg.getAddress() == "/Face/push48")
+    {
+        leftEye.setPosition(startposition);
+        leftEye.easingInitTime=ofGetElapsedTimef();
+        leftEye.setRadiusTargetWithStartRadius(10,0);
+        leftEye.setState(MOVINGOBJECT);
+        leftEye.setTarget(startposition);
+        leftEye.setSlowDownDistance(800);
+        leftEye.color=ofColor(0);
+        leftEye.setScaleDuration(0.3);
+
+        
+    }
+    
+    if(msg.getAddress() == "/Face/push49")
+    {
+        rightEye.setPosition(startposition);
+        rightEye.easingInitTime=ofGetElapsedTimef();
+        rightEye.setRadiusTargetWithStartRadius(10,0);
+        rightEye.setState(MOVINGOBJECT);
+        rightEye.setTarget(startposition);
+        rightEye.setSlowDownDistance(800);
+        rightEye.color=ofColor(0);
+        rightEye.setScaleDuration(0.3);
+
+    }
+    
+    
+    if(msg.getAddress() == "/Face/push50")
+    {
+        faceCircle.setPosition(startposition);
+        rightEye.setPosition(startposition);
+        leftEye.setPosition(startposition);
+
+       
+        humania.setState(IDLE);
+        humania.closeEyes();
+        
+        leftEye.setState(IDLE);
+        rightEye.setState(IDLE);
+        faceCircle.setState(IDLE);
+
+        
+    }
+    
     
     
     

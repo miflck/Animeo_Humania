@@ -56,8 +56,12 @@ void AvatarKreis::update(){
     if(distance.length()<1 && getSpeed().length()< 0.1)setReached(true);
     
     switch (state) {
+            
+        case IDLE:
+            break;
+            
         case START:
-            move();
+            //move();
             break;
             
         case MOVINGOBJECT:
@@ -99,18 +103,43 @@ void AvatarKreis::draw(){
     ofPushStyle();
     ofTranslate(getPosition().x, getPosition().y);
     ofSetColor(color);
-    cout<<actualRadius<<endl;
     ofDrawCircle(0,0,actualRadius);
     ofPopStyle();
     ofPopMatrix();
 }
 
 
+void AvatarKreis::setScaleDuration(float t){
+    scaleDuration=t;
+}
 
 
 void AvatarKreis::setRadiusTarget(float r){
     radiusTarget=r;
 }
+
+void AvatarKreis::setStartRadius(float r){
+    startRadius=r;
+}
+
+void AvatarKreis::setActualRadius(float r){
+    actualRadius=r;
+}
+
+void AvatarKreis::setRadiusTargetWithStartRadius(float r, float rs){
+    radiusTarget=r;
+    startRadius=rs;
+}
+
+void AvatarKreis::updateRadiusTarget(float r){
+    radiusTarget=r;
+    startRadius=getActualRadius();
+}
+
+float  AvatarKreis::getActualRadius(){
+    return actualRadius;
+}
+
 
 void AvatarKreis::turnPhysicsOn(bool _on){
     bPhysics=_on;
@@ -127,17 +156,27 @@ void AvatarKreis::setState(int _state){
     stateBefore=state;
     state=_state;
     switch (state) {
+        case IDLE:
+            setSpeed(0, 0);
+            setActualRadius(0);
+            setStartRadius(0);
+            setRadiusTarget(0);
+
+            break;
+            
         case START:
+            
             break;
         case MOVINGOBJECT:
-        
+           
+
             break;
         case RELEASED:
             cout<<"State "<<state<<endl;
            /* anchor.setPosition(getPosition());
             anchor.setPhysics(50, 0.5, 0.4);
             anchor.body->SetType(b2_dynamicBody);*/
-            setSpeed(getSpeedBefore());
+            setSpeed(getPositionDifference());
            // setTarget(ofVec2f(getPosition().x,-200));
             break;
         case FADEOUT:

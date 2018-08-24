@@ -160,7 +160,7 @@ public:
     MovingObject leftEyeMover;
     MovingObject rightEyeMover;
 
-    vector<MovingObject*>movers;
+    vector<MovingObject*>eyemovers;
 
     AvatarKreis faceCircle;
 
