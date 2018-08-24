@@ -51,7 +51,9 @@ void AvatarKreis::update(){
     //position+=speed;
     //skeletons=KINECTMANAGER->getSkelettons();
     
-    
+    // check if reached
+    ofVec2f distance=getTarget()-getPosition();
+    if(distance.length()<1 && getSpeed().length()< 0.1)setReached(true);
     
     switch (state) {
         case START:
@@ -151,3 +153,5 @@ void AvatarKreis::setState(int _state){
 int AvatarKreis::getState(){
     return state;
 }
+
+

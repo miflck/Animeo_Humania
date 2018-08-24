@@ -44,6 +44,8 @@ public:
     void setState(int _state);
     int getState();
     
+
+    
     ofColor color;
     int fadeAlpha=255;
     float fadeInitTime;

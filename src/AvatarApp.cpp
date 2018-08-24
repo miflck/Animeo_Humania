@@ -67,11 +67,22 @@ void AvatarApp::init(){
 void AvatarApp::update(){
     
     
-    faceCircle.update();
     if(faceCircle.getState()==RELEASED && faceCircle.getSpeed().length()<0.1){
+      
+    }
+    
+    if(faceCircle.getState()==RELEASED && faceCircle.getReached()){
         humania.setState(FACE);
         faceCircle.setState(FADEOUT);
     }
+    
+    if(leftEye.getState()==RELEASED && leftEye.getReached()&& rightEye.getState()==RELEASED && rightEye.getReached()){
+        humania.openEyes();
+        leftEye.setState(FADEOUT);
+        rightEye.setState(FADEOUT);
+    }
+    
+    faceCircle.update();
     leftEye.update();
     rightEye.update();
     
@@ -174,11 +185,8 @@ void AvatarApp::draw(){
     leftEye.draw();
     rightEye.draw();
 
-    cout<<faceCircle.actualRadius<<endl;
-    ofDrawCircle(startposition,20);
+   
     
-    
-    ofDrawCircle(faceCircle.getPosition(),20);
 
     
     /*for(int i=0;i<avatars.size();i++){
@@ -262,7 +270,10 @@ void AvatarApp::draw(){
     ofPopMatrix();
 */
     if(APPC->debug){
-      
+        ofPushStyle();
+        ofSetColor(255,0,0,150);
+        ofDrawCircle(startposition,20);
+        ofPopStyle();
     }
     
     
@@ -749,9 +760,9 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     {
         leftEye.setPosition(startposition);
         leftEye.easingInitTime=ofGetElapsedTimef();
-        leftEye.setRadiusTarget(50);
+        leftEye.setRadiusTarget(40);
         leftEye.setState(RELEASED);
-        leftEye.setTarget(ofVec2f(humania.getPosition().x-50,humania.getPosition().y));
+        leftEye.setTarget(ofVec2f(humania.getPosition().x-80,humania.getPosition().y));
         leftEye.setSlowDownDistance(800);
         leftEye.color=ofColor(0);
         
@@ -761,13 +772,11 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     {
         rightEye.setPosition(startposition);
         rightEye.easingInitTime=ofGetElapsedTimef();
-        rightEye.setRadiusTarget(50);
+        rightEye.setRadiusTarget(40);
         rightEye.setState(RELEASED);
-        rightEye.setTarget(ofVec2f(humania.getPosition().x+50,humania.getPosition().y));
+        rightEye.setTarget(ofVec2f(humania.getPosition().x+80,humania.getPosition().y));
         rightEye.setSlowDownDistance(800);
         rightEye.color=ofColor(0);
-
-        
     }
     
     

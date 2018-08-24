@@ -34,7 +34,12 @@ void MovingObject::update(){
     move();
     actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, actualRadius, radiusTarget, &ofxeasing::linear::easeIn);
     velocityBefore=velocity;
-}
+    
+    // check if reached
+    ofVec2f distance=target-position;
+    if(distance.length()<1 && velocity.length()< 0.1)bHasReached=true;
+    cout<<distance.length()<<" vel "<<velocity.length()<<" reached "<<bHasReached<<endl;
+    }
 
 
 
@@ -79,6 +84,8 @@ void MovingObject::move(){
     position+= velocity;
     acceleration.set(0,0);
     velocity*=0.99;
+    
+
     
 
 }
@@ -162,6 +169,7 @@ ofVec2f MovingObject::getSpeedBefore(){
 void MovingObject::setTarget(ofVec2f _target){
     oldtarget.set(target);
     target.set(_target);
+    bHasReached=false;
     
     // make slower moves if target move slow
   /*  if(bMovingMaxspeed){
@@ -177,6 +185,19 @@ void MovingObject::setTarget(ofVec2f _target){
     }else{
         maxspeed=initmaxspeed;
     }*/
+}
+
+
+ofVec2f MovingObject::getTarget(){
+    return target;
+}
+
+bool MovingObject::getReached(){
+    return bHasReached;
+}
+
+void MovingObject::setReached(bool r){
+    bHasReached=r;
 }
 
 void MovingObject::applyForce(ofVec2f _force){
@@ -253,6 +274,7 @@ ofVec2f MovingObject::seek(ofVec2f t, float f){
     }else{
         desired*=maxspeed;
     }
+    
     ofVec2f steer=desired-velocity;
     steer.limit(f);
     return steer;

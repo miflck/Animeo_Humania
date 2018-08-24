@@ -44,6 +44,10 @@ public:
     
     
     virtual void setTarget(ofVec2f _target);
+    virtual ofVec2f getTarget();
+
+    
+    
     void setMaxSpeed(float _m);
     void move();
     void applyForce(ofVec2f _force);
@@ -102,8 +106,14 @@ public:
     
     float arriveMaxSpeed;
 
+    bool getReached();
+    void setReached(bool r);
+
     
 private:
+    
+    bool bHasReached=true;
+
     ofVec2f position;
     
     ofVec2f velocity;
@@ -120,6 +130,10 @@ private:
     int slowdowndistance=300;
     
     ofVec2f velocityBefore;
+    
+    
+    
+    
     
 };
 
