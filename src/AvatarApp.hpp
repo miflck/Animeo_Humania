@@ -16,6 +16,7 @@
 #include "Avatar.hpp"
 #include "ofxOsc.h"
 #include "Humania.hpp"
+#include "AvatarKreis.hpp"
 
 
 
@@ -185,8 +186,13 @@ private:
     
     bool bindPositionToSkeletton=false;
     
+    AvatarKreis faceCircle;
+    AvatarKreis leftEye;
+    AvatarKreis rightEye;
+
     
-   
+    
+    ofVec2f startposition;
     
     
 };

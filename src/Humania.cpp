@@ -28,7 +28,8 @@ void Humania::setup(){
     setTarget(ofVec2f(2*ofGetWidth()/3,ofGetHeight()/2));
     startposition=&Settings::getVec2("humania/startposition");
    // startposition=&Settings::getVec2("LightPointApp/homeposition");
-
+    setPosition(*startposition);
+    setTarget(*startposition);
     
     
     headRadiusBig=300;
@@ -291,9 +292,10 @@ void Humania::setState(int _state){
             
         case FACE:
             resetToStart();
-            headEasingInitTime= ofGetElapsedTimef();
+          headEasingInitTime= ofGetElapsedTimef();
             headRadiusTarget=headRadiusBig;
             headEasingDuration=20;
+            actualHeadRadius=headRadiusBig;
 
             break;
         case AVATAR:

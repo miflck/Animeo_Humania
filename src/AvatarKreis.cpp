@@ -42,11 +42,11 @@ void AvatarKreis::update(){
     actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, startRadius, radiusTarget, &ofxeasing::linear::easeIn);
     
     
-    fadeAlpha = ofxeasing::map_clamp(now, fadeInitTime, endFadeTime, fadeAlpha, fadeTarget, &ofxeasing::linear::easeIn);
-    color=ofColor(color,fadeAlpha);
+    //fadeAlpha = ofxeasing::map_clamp(now, fadeInitTime, endFadeTime, fadeAlpha, fadeTarget, &ofxeasing::linear::easeIn);
+    //color=ofColor(color,fadeAlpha);
 
     
-    
+    //cout<<"fade"<<fadeAlpha<<endl;
    // move();
     //position+=speed;
     //skeletons=KINECTMANAGER->getSkelettons();
@@ -71,9 +71,9 @@ void AvatarKreis::update(){
             break;
             
         case FADEOUT:
-            if(fadeAlpha<1)bShouldRemove=true;
+          //  if(fadeAlpha<1)bShouldRemove=true;
             if(stateBefore==MOVINGOBJECT){
-                move();
+             //   move();
             }
             if(stateBefore==RELEASED){
             }
@@ -97,6 +97,7 @@ void AvatarKreis::draw(){
     ofPushStyle();
     ofTranslate(getPosition().x, getPosition().y);
     ofSetColor(color);
+    cout<<actualRadius<<endl;
     ofDrawCircle(0,0,actualRadius);
     ofPopStyle();
     ofPopMatrix();
@@ -135,11 +136,11 @@ void AvatarKreis::setState(int _state){
             anchor.setPhysics(50, 0.5, 0.4);
             anchor.body->SetType(b2_dynamicBody);*/
             setSpeed(getSpeedBefore());
-            setTarget(ofVec2f(getPosition().x,-200));
+           // setTarget(ofVec2f(getPosition().x,-200));
             break;
         case FADEOUT:
-            fadeInitTime=ofGetElapsedTimef();
-            fadeTarget=0;
+            color=ofColor(0,0);
+
             break;
             
         default:
