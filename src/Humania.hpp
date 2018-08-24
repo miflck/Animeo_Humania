@@ -14,6 +14,7 @@
 #include "Avatar.hpp"
 #include "helper.hpp"
 #include "ofxJsonSettings.h"
+#include "AvatarKreis.hpp"
 
 #define IDLE 0
 #define FACE 100
@@ -161,6 +162,7 @@ public:
 
     vector<MovingObject*>movers;
 
+    AvatarKreis faceCircle;
 
     
     

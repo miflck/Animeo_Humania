@@ -144,6 +144,7 @@
 		FAB3400E211054F800EF8E6C /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAB34008211054F800EF8E6C /* Grid.cpp */; };
 		FAB3400F211054F800EF8E6C /* GuiApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAB3400A211054F800EF8E6C /* GuiApp.cpp */; };
 		FAB34010211054F800EF8E6C /* OrthoCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAB3400C211054F800EF8E6C /* OrthoCamera.cpp */; };
+		FABF14C521302E6000AD0D99 /* AvatarKreis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FABF14C421302E5F00AD0D99 /* AvatarKreis.cpp */; };
 		FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21BDE665988474F1B1F4D302 /* jsoncpp.cpp */; };
 /* End PBXBuildFile section */
 
@@ -474,6 +475,8 @@
 		FAB3400B211054F800EF8E6C /* GuiApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiApp.h; sourceTree = "<group>"; };
 		FAB3400C211054F800EF8E6C /* OrthoCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OrthoCamera.cpp; sourceTree = "<group>"; };
 		FAB3400D211054F800EF8E6C /* OrthoCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrthoCamera.h; sourceTree = "<group>"; };
+		FABF14C321302E5F00AD0D99 /* AvatarKreis.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AvatarKreis.hpp; sourceTree = "<group>"; };
+		FABF14C421302E5F00AD0D99 /* AvatarKreis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AvatarKreis.cpp; sourceTree = "<group>"; };
 		FB9A228571C0BCAFDD40FE6F /* Bird.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Bird.hpp; path = src/Bird.hpp; sourceTree = SOURCE_ROOT; };
 		FD20B1FFE795860DB1C68BF2 /* b2ChainAndCircleContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2ChainAndCircleContact.cpp; path = ../../../addons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp; sourceTree = SOURCE_ROOT; };
 		FF2B018E24837032A4878576 /* ofxEasing.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasing.h; path = ../../../addons/ofxEasing/src/ofxEasing.h; sourceTree = SOURCE_ROOT; };
@@ -1095,6 +1098,8 @@
 				60059B47118DB2BE105EBF6A /* Avatar.hpp */,
 				DBF471C8F3E5C10A1B54CFDA /* AvatarApp.cpp */,
 				E46DD8FC3D173791D4242395 /* AvatarApp.hpp */,
+				FABF14C421302E5F00AD0D99 /* AvatarKreis.cpp */,
+				FABF14C321302E5F00AD0D99 /* AvatarKreis.hpp */,
 				107126D027164F7A9358F50F /* Balloon.cpp */,
 				7FA78DBB584B8BCB98255C9C /* Balloon.hpp */,
 				FAAB6AD7212D42380099F6EC /* EmotionEllipse.cpp */,
@@ -1417,6 +1422,7 @@
 				1BE4156E2DF3B30461C48C70 /* b2Timer.cpp in Sources */,
 				3E76A164B41BCEB11B15C175 /* b2Body.cpp in Sources */,
 				C3D8EF14A387EA959014AD91 /* b2ContactManager.cpp in Sources */,
+				FABF14C521302E6000AD0D99 /* AvatarKreis.cpp in Sources */,
 				FA7300BAC71DAC1ABAF6EE15 /* b2Fixture.cpp in Sources */,
 				6FCE95D2EF10ACCEC2724688 /* b2Island.cpp in Sources */,
 				AC527216645D66921FB3E36F /* b2World.cpp in Sources */,
