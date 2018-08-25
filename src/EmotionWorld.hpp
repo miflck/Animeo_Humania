@@ -164,7 +164,7 @@ public:
         screen.set(0,0,ofGetWidth(),ofGetHeight());
         actualRadius=0;
         easingInitTime = ofGetElapsedTimef();
-        radiusTarget=ofRandom(5,30);
+        radiusTarget=ofRandom(30,60);
     }
     ofColor color;
     

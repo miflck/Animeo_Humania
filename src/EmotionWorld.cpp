@@ -106,23 +106,17 @@ void EmotionWorld::init(){
 }
 
 void EmotionWorld::update(){
-    //box2d.setGravity(0, APPC->gui->emotionsgravity);
     
+ 
     
     repulsionPosition.set(ofGetMouseX(),ofGetMouseY());
     
-    
     for(int i=0;i<shapes.size();i++){
-        
         float dis = repulsionPosition.distance(shapes[i].get()->getPosition());
         if(dis < minDis && bIsRepulsionActive){
             shapes[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
         }
-        
         shapes[i]->update();
-        
-     
-        
     }
     
     for(int i=0;i<triangles.size();i++){
@@ -142,14 +136,12 @@ void EmotionWorld::update(){
     }
     
     for(int i=0;i<anchors.size();i++){
-         anchors[i]->setRotationFriction(0.8);
+        anchors[i]->setRotationFriction(0.8);
         anchors[i]->update();
-        
-        
     }
     
     for(int i=0;i<kreise.size();i++){
-        
+
         float dis = repulsionPosition.distance(kreise[i].get()->getPosition());
         if(dis < minDis && bIsRepulsionActive){
             kreise[i].get()->anchor.addRepulsionForce(repulsionPosition,repulsionForce);
@@ -165,12 +157,10 @@ void EmotionWorld::update(){
     }
     
     for(int i=0;i<sterne.size();i++){
-        
         float dis = repulsionPosition.distance(sterne[i].get()->getPosition());
         if(dis < minDis && bIsRepulsionActive){
             sterne[i].get()->anchor.addRepulsionForce(repulsionPosition,repulsionForce);
         }
-        
         sterne[i]->update();
     }
     
@@ -205,8 +195,13 @@ void EmotionWorld::update(){
         ofVec2f middle=(lefthand-righthand)/2;
         epos.set(righthand+middle);
         
+        
+       
+
+        
+        
        if(ellipsen.size()>0 && ellipsen.back()->getState()==MOVINGOBJECT)ellipsen.back()->setTarget(epos);
-        if(ellipsen.size()>0 && ellipsen.back()->getState()==MOVINGOBJECT)ellipsen.back()->setRadiusTarget(middle.length());
+        if(ellipsen.size()>0 && ellipsen.back()->getState()==MOVINGOBJECT)ellipsen.back()->setRadiusTarget(middle.length()+20);
     }
     
 
@@ -301,6 +296,20 @@ void EmotionWorld::draw(){
         leftbox.draw();
         rightbox.draw();
         ofPopStyle();
+        vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+
+  if(mskel.size()>0){
+        Hand h = KINECTMANAGER->skeletons->at(0).getLeftHand();
+        Joint handJoint =KINECTMANAGER->skeletons->at(0).getHandLeft();
+        if(h.isConfidentlyDetected()) {
+            ofFill();
+            if(h.isOpen()) ofSetColor(ofColor::blue);
+            else ofSetColor(ofColor::red);
+            ofDrawCircle(mskel[0].leftHand, 25);
+        }
+  }
+        
+        
     }
     
     ofPushStyle();
@@ -482,7 +491,7 @@ void EmotionWorld::emitMultiShapes(int _n,ofVec2f pos){
         
         rAdd=ofRandom(-1,1);
         if(rAdd<-emitShapeFrequency){
-            float r=ofRandom(20,30);
+            float r=ofRandom(30,70);
             ofVec2f a =ofVec2f(pos.x-r/2,pos.y);
             ofVec2f b =ofVec2f(pos.x+r/2,pos.y);
             ofVec2f c =ofVec2f(pos.x,pos.y+r);

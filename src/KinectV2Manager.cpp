@@ -37,6 +37,8 @@ void KinectV2Manager::initialize() {
     //It just needs a port number and font for the debug text
     kinect.setup(12345, smallFont);
     
+    kinect.setSmoothing(SIMPLE_MOVING_AVERAGE);
+    
     //Here we get a pointer to the list of skeletons it has parsed
     //from OSC
     skeletons = kinect.getSkeletons();
@@ -130,6 +132,12 @@ void KinectV2Manager::update(){
         
         ofVec3f userHandLeftPoint = skeletons->at(i).getHandLeft().getPoint();
         hand.setPosition(kinectToWorld(userHandLeftPoint));
+        
+        
+        
+        
+        
+        
       //  cout<<kinectToWorld(userHandLeftPoint)<<endl;
 
       //  hand.setPosition(skeletons->at(i).getHandLeft().getPoint());

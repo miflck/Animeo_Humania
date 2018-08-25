@@ -105,10 +105,19 @@ void AvatarApp::update(){
         ofVec2f middle=(lefthand-righthand)/2;
         epos.set(righthand+middle);
         startposition.set(epos);
-        
-        faceCircle.updateRadiusTarget(middle.length());
-        leftEye.updateRadiusTarget(middle.length());
-        rightEye.updateRadiusTarget(middle.length());
+        if(faceCircle.getState()==MOVINGOBJECT){
+            faceCircle.setTarget(startposition);
+            faceCircle.updateRadiusTarget(middle.length());
+        }
+        if(leftEye.getState()==MOVINGOBJECT){
+            leftEye.setTarget(startposition);
+            leftEye.updateRadiusTarget(middle.length());
+        }
+        if(rightEye.getState()==MOVINGOBJECT){
+            rightEye.setTarget(startposition);
+            rightEye.updateRadiusTarget(middle.length());
+            
+        }
     }
     
     humania.update();
@@ -186,9 +195,10 @@ void AvatarApp::draw(){
     
     
     faceCircle.draw();
+    
+
     leftEye.draw();
     rightEye.draw();
-
    
     
 
@@ -771,7 +781,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         leftEye.setState(RELEASED);
         leftEye.setTarget(ofVec2f(humania.getPosition().x-80,humania.getPosition().y));
         leftEye.setSlowDownDistance(800);
-        leftEye.color=ofColor(0);
+        leftEye.color=ofColor(50);
         leftEye.setScaleDuration(1);
 
         
@@ -785,7 +795,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         rightEye.setState(RELEASED);
         rightEye.setTarget(ofVec2f(humania.getPosition().x+80,humania.getPosition().y));
         rightEye.setSlowDownDistance(800);
-        rightEye.color=ofColor(0);
+        rightEye.color=ofColor(50);
         leftEye.setScaleDuration(1);
 
     }
@@ -813,7 +823,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         leftEye.setState(MOVINGOBJECT);
         leftEye.setTarget(startposition);
         leftEye.setSlowDownDistance(800);
-        leftEye.color=ofColor(0);
+        leftEye.color=ofColor(200);
         leftEye.setScaleDuration(0.3);
 
         
@@ -827,7 +837,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         rightEye.setState(MOVINGOBJECT);
         rightEye.setTarget(startposition);
         rightEye.setSlowDownDistance(800);
-        rightEye.color=ofColor(0);
+        rightEye.color=ofColor(200);
         rightEye.setScaleDuration(0.3);
 
     }

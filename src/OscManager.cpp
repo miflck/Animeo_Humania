@@ -25,7 +25,10 @@ void OscManager::update(){
         //Pass a reference to that message to the receiver
         //we set up above using the getNextMessage function in the OSC add on.
         touchOscReceiver.getNextMessage(&m);
-       // cout<<m.getRemoteIp()<<endl;
+        cout<<m.getRemoteIp()<<endl;
+        remoteIp=m.getRemoteIp();
+
+        cout<<"--------- ip "<<m.getAddress()<<" "<<remoteIp<<m.getRemotePort()<<endl;
 
         if(!bRemoteIpIsSet){
             remoteIp=m.getRemoteIp();
