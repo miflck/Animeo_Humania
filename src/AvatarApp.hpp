@@ -194,6 +194,14 @@ private:
     
     ofVec2f startposition;
     
+    ofVec2f *savedAvatarAddPosition;
+    ofVec2f avatarAddPosition;
+    
+    ofVec2f *savedMainAvatarOffset;
+
+    
+    
+    
     
 };
 

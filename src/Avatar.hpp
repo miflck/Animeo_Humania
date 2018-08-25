@@ -88,6 +88,16 @@ public:
     void bindSkeletton(bool _b);
     
     
+    
+    
+    void setLeftEyePosition(ofVec2f p);
+    void setRightEyePosition(ofVec2f p);
+    void setLeftMouthPosition(ofVec2f p);
+    void setRightMouthPosition(ofVec2f p);
+    void setMouthCenterPosition(ofVec2f p);
+
+    
+    
 protected:
     ofVec2f leftHand;
     ofVec2f leftShoulder;
@@ -165,7 +175,12 @@ protected:
     MappedPoints siblingBonesPositions;
     
     
-
+    
+    ofVec2f leftEyePosition;
+    ofVec2f rightEyePosition;
+    ofVec2f leftMouthPosition;
+    ofVec2f rightMouthPosition;
+    ofVec2f mouthCenterPosition;
 
    
 };

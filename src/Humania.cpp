@@ -84,6 +84,8 @@ void Humania::setup(){
    leftEyeMover.setTarget(ofVec2f(-20,0));
     rightEyeMover.setTarget(ofVec2f(+20,0));
     
+    leftEyeTarget=ofVec2f(-20,0);
+    rightEyeTarget=ofVec2f(20,0);
     
     
     for(int i=0;i<eyemovers.size();i++){
@@ -93,6 +95,25 @@ void Humania::setup(){
         //movers[i]->setSlowDown(false);
     }
 
+    
+    mouthmovers.push_back(&leftMouthMover);
+    mouthmovers.push_back(&rightMouthMover);
+    
+    leftMouthTarget=ofVec2f(-30,-10);
+    rightMouthTarget=ofVec2f(30,-10);
+
+    leftMouthMover.setTarget(leftMouthTarget);
+    rightMouthMover.setTarget(rightMouthTarget);
+    
+    
+    
+    for(int i=0;i<mouthmovers.size();i++){
+        mouthmovers[i]->bSeekTarget=true;
+        mouthmovers[i]->setSeekForce(20);
+        mouthmovers[i]->setMaxSpeed(80);
+        //movers[i]->setSlowDown(false);
+    }
+    
     
     
 }
@@ -105,6 +126,10 @@ void Humania::update(){
     
     for(int i=0;i<eyemovers.size();i++){
         eyemovers[i]->move();
+    }
+    
+    for(int i=0;i<mouthmovers.size();i++){
+        mouthmovers[i]->move();
     }
     
     
@@ -285,18 +310,52 @@ void Humania::updateFace(){
        // leftMouthCornerOffset=ofVec2f(-100,0);
        // rightMouthCornerOffset=ofVec2f(100,0);
         
+        leftMouthTarget=ofVec2f(mouthCenterPosition.x+leftMouthCornerOffset.x,leftMouthOffset.y+mouthCenterPosition.y);
+        rightMouthTarget=ofVec2f(mouthCenterPosition.x+rightMouthCornerOffset.x,rightMouthOffset.y+mouthCenterPosition.y);
+        
+        leftMouthMover.setTarget(leftMouthTarget);
+        rightMouthMover.setTarget(rightMouthTarget);
+        
     }else{
-        leftMouthOffset=ofVec2f(0,-10);
+        
+       
+        
+        
+       /* leftMouthOffset=ofVec2f(0,-10);
         rightMouthOffset=ofVec2f(0,-10);
         leftMouthCornerOffset=ofVec2f(-30,0);
-        rightMouthCornerOffset=ofVec2f(30,0);
+        rightMouthCornerOffset=ofVec2f(30,0);*/
     }
-    leftMouth=ofVec2f(mouthCenterPosition.x+leftMouthCornerOffset.x,leftMouthOffset.y+mouthCenterPosition.y);
-    rightMouth=ofVec2f(mouthCenterPosition.x+rightMouthCornerOffset.x,rightMouthOffset.y+mouthCenterPosition.y);
     
+    // without movers
+   // leftMouth=ofVec2f(mouthCenterPosition.x+leftMouthCornerOffset.x,leftMouthOffset.y+mouthCenterPosition.y);
+   // rightMouth=ofVec2f(mouthCenterPosition.x+rightMouthCornerOffset.x,rightMouthOffset.y+mouthCenterPosition.y);
+    leftMouth=leftMouthMover.getPosition();
+    rightMouth=rightMouthMover.getPosition();
    
 }
 
+
+ofVec2f Humania::getLeftEyePosition(){
+    return leftEyeMover.getPosition();
+}
+
+ofVec2f Humania::getRightEyePosition(){
+    return rightEyeMover.getPosition();
+}
+
+
+ofVec2f Humania::getLeftMouthPosition(){
+    return leftMouth;
+}
+
+ofVec2f Humania::getRightMouthPosition(){
+    return rightMouth;
+}
+
+ofVec2f Humania::getMouthCenterPosition(){
+    return mouthCenterPosition;
+}
 
 void Humania::setState(int _state){
     cout<<"SET STATE"<<_state<<endl;
@@ -493,8 +552,8 @@ void Humania::resetToStart(){
     setPosition(startposition->x, startposition->y);
     setTarget(ofVec2f(startposition->x, startposition->y));
     
-    leftEyeMover.setTarget(ofVec2f(-20,0));
-    rightEyeMover.setTarget(ofVec2f(+20,0));
+    leftEyeMover.setTarget(leftEyeTarget);
+    rightEyeMover.setTarget(rightEyeTarget);
     
     
 }

@@ -37,6 +37,10 @@ void AvatarApp::init(){
     ofClear(0,0,0,0);
     screen.end();
     
+    
+    savedAvatarAddPosition=&Settings::getVec2("Avatar/addPosition");
+    avatarAddPosition.set(savedAvatarAddPosition->x,savedAvatarAddPosition->y);
+    
     facePosition=ofVec2f(ofGetWidth()/3,ofGetHeight()/2);
     mouthCenterPosition=ofVec2f(0,150);
     leftMouth=ofVec2f(200,0);
@@ -51,7 +55,9 @@ void AvatarApp::init(){
     humania.bSeekTarget=true;
     
     
-    mainAvatarOffset.set(0,-300);
+    savedMainAvatarOffset=&Settings::getVec2("Avatar/mainAvatarOffset");
+
+    mainAvatarOffset.set(*savedMainAvatarOffset);
     
     avatarOffset.set(250,0);
     
@@ -321,7 +327,16 @@ void AvatarApp::addAvatar(){
     Avatar * a =new Avatar();
     a->setup();
     a->setTarget(ofVec2f(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
-    a->setPosition(humania.getPosition().x,humania.getPosition().y);
+    //a->setPosition(humania.getPosition().x,humania.getPosition().y);
+    a->setPosition(avatarAddPosition);
+
+    
+    a->setLeftEyePosition(humania.getLeftEyePosition());
+    a->setRightEyePosition(humania.getRightEyePosition());
+    a->setLeftMouthPosition(humania.getLeftMouthPosition());
+    a->setRightMouthPosition(humania.getRightMouthPosition());
+    a->setMouthCenterPosition(humania.getMouthCenterPosition());
+
     a->bSeekTarget=true;
     a->setSeekForce(50);
     a->setMaxSpeed(100);
@@ -501,8 +516,21 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
         humania.setState(FACE);
     }
     
-    if(e.key=='s'){
+    if(e.key=='S'){
         humania.saveStartposition(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+    }
+    
+   
+    if(e.key=='s'){
+        savedAvatarAddPosition->set(ofVec2f(ofGetMouseX(),ofGetMouseY()));
+        Settings::get().save("data.json");
+        avatarAddPosition.set(savedAvatarAddPosition->x,savedAvatarAddPosition->y);
+        
+    }
+    
+    if(e.key=='o'){
+        savedMainAvatarOffset->set(mainAvatarOffset);
+        Settings::get().save("data.json");
     }
     
     if(e.key=='e'){
@@ -701,6 +729,12 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     {
         float m=msg.getArgAsBool(0);
         humania.showBody(m);
+       
+        //make body reactive
+        bindPositionToSkeletton=m;
+        //humania.bindSkeletton(m);
+
+
     }
     
     if(msg.getAddress() == "/Face/toggle13")

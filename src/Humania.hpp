@@ -159,8 +159,25 @@ public:
     
     MovingObject leftEyeMover;
     MovingObject rightEyeMover;
-
+    ofVec2f leftEyeTarget;
+    ofVec2f rightEyeTarget;
     vector<MovingObject*>eyemovers;
+
+    
+    MovingObject leftMouthMover;
+    MovingObject rightMouthMover;
+    vector<MovingObject*>mouthmovers;
+    
+    ofVec2f leftMouthTarget;
+    ofVec2f rightMouthTarget;
+    
+
+    ofVec2f getLeftEyePosition();
+    ofVec2f getRightEyePosition();
+
+    ofVec2f getLeftMouthPosition();
+    ofVec2f getRightMouthPosition();
+    ofVec2f getMouthCenterPosition();
 
     AvatarKreis faceCircle;
 

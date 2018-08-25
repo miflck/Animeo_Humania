@@ -1,4 +1,7 @@
 {
+   "Avatar" : {
+      "addPosition" : [ 2, 855 ]
+   },
    "LightPointApp" : {
       "cabindimension" : [ 564, 506 ],
       "cabinposition" : [ 1241, 541 ],
