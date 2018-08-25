@@ -176,7 +176,7 @@ void AvatarKreis::setState(int _state){
            /* anchor.setPosition(getPosition());
             anchor.setPhysics(50, 0.5, 0.4);
             anchor.body->SetType(b2_dynamicBody);*/
-            setSpeed(getPositionDifference());
+            //setSpeed(getPositionDifference());
            // setTarget(ofVec2f(getPosition().x,-200));
             break;
         case FADEOUT:

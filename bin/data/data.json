@@ -1,12 +1,12 @@
 {
    "LightPointApp" : {
-      "cabindimension" : [ 496, 479 ],
+      "cabindimension" : [ 564, 506 ],
       "cabinposition" : [ 1241, 541 ],
       "homeposition" : [ 1733, 438 ],
       "insidePoisiton" : [ 1624, 827 ],
       "scaredposition" : [ 702, 208 ],
       "startposition" : [ 677, 713 ],
-      "watchposition" : [ 1660, 602 ]
+      "watchposition" : [ 1669, 656 ]
    },
    "LinieApp" : {
       "anchorStartPositionBottom" : [ 1808, 545 ],

@@ -37,7 +37,7 @@ void KinectV2Manager::initialize() {
     //It just needs a port number and font for the debug text
     kinect.setup(12345, smallFont);
     
-    kinect.setSmoothing(SIMPLE_MOVING_AVERAGE);
+    //kinect.setSmoothing(SIMPLE_MOVING_AVERAGE);
     
     //Here we get a pointer to the list of skeletons it has parsed
     //from OSC
