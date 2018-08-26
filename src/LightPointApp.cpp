@@ -346,7 +346,7 @@ void LightPointApp::exit(){
 void LightPointApp::playRandomSound(){
     int randNum;
     randNum=(int)(ofRandom(0,bouncesounds.size()));
-    bouncesounds[randNum].play();
+    if(!bIsMute)bouncesounds[randNum].play();
 }
 
 
@@ -513,12 +513,12 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     }
     
     
-    if(e.key=='u'){
+    if(e.key=='U'){
         goHome();
     }
     
     
-    if(e.key=='U'){
+    if(e.key=='u'){
         setMoverToStartPosition();
     }
     
@@ -543,6 +543,10 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     
     if(e.key==OF_KEY_ALT){
         switchState(LEAVE);
+    }
+    
+    if(e.key==OF_KEY_COMMAND){
+        setMute(!bIsMute);
     }
     
 }
@@ -761,6 +765,11 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
         getWatch();
     }
     
+}
+
+
+void LightPointApp::setMute(bool m){
+    bIsMute=m;
 }
 
 

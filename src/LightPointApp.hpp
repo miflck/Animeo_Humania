@@ -136,6 +136,10 @@ public:
 
     void playRandomSound();
     
+    bool bIsMute=false;
+    
+    void setMute(bool m);
+    
 };
 
 

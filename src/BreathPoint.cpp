@@ -154,14 +154,14 @@ void BreathPoint::draw(){
     if(bWatch){
         
         ofPushStyle();
-        ofSetLineWidth(3);
+        ofSetLineWidth(4);
         ofSetColor(0);
         
         ofPushMatrix();
         int angle=90;
         for(int i=0;i<4;i++){
             ofRotate(angle);
-            ofDrawLine(actualRadius/2, 0, actualRadius/2-10, 0);
+            ofDrawLine(actualRadius/2, 0, actualRadius/2-20, 0);
         }
         ofPopMatrix();
         
@@ -170,16 +170,20 @@ void BreathPoint::draw(){
         
         for(int i=0;i<12;i++){
             ofRotate(angle);
-            ofDrawLine(actualRadius/2, 0, actualRadius/2-5, 0);
+            ofDrawLine(actualRadius/2, 0, actualRadius/2-10, 0);
         }
         
         ofPopMatrix();
         
         ofPushMatrix();
+        ofSetLineWidth(4);
+
         ofRotate(-30);
-        ofDrawLine(-5, 0, actualRadius/2, 0);
+        ofDrawLine(-5, 0, actualRadius/2-15, 0);
         ofRotate(-110);
-        ofDrawLine(-5, 0, actualRadius/3, 0);
+        ofSetLineWidth(4);
+
+        ofDrawLine(-5, 0, actualRadius/3-10, 0);
         ofPopMatrix();
         
         ofPushMatrix();
@@ -191,7 +195,7 @@ void BreathPoint::draw(){
         ofRotate(a);
         ofSetLineWidth(3);
         
-        ofDrawLine(0, 0, actualRadius/2, 0);
+        ofDrawLine(0, 0, actualRadius/2-10, 0);
         
         ofDrawCircle(0, 0, 2);
         ofPopMatrix();
