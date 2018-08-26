@@ -1,6 +1,7 @@
 {
    "Avatar" : {
-      "addPosition" : [ 2, 855 ]
+      "addPosition" : [ 0, 842 ],
+      "mainAvatarOffset" : [ -368.146240234375, 1.305450439453125 ]
    },
    "LightPointApp" : {
       "cabindimension" : [ 564, 506 ],
@@ -23,7 +24,7 @@
       "startposition" : [ 1226, 598 ]
    },
    "humania" : {
-      "startposition" : [ 605, 375 ]
+      "startposition" : [ 513, 391 ]
    }
 }
 

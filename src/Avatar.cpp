@@ -133,20 +133,13 @@ void Avatar::draw(){
     }else{
         ofTranslate(getPosition());
     }
+    
+    ofTranslate(-spineBase);
+    
     drawAvatar();
     ofPopStyle();
     ofPopMatrix();
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

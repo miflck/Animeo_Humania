@@ -56,6 +56,7 @@ void Humania::setup(){
     //cheeks
     actualCheeksAlpha=0;
     cheeksEasingDuration=10;
+    cheeksAlphaTarget=0;
     
     //nose
     actualNoseAlpha=0;
@@ -99,8 +100,8 @@ void Humania::setup(){
     mouthmovers.push_back(&leftMouthMover);
     mouthmovers.push_back(&rightMouthMover);
     
-    leftMouthTarget=ofVec2f(-30,-10);
-    rightMouthTarget=ofVec2f(30,-10);
+    leftMouthTarget=ofVec2f(-30,-10)+mouthCenterPosition;
+    rightMouthTarget=ofVec2f(30,-10)+mouthCenterPosition;
 
     leftMouthMover.setTarget(leftMouthTarget);
     rightMouthMover.setTarget(rightMouthTarget);
@@ -150,7 +151,7 @@ void Humania::update(){
     
     auto cheeksEasingEndTime = cheeksInitTime + cheeksEasingDuration;
     actualCheeksAlpha= ofxeasing::map_clamp(now, cheeksInitTime, cheeksEasingEndTime, actualCheeksAlpha, cheeksAlphaTarget, &ofxeasing::linear::easeInOut);
-    
+    cout<<actualCheeksAlpha<<" "<<cheeksAlphaTarget<<endl;
     
     auto noseEasingEndTime = noseInitTime + noseEasingDuration;
     actualNoseAlpha= ofxeasing::map_clamp(now, noseInitTime, cheeksEasingEndTime, actualNoseAlpha, noseAlphaTarget, &ofxeasing::linear::easeInOut);
@@ -199,13 +200,16 @@ void Humania::update(){
 }
 void Humania::draw(){
     
+    
+    ofVec2f headRadiusShift=neck-spineBase;
+    headRadiusShift.y-=actualHeadRadius;
+
     switch (state) {
             
         case IDLE:
             break;
             
         case FACE:
-            
             ofPushMatrix();
             ofPushStyle();
             if(bPlay && bBindPosition){
@@ -214,8 +218,22 @@ void Humania::draw(){
             }else{
                 ofTranslate(getPosition());
             }
+            
+            ofPushMatrix();
+            if(bHasBody){
+            ofTranslate(headRadiusShift);
+            }
             drawFaceAvatar();
+            ofPopMatrix();
             ofPopStyle();
+            
+            if(bHasBody){
+                ofPushMatrix();
+                ofTranslate(-spineBase);
+                drawBody();
+                ofPopMatrix();
+            }
+            
             ofPopMatrix();
             
             
@@ -224,7 +242,7 @@ void Humania::draw(){
         case AVATAR:
             ofPushMatrix();
             ofPushStyle();
-            ofTranslate(0,-80); // weird head translation
+            //ofTranslate(0,-80); // weird head translation
 
             if(bPlay && bBindPosition){
                 ofTranslate(recordedAvatarPositions[playhead]);
@@ -232,8 +250,17 @@ void Humania::draw(){
             }else{
                 ofTranslate(getPosition());
             }
+            ofPushMatrix();
+            ofTranslate(headRadiusShift);
             drawFaceAvatar();
+            ofPopMatrix();
             ofPopStyle();
+            if(bHasBody){
+                ofPushMatrix();
+                ofTranslate(-spineBase);
+                drawBody();
+                ofPopMatrix();
+            }
             ofPopMatrix();
             
             
@@ -528,6 +555,14 @@ void Humania::showBody(bool _b){
             movers[i]->setMaxSpeed(80);
         }
         
+        // translate to spineBase
+        ofVec2f headRadiusShift=neck-spineBase;
+        headRadiusShift.y-=actualHeadRadius;
+        ofVec2f p=getPosition();
+        p-=headRadiusShift;
+        setPosition(p);
+
+        
     }else{
         bHasBody=false;
 
@@ -775,71 +810,29 @@ void Humania::drawFaceAvatar(){
     ofSetColor(255);
     ofDrawCircle(headCenter,actualHeadRadius);
     ofSetColor(0);
-    
-    
-    
+
     
     ofPushMatrix();
     ofSetColor(0);
+    //ofTranslate(headOffset);
     ofScale(scaleFactor, scaleFactor);
 
     ofTranslate(leftEyeMover.getPosition().x,leftEyeMover.getPosition().y);
     ofDrawEllipse(0,0,actualEyeDiameter*2,actualEyeRadius*2);
-
     ofPopMatrix();
     
     
     ofPushMatrix();
     ofSetColor(0);
+   // ofTranslate(headOffset);
     ofScale(scaleFactor, scaleFactor);
     ofTranslate(rightEyeMover.getPosition().x,rightEyeMover.getPosition().y);
     ofDrawEllipse(0,0,actualEyeDiameter*2,actualEyeRadius*2);
-    
     ofPopMatrix();
-    
-    ofSetColor(0);
-
-    // EYES
-    ofPushMatrix();
-    
-    
-    
-    ofTranslate(eyeOffset.x,eyeOffset.y);
-    ofScale(scaleFactor, scaleFactor);
-
- //   ofDrawCircle(headCenter.x-20,headCenter.y-10,actualEyeRadius);
- //   ofDrawCircle(headCenter.x+20,headCenter.y-10,actualEyeRadius);
-  //  ofDrawEllipse(headCenter.x-2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
-  //  ofDrawEllipse(headCenter.x+2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
-    
-   /* if(bHasEyes){
-    ofDrawEllipse(headCenter.x-2*actualEyeRadius,headCenter.y-actualEyeRadius,actualEyeDiameter*2,actualEyeRadius*2);
-    ofDrawEllipse(headCenter.x+2*actualEyeRadius,headCenter.y-actualEyeRadius,actualEyeDiameter*2,actualEyeRadius*2);
-    }else{
-          ofDrawEllipse(headCenter.x-2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
-          ofDrawEllipse(headCenter.x+2*eyeRadiusTarget,headCenter.y-eyeRadiusTarget,actualEyeDiameter*2,actualEyeRadius*2);
-    }*/
-    
-    
-    
-    
-    
-    
-  //  ofDrawEllipse(headCenter.x-2*eyeDiameterTarget,headCenter.y-eyeDiameterTarget,actualEyeDiameter*2,actualEyeRadius*2);
-  //  ofDrawEllipse(headCenter.x+2*eyeDiameterTarget,headCenter.y-eyeDiameterTarget,actualEyeDiameter*2,actualEyeRadius*2);
-    ofPopMatrix();
+ 
     
     
 
-    
-   /* ofPushMatrix();
-    ofSetColor(0);
-    
-    ofTranslate(eyeOffset.x,-80);
-    ofDrawCircle(100, 0, 50);
-    ofDrawCircle(-100, 0, 50);
-    ofPopMatrix();
-    */
     
     ofPushMatrix();
     ofScale(scaleFactor, scaleFactor);
@@ -861,6 +854,7 @@ void Humania::drawFaceAvatar(){
         // Hair
     
     ofPushMatrix();
+
     ofScale(scaleFactor, scaleFactor);
         ofSetColor(0,actualHairAlpha);
         ofNoFill();
@@ -888,6 +882,7 @@ void Humania::drawFaceAvatar(){
     
     if(bHasMouth){
         ofPushMatrix();
+
         ofScale(scaleFactor, scaleFactor);
         mouth.clear();
         mouth.moveTo(leftMouth);
@@ -938,12 +933,7 @@ void Humania::drawFaceAvatar(){
         ofPopMatrix();
     }
     
-    if(bHasBody){
-        ofPushMatrix();
-        ofTranslate(0, actualHeadRadius);
-        drawBody();
-        ofPopMatrix();
-    }
+
 
     ofPopStyle();
     ofPopMatrix();

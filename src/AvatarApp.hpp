@@ -200,7 +200,8 @@ private:
     ofVec2f *savedMainAvatarOffset;
 
     
-    
+    vector<ofSoundPlayer>ploppsounds;
+    void playRandomPlopp();
     
     
 };

@@ -84,8 +84,8 @@ public:
     bool bMouthIsBound=false;
     
     bool bHasCheecks=false;
-    float actualCheeksAlpha=0;
-    float cheeksAlphaTarget=0;
+    float actualCheeksAlpha;
+    float cheeksAlphaTarget;
     float cheeksInitTime;
     float cheeksEasingDuration;
     void toggleCheeks();

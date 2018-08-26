@@ -67,6 +67,16 @@ void AvatarApp::init(){
     faceCircle.bSeekTarget=true;
     leftEye.bSeekTarget=true;
     rightEye.bSeekTarget=true;
+    
+    ofDirectory dir;
+    dir.listDir("Sounds/Plopp");
+    dir.sort();
+    ploppsounds.resize(dir.size());
+    
+    for(int i=0; i<dir.size(); i++ ){
+        ploppsounds[i].load(dir.getPath(i));
+        ofLog(OF_LOG_NOTICE,"songs loaded")<<i<<" path "<<dir.getPath(i);
+    }
 
 }
 
@@ -86,6 +96,10 @@ void AvatarApp::update(){
         humania.openEyes();
         leftEye.setState(FADEOUT);
         rightEye.setState(FADEOUT);
+        
+      //  humania.bEyesAreBound=true;
+        
+        
     }
     
     faceCircle.update();
@@ -99,9 +113,19 @@ void AvatarApp::update(){
     }
     
     if(mskel.size()>0 && bindPositionToSkeletton){
-        humania.setTarget(mskel[skelettonId].spineBase+mainAvatarOffset);
+       ofVec2f target=mskel[skelettonId].spineBase+mainAvatarOffset;
+      //  target.y-=humania.actualHeadRadius;
+        humania.setTarget(target);
     }
     
+    // debug without kinect
+    /*
+    if(bindPositionToSkeletton){
+        ofVec2f testPoint=ofVec2f(ofGetMouseX(),ofGetMouseY());
+        ofVec2f target=testPoint+mainAvatarOffset;
+        //target.y-=humania.actualHeadRadius;
+        humania.setTarget(target);
+    }*/
     
     
     if(mskel.size()>0){
@@ -545,6 +569,13 @@ void AvatarApp::keyPressed(ofKeyEventArgs &e){
 }
 
 
+
+void AvatarApp::playRandomPlopp(){
+    int randNum;
+    randNum=(int)(ofRandom(0,ploppsounds.size()));
+    ploppsounds[randNum].play();
+}
+
 //--------------------------------------------------------------
 void AvatarApp::mouseMoved(ofMouseEventArgs &a){
 
@@ -813,7 +844,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         leftEye.easingInitTime=ofGetElapsedTimef();
         leftEye.setRadiusTarget(40);
         leftEye.setState(RELEASED);
-        leftEye.setTarget(ofVec2f(humania.getPosition().x-80,humania.getPosition().y));
+        leftEye.setTarget(ofVec2f(humania.getPosition().x-80,humania.getPosition().y-40));
         leftEye.setSlowDownDistance(800);
         leftEye.color=ofColor(50);
         leftEye.setScaleDuration(1);
@@ -827,7 +858,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         rightEye.easingInitTime=ofGetElapsedTimef();
         rightEye.setRadiusTarget(40);
         rightEye.setState(RELEASED);
-        rightEye.setTarget(ofVec2f(humania.getPosition().x+80,humania.getPosition().y));
+        rightEye.setTarget(ofVec2f(humania.getPosition().x+150,humania.getPosition().y+40));
         rightEye.setSlowDownDistance(800);
         rightEye.color=ofColor(50);
         leftEye.setScaleDuration(1);
@@ -845,6 +876,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         faceCircle.setTarget(startposition);
         faceCircle.setScaleDuration(0.3);
         faceCircle.color=ofColor(255);
+        playRandomPlopp();
 
         
     }
@@ -859,6 +891,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         leftEye.setSlowDownDistance(800);
         leftEye.color=ofColor(200);
         leftEye.setScaleDuration(0.3);
+        playRandomPlopp();
 
         
     }
@@ -873,6 +906,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         rightEye.setSlowDownDistance(800);
         rightEye.color=ofColor(200);
         rightEye.setScaleDuration(0.3);
+        playRandomPlopp();
 
     }
     

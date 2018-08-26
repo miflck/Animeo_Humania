@@ -88,7 +88,6 @@ void EmotionWorld::init(){
     }
     
     
-     dir;
     dir.listDir("Sounds/Plopp");
     dir.sort();
     ploppsounds.resize(dir.size());
@@ -562,7 +561,7 @@ void EmotionWorld::playRandomMultiplopp(){
 
 void EmotionWorld::playRandomPlopp(){
     int randNum;
-    randNum=(int)(ofRandom(0,multiploppsounds.size()));
+    randNum=(int)(ofRandom(0,ploppsounds.size()));
     ploppsounds[randNum].play();
 }
 
