@@ -26,6 +26,9 @@ public:
     virtual ~AvatarApp();
     
     
+    ofFbo screen;
+
+    
 
     
     void turnOn();
@@ -54,7 +57,6 @@ public:
     bool bIsRunning;
     
     void toggleMouseActive();
-    ofFbo screen;
     
     
     
@@ -190,6 +192,7 @@ private:
     AvatarKreis leftEye;
     AvatarKreis rightEye;
 
+    
     
     
     ofVec2f startposition;

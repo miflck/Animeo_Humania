@@ -61,7 +61,7 @@ void Humania::setup(){
     //nose
     actualNoseAlpha=0;
     noseEasingDuration=10;
-    
+
     //nose
     hairInitTime=0;
     actualHairAlpha=0;
@@ -82,11 +82,18 @@ void Humania::setup(){
     eyemovers.push_back(&leftEyeMover);
     eyemovers.push_back(&rightEyeMover);
 
-   leftEyeMover.setTarget(ofVec2f(-20,0));
-    rightEyeMover.setTarget(ofVec2f(+20,0));
     
-    leftEyeTarget=ofVec2f(-20,0);
-    rightEyeTarget=ofVec2f(20,0);
+    
+    float s=headRadiusBig/headRadiusNormal;
+
+    
+    leftEyeTarget=ofVec2f(-80,-40)/s;
+    rightEyeTarget=ofVec2f(150,40)/s;
+    
+   leftEyeMover.setTarget(leftEyeTarget);
+    rightEyeMover.setTarget(rightEyeTarget);
+    
+ 
     
     
     for(int i=0;i<eyemovers.size();i++){
@@ -151,7 +158,7 @@ void Humania::update(){
     
     auto cheeksEasingEndTime = cheeksInitTime + cheeksEasingDuration;
     actualCheeksAlpha= ofxeasing::map_clamp(now, cheeksInitTime, cheeksEasingEndTime, actualCheeksAlpha, cheeksAlphaTarget, &ofxeasing::linear::easeInOut);
-    cout<<actualCheeksAlpha<<" "<<cheeksAlphaTarget<<endl;
+    cout<<actualCheeksAlpha<<" "<<cheeksAlphaTarget<<" cheeksEasingEndTime "<<cheeksEasingEndTime<<endl;
     
     auto noseEasingEndTime = noseInitTime + noseEasingDuration;
     actualNoseAlpha= ofxeasing::map_clamp(now, noseInitTime, cheeksEasingEndTime, actualNoseAlpha, noseAlphaTarget, &ofxeasing::linear::easeInOut);
@@ -475,6 +482,7 @@ void Humania::showCheeks(bool _b){
         cheeksInitTime=ofGetElapsedTimef();
         cheeksAlphaTarget=255;
         cheeksEasingDuration=10;
+        actualCheeksAlpha=0;
         
    
         

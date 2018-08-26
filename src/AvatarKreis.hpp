@@ -48,6 +48,16 @@ public:
 
     
     ofColor color;
+    ofColor lerpToColor;
+    ofColor startColor;
+    
+    float startLerp=0;
+    float  actualLerp=0;
+    float lerpInitTime;
+    float lerpTarget=1;
+    float lerpDuration;
+    
+    
     int fadeAlpha=255;
     float fadeInitTime;
     float fadeTarget;

@@ -32,7 +32,7 @@ void AvatarApp::init(){
     box2d.setFPS(60.0);
     box2d.registerGrabbing();
     
-    screen.allocate(1920,1080, GL_RGB);
+    screen.allocate(1920,1080, GL_RGBA);
     screen.begin();
     ofClear(0,0,0,0);
     screen.end();
@@ -77,6 +77,9 @@ void AvatarApp::init(){
         ploppsounds[i].load(dir.getPath(i));
         ofLog(OF_LOG_NOTICE,"songs loaded")<<i<<" path "<<dir.getPath(i);
     }
+    
+    
+
 
 }
 
@@ -224,13 +227,13 @@ void AvatarApp::draw(){
     humania.draw();
     
     
+
+
     faceCircle.draw();
     
-
     leftEye.draw();
     rightEye.draw();
    
-    
 
     
     /*for(int i=0;i<avatars.size();i++){
@@ -846,7 +849,13 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         leftEye.setState(RELEASED);
         leftEye.setTarget(ofVec2f(humania.getPosition().x-80,humania.getPosition().y-40));
         leftEye.setSlowDownDistance(800);
-        leftEye.color=ofColor(50);
+      
+        leftEye.startColor=ofColor(255);
+        leftEye.startLerp=0;
+        leftEye.actualLerp=0;
+        leftEye.lerpToColor=ofColor(0);
+        leftEye.lerpDuration=1;
+        
         leftEye.setScaleDuration(1);
 
         
@@ -861,8 +870,14 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         rightEye.setTarget(ofVec2f(humania.getPosition().x+150,humania.getPosition().y+40));
         rightEye.setSlowDownDistance(800);
         rightEye.color=ofColor(50);
-        leftEye.setScaleDuration(1);
-
+        rightEye.setScaleDuration(1);
+        
+        
+        rightEye.startColor=ofColor(255);
+        rightEye.startLerp=0;
+        rightEye.actualLerp=0;
+        rightEye.lerpToColor=ofColor(0);
+        rightEye.lerpDuration=1;
     }
     
     
@@ -877,6 +892,12 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         faceCircle.setScaleDuration(0.3);
         faceCircle.color=ofColor(255);
         playRandomPlopp();
+        
+        faceCircle.startColor=ofColor(255);
+        faceCircle.startLerp=0;
+        faceCircle.actualLerp=0;
+        faceCircle.lerpToColor=ofColor(255);
+        faceCircle.lerpDuration=1;
 
         
     }
@@ -891,7 +912,16 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         leftEye.setSlowDownDistance(800);
         leftEye.color=ofColor(200);
         leftEye.setScaleDuration(0.3);
+        
+        leftEye.startColor=ofColor(255);
+        leftEye.startLerp=0;
+        leftEye.actualLerp=0;
+        leftEye.lerpToColor=ofColor(255);
+        leftEye.lerpDuration=1;
+        
+        
         playRandomPlopp();
+        
 
         
     }
@@ -906,6 +936,15 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         rightEye.setSlowDownDistance(800);
         rightEye.color=ofColor(200);
         rightEye.setScaleDuration(0.3);
+        
+        
+        rightEye.startColor=ofColor(255);
+        rightEye.startLerp=0;
+        rightEye.actualLerp=0;
+        rightEye.lerpToColor=ofColor(255);
+        rightEye.lerpDuration=1;
+        
+        
         playRandomPlopp();
 
     }

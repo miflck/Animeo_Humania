@@ -25,11 +25,23 @@ void AvatarKreis::setup(){
     fadeAlpha=255;
     
     
-     fadeInitTime= ofGetElapsedTimef();
+    fadeInitTime= ofGetElapsedTimef();
     fadeTarget=255;
     fadeDuration=3.0f;
     setMaxSpeed(10);
     startRadius=0;
+    
+    
+     startLerp=0;
+    actualLerp=0;
+     lerpInitTime= ofGetElapsedTimef();
+     lerpTarget=1;
+     lerpDuration;
+    
+    
+     lerpToColor=ofColor(0,255,0);;
+    startColor=ofColor(255,0,0);
+    
     
 }
 
@@ -37,12 +49,12 @@ void AvatarKreis::update(){
     
     auto endTime = easingInitTime + scaleDuration;
     auto endFadeTime = fadeInitTime + fadeDuration;
+    auto endLerpTime=lerpInitTime+lerpDuration;
 
     auto now = ofGetElapsedTimef();
     actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, startRadius, radiusTarget, &ofxeasing::linear::easeIn);
     
-    
-    //fadeAlpha = ofxeasing::map_clamp(now, fadeInitTime, endFadeTime, fadeAlpha, fadeTarget, &ofxeasing::linear::easeIn);
+    actualLerp=ofxeasing::map_clamp(now, lerpInitTime, endLerpTime, startLerp, lerpTarget, &ofxeasing::linear::easeIn);
     //color=ofColor(color,fadeAlpha);
 
     
@@ -55,6 +67,11 @@ void AvatarKreis::update(){
     ofVec2f distance=getTarget()-getPosition();
     if(distance.length()<1 && getSpeed().length()< 0.1)setReached(true);
     
+    
+ 
+    ofColor c=startColor;
+    c.lerp(lerpToColor, actualLerp); // now purple!
+    
     switch (state) {
             
         case IDLE:
@@ -66,11 +83,17 @@ void AvatarKreis::update(){
             
         case MOVINGOBJECT:
             move();
+            color=c;
+
             break;
             
         case RELEASED:
             //setPosition(anchor.getPosition().x, anchor.getPosition().y);
             move();
+            color=c;
+
+          
+            
             if(getPosition().y<actualRadius){
                 bShouldRemove=true;
             }
@@ -169,10 +192,13 @@ void AvatarKreis::setState(int _state){
             break;
         case MOVINGOBJECT:
            
+            lerpInitTime= ofGetElapsedTimef();
 
             break;
         case RELEASED:
             cout<<"State "<<state<<endl;
+            lerpInitTime= ofGetElapsedTimef();
+
            /* anchor.setPosition(getPosition());
             anchor.setPhysics(50, 0.5, 0.4);
             anchor.body->SetType(b2_dynamicBody);*/
