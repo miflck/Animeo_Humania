@@ -558,6 +558,7 @@ private:
 
 
     void addEllipse();
+    void releaseEllipse();
     
     bool bEmitHearts=false;
     float emitFrequency=0.7;
@@ -622,6 +623,10 @@ private:
     
     
     float shapeDir=0;
+    
+    
+    bool bIsEllipseAdded=false;
+    bool bIsEllipseAutomated=false;
     
     
 };

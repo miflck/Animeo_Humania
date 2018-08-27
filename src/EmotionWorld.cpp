@@ -186,6 +186,42 @@ void EmotionWorld::update(){
 
     
     
+    
+    // automatic add ellipse?
+    if(mskel.size()>0 && bIsEllipseAutomated){
+        Hand hl = KINECTMANAGER->skeletons->at(0).getLeftHand();
+        Joint handJointleft =KINECTMANAGER->skeletons->at(0).getHandLeft();
+        
+        Hand hr = KINECTMANAGER->skeletons->at(0).getRightHand();
+        Joint handJointright =KINECTMANAGER->skeletons->at(0).getHandRight();
+        
+        ofVec2f lefthand=mskel[0].leftHand;
+        ofVec2f righthand=mskel[0].rightHand;
+        ofVec2f spineBase=mskel[0].spineBase;
+
+        ofVec2f dist=lefthand-righthand;
+        ofVec2f ldist=lefthand-spineBase;
+
+        
+        
+        if(hl.isConfidentlyDetected() && hr.isConfidentlyDetected()) {
+            if(hl.isClosed() && hr.isClosed() && bIsEllipseAdded){
+                releaseEllipse();
+            }
+        }
+        
+        if( !bIsEllipseAdded && abs(ldist.length())<50 && abs(dist.length())<50){
+            addEllipse();
+        }
+        
+        
+    }
+    
+   
+    
+    
+    
+    
     if(mskel.size()>0){
         ofVec2f epos;
         
@@ -297,23 +333,31 @@ void EmotionWorld::draw(){
         ofPopStyle();
         vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
 
-  if(mskel.size()>0){
-        Hand h = KINECTMANAGER->skeletons->at(0).getLeftHand();
-        Joint handJoint =KINECTMANAGER->skeletons->at(0).getHandLeft();
-        if(h.isConfidentlyDetected()) {
-            ofFill();
-            if(h.isOpen()) ofSetColor(ofColor::blue);
-            else ofSetColor(ofColor::red);
-            ofDrawCircle(mskel[0].leftHand, 25);
-        }
-  }
-        
-        
+            // hand open?
+      if(mskel.size()>0){
+          Hand hl = KINECTMANAGER->skeletons->at(0).getLeftHand();
+          Joint handJointleft =KINECTMANAGER->skeletons->at(0).getHandLeft();
+          
+          Hand hr = KINECTMANAGER->skeletons->at(0).getRightHand();
+          Joint handJointright =KINECTMANAGER->skeletons->at(0).getHandRight();
+            if(hl.isConfidentlyDetected()) {
+                ofFill();
+                if(hl.isOpen()) ofSetColor(ofColor::blue);
+                else ofSetColor(ofColor::red);
+                ofDrawCircle(mskel[0].leftHand, 25);
+            }
+          
+          if(hr.isConfidentlyDetected()) {
+              ofFill();
+              if(hr.isOpen()) ofSetColor(ofColor::blue);
+              else ofSetColor(ofColor::red);
+              ofDrawCircle(mskel[0].rightHand, 25);
+          }
+      }
     }
     
     ofPushStyle();
-   if(bShowSun)sun.draw();
-    
+    if(bShowSun)sun.draw();
     if(bShowBalloon)balloon.draw();
     if(bShowBird)bird.draw();
 
@@ -396,6 +440,7 @@ void EmotionWorld::bindToSkeletton(bool _b){
 
 
 void EmotionWorld::addEllipse(){
+    bIsEllipseAdded=true;
     ofVec2f epos(emitterposition);
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
 
@@ -414,6 +459,16 @@ void EmotionWorld::addEllipse(){
     ellipsen.back().get()->setup();
     playRandomPlopp();
 
+}
+
+void EmotionWorld::releaseEllipse(){
+    for(int i=0;i<ellipsen.size();i++){
+        if(ellipsen[i]->getState()==MOVINGOBJECT){
+            ellipsen[i]->setState(PHYSICS);
+            break;
+        }
+    }
+    bIsEllipseAdded=false;
 }
 
 
@@ -1125,12 +1180,9 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     }
     if(msg.getAddress() == "/EmotionWorld/push41")
     {
-        for(int i=0;i<ellipsen.size();i++){
-            if(ellipsen[i]->getState()==MOVINGOBJECT){
-                ellipsen[i]->setState(PHYSICS);
-                break;
-            }
-        }
+        
+        releaseEllipse();
+    
     }
     if(msg.getAddress() == "/EmotionWorld/push42")
     {
@@ -1229,6 +1281,12 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         bIsRepulsionActive=m;
     }
 
+    if(msg.getAddress() == "/EmotionWorld/toggle27")
+    {
+        float m=msg.getArgAsBool(0);
+        bIsEllipseAutomated=m;
+    }
+    
 }
 
 
