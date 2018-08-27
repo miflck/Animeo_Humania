@@ -198,6 +198,8 @@ public:
 
     ofNode testnode;
     ofNode hand;
+    ofNode righthand;
+
     
 
     ofPlanePrimitive plane;

@@ -52,7 +52,7 @@ void KinectV2Manager::initialize() {
     beamerposition.set(0,0,500);
     kinectposition.set(100,100,100);
     
-     iMainCamera = 0;
+    iMainCamera = 0;
     
     // observer camera
     
@@ -134,6 +134,9 @@ void KinectV2Manager::update(){
         hand.setPosition(kinectToWorld(userHandLeftPoint));
         
         
+        ofVec3f userHandRightPoint = skeletons->at(i).getHandRight().getPoint();
+        righthand.setPosition(kinectToWorld(userHandRightPoint));
+        
         
         
         
@@ -206,8 +209,6 @@ void KinectV2Manager::update(){
         intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftHand)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
         m.leftHand=screenpos;
-
-
         
         intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftShoulder)),ofVec3f(0,0,1),0));
         screenpos=cameras[5]->worldToScreen(intersection, viewMain);
@@ -288,9 +289,6 @@ void KinectV2Manager::update(){
         m.head=screenpos;
       
         mappedSkelettons.push_back(m);
-
-        
-      
     }
     
  
@@ -469,6 +467,10 @@ void KinectV2Manager::drawScene(int iCameraDraw){
     ofSetColor(255, 255, 0);
     ofDrawCircle(intersection.x, intersection.y, 20);
     
+    
+    
+    
+    
     intersection;
     intersection.set(intersectLine(cameras[5]->getGlobalPosition(),testnode.getPosition(),ofVec3f(0,0,1),0));
     ofSetColor(255, 255, 0);
@@ -490,10 +492,19 @@ void KinectV2Manager::drawScene(int iCameraDraw){
     v2 = sweetspot.getGlobalPosition();
     ofDrawLine(v1,v2);
     
+    
     intersection;
     intersection.set(intersectLine(cameras[5]->getGlobalPosition(),hand.getPosition(),ofVec3f(0,0,1),0));
     ofSetColor(255, 0, 0);
     ofDrawCircle(intersection.x, intersection.y, 20);
+    
+    
+    intersection;
+    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),righthand.getPosition(),ofVec3f(0,0,1),0));
+    ofSetColor(0, 0, 255);
+    ofDrawCircle(intersection.x, intersection.y, 20);
+    
+    
     
      v1 = cameras[5]->getGlobalPosition();
      v2 = hand.getGlobalPosition();
@@ -504,6 +515,32 @@ void KinectV2Manager::drawScene(int iCameraDraw){
     v2 = hand.getPosition();
     ofSetColor(255, 0, 0);
     ofDrawLine(v1,v2);
+    
+    
+    for(int i = 0; i < mappedSkelettons.size(); i++) {
+        ofSetColor(0, 255, 0);
+        ofSetColor(255, 0, 0);
+        ofDrawLine(mappedSkelettons[i].leftHand,mappedSkelettons[i].leftEllbow);
+        ofDrawLine(mappedSkelettons[i].leftEllbow,mappedSkelettons[i].leftShoulder);
+        ofDrawLine(mappedSkelettons[i].rightHand,mappedSkelettons[i].rightEllbow);
+        ofDrawLine(mappedSkelettons[i].rightEllbow,mappedSkelettons[i].rightShoulder);
+        ofDrawLine(mappedSkelettons[i].leftShoulder,mappedSkelettons[i].rightShoulder);
+        ofDrawLine(mappedSkelettons[i].leftShoulder,mappedSkelettons[i].spineBase);
+        ofDrawLine(mappedSkelettons[i].rightShoulder,mappedSkelettons[i].spineBase);
+        ofDrawLine(mappedSkelettons[i].spineBase,mappedSkelettons[i].leftKnee);
+        ofDrawLine(mappedSkelettons[i].spineBase,mappedSkelettons[i].rightKnee);
+        ofDrawLine(mappedSkelettons[i].leftKnee,mappedSkelettons[i].leftFoot);
+        ofDrawLine(mappedSkelettons[i].rightKnee,mappedSkelettons[i].rightFoot);
+
+        ofSetColor(0, 255, 0);
+        ofDrawCircle(mappedSkelettons[i].leftHand, 15);
+        ofDrawCircle(mappedSkelettons[i].rightHand, 15);
+        ofDrawCircle(mappedSkelettons[i].neck, 15);
+        ofDrawCircle(mappedSkelettons[i].spineBase, 15);
+        ofDrawCircle(mappedSkelettons[i].leftKnee, 15);
+        ofDrawCircle(mappedSkelettons[i].rightKnee, 15);
+
+    }
     
 
     
