@@ -1,11 +1,11 @@
 {
    "Avatar" : {
       "addPosition" : [ 0, 842 ],
-      "mainAvatarOffset" : [ -309.3994750976562, -105.744140625 ]
+      "mainAvatarOffset" : [ -314.6213989257812, -44.38644409179688 ]
    },
    "LightPointApp" : {
       "cabindimension" : [ 488, 448 ],
-      "cabinposition" : [ 1242, 569 ],
+      "cabinposition" : [ 1254, 545 ],
       "homeposition" : [ 1733, 438 ],
       "insidePoisiton" : [ 1538, 754 ],
       "scaredposition" : [ 702, 208 ],

@@ -46,7 +46,7 @@ void GuiApp::update(){
 }
 
 void GuiApp::draw(){
-    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+  /*  vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     vector<UnMappedPoints> uskel=KINECTMANAGER->getUnMappedSkelettons();
 
     ofPushMatrix();
@@ -61,7 +61,7 @@ void GuiApp::draw(){
         uskel[i].drawSkeletton();
     }
     ofPopMatrix();
-   
+   */
     
 	gui.draw();
     box2dPanel.draw();
