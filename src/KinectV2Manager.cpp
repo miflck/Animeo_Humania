@@ -52,7 +52,7 @@ void KinectV2Manager::initialize() {
     beamerposition.set(0,0,500);
     kinectposition.set(100,100,100);
     
-    iMainCamera = 0;
+    iMainCamera = 5;
     
     // observer camera
     
@@ -121,7 +121,7 @@ void KinectV2Manager::update(){
     heads.clear();
     
     mappedSkelettons.clear();
-    
+    unMappedSkelettons.clear();
     
     //cout<<skeletons->size()<<endl;
     
@@ -135,7 +135,7 @@ void KinectV2Manager::update(){
         
         
         ofVec3f userHandRightPoint = skeletons->at(i).getHandRight().getPoint();
-        righthand.setPosition(kinectToWorld(userHandRightPoint));
+        righthandDebug.setPosition(kinectToWorld(userHandRightPoint));
         
         
         
@@ -147,6 +147,10 @@ void KinectV2Manager::update(){
 
     
         MappedPoints m;
+        UnMappedPoints um;
+
+        
+        
         ofVec3f intersection;
         ofVec3f screenpos;
         
@@ -202,6 +206,31 @@ void KinectV2Manager::update(){
          m.neckLocal=getLocal(localZero,neck);
          m.spineBaseLocal=getLocal(localZero,spineBase);
          m.spineMidLocal=getLocal(localZero,spineMid);
+        
+        
+        
+        
+        um.localZero =localZero;
+        um.leftHandLocal = getLocal(localZero,leftHand);
+        um.leftShoulderLocal = getLocal(localZero,leftShoulder);
+        um.leftEllbowLocal = getLocal(localZero,leftEllbow);
+        um.leftWristLocal = getLocal(localZero,leftWrist);
+        um.leftHipLocal = getLocal(localZero,leftHip);
+        um.leftKneeLocal = getLocal(localZero,leftKnee);
+        um.leftAnkleLocal =getLocal(localZero,leftAnkle);
+        um.leftFootLocal = getLocal(localZero,leftFoot);
+        um.rightHandLocal = getLocal(localZero,rightHand);
+        um.rightShoulderLocal = getLocal(localZero,rightShoulder);
+        um.rightEllbowLocal = getLocal(localZero,rightEllbow);
+        um.rightWristLocal = getLocal(localZero,rightWrist);
+        um.rightHipLocal = getLocal(localZero,rightHip);
+        um.rightKneeLocal = getLocal(localZero,rightKnee);
+        um.rightAnkleLocal = getLocal(localZero,rightAnkle);
+        um.rightFootLocal = getLocal(localZero,rightFoot);
+        um.headLocal=getLocal(localZero,head);
+        um.neckLocal=getLocal(localZero,neck);
+        um.spineBaseLocal=getLocal(localZero,spineBase);
+        um.spineMidLocal=getLocal(localZero,spineMid);
         
         
         // LEFT SIDE
@@ -289,6 +318,95 @@ void KinectV2Manager::update(){
         m.head=screenpos;
       
         mappedSkelettons.push_back(m);
+        
+        
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftHand)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.leftHand=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftShoulder)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.leftShoulder=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftEllbow)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.leftEllbow=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftWrist)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.leftWrist=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftHip)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.leftHip=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftKnee)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.leftKnee=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftKnee)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.leftKnee=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(leftFoot)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.leftFoot=screenpos;
+        
+        // RIGHT SIDE
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightHand)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.rightHand=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightShoulder)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.rightShoulder=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightEllbow)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.rightEllbow=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightWrist)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.rightWrist=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightHip)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.rightHip=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightKnee)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.rightKnee=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightKnee)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.rightKnee=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(rightFoot)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.rightFoot=screenpos;
+        
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(neck)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.neck=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(spineBase)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.spineBase=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(spineMid)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.spineMid=screenpos;
+        
+        intersection.set(intersectLine(cameras[5]->getGlobalPosition(),ofVec3f(kinectToWorld(head)),ofVec3f(0,0,1),0));
+        screenpos=cameras[5]->worldToScreen(intersection, viewMain);
+        um.head=screenpos;
+        
+        unMappedSkelettons.push_back(um);
+        
+        
+        
     }
     
  
@@ -353,12 +471,19 @@ void KinectV2Manager::exit(){
 //KEY LISTENER
 //--------------------------------------------------------------
 void KinectV2Manager::keyPressed(ofKeyEventArgs &e){
-    cout<<"KEY"<<e.key<<endl;
     if(e.key >= '1' && e.key <= '6'){
         iMainCamera = e.key - '1';
         cout<<"Main Camera"<<iMainCamera<<endl;
 
     }
+    
+    if(e.key=='S'){
+        cout<<"SAVE!!"<<e.key<<endl;
+        APPC->gui->gui.saveToFile("settings.xml");
+
+    }
+    
+    
 }
 
 
@@ -500,11 +625,11 @@ void KinectV2Manager::drawScene(int iCameraDraw){
     
     
     intersection;
-    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),righthand.getPosition(),ofVec3f(0,0,1),0));
+    intersection.set(intersectLine(cameras[5]->getGlobalPosition(),righthandDebug.getPosition(),ofVec3f(0,0,1),0));
     ofSetColor(0, 0, 255);
     ofDrawCircle(intersection.x, intersection.y, 20);
     
-    
+                                                                               
     
      v1 = cameras[5]->getGlobalPosition();
      v2 = hand.getGlobalPosition();
@@ -539,9 +664,19 @@ void KinectV2Manager::drawScene(int iCameraDraw){
         ofDrawCircle(mappedSkelettons[i].spineBase, 15);
         ofDrawCircle(mappedSkelettons[i].leftKnee, 15);
         ofDrawCircle(mappedSkelettons[i].rightKnee, 15);
+        
+        
+        
+        mappedSkelettons[i].drawSkeletton();
+
+        
 
     }
     
+    ofSetColor(0,255,255);
+    for(int i = 0; i < unMappedSkelettons.size(); i++) {
+        unMappedSkelettons[i].drawSkeletton();
+    }
 
     
     
@@ -664,3 +799,8 @@ vector<ofVec3f> KinectV2Manager::getLeftHands(){
 vector<MappedPoints> KinectV2Manager::getMappedSkelettons(){
     return mappedSkelettons;
 }
+
+vector<UnMappedPoints> KinectV2Manager::getUnMappedSkelettons(){
+    return unMappedSkelettons;
+}
+

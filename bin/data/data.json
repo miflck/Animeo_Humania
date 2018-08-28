@@ -1,21 +1,21 @@
 {
    "Avatar" : {
       "addPosition" : [ 0, 842 ],
-      "mainAvatarOffset" : [ -368.146240234375, 1.305450439453125 ]
+      "mainAvatarOffset" : [ -309.3994750976562, -62.6632080078125 ]
    },
    "LightPointApp" : {
-      "cabindimension" : [ 564, 506 ],
-      "cabinposition" : [ 1241, 541 ],
+      "cabindimension" : [ 488, 448 ],
+      "cabinposition" : [ 1242, 569 ],
       "homeposition" : [ 1733, 438 ],
-      "insidePoisiton" : [ 1624, 827 ],
+      "insidePoisiton" : [ 1538, 754 ],
       "scaredposition" : [ 702, 208 ],
       "startposition" : [ 677, 713 ],
       "watchposition" : [ 1669, 656 ]
    },
    "LinieApp" : {
-      "anchorStartPositionBottom" : [ 1808, 545 ],
-      "anchorStartPositionTop" : [ 154, 548 ],
-      "finalCirclePosition" : [ 1061, 496 ]
+      "anchorStartPositionBottom" : [ 1813, 556 ],
+      "anchorStartPositionTop" : [ 89, 544 ],
+      "finalCirclePosition" : [ 968, 513 ]
    },
    "emotions" : {
       "anchorposition" : [ 1291, 336 ],

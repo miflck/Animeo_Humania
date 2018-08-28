@@ -40,8 +40,11 @@ void EmotionWorld::init(){
     ofAddListener(box2d.contactStartEvents, this, &EmotionWorld::contactStart);
     ofAddListener(box2d.contactEndEvents, this, &EmotionWorld::contactEnd);
     
-    anchor.setPhysics(50, 0.5, 0.9);
-    anchor.setup(box2d.getWorld(), 0, 0, 50);
+    anchorLeftHand.setPhysics(50, 0.5, 0.9);
+    anchorLeftHand.setup(box2d.getWorld(), 0, 0, 70);
+    
+    anchorRightHand.setPhysics(50, 0.5, 0.9);
+    anchorRightHand.setup(box2d.getWorld(), 0, 0, 70);
   
   /*  box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
     leftbox.setup(box2d.getWorld(), 0, 150,20,300);
@@ -54,7 +57,8 @@ void EmotionWorld::init(){
     screen.end();
     
     herz.loadImage("herz.png");
-    
+    sternImg.load("bilder/stern.png");
+
     sun.setup();
     sun.bSeekTarget=true;
     
@@ -106,9 +110,20 @@ void EmotionWorld::init(){
 
 void EmotionWorld::update(){
     
- 
+    ofVec2f hand;
+    ofVec2f knee;
+
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     
     repulsionPosition.set(ofGetMouseX(),ofGetMouseY());
+    
+    if(mskel.size()>0){
+        repulsionPosition.set(mskel[0].rightKnee);
+    }
+    
+    
+    
+    
     
     for(int i=0;i<shapes.size();i++){
         float dis = repulsionPosition.distance(shapes[i].get()->getPosition());
@@ -177,8 +192,7 @@ void EmotionWorld::update(){
     
    // emitterposition=ofVec2f(ofGetMouseX(),ofGetMouseY());
     
-    ofVec2f hand;
-    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+
    
     
     //baloon.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
@@ -273,8 +287,18 @@ void EmotionWorld::update(){
         headposition=mskel[0].head;
         headposition=ofVec2f(headposition.x, headposition.y);
         emitterposition=headposition;
-        anchor.setPosition(mskel[0].leftHand.x, mskel[0].leftHand.y);
+       // anchorLeftHand.setPosition(mskel[0].leftHand.x, mskel[0].leftHand.y);
+       // anchorRightHand.setPosition(mskel[0].rightHand.x, mskel[0].rightHand.y);
+
     }
+    
+    if(mskel.size()>0 && bBindHands){
+        anchorLeftHand.setPosition(mskel[0].leftHand.x, mskel[0].leftHand.y);
+        anchorRightHand.setPosition(mskel[0].rightHand.x, mskel[0].rightHand.y);
+    }
+    
+    
+    
 
         float rAdd=ofRandom(1);
         if(rAdd>emitFrequency && bEmitHearts){
@@ -327,11 +351,14 @@ void EmotionWorld::draw(){
             circles[i].get()->draw();
         }
         ofSetColor(255,0,0);
-        anchor.draw();
+        anchorLeftHand.draw();
+        anchorRightHand.draw();
+
         leftbox.draw();
         rightbox.draw();
         ofPopStyle();
         vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+        vector<UnMappedPoints> uskel=KINECTMANAGER->getUnMappedSkelettons();
 
             // hand open?
       if(mskel.size()>0){
@@ -354,6 +381,19 @@ void EmotionWorld::draw(){
               ofDrawCircle(mskel[0].rightHand, 25);
           }
       }
+        
+        
+        for(int i=0;i<mskel.size();i++){
+            ofSetColor(255, 0, 0);
+            mskel[i].drawSkeletton();
+        }
+        
+        for(int i=0;i<uskel.size();i++){
+            ofSetColor(0, 255, 0);
+           // uskel[i].drawSkeletton();
+        }
+        
+        
     }
     
     ofPushStyle();
@@ -438,6 +478,15 @@ void EmotionWorld::bindToSkeletton(bool _b){
 
 }
 
+
+void EmotionWorld::bindToHands(bool _b){
+    bBindHands=_b;
+    if(!bBindHands){
+        anchorLeftHand.setPosition(0,0);
+        anchorRightHand.setPosition(0,0);
+    }
+    
+}
 
 void EmotionWorld::addEllipse(){
     bIsEllipseAdded=true;
@@ -850,6 +899,21 @@ void EmotionWorld::contactEnd(ofxBox2dContactArgs &e) {
 
 
 
+void EmotionWorld::makeStars(int num){
+    for(int i=0;i<num;i++){
+     sterne.push_back(shared_ptr<Stern>(new Stern));
+     sterne.back().get()->setWorld(box2d.getWorld());
+     sterne.back().get()->bSeekTarget=true;
+     sterne.back().get()->setPosition(emitterposition.x,emitterposition.y);
+    // sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,emitterposition.y)));
+    sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,(ofGetHeight()/3)*2)));
+
+     sterne.back().get()->setup(sternImg);
+     sterne.back().get()->setTargetRadius(ofRandom(15,25));
+     }
+    
+}
+
 
 void EmotionWorld::toggleMouseActive(){
     bIsMouseActive=!bIsMouseActive;
@@ -985,7 +1049,16 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     }
 
     
+    // repulsionforce
+    if(msg.getAddress() == "/EmotionWorld/fader13")
+    {
+        float f=msg.getArgAsFloat(0);
+        f=ofMap(f, 0, 1.f, 0, 100);
+        repulsionForce=f;
+    }
     
+    
+    // GRAVITY
     if(msg.getAddress() == "/EmotionWorld/fader4")
     {
     
@@ -994,6 +1067,26 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         gravityX=f;
         box2d.setGravity(gravityX, gravityY);
     }
+    
+    
+    if(msg.getAddress() == "/EmotionWorld/fader14")
+    {
+        float f=msg.getArgAsFloat(0);
+        f=ofMap(f, -1.f, 1.f, -3, 3);
+        gravityY=f;
+        box2d.setGravity(gravityX, gravityY);
+        
+        float mG=ofMap(gravityY,-3,3,-1,1);
+        
+        ofxOscMessage m;
+        m.addFloatArg(mG);
+        m.setAddress("/EmotionWorld/fader2");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+        
+    }
+    
+    
     
     if(msg.getAddress() == "/EmotionWorld/push15")
     {
@@ -1023,8 +1116,10 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         float r = ofRandom(10, 40);        // a random radius 4px - 20px
         hearts.push_back(shared_ptr<Heart>(new Heart));
         hearts.back().get()->setPhysics(3.0, 0.53, 0.1);
-        hearts.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
+        hearts.back().get()->setup(box2d.getWorld(), anchorposition.x, anchorposition.y, r);
         hearts.back().get()->setVelocity(ofRandom(5,20), ofRandom(0,-20));
+        playRandomPlopp();
+
     }
     
     if(msg.getAddress() == "/EmotionWorld/push5")
@@ -1041,8 +1136,8 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         float m=msg.getArgAsBool(0);
         if(m){
             box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
-            leftbox.setup(box2d.getWorld(), 0, 150,20,600);
-            rightbox.setup(box2d.getWorld(), ofGetWidth(),150, 20,600);
+            leftbox.setup(box2d.getWorld(), 0, ofGetHeight()/2,20,ofGetHeight());
+            rightbox.setup(box2d.getWorld(), ofGetWidth(),ofGetHeight()/2, 20,ofGetHeight());
             
         }else{
             box.destroy();
@@ -1235,16 +1330,17 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     // Stern
     if(msg.getAddress() == "/EmotionWorld/push24")
     {
-        for(int i=0;i<60;i++){
+        /*for(int i=0;i<60;i++){
         sterne.push_back(shared_ptr<Stern>(new Stern));
         sterne.back().get()->setWorld(box2d.getWorld());
         sterne.back().get()->bSeekTarget=true;
         sterne.back().get()->setPosition(emitterposition.x,emitterposition.y);
         sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,emitterposition.y)));
-        sterne.back().get()->setup();
+        sterne.back().get()->setup(sternImg);
         sterne.back().get()->setTargetRadius(ofRandom(5,20));
 
-        }
+        }*/
+        makeStars(60);
     }
     
     if(msg.getAddress() == "/EmotionWorld/push25")
@@ -1261,6 +1357,16 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
             sterne[i]->setGravity(true);
         }
     }
+
+    if(msg.getAddress() == "/EmotionWorld/toggle28")
+    {
+        float m=msg.getArgAsBool(0);
+
+        for(int i=0;i<sterne.size();i++){
+            sterne[i]->setGravity(m);
+        }
+    }
+    
     
     if(msg.getAddress() == "/EmotionWorld/push26")
     {
@@ -1274,6 +1380,15 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         float m=msg.getArgAsBool(0);
         bindToSkeletton(m);
     }
+    
+    
+    if(msg.getAddress() == "/EmotionWorld/toggle29")
+    {
+        float m=msg.getArgAsBool(0);
+        bindToHands(m);
+    }
+    
+    
 
     if(msg.getAddress() == "/EmotionWorld/toggle26")
     {

@@ -497,8 +497,14 @@ public:
     void toggleHearts();
     void toggleSun();
     void showSun(bool _s);
+    
+    
+    
+    void makeStars(int num);
+    
 
     ofImage herz;
+    ofImage sternImg;
     
     
     Kreis kreis;
@@ -512,7 +518,9 @@ public:
 
 private:
     ofxBox2d                                  box2d;   // the box2d world
-    ofxBox2dCircle                            anchor;  // fixed anchor
+    ofxBox2dCircle                            anchorLeftHand;  // fixed anchor
+    ofxBox2dCircle                            anchorRightHand;  // fixed anchor
+
     vector      <shared_ptr<ofxBox2dCircle> > circles; // default box2d circles
     vector      <shared_ptr<ofxBox2dJoint> >  joints;  // joints
     vector    <shared_ptr<ofxBox2dRect> >   boxes;           // default box2d rects
@@ -549,7 +557,7 @@ private:
     
     
     bool bEmitShapes=false;
-    float emitShapeFrequency=0.7;
+    float emitShapeFrequency=0.1;
     
     void emitShapes();
     
@@ -561,7 +569,7 @@ private:
     void releaseEllipse();
     
     bool bEmitHearts=false;
-    float emitFrequency=0.7;
+    float emitFrequency=0.9;
     
     
     bool bShowSun=false;
@@ -599,7 +607,12 @@ private:
     
     bool bBindToHead=false;
     
+    bool bBindHands=false;
+
+    
     void bindToSkeletton(bool _b);
+    void bindToHands(bool _b);
+
     
     
     ofVec2f repulsionPosition;

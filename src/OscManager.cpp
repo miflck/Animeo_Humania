@@ -28,7 +28,7 @@ void OscManager::update(){
         cout<<m.getRemoteIp()<<endl;
         remoteIp=m.getRemoteIp();
 
-        cout<<"--------- ip "<<m.getAddress()<<" "<<remoteIp<<m.getRemotePort()<<endl;
+        //cout<<"--------- ip "<<m.getAddress()<<" "<<remoteIp<<m.getRemotePort()<<endl;
 
         if(!bRemoteIpIsSet){
             remoteIp=m.getRemoteIp();

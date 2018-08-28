@@ -27,6 +27,8 @@ public:
     void update();
     void draw();
     
+    void setup(ofImage img);
+    
     int strokeWeight=6;
     
     b2World* world;

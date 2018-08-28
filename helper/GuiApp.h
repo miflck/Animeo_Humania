@@ -22,6 +22,9 @@ public:
     ofParameter<ofVec3f>rayPosition;
 
     ofParameter<bool> kinectManagerDebug;
+    
+
+    
 
     
     ofxPanel box2dPanel;

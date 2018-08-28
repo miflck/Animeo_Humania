@@ -38,6 +38,33 @@ void Stern::setup(){
     
 }
 
+
+void Stern::setup(ofImage img){
+    actualRadius=0;
+    radiusTarget=100;
+    anchor.setPhysics(0, 0.5, 0.9);
+    anchor.setup(world, 0, 0, actualRadius);
+    
+    easingInitTime = ofGetElapsedTimef();
+    state=MOVINGOBJECT;
+    stateBefore=START;
+    color=ofColor(255);
+    fadeAlpha=255;
+    
+    
+    fadeInitTime= ofGetElapsedTimef();
+    fadeTarget=255;
+    fadeDuration=3.0f;
+    sternImg=img;
+    screen.set(0,0,ofGetWidth(),ofGetHeight());
+    
+    
+}
+
+
+
+
+
 void Stern::update(){
     
     auto endTime = easingInitTime + scaleDuration;

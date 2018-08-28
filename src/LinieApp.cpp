@@ -107,7 +107,7 @@ void LinieApp::init(){
     mover1.setMaxSpeed(100);
     
     mover1.bSeekTarget=true;
-    moverCircleRadius.set(150,0);
+    moverCircleRadius.set(200,0);
     
     damping=0.99;
     
@@ -316,7 +316,7 @@ void LinieApp::draw(){
     }
     ofPushStyle();
     ofSetColor(255);
-    ofSetLineWidth(8);
+    ofSetLineWidth(15);
     line.draw();
     
    // ofDrawCircle(anchor.getPosition().x,anchor.getPosition().y,50);
