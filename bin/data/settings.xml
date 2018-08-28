@@ -1,8 +1,8 @@
 <parameters>
 	<radius>50</radius>
 	<color>100, 100, 100, 255</color>
-	<kinectPosition>8.16327, -85.7143, 1057.14</kinectPosition>
-	<beamerPosition>0, 0, 1000</beamerPosition>
+	<kinectPosition>8.16327, -85.7143, 1200</kinectPosition>
+	<beamerPosition>4.08163, 4.08163, 1148.98</beamerPosition>
 	<beamerFov>60.4</beamerFov>
 <parameters/>
 <testPosition>0, 0, 214.286</testPosition>

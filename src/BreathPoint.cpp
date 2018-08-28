@@ -17,11 +17,11 @@ BreathPoint::~BreathPoint(){
 }
 
 void BreathPoint::setup(){
-    radius=50;
+    radius=size2;
     scaleDuration=1.f;
     actualRadius=0;
     easingInitTime = ofGetElapsedTimef();
-    radiusTarget=50;
+    radiusTarget=size2;
     reflectionpoint=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
     initTime=ofGetElapsedTimeMillis();
     setSlowDown(true);

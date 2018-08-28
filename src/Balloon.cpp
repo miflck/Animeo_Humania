@@ -28,7 +28,7 @@ void Balloon::setup(){
     bSeekTarget=true;
     
     setSpeed(0,-1);
-    setMaxSpeed(5);
+    setMaxSpeed(8);
 
 }
 

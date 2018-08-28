@@ -42,6 +42,7 @@ void Flash::draw(){
     
     ofPushMatrix();
     ofPushStyle();
+    ofSetColor(255,255,0);
     ofTranslate(getPosition().x, getPosition().y);
     ofVec2f s =getSpeed();
     float angle = atan2(s.y, s.x) + PI/2;

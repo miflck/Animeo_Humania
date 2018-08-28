@@ -215,7 +215,7 @@ bool LightPointApp::bounceFromCabin(){
     float radius=mover.getRadius();
     ofVec2f speed=mover.getSpeed();
     
-    cout<<speed.length()<<endl;
+   // cout<<speed.length()<<endl;
     //check for top collision:
     if(position.x+radius>=
        cabinposition->x && position.x-radius<=cabinposition->x+cabindimension->x){
@@ -228,7 +228,7 @@ bool LightPointApp::bounceFromCabin(){
         if(ball2topEdge <= radius)
         {
             
-            cout<<" dist "<<ball2topEdge-radius<<endl;
+           // cout<<" dist "<<ball2topEdge-radius<<endl;
 
             // anti-warp
             if(position.x+radius>=cabinposition->x){
@@ -390,7 +390,7 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
 
     if(e.key=='l'){
        // bSendOSCPosition=!bSendOSCPosition;
-        setMoverToStartPosition();
+        //setMoverToStartPosition();
     }
     
     if(e.key=='8'){

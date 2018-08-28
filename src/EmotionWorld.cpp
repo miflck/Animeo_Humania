@@ -1032,6 +1032,12 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         float f=msg.getArgAsFloat(0);
         emitFrequency=f;
     }
+    
+    if(msg.getAddress() == "/Balloon/fader17")
+    {
+        float f=msg.getArgAsFloat(0);
+        emitFrequency=f;
+    }
 
     if(msg.getAddress() == "/EmotionWorld/fader2")
     {
