@@ -23,8 +23,8 @@ int main( ){
     //settings.multiMonitorFullScreen=true;
     shared_ptr<ofAppBaseWindow> mainWindow = ofCreateWindow(settings);
     
-    settings.width = 1920;
-    settings.height = 1080;
+    settings.width = 1920/3;
+    settings.height = 1080/3;
     settings.setPosition(ofVec2f(0,0));
     settings.resizable = false;
     shared_ptr<ofAppBaseWindow> guiWindow = ofCreateWindow(settings);

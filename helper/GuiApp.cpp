@@ -49,7 +49,8 @@ void GuiApp::draw(){
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     vector<UnMappedPoints> uskel=KINECTMANAGER->getUnMappedSkelettons();
 
-    
+    ofPushMatrix();
+    ofScale(0.3,0.3);
     for(int i=0;i<mskel.size();i++){
         ofSetColor(255, 0, 0);
         mskel[i].drawSkeletton();
@@ -59,6 +60,7 @@ void GuiApp::draw(){
         ofSetColor(0, 255, 0);
         uskel[i].drawSkeletton();
     }
+    ofPopMatrix();
    
     
 	gui.draw();
