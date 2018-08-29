@@ -618,6 +618,9 @@ private:
     ofVec2f *savedRepulsionTopPosition;
     ofVec2f *savedRepulsionBottomPosition;
     ofVec2f *savedRepulsionCenterPosition;
+    
+    ofVec2f *savedRepulsionPosition;
+
 
     
     
@@ -625,6 +628,7 @@ private:
     void saveRepulsionBottomPosition();
     void saveRepulsionCenterPosition();
 
+    void saveRepulsionPosition();
     
     
     bool bBindToHead=false;

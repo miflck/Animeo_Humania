@@ -8,5 +8,5 @@
 <testPosition>0, 0, 91.8367</testPosition>
 <kinectscalefact>1</kinectscalefact>
 <rayPosition>0, 0, 50000</rayPosition>
-<kinectManagerDebug>1</kinectManagerDebug>
+<kinectManagerDebug>0</kinectManagerDebug>
 </parameters>

@@ -95,6 +95,9 @@ void EmotionWorld::init(){
     savedRepulsionTopPosition=&Settings::getVec2("emotions/repulsiontopposition");
     savedRepulsionBottomPosition=&Settings::getVec2("emotions/repulsionbottomposition");
     savedRepulsionCenterPosition=&Settings::getVec2("emotions/repulsioncenterposition");
+    
+    savedRepulsionPosition=&Settings::getVec2("emotions/repulsionposition");
+
 
     
     
@@ -132,7 +135,7 @@ void EmotionWorld::update(){
 
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     
-    repulsionPosition.set(ofGetMouseX(),ofGetMouseY());
+    repulsionPosition.set(*savedRepulsionPosition);
     
     if(mskel.size()>0){
         repulsionPosition.set(mskel[0].rightKnee);
@@ -719,6 +722,12 @@ void EmotionWorld::saveRepulsionCenterPosition(){
     Settings::get().save("data.json");
 }
 
+
+void EmotionWorld::saveRepulsionPosition(){
+    savedRepulsionPosition->set(ofGetMouseX(),ofGetMouseY());
+    Settings::get().save("data.json");
+}
+
 //KEY LISTENER
 //--------------------------------------------------------------
 void EmotionWorld::keyPressed(ofKeyEventArgs &e){
@@ -1179,7 +1188,11 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     {
         saveRepulsionCenterPosition();
     }
-    
+
+    if(msg.getAddress() == "/EmotionWorld/push60")
+    {
+        saveRepulsionPosition();
+    }
     
     //-------------------------------------------
     // GRAVITY

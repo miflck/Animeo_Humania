@@ -373,6 +373,14 @@ void ofApp::onMessageReceived(ofxOscMessage &msg){
         APPC->gui->beamerFov.set(mappedfov);
     }
     
+    //LOAD
+    if(msg.getAddress() == "/Settings/push59")
+    {
+        bGreenScreen=!bGreenScreen;
+        
+    }
+
+    
     
     //LOAD
     if(msg.getAddress() == "/Settings/push51")

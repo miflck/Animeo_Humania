@@ -4,6 +4,7 @@
       "mainAvatarOffset" : [ -271.5404663085938, -44.38644409179688 ]
    },
    "Kinect" : {
+      "beamerFOV" : 0,
       "beamerPosition" : [ 0, 0 ],
       "kinectPosition" : [ 0, 0 ],
       "kinectScaleFact" : 0
@@ -30,6 +31,7 @@
       "emitterposition" : [ 783, 560 ],
       "repulsionbottomposition" : [ 1499, 720 ],
       "repulsioncenterposition" : [ 378, 953 ],
+      "repulsionposition" : [ 1418, 995 ],
       "repulsiontopposition" : [ 1302, 184 ],
       "startposition" : [ 1226, 598 ]
    },

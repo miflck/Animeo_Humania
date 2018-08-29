@@ -42,7 +42,7 @@ class ofApp : public ofBaseApp{
     
     ofSoundStream soundStream;
 
-    bool bGreenScreen=false;
+    bool bGreenScreen=true;
     
     
     void onMessageReceived(ofxOscMessage &msg);
