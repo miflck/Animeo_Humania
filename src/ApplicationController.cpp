@@ -177,7 +177,7 @@ void ApplicationController::setAppNull(){
 
 void ApplicationController::sayHello(){
     cout<<"hello"<<endl;
-}
+    }
 
 
 

@@ -66,6 +66,12 @@ void GuiApp::draw(){
 	gui.draw();
     box2dPanel.draw();
     
+    string info = "";
+    info += "FPS: "+ofToString(ofGetFrameRate())+"\n";
+   // info += "FPS: "+ofToString(APPC->ofGetFrameRate())+"\n";
+
+    ofSetColor(255);
+    ofDrawBitmapString(info, 10, 10);
     
 }
 

@@ -58,6 +58,9 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    
+    
+    
     ofEnableSmoothing();
 
     if(bGreenScreen){
@@ -70,6 +73,12 @@ void ofApp::draw(){
     }
     //mClient.draw(50, 50);
     
+    string info = "";
+    info += "FPS: "+ofToString(ofGetFrameRate())+"\n";
+    // info += "FPS: "+ofToString(APPC->ofGetFrameRate())+"\n";
+    
+    ofSetHexColor(0x444342);
+    ofDrawBitmapString(info, 30, 30);
     
     // draw the average volume:
     ofPushStyle();

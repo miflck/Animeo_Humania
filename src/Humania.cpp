@@ -27,7 +27,6 @@ void Humania::setup(){
     setPosition(ofGetWidth()/3,ofGetHeight()/2);
     setTarget(ofVec2f(2*ofGetWidth()/3,ofGetHeight()/2));
     startposition=&Settings::getVec2("humania/startposition");
-   // startposition=&Settings::getVec2("LightPointApp/homeposition");
     setPosition(*startposition);
     setTarget(*startposition);
     
@@ -158,7 +157,7 @@ void Humania::update(){
     
     auto cheeksEasingEndTime = cheeksInitTime + cheeksEasingDuration;
     actualCheeksAlpha= ofxeasing::map_clamp(now, cheeksInitTime, cheeksEasingEndTime, actualCheeksAlpha, cheeksAlphaTarget, &ofxeasing::linear::easeInOut);
-    cout<<actualCheeksAlpha<<" "<<cheeksAlphaTarget<<" cheeksEasingEndTime "<<cheeksEasingEndTime<<endl;
+//    cout<<actualCheeksAlpha<<" "<<cheeksAlphaTarget<<" cheeksEasingEndTime "<<cheeksEasingEndTime<<endl;
     
     auto noseEasingEndTime = noseInitTime + noseEasingDuration;
     actualNoseAlpha= ofxeasing::map_clamp(now, noseInitTime, cheeksEasingEndTime, actualNoseAlpha, noseAlphaTarget, &ofxeasing::linear::easeInOut);

@@ -29,10 +29,11 @@ void EmotionWorld::init(){
 
     
     box2d.init();
+    box2d.setIterations(40, 20);
     box2d.enableEvents();   // <-- turn on the event listener
     box2d.setGravity(0, gravityY);
     box2d.createGround();
-    box2d.setFPS(60.0);
+    box2d.setFPS(30.0);
     box2d.registerGrabbing();
     
     
@@ -526,7 +527,7 @@ void EmotionWorld::emitShapes(){
     if(rAdd>emitShapeFrequency){
         float r =0;        // a random radius 4px - 20px
         shapes.push_back(shared_ptr<Shape>(new Shape));
-        shapes.back().get()->setPhysics(5, 0.6, 0.3);
+        shapes.back().get()->setPhysics(1, 0.6, 0.3);
         shapes.back().get()->setup(box2d.getWorld(), emitterposition.x, emitterposition.y,r);
         shapes.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
         playRandomPlopp();
@@ -540,7 +541,7 @@ void EmotionWorld::emitShapes(){
         ofVec2f c =ofVec2f(emitterposition.x,emitterposition.y+r);
         triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
         triangles.back().get()->setWorld(box2d.getWorld());
-        triangles.back().get()->setPhysics(5.0, 0.6, 0.3);
+        triangles.back().get()->setPhysics(1, 0.6, 0.3);
         triangles.back().get()->create(box2d.getWorld());
         triangles.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
         triangles.back().get()->setAngularVelocity(2);
@@ -557,7 +558,7 @@ void EmotionWorld::emitMultiShapes(int _n){
         if(rAdd>emitShapeFrequency){
             float r =0;        // a random radius 4px - 20px
             shapes.push_back(shared_ptr<Shape>(new Shape));
-            shapes.back().get()->setPhysics(5, 0.6, 0.3);
+            shapes.back().get()->setPhysics(1, 0.6, 0.3);
             shapes.back().get()->setup(box2d.getWorld(), emitterposition.x, emitterposition.y,r);
             shapes.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
         }
@@ -570,7 +571,7 @@ void EmotionWorld::emitMultiShapes(int _n){
             ofVec2f c =ofVec2f(emitterposition.x,emitterposition.y+r);
             triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
             triangles.back().get()->setWorld(box2d.getWorld());
-            triangles.back().get()->setPhysics(5.0, 0.6, 0.3);
+            triangles.back().get()->setPhysics(1, 0.6, 0.3);
             triangles.back().get()->create(box2d.getWorld());
             triangles.back().get()->setVelocity(ofRandom(5,10), ofRandom(-5,10));
             triangles.back().get()->setAngularVelocity(2);
@@ -587,7 +588,7 @@ void EmotionWorld::emitMultiShapes(int _n,ofVec2f pos){
         if(rAdd>emitShapeFrequency){
             float r =0;        // a random radius 4px - 20px
             shapes.push_back(shared_ptr<Shape>(new Shape));
-            shapes.back().get()->setPhysics(5, 0.6, 0.3);
+            shapes.back().get()->setPhysics(1, 0.6, 0.3);
             shapes.back().get()->setup(box2d.getWorld(), pos.x, pos.y,r);
             shapes.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,10));
         }
@@ -600,7 +601,7 @@ void EmotionWorld::emitMultiShapes(int _n,ofVec2f pos){
             ofVec2f c =ofVec2f(pos.x,pos.y+r);
             triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
             triangles.back().get()->setWorld(box2d.getWorld());
-            triangles.back().get()->setPhysics(5.0, 0.6, 0.3);
+            triangles.back().get()->setPhysics(1, 0.6, 0.3);
             triangles.back().get()->create(box2d.getWorld());
             triangles.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,10));
             triangles.back().get()->setAngularVelocity(2);
@@ -1042,7 +1043,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/EmotionWorld/fader2")
     {
         float f=msg.getArgAsFloat(0);
-        f=ofMap(f, -1.f, 1.f, -40, 40);
+        f=ofMap(f, -1.f, 1.f, -10, 10);
         gravityY=f;
         box2d.setGravity(gravityX, gravityY);
     }
@@ -1137,13 +1138,18 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         circles.back().get()->setVelocity(ofRandom(-5,5), ofRandom(-1,-5));
     }
     
+    // WALL
     if(msg.getAddress() == "/EmotionWorld/toggle4")
     {
         float m=msg.getArgAsBool(0);
         if(m){
             box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
-            leftbox.setup(box2d.getWorld(), 0, ofGetHeight()/2,20,ofGetHeight());
-            rightbox.setup(box2d.getWorld(), ofGetWidth(),ofGetHeight()/2, 20,ofGetHeight());
+          //  leftbox.setup(box2d.getWorld(), 0, ofGetHeight()/2,20,ofGetHeight());
+         //   rightbox.setup(box2d.getWorld(), ofGetWidth(),ofGetHeight()/2, 20,ofGetHeight());
+            
+            leftbox.setup(box2d.getWorld(), 0, 450,20,900);
+            rightbox.setup(box2d.getWorld(), ofGetWidth(),450, 20,900);
+            
             
         }else{
             box.destroy();
@@ -1183,7 +1189,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     
 
        // anchors.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
-        ofVec2f dir = ofVec2f(-200,-100);
+        ofVec2f dir = ofVec2f(-150,-100);
         dir.normalize();
         dir*=10;
  
@@ -1193,7 +1199,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         ofVec2f c =ofVec2f(anchorposition.x,anchorposition.y-r);
         anchors.push_back(shared_ptr<AnchorTriangle>(new AnchorTriangle(a,b,c)));
         anchors.back().get()->setWorld(box2d.getWorld());
-        anchors.back().get()->setPhysics(800.0, 0.2, 0.5);
+        anchors.back().get()->setPhysics(800, 0.2, 0.5);
         anchors.back().get()->create(box2d.getWorld());
         anchors.back().get()->setVelocity(dir);
         anchors.back().get()->setAngularVelocity(0);
