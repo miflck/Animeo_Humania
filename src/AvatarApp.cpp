@@ -218,13 +218,19 @@ void AvatarApp::update(){
 
 void AvatarApp::draw(){
     
+
+    
+    ofPushMatrix();
+    ofTranslate(humania.getPosition());
+    ofScale(scaleAvatar,scaleAvatar);
+    ofTranslate(-humania.getPosition());
     if(avatars.size()>0){
         for(int i=avatars.size()-1;i>=0;i--){
             avatars[i]->draw();
         }
     }
-    
     humania.draw();
+    ofPopMatrix();
     
     
 
@@ -658,6 +664,14 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         avatarOffset.set(x,avatarOffset.y);
     }
     
+    
+    
+    if(msg.getAddress() == "/avatar/fader28")
+    {
+        float x=msg.getArgAsFloat(0);
+        x=ofMap(x,0,1,1,20);
+        scaleAvatar=x;
+    }
 
     
     

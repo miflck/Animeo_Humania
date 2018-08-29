@@ -553,8 +553,11 @@ void LinieApp::reset(){
 void LinieApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/4/push10")
     {
-        cout<<OSCwaveSpeed<<" "<<OSCwaveAmplitude<<" "<<OSChowmany<<endl;
-        startWave(OSCwaveSpeed, OSCwaveAmplitude, OSChowmany);
+        //cout<<OSCwaveSpeed<<" "<<OSCwaveAmplitude<<" "<<OSChowmany<<endl;
+        //startWave(OSCwaveSpeed, OSCwaveAmplitude, OSChowmany);
+        
+        stopExplosion();
+        
     }
     
     if(msg.getAddress() == "/4/rotary2")
