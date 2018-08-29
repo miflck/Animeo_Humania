@@ -43,19 +43,18 @@ void EmotionWorld::init(){
     
     anchorLeftHand.setPhysics(50, 0.5, 0.9);
     anchorLeftHand.setup(box2d.getWorld(), 0, 0, 70);
+    anchorLeftHand.setPosition(-200,-200);
+
     
     anchorRightHand.setPhysics(50, 0.5, 0.9);
     anchorRightHand.setup(box2d.getWorld(), 0, 0, 70);
-    
+    anchorRightHand.setPosition(-200,-200);
+
     
     anchorAnimeoTop.setPhysics(0, 0.5, 0.9);
     anchorAnimeoTop.setup(box2d.getWorld(), 0, 0, 120);
-    
-    anchorAnimeoBottom.setPhysics(0, 0.5, 0.9);
-    anchorAnimeoBottom.setup(box2d.getWorld(), 0, 0, 120);
-    
-    anchorAnimeoCenter.setPhysics(0, 0.5, 0.9);
-    anchorAnimeoCenter.setup(box2d.getWorld(), 0, 0, 120);
+    anchorAnimeoTop.setPosition(-200,-200);
+
 
   /*  box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
     leftbox.setup(box2d.getWorld(), 0, 150,20,300);
@@ -390,8 +389,6 @@ void EmotionWorld::draw(){
         anchorLeftHand.draw();
         anchorRightHand.draw();
         anchorAnimeoTop.draw();
-        anchorAnimeoBottom.draw();
-        anchorAnimeoCenter.draw();
         leftbox.draw();
         rightbox.draw();
         ofPopStyle();
@@ -520,8 +517,8 @@ void EmotionWorld::bindToSkeletton(bool _b){
 void EmotionWorld::bindToHands(bool _b){
     bBindHands=_b;
     if(!bBindHands){
-        anchorLeftHand.setPosition(0,0);
-        anchorRightHand.setPosition(0,0);
+        anchorLeftHand.setPosition(-200,-200);
+        anchorRightHand.setPosition(-200,-200);
     }
     
 }
@@ -962,7 +959,9 @@ void EmotionWorld::makeStars(int num){
      sterne.push_back(shared_ptr<Stern>(new Stern));
      sterne.back().get()->setWorld(box2d.getWorld());
      sterne.back().get()->bSeekTarget=true;
-     sterne.back().get()->setPosition(emitterposition.x,emitterposition.y);
+    // sterne.back().get()->setPosition(emitterposition.x,emitterposition.y);
+        sterne.back().get()->setPosition(anchorposition.x,anchorposition.y);
+
     // sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,emitterposition.y)));
     sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,(ofGetHeight()/3)*2)));
 
@@ -1482,7 +1481,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         sterne.back().get()->setTargetRadius(ofRandom(5,20));
 
         }*/
-        makeStars(60);
+        makeStars(100);
     }
     
     if(msg.getAddress() == "/EmotionWorld/push25")

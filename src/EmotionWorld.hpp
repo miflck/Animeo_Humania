@@ -524,8 +524,7 @@ private:
     
     
     ofxBox2dCircle                            anchorAnimeoTop;  // fixed anchor
-    ofxBox2dCircle                            anchorAnimeoBottom;  // fixed anchor
-    ofxBox2dCircle                            anchorAnimeoCenter;  // fixed anchor
+
 
     
 

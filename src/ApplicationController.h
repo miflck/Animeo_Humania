@@ -79,6 +79,8 @@ public:
     ofxSyphonClient mClient;
     
     float audioInVolume=0;
+    int getSkelettonIndex();
+    
     
 private:
 	ApplicationController();
@@ -90,7 +92,7 @@ private:
 	map<string, ApplicationBase*>applications;
 	map<string,ApplicationBase*>::iterator app;
     
-    
+    int skelettonIndex=0;
     
 };
 

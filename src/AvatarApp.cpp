@@ -38,6 +38,8 @@ void AvatarApp::init(){
     humania.setup();
     humania.bSeekTarget=true;
     
+   // humania.bindSkeletton(true);
+
     
     savedMainAvatarOffset=&Settings::getVec2("Avatar/mainAvatarOffset");
     mainAvatarOffset.set(*savedMainAvatarOffset);
@@ -79,7 +81,6 @@ void AvatarApp::update(){
     rightEye.update();
     
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
-    
     if(mskel.size()-1<skelettonId){
         setSkelettonId(mskel.size()-1);
     }

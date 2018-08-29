@@ -72,6 +72,11 @@ void ApplicationController::initialize() {
     
 }
 
+int ApplicationController::getSkelettonIndex(){
+    return skelettonIndex;
+}
+
+
 bool ApplicationController::isInitialized(){
 	return initialized;
 }
