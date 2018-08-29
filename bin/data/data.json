@@ -28,6 +28,9 @@
       "anchorposition" : [ 1291, 336 ],
       "anchorpositionBottom" : [ 1345, 822 ],
       "emitterposition" : [ 783, 560 ],
+      "repulsionbottomposition" : [ 1472, 923 ],
+      "repulsioncenterposition" : [ 873, 961 ],
+      "repulsiontopposition" : [ 1606, 487 ],
       "startposition" : [ 1226, 598 ]
    },
    "humania" : {

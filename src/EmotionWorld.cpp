@@ -46,7 +46,17 @@ void EmotionWorld::init(){
     
     anchorRightHand.setPhysics(50, 0.5, 0.9);
     anchorRightHand.setup(box2d.getWorld(), 0, 0, 70);
-  
+    
+    
+    anchorAnimeoTop.setPhysics(0, 0.5, 0.9);
+    anchorAnimeoTop.setup(box2d.getWorld(), 0, 0, 120);
+    
+    anchorAnimeoBottom.setPhysics(0, 0.5, 0.9);
+    anchorAnimeoBottom.setup(box2d.getWorld(), 0, 0, 120);
+    
+    anchorAnimeoCenter.setPhysics(0, 0.5, 0.9);
+    anchorAnimeoCenter.setup(box2d.getWorld(), 0, 0, 120);
+
   /*  box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
     leftbox.setup(box2d.getWorld(), 0, 150,20,300);
     rightbox.setup(box2d.getWorld(), ofGetWidth(),150, 20,300);
@@ -57,7 +67,7 @@ void EmotionWorld::init(){
     ofClear(0,0,0,0);
     screen.end();
     
-    herz.loadImage("herz.png");
+    herz.load("herz.png");
     sternImg.load("bilder/stern.png");
 
     sun.setup();
@@ -80,6 +90,12 @@ void EmotionWorld::init(){
     
     savedeanchorpositionBottom=&Settings::getVec2("emotions/anchorpositionBottom");
     anchorpositionBottom.set(savedeanchorpositionBottom->x,savedeanchorpositionBottom->y);
+    
+    
+    savedRepulsionTopPosition=&Settings::getVec2("emotions/repulsiontopposition");
+    savedRepulsionBottomPosition=&Settings::getVec2("emotions/repulsionbottomposition");
+    savedRepulsionCenterPosition=&Settings::getVec2("emotions/repulsioncenterposition");
+
     
     
     ofDirectory dir;
@@ -131,6 +147,16 @@ void EmotionWorld::update(){
         if(dis < minDis && bIsRepulsionActive){
             shapes[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
         }
+        
+       /* if(bIsTopRepulsionActive){
+         float dis = savedRepulsionTopPosition->distance(shapes[i].get()->getPosition());
+            if(dis < minDis && bIsTopRepulsionActive){
+                float f = ofMap(dis,0,minDis,animeoRepulsionForce,0);
+                shapes[i].get()->addRepulsionForce(*savedRepulsionTopPosition,f);
+            }
+        }*/
+        
+        
         shapes[i]->update();
     }
     
@@ -161,6 +187,12 @@ void EmotionWorld::update(){
         if(dis < minDis && bIsRepulsionActive){
             kreise[i].get()->anchor.addRepulsionForce(repulsionPosition,repulsionForce);
         }
+        
+        
+        
+        
+        
+        
         
         if(bCircleFollowMouse)kreise[i]->setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
         kreise[i]->update();
@@ -354,7 +386,9 @@ void EmotionWorld::draw(){
         ofSetColor(255,0,0);
         anchorLeftHand.draw();
         anchorRightHand.draw();
-
+        anchorAnimeoTop.draw();
+        anchorAnimeoBottom.draw();
+        anchorAnimeoCenter.draw();
         leftbox.draw();
         rightbox.draw();
         ofPopStyle();
@@ -670,6 +704,20 @@ void EmotionWorld::playRandomPlopp(){
     ploppsounds[randNum].play();
 }
 
+
+
+void EmotionWorld::saveRepulsionTopPosition(){
+    savedRepulsionTopPosition->set(ofGetMouseX(),ofGetMouseY());
+    Settings::get().save("data.json");
+}
+void EmotionWorld::saveRepulsionBottomPosition(){
+    savedRepulsionBottomPosition->set(ofGetMouseX(),ofGetMouseY());
+    Settings::get().save("data.json");
+}
+void EmotionWorld::saveRepulsionCenterPosition(){
+    savedRepulsionCenterPosition->set(ofGetMouseX(),ofGetMouseY());
+    Settings::get().save("data.json");
+}
 
 //KEY LISTENER
 //--------------------------------------------------------------
@@ -1055,7 +1103,8 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         shapeDir=f;
     }
 
-    
+    //---------- REPULSION SETTINGS --------------
+
     // repulsionforce
     if(msg.getAddress() == "/EmotionWorld/fader13")
     {
@@ -1064,7 +1113,75 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         repulsionForce=f;
     }
     
+    if(msg.getAddress() == "/EmotionWorld/toggle26")
+    {
+        float m=msg.getArgAsBool(0);
+        bIsRepulsionActive=m;
+    }
     
+    if(msg.getAddress() == "/EmotionWorld/toggle31")
+    {
+        float m=msg.getArgAsBool(0);
+        bIsTopRepulsionActive=m;
+        if(m){
+        }else{
+            anchorAnimeoTop.setPosition(-200,-200);
+        }
+        
+        /*
+        ofxOscMessage m;
+        m.addFloatArg(mG);
+        m.setAddress("/EmotionWorld/fader2");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        */
+    }
+
+    
+    if(msg.getAddress() == "/EmotionWorld/push56")
+    {
+        anchorAnimeoTop.setPosition(*savedRepulsionTopPosition);
+        ofxOscMessage m;
+        m.addFloatArg(1);
+        m.setAddress("/EmotionWorld/toggle31");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    if(msg.getAddress() == "/EmotionWorld/push57")
+    {
+        anchorAnimeoTop.setPosition(*savedRepulsionBottomPosition);
+        ofxOscMessage m;
+        m.addFloatArg(1);
+        m.setAddress("/EmotionWorld/toggle31");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    if(msg.getAddress() == "/EmotionWorld/push58")
+    {
+        anchorAnimeoTop.setPosition(*savedRepulsionCenterPosition);
+        ofxOscMessage m;
+        m.addFloatArg(1);
+        m.setAddress("/EmotionWorld/toggle31");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
+    
+    if(msg.getAddress() == "/EmotionWorld/push53")
+    {
+        saveRepulsionTopPosition();
+    }
+ 
+    if(msg.getAddress() == "/EmotionWorld/push54")
+    {
+        saveRepulsionBottomPosition();
+    }
+    
+    if(msg.getAddress() == "/EmotionWorld/push55")
+    {
+        saveRepulsionCenterPosition();
+    }
+    
+    
+    //-------------------------------------------
     // GRAVITY
     if(msg.getAddress() == "/EmotionWorld/fader4")
     {

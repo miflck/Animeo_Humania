@@ -520,6 +520,14 @@ private:
     ofxBox2d                                  box2d;   // the box2d world
     ofxBox2dCircle                            anchorLeftHand;  // fixed anchor
     ofxBox2dCircle                            anchorRightHand;  // fixed anchor
+    
+    
+    
+    ofxBox2dCircle                            anchorAnimeoTop;  // fixed anchor
+    ofxBox2dCircle                            anchorAnimeoBottom;  // fixed anchor
+    ofxBox2dCircle                            anchorAnimeoCenter;  // fixed anchor
+
+    
 
     vector      <shared_ptr<ofxBox2dCircle> > circles; // default box2d circles
     vector      <shared_ptr<ofxBox2dJoint> >  joints;  // joints
@@ -605,6 +613,20 @@ private:
     ofVec2f *savedeanchorpositionBottom;
     ofVec2f anchorpositionBottom;
     
+    
+    
+    ofVec2f *savedRepulsionTopPosition;
+    ofVec2f *savedRepulsionBottomPosition;
+    ofVec2f *savedRepulsionCenterPosition;
+
+    
+    
+    void saveRepulsionTopPosition();
+    void saveRepulsionBottomPosition();
+    void saveRepulsionCenterPosition();
+
+    
+    
     bool bBindToHead=false;
     
     bool bBindHands=false;
@@ -617,10 +639,18 @@ private:
     
     ofVec2f repulsionPosition;
     float repulsionForce = 100;
+    
+    
+    
     float minDis =200;
     bool bIsRepulsionActive=false;
     
+    bool bIsTopRepulsionActive=false;
+    bool bIsBottomRepulsionActive=false;
+    bool bIsCenterRepulsionActive=false;
+
     
+    float animeoRepulsionForce=50;
     
     // Sound
     vector<ofSoundPlayer>ploppsounds;
