@@ -1209,11 +1209,11 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/EmotionWorld/fader14")
     {
         float f=msg.getArgAsFloat(0);
-        f=ofMap(f, -1.f, 1.f, -3, 3);
+        f=ofMap(f, -1.f, 1.f, -1, 1);
         gravityY=f;
         box2d.setGravity(gravityX, gravityY);
         
-        float mG=ofMap(gravityY,-3,3,-1,1);
+        float mG=ofMap(gravityY,-10,10,-1,1);
         
         ofxOscMessage m;
         m.addFloatArg(mG);
