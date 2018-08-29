@@ -412,30 +412,21 @@ void Avatar::bindSkeletton(bool _b){
 }
 
 void Avatar::drawAvatar(){
-    //headOffset=ofVec2f(0,-100);
     headOffset=ofVec2f(0,-80);
-
-    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
-    
-    
     ofPushMatrix();
     ofPushStyle();
-    
-    
     ofVec2f headCenter=head+headOffset;
 
     ofSetColor(255);
     ofDrawCircle(headCenter,80);
     ofSetColor(0);
     
-    // EYES
-   // ofDrawCircle(headCenter.x-20,headCenter.y-10,10);
-   // ofDrawCircle(headCenter.x+20,headCenter.y-10,10);
-    ofPushMatrix();
-    ofTranslate(headCenter);
-    ofDrawCircle(leftEyePosition,10);
-    ofDrawCircle(rightEyePosition,10);
-    ofPopMatrix();
+ // EYES
+    //ofPushMatrix();
+    //ofTranslate(headCenter);
+    ofDrawCircle(headCenter+leftEyePosition,10);
+    ofDrawCircle(headCenter+rightEyePosition,10);
+   // ofPopMatrix();
 
     //Cheeks
     ofSetColor(255,0,0);
@@ -453,17 +444,23 @@ void Avatar::drawAvatar(){
     ofSetColor(255);
     ofFill();
     
+   
     
+    ofVec2f dist;
+    ofVec2f cp1;
+    ofVec2f cp2;
+    ofPolyline rough;
+    ofMesh smooth;
     
     ofPushMatrix();
     ofTranslate(headCenter);
-    ofVec2f dist=(leftMouthPosition-mouthCenterPosition);
-    ofVec2f cp1=ofVec2f(leftMouthPosition.x,leftMouthPosition.y-dist.y/2);
-    ofVec2f cp2=ofVec2f(mouthCenterPosition.x+(dist.x/2),mouthCenterPosition.y);
+  
+     dist=(leftMouthPosition-mouthCenterPosition);
+     cp1=ofVec2f(leftMouthPosition.x,leftMouthPosition.y-dist.y/2);
+     cp2=ofVec2f(mouthCenterPosition.x+(dist.x/2),mouthCenterPosition.y);
     ofSetColor(0);
     
-    ofPolyline rough;
-    ofMesh smooth;
+
     
     rough.clear();
     smooth.clear();
@@ -476,22 +473,18 @@ void Avatar::drawAvatar(){
     dist=(rightMouthPosition-mouthCenterPosition);
     cp1=ofVec2f(rightMouthPosition.x,rightMouthPosition.y-dist.y/2);
     cp2=ofVec2f(mouthCenterPosition.x+(dist.x/2),mouthCenterPosition.y);
-    
+  
     rough.clear();
     smooth.clear();
     rough.addVertex(rightMouthPosition);
     rough.bezierTo(cp1,cp2, mouthCenterPosition);
     ofxPolyToMesh(smooth, rough, 2);
     smooth.draw();
+     
+    
     ofPopMatrix();
     
-    
-    
-    
-    
-    
-    
-     dist=ofVec2f(80,0);
+    dist=ofVec2f(80,0);
     dist.rotate(-20);
     for(int i=0;i<6;i++){
         ofVec2f pos=headCenter;
@@ -502,10 +495,10 @@ void Avatar::drawAvatar(){
         ofDrawCircle(pos,17);
         dist.rotate(-180/6);
     }
+   
+ 
     
-    
-    
-    ofSetLineWidth(avatarLineWidth);
+ //   ofSetLineWidth(avatarLineWidth);
     
     float rotation=40;
     if(head.x-spineBase.x>0){
@@ -549,11 +542,6 @@ void Avatar::drawAvatar(){
     }
     
     
-
-    
-    
-    
-    
     
     mid=leftKnee-spineBase;
     cp1=mid;//.getRotated(-40);
@@ -566,7 +554,7 @@ void Avatar::drawAvatar(){
     cp2+=leftFoot;
     
     ofNoFill();
-    ofSetLineWidth(avatarLineWidth);
+   // ofSetLineWidth(avatarLineWidth);
     
     
     rough.clear();
@@ -593,7 +581,7 @@ void Avatar::drawAvatar(){
     }
     
     ofNoFill();
-    ofSetLineWidth(avatarLineWidth);
+  //  ofSetLineWidth(avatarLineWidth);
     
     mid=rightKnee-spineBase;
     cp1=mid;//.getRotated(-40);
@@ -653,7 +641,7 @@ void Avatar::drawAvatar(){
     }
     
     
-    ofSetLineWidth(avatarLineWidth);
+ //   ofSetLineWidth(avatarLineWidth);
     ofNoFill();
     ofSetColor(255);
    
@@ -691,7 +679,7 @@ void Avatar::drawAvatar(){
         ofDrawCircle(rightEllbow,5);
         ofSetColor(255);
     }
-    ofSetLineWidth(avatarLineWidth);
+  //  ofSetLineWidth(avatarLineWidth);
     
     ofNoFill();
     

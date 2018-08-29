@@ -14,8 +14,8 @@ void GuiApp::setup(){
 	parameters.add(radius.set("radius",50,1,100));
 	parameters.add(color.set("color",100,ofColor(0,0),255));
     parameters.add(testPosition.set("testPosition", ofVec3f(50),ofVec3f(-1000),ofVec3f(1000) )); // this will create a slider group for your vec3 in the gui.
-    parameters.add(kinectPosition.set("kinectPosition", ofVec3f(50),ofVec3f(-800),ofVec3f(1200) )); // this will create a slider group for your vec3 in the gui.
-    parameters.add(beamerPosition.set("beamerPosition", ofVec3f(-400),ofVec3f(-400),ofVec3f(4000) )); // this will create a slider group for your vec3 in the gui.
+    parameters.add(kinectPosition.set("kinectPosition", ofVec3f(50),ofVec3f(-800),ofVec3f(7000) )); // this will create a slider group for your vec3 in the gui.
+    parameters.add(beamerPosition.set("beamerPosition", ofVec3f(-800),ofVec3f(-1000),ofVec3f(10000) )); // this will create a slider group for your vec3 in the gui.
     parameters.add(beamerFov.set("beamerFov",60,1,100));
     parameters.add(kinectscalefact.set("kinectscalefact",0.4,0.4,2));
     parameters.add(rayPosition.set("rayPosition", ofVec3f(100),ofVec3f(0),ofVec3f(50000) )); // this will create a slider group for your vec3 in the gui.
@@ -46,7 +46,7 @@ void GuiApp::update(){
 }
 
 void GuiApp::draw(){
-  /*  vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+   vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     vector<UnMappedPoints> uskel=KINECTMANAGER->getUnMappedSkelettons();
 
     ofPushMatrix();
@@ -61,14 +61,13 @@ void GuiApp::draw(){
         uskel[i].drawSkeletton();
     }
     ofPopMatrix();
-   */
+
     
 	gui.draw();
     box2dPanel.draw();
     
     string info = "";
     info += "FPS: "+ofToString(ofGetFrameRate())+"\n";
-   // info += "FPS: "+ofToString(APPC->ofGetFrameRate())+"\n";
 
     ofSetColor(255);
     ofDrawBitmapString(info, 10, 10);

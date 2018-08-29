@@ -21,14 +21,14 @@
 #define MUSICPORT 9000
 
 //#define TOUCHOSCHOST "169.254.19.73"
-//#define TOUCHOSCHOST "169.254.112.125"
+#define TOUCHOSCHOST "169.254.112.125"
 
 //#define TOUCHOSCHOST "169.254.101.192"
 //#define TOUCHOSCHOST "169.254.184.168"
 
 //#define TOUCHOSCHOST "127.0.0.1"
 
-#define TOUCHOSCHOST "192.168.1.187"
+//#define TOUCHOSCHOST "192.168.1.167"
 
 
 #define TOUCHOSCPORT 9000
@@ -40,9 +40,9 @@ public:
     void update();
     void draw();
     
-    ofxOscSender sender;
+   // ofxOscSender sender;
     
-    ofxOscSender musicSender;
+    //ofxOscSender musicSender;
 
     
     ofxOscReceiver touchOscReceiver;
@@ -58,11 +58,11 @@ public:
     
     
     
-    void sendMessage(int _x);
+  /*  void sendMessage(int _x);
     void sendPositionToLayer(int _layer, int _x, int _y);
    
     void sendMusicMessage(int _x);
-
+*/
     
     string remoteIp;
     bool bRemoteIpIsSet=false;

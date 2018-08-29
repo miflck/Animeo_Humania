@@ -9,6 +9,7 @@ void ofApp::setup(){
     savedKinectPosition=&Settings::getVec2("Kinect/kinectPosition");
     savedBeamerPosition=&Settings::getVec2("Kinect/beamerPosition");
     kinectScaleFact=&Settings::getFloat("Kinect/kinectScaleFact");
+    beamerFOV=&Settings::getFloat("Kinect/beamerFOV");
 
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &ofApp::onMessageReceived);
 
@@ -286,7 +287,7 @@ void ofApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Settings/fader21")
     {
         float x = msg.getArgAsFloat(0);
-        float mappedX=ofMap(x,0,1,0,300);
+        float mappedX=ofMap(x,-1,1,-800,800);
         ofxOscMessage m;
         m.addFloatArg(mappedX);
         m.setAddress("/Settings/label86");
@@ -298,7 +299,7 @@ void ofApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Settings/fader22")
     {
         float y = msg.getArgAsFloat(0);
-        float mappedY=ofMap(y,0,1,0,300);
+        float mappedY=ofMap(y,-1,1,-10000,10000);
         ofxOscMessage m;
         m.addFloatArg(mappedY);
         m.setAddress("/Settings/label85");
@@ -310,7 +311,7 @@ void ofApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Settings/fader23")
     {
         float z = msg.getArgAsFloat(0);
-        float mappedZ=ofMap(z,0,1,500,10000);
+        float mappedZ=ofMap(z,0,1,500,15000);
         ofxOscMessage m;
         m.addFloatArg(mappedZ);
         m.setAddress("/Settings/label84");
@@ -325,7 +326,7 @@ void ofApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Settings/fader26")
     {
         float x = msg.getArgAsFloat(0);
-        float mappedX=ofMap(x,-1,1,-200,200);
+        float mappedX=ofMap(x,-1,1,-500,500);
         ofxOscMessage m;
         m.addFloatArg(mappedX);
         m.setAddress("/Settings/label89");
@@ -337,7 +338,7 @@ void ofApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Settings/fader25")
     {
         float y = msg.getArgAsFloat(0);
-        float mappedY=ofMap(y,-1,1,-150,150);
+        float mappedY=ofMap(y,-1,1,-500,500);
         ofxOscMessage m;
         m.addFloatArg(mappedY);
         m.setAddress("/Settings/label88");
@@ -349,7 +350,7 @@ void ofApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Settings/fader24")
     {
         float z = msg.getArgAsFloat(0);
-        float mappedZ=ofMap(z,0,1,0,5000);
+        float mappedZ=ofMap(z,-1,1,-9000,9000);
         ofxOscMessage m;
         m.addFloatArg(mappedZ);
         m.setAddress("/Settings/label87");
@@ -360,11 +361,23 @@ void ofApp::onMessageReceived(ofxOscMessage &msg){
     }
     
     
+    if(msg.getAddress() == "/Settings/fader30")
+    {
+        float z = msg.getArgAsFloat(0);
+        float mappedfov=ofMap(z,0,1,0,80);
+        ofxOscMessage m;
+        m.addFloatArg(mappedfov);
+        m.setAddress("/Settings/label91");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+       
+        APPC->gui->beamerFov.set(mappedfov);
+    }
+    
     
     //LOAD
     if(msg.getAddress() == "/Settings/push51")
     {
-        //loadSettings();
+        loadSettings();
     }
     
     //SAVE
@@ -379,10 +392,69 @@ void ofApp::onMessageReceived(ofxOscMessage &msg){
 }
 
 void ofApp::saveSettings(){
-    
+    cout<<"SAVE ME!!"<<endl;
+
+    APPC->gui->gui.saveToFile("settings.xml");
+
 }
 
 void ofApp::loadSettings(){
-    APPC->gui->gui.saveToFile("settings.xml");
+    
+    cout<<"load"<<APPC->gui->beamerPosition->x<<endl;
+    //beamer
+    float mappedV=ofMap(APPC->gui->beamerPosition->x,-800,800,-1,1);
+    cout<<"load"<<mappedV<<endl;
+
+    ofxOscMessage m;
+    m.addFloatArg(mappedV);
+    m.setAddress("/Settings/fader21");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+    
+    mappedV=ofMap(APPC->gui->beamerPosition->y,-10000,10000,-1,1);
+
+    m.clear();
+    m.addFloatArg(mappedV);
+    m.setAddress("/Settings/fader22");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+   
+    mappedV=ofMap(APPC->gui->beamerPosition->z,500,15000,0,1);
+    m.clear();
+    m.addFloatArg(mappedV);
+    m.setAddress("/Settings/fader23");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+    
+    
+    
+    //kinect
+    mappedV=ofMap(APPC->gui->kinectPosition->x,-500,500,-1,1);
+
+     m.clear();
+    m.addFloatArg(mappedV);
+    m.setAddress("/Settings/fader26");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+    
+    mappedV=ofMap(APPC->gui->kinectPosition->y,-500,500,-1,1);
+
+    m.clear();
+    m.addFloatArg(mappedV);
+    m.setAddress("/Settings/fader25");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+    
+    
+    mappedV=ofMap(APPC->gui->kinectPosition->z,-9000,9000,-1,1);
+
+
+    m.clear();
+    m.addFloatArg( mappedV);
+    m.setAddress("/Settings/fader24");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+    
+    mappedV=ofMap(APPC->gui->beamerFov,0,80,0,1);
+    cout<<mappedV<<endl;
+    m.clear();
+    m.addFloatArg( mappedV);
+    m.setAddress("/Settings/fader30");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+    
 }
 

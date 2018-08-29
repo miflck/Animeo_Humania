@@ -171,6 +171,9 @@ void Humania::update(){
         bHasEyes=true;
     }
     
+    
+   // updateSkeletton();
+    
     switch (state) {
             
         case IDLE:

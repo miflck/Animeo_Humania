@@ -26,7 +26,6 @@ public:
     virtual ~AvatarApp();
     
     
-    ofFbo screen;
 
     
 
@@ -82,17 +81,10 @@ public:
     
     
 private:
-    ofxBox2d                                  box2d;   // the box2d world
-    ofxBox2dCircle                            anchor;  // fixed anchor
-    vector      <shared_ptr<ofxBox2dCircle> > circles; // default box2d circles
-    vector      <shared_ptr<ofxBox2dJoint> >  joints;  // joints
-    vector    <shared_ptr<ofxBox2dRect> >   boxes;           // default box2d rects
-    ofxBox2dRect box;
+   
     
-
-    ofPolyline line;
     
-    ofxBox2dJoint mousejoint;
+    
     bool bIsMouseActive=false;
 
     //AvatarApp
@@ -109,56 +101,7 @@ private:
     ofVec2f leftMouthCornerOffset;
     ofVec2f rightMouthCornerOffset;
     
-    
-    MovingObject leftHandMover;
-
-    ofVec3f leftHand;
-    ofVec3f leftShoulder;
-    ofVec3f leftEllbow;
-    ofVec3f leftWrist;
-    ofVec3f leftHip;
-    ofVec3f leftKnee;
-    ofVec3f leftAnkle;
-    ofVec3f leftFoot;
-    
-    ofVec3f rightHand;
-    ofVec3f rightShoulder;
-    ofVec3f rightEllbow;
-    ofVec3f rightWrist;
-    ofVec3f rightHip;
-    ofVec3f rightKnee;
-    ofVec3f rightAnkle;
-    ofVec3f rightFoot;
-    
-    ofVec3f head;
-    ofVec3f neck;
-    ofVec3f spineBase;
-    ofVec3f spineMid;
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    ofPath mouth;
-
-
-
-    // Skeletton
-   /* ofVec2f headPosition;
-    ofVec2f leftHandPosition;
-    ofVec2f rightHandPosition;
-    ofVec2f spineBasePosition;
-    ofVec2f spineMidPosition;
-    ofVec2f leftShoulderPosition;
-    ofVec2f rightShoulderPosition;
-    ofVec2f leftEllbowPositon;
-    ofVec2f rightEllbowPositon;
-    */
-
+  
 
     bool bHasEyes=false;
     bool bEyeReactive=false;
@@ -194,21 +137,15 @@ private:
     AvatarKreis faceCircle;
     AvatarKreis leftEye;
     AvatarKreis rightEye;
-
-    
-    
     
     ofVec2f startposition;
     
     ofVec2f *savedAvatarAddPosition;
     ofVec2f avatarAddPosition;
-    
     ofVec2f *savedMainAvatarOffset;
-
     
     vector<ofSoundPlayer>ploppsounds;
     void playRandomPlopp();
-    
     
 };
 

@@ -56,6 +56,9 @@ void KinectV2Manager::initialize() {
     
     // observer camera
     
+    
+    sweetspot.setPosition(0,0,0);
+    
     beamerCam.setPosition(beamerposition);
     beamerCam.lookAt(sweetspot);
     beamerCam.setFov(60);
@@ -110,6 +113,8 @@ void KinectV2Manager::update(){
     testnode.setPosition(APPC->gui->testPosition);
     beamerCam.setPosition(beamerposition);
     beamerCam.setFov(APPC->gui->beamerFov);
+    beamerCam.lookAt(sweetspot);
+
     
     kinectposition.set(APPC->gui->kinectPosition);
     kinectposition*=(APPC->gui->kinectscalefact);

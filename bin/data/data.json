@@ -1,7 +1,7 @@
 {
    "Avatar" : {
       "addPosition" : [ 0, 842 ],
-      "mainAvatarOffset" : [ -314.6213989257812, -44.38644409179688 ]
+      "mainAvatarOffset" : [ -271.5404663085938, -44.38644409179688 ]
    },
    "Kinect" : {
       "beamerPosition" : [ 0, 0 ],
@@ -15,7 +15,7 @@
       "insidePoisiton" : [ 1538, 754 ],
       "scaredposition" : [ 702, 208 ],
       "startposition" : [ 677, 713 ],
-      "watchposition" : [ 1669, 656 ]
+      "watchposition" : [ 486, 450 ]
    },
    "LinieApp" : {
       "anchorExplodeStartPositionBottom" : [ 1301, 709 ],
@@ -28,9 +28,9 @@
       "anchorposition" : [ 1291, 336 ],
       "anchorpositionBottom" : [ 1345, 822 ],
       "emitterposition" : [ 783, 560 ],
-      "repulsionbottomposition" : [ 1472, 923 ],
-      "repulsioncenterposition" : [ 873, 961 ],
-      "repulsiontopposition" : [ 1606, 487 ],
+      "repulsionbottomposition" : [ 1499, 720 ],
+      "repulsioncenterposition" : [ 378, 953 ],
+      "repulsiontopposition" : [ 1302, 184 ],
       "startposition" : [ 1226, 598 ]
    },
    "humania" : {

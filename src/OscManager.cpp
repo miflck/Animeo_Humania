@@ -54,7 +54,7 @@ void OscManager::draw(){
 }
 
 
-void OscManager::sendMessage(int _x){
+/*void OscManager::sendMessage(int _x){
     ofxOscMessage m;
     m.setAddress("/md8key/ctrl_layer_position_x/1"); 
     m.addIntArg(_x);
@@ -85,4 +85,4 @@ void OscManager::sendPositionToLayer(int _layer, int _x, int _y){
     sender.sendMessage(m2, false);
 }
 
-
+*/

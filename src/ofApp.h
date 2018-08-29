@@ -42,7 +42,7 @@ class ofApp : public ofBaseApp{
     
     ofSoundStream soundStream;
 
-    bool bGreenScreen=true;
+    bool bGreenScreen=false;
     
     
     void onMessageReceived(ofxOscMessage &msg);
@@ -51,6 +51,8 @@ class ofApp : public ofBaseApp{
     ofVec2f *savedKinectPosition;
     ofVec2f *savedBeamerPosition;
     float  *kinectScaleFact;
+    float  *beamerFOV;
+
 
     void loadSettings();
     void saveSettings();

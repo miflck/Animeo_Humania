@@ -26,18 +26,6 @@ void AvatarApp::init(){
     cout<<"init AvatarApp"<<endl;
     bAddedListeners = false;
     
-    box2d.init();
-    box2d.setGravity(0, 10);
-    box2d.createGround();
-    box2d.setFPS(60.0);
-    box2d.registerGrabbing();
-    
-    screen.allocate(1920,1080, GL_RGBA);
-    screen.begin();
-    ofClear(0,0,0,0);
-    screen.end();
-    
-    
     savedAvatarAddPosition=&Settings::getVec2("Avatar/addPosition");
     avatarAddPosition.set(savedAvatarAddPosition->x,savedAvatarAddPosition->y);
     
@@ -46,23 +34,14 @@ void AvatarApp::init(){
     leftMouth=ofVec2f(200,0);
     rightMouth=ofVec2f(-200,0);
     
-    leftHandMover.bSeekTarget=true;
-    leftHandMover.setSeekForce(2);
-    
-    
   
     humania.setup();
     humania.bSeekTarget=true;
     
     
     savedMainAvatarOffset=&Settings::getVec2("Avatar/mainAvatarOffset");
-
     mainAvatarOffset.set(*savedMainAvatarOffset);
-    
     avatarOffset.set(250,0);
-    
-    ofAddListener(APPC->oscmanager.onMessageReceived, this, &AvatarApp::onMessageReceived);
-
     
     faceCircle.bSeekTarget=true;
     leftEye.bSeekTarget=true;
@@ -78,17 +57,11 @@ void AvatarApp::init(){
         ofLog(OF_LOG_NOTICE,"songs loaded")<<i<<" path "<<dir.getPath(i);
     }
     
-    
-
+    ofAddListener(APPC->oscmanager.onMessageReceived, this, &AvatarApp::onMessageReceived);
 
 }
 
 void AvatarApp::update(){
-    
-    
-    if(faceCircle.getState()==RELEASED && faceCircle.getSpeed().length()<0.1){
-      
-    }
     
     if(faceCircle.getState()==RELEASED && faceCircle.getReached()){
         humania.setState(FACE);
@@ -99,10 +72,6 @@ void AvatarApp::update(){
         humania.openEyes();
         leftEye.setState(FADEOUT);
         rightEye.setState(FADEOUT);
-        
-      //  humania.bEyesAreBound=true;
-        
-        
     }
     
     faceCircle.update();
@@ -116,21 +85,10 @@ void AvatarApp::update(){
     }
     
     if(mskel.size()>0 && bindPositionToSkeletton){
-       ofVec2f target=mskel[skelettonId].spineBase+mainAvatarOffset;
-      //  target.y-=humania.actualHeadRadius;
+        ofVec2f target=mskel[skelettonId].spineBase+mainAvatarOffset;
         humania.setTarget(target);
     }
-    
-    // debug without kinect
-    /*
-    if(bindPositionToSkeletton){
-        ofVec2f testPoint=ofVec2f(ofGetMouseX(),ofGetMouseY());
-        ofVec2f target=testPoint+mainAvatarOffset;
-        //target.y-=humania.actualHeadRadius;
-        humania.setTarget(target);
-    }*/
-    
-    
+ 
     if(mskel.size()>0){
         ofVec2f epos;
         ofVec2f lefthand=mskel[skelettonId].leftHand;
@@ -149,12 +107,10 @@ void AvatarApp::update(){
         if(rightEye.getState()==MOVINGOBJECT){
             rightEye.setTarget(startposition);
             rightEye.updateRadiusTarget(middle.length());
-            
         }
     }
     
     humania.update();
-    box2d.update();
   
     if(avatars.size()>0){
         avatars[0]->setTarget(humania.getPosition()-avatarOffset);
@@ -163,55 +119,12 @@ void AvatarApp::update(){
 
         for(int i=1;i<avatars.size();i++){
             avatars[i]->setTarget(avatars[i-1]->getPosition()-avatarOffset);
-            avatars[i]->setSiblingBones(avatars[i-1]->getBonesPositions());//setSiblingBones(avatars[i-1]->getBonesPositions());
+            avatars[i]->setSiblingBones(avatars[i-1]->getBonesPositions());
             avatars[i]->update();
         }
     }
   
- 
-
-    
-    if(mskel.size()>0){
-        
-        head=mskel[skelettonId].head;
-        
-        leftHand=ofVec2f(mskel[skelettonId].leftHand.x,mskel[skelettonId].leftHand.y);
-        leftEllbow=ofVec2f(mskel[skelettonId].leftEllbow.x,mskel[skelettonId].leftEllbow.y);
-        leftShoulder=ofVec2f(mskel[skelettonId].leftShoulder.x,mskel[skelettonId].leftShoulder.y);
-        leftHip=mskel[skelettonId].leftHip;
-        leftKnee=mskel[skelettonId].leftKnee;
-        leftAnkle=mskel[skelettonId].leftAnkle;
-        leftFoot=mskel[skelettonId].leftFoot;
-        leftWrist=mskel[skelettonId].leftWrist;
-
-        
-        rightHand=ofVec2f(mskel[skelettonId].rightHand.x,mskel[skelettonId].rightHand.y);
-        rightEllbow=ofVec2f(mskel[skelettonId].rightEllbow.x,mskel[skelettonId].rightEllbow.y);
-
-        rightShoulder=ofVec2f(mskel[skelettonId].rightShoulder.x,mskel[skelettonId].rightShoulder.y);
-        rightHip=mskel[skelettonId].rightHip;
-        rightKnee=mskel[skelettonId].rightKnee;
-        rightAnkle=mskel[skelettonId].rightAnkle;
-        rightFoot=mskel[skelettonId].rightFoot;
-        rightWrist=mskel[skelettonId].rightWrist;
-
-        
-        neck=mskel[skelettonId].neck;
-        spineBase=ofVec2f(mskel[skelettonId].spineBase.x,mskel[skelettonId].spineBase.y);
-        spineMid=ofVec2f(mskel[skelettonId].spineMid.x,mskel[skelettonId].spineMid.y);
-        
-        
-        leftHandMover.setTarget(leftHand);
-        
-     
-    }
-    
     if(bRemoveAvatar)removeAvatar();
-
-    // remove shapes offscreen
-    ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
-    ofRemove(circles, ofxBox2dBaseShape::shouldRemoveOffScreen);
-    
   
 }
 
@@ -220,136 +133,41 @@ void AvatarApp::draw(){
     
 
     
+  /*  ofPushMatrix();
+    ofTranslate(humania.getPosition());
+    ofScale(scaleAvatar,scaleAvatar);
+    ofTranslate(-humania.getPosition());*/
+  
+    /*if(avatars.size()>0){
+        for(int i=avatars.size()-1;i>=0;i--){
+            avatars[i]->draw();
+        }
+    }*/
     ofPushMatrix();
     ofTranslate(humania.getPosition());
     ofScale(scaleAvatar,scaleAvatar);
     ofTranslate(-humania.getPosition());
-    if(avatars.size()>0){
-        for(int i=avatars.size()-1;i>=0;i--){
-            avatars[i]->draw();
-        }
-    }
     humania.draw();
     ofPopMatrix();
     
-    
+    if(faceCircle.getState()!=FADEOUT){faceCircle.draw();}
+    if(leftEye.getState()!=FADEOUT){leftEye.draw();}
+    if(rightEye.getState()!=FADEOUT){rightEye.draw();}
 
-
-    faceCircle.draw();
-    
-    leftEye.draw();
-    rightEye.draw();
-   
-
-    
-    /*for(int i=0;i<avatars.size();i++){
+    for(int i=0;i<avatars.size();i++){
         avatars[i]->draw();
-    }*/
+    }
     
   
-   /* ofPushMatrix();
-    ofTranslate(-300,0);
-    ofSetLineWidth(10);
-    ofDrawCircle(leftHandMover.getPosition(),10);
-    ofDrawLine(leftHand,leftEllbow);
-    ofDrawCircle(leftEllbow,5);
-
-    ofDrawLine(leftEllbow,leftShoulder);
-    
-    
-    ofDrawLine(rightShoulder,leftShoulder);
-
-    
-    ofDrawCircle(leftShoulder,5);
-
-    ofSetColor(255);
-    ofVec2f headCenter=ofVec2f(head.x,head.y-40);
-
-    ofDrawCircle(headCenter,80);
-    ofSetColor(0);
-
-    
-
-    ofDrawCircle(head.x-20,head.y-60,10);
-    ofDrawCircle(head.x+20,head.y-60,10);
-    
-    ofVec2f dist=ofVec2f(80,0);
-    dist.rotate(-20);
-
-    for(int i=0;i<6;i++){
-        ofVec2f pos=headCenter;
-        pos+=dist;
-        ofSetColor(0);
-        ofDrawCircle(pos,20);
-        ofSetColor(255);
-        ofDrawCircle(pos,17);
-        dist.rotate(-180/6);
-    }
-    ofSetColor(255,0,0);
-
-    ofDrawCircle(headCenter.x-40,headCenter.y+10,20);
-    ofDrawCircle(headCenter.x+40,headCenter.y+10,20);
-
-    
-    ofSetColor(255);
-
-    ofDrawLine(leftShoulder,neck);
-    ofDrawCircle(neck,5);
-
-    
-    ofDrawCircle(rightHand,10);
-    ofDrawLine(rightHand,rightEllbow);
-    ofDrawLine(rightEllbow,rightShoulder);
-    ofDrawCircle(rightShoulder,5);
-    ofDrawCircle(rightEllbow,5);
-
-    
-    ofDrawLine(rightShoulder,neck);
-    ofDrawLine(neck,spineMid);
-    
-    ofDrawLine(spineMid,spineBase);
-
-    
-    //ofDrawTriangle(neck,leftHip,rightHip);
-    
-    ofDrawLine(spineBase,leftHip);
-    ofDrawLine(spineBase,rightHip);
-    
-    ofDrawLine(rightHip,rightKnee);
-    ofDrawLine(rightKnee,rightFoot);
-    
-    ofDrawLine(leftHip,leftKnee);
-    ofDrawLine(leftKnee,leftFoot);
-    ofPopMatrix();
-*/
     if(APPC->debug){
         ofPushStyle();
         ofSetColor(255,0,0,150);
         ofDrawCircle(startposition,20);
         ofPopStyle();
-    }
-    
-    
-  /*  vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
-    if(mskel.size()>0){
-        ofPushMatrix();
-        ofTranslate(ofGetWidth(), ofGetHeight());
-        ofDrawCircle(mskel[0].localZero,10);
-        ofDrawCircle(mskel[0].leftHandLocal,10);
-        ofPopMatrix();
         
-        ofDrawCircle(mskel[0].head,10);
-        ofDrawCircle(mskel[0].leftHand,10);
+     
         
     }
-*/
-   
-    
-
-    
-
-    
-    
 }
 
 void AvatarApp::exit(){
@@ -381,10 +199,7 @@ void AvatarApp::addAvatar(){
 
 
 void AvatarApp::removeAvatar(){
-    
-  
-    
-    if(avatars.size()>0 ){
+      if(avatars.size()>0 ){
         delete avatars[0];
         avatars.erase( avatars.begin());
     }
@@ -426,7 +241,6 @@ void AvatarApp::startImitate(){
 }
 void AvatarApp::stopImitate(){
     bIsImitating=false;
-    
     for(int i=0;i<avatars.size();i++){
         avatars[i]->stopImitate();
     }
@@ -454,8 +268,6 @@ void AvatarApp::setIsRecording(bool _b){
     if(_b){
         bIsRecodig=true;
         humania.startRecording();
-        
-        
     }else{
         bIsRecodig=false;
         humania.stopRecording();
@@ -970,7 +782,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         rightEye.setPosition(startposition);
         leftEye.setPosition(startposition);
 
-       
+        humania.resetToStart();
         humania.setState(IDLE);
         humania.closeEyes();
         
