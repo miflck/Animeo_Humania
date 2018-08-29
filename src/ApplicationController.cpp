@@ -47,59 +47,22 @@ void ApplicationController::initialize() {
     
     mainOutputSyphonServer.setName("Screen Output");
     individualTextureSyphonServer.setName("Texture Output");
-    
-  //  ofRegisterGetMessages(this);
-
-	/*ofAddListener(inter.inPose,this,&ApplicationController::inPose);
-	ofAddListener(inter.inGesture,this,&ApplicationController::inGesture);
-	ofAddListener(inter.userIn,this,&ApplicationController::userIn);
-	ofAddListener(inter.userMove,this,&ApplicationController::userMove);
-	ofAddListener(inter.userOut,this,&ApplicationController::userOut);
-    ofAddListener(inter.gestureInit,this,&ApplicationController::gestureInit);
-	ofAddListener(inter.notGestureInit,this,&ApplicationController::notGestureInit);
-    
-    ofAddListener(inter.completedMove,this,&ApplicationController::completedMove);*/
-    
-  
+ 
     activeApplication=NULL;
     
     applications["lightpoint"]=new LightPointApp();
     applications["lightpoint"]->setId("lightpoint");
     
-    applications["line"]=new Line();
-    applications["line"]->setId("line");
-    
     applications["avatarapp"]=new AvatarApp();
     applications["avatarapp"]->setId("avatarapp");
-    
-    applications["physicsworld"]=new PhysicsWorld();
-    applications["physicsworld"]->setId("physicsworld");
-    
-    applications["arm"]=new Arm();
-    applications["arm"]->setId("arm");
     
     applications["emotionworld"]=new EmotionWorld();
     applications["emotionworld"]->setId("emotionworld");
     
-    applications["face"]=new Face();
-    applications["face"]->setId("face");
     
     applications["linieApp"]=new LinieApp();
     applications["linieApp"]->setId("linieApp");
-    
-    //applications["kinectV2"]=new KinectV2();
-    //applications["kinectV2"]->setId("kinectV2");
-	
-        
-	/*applications["testClass"]=new TestClassController();
-    applications["testClass"]->setId("testClass");
-	applications["screenSaver"]=new ScreenSaverController();
-    applications["screenSaver"]->setId("screenSaver");
-    */
-    
-
-    
-    //setAppById("screenSaver");
+   
 
     ofAddListener(ofEvents().update, this, &ApplicationController::_update);
     ofAddListener(ofEvents().draw, this, &ApplicationController::_draw);
@@ -135,8 +98,6 @@ void ApplicationController::_draw(ofEventArgs &e) {
     activeApplication->draw();
 
     }
-   // mainOutputSyphonServer.publishScreen();
-
     }
 
 

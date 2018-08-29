@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "GuiApp.h"
 #include "ofxJsonSettings.h"
+#include "ofxOsc.h"
 
 
 
@@ -42,6 +43,16 @@ class ofApp : public ofBaseApp{
     ofSoundStream soundStream;
 
     bool bGreenScreen=true;
+    
+    
+    void onMessageReceived(ofxOscMessage &msg);
 
+    
+    ofVec2f *savedKinectPosition;
+    ofVec2f *savedBeamerPosition;
+    float  *kinectScaleFact;
+
+    void loadSettings();
+    void saveSettings();
 
 };

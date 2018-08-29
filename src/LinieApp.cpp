@@ -109,7 +109,7 @@ void LinieApp::init(){
     mover1.bSeekTarget=true;
     moverCircleRadius.set(200,0);
     
-    damping=0.99;
+    damping=1;
     
     
     

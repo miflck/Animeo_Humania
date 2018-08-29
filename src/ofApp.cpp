@@ -5,6 +5,15 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     Settings::get().load("data.json");
+    
+    savedKinectPosition=&Settings::getVec2("Kinect/kinectPosition");
+    savedBeamerPosition=&Settings::getVec2("Kinect/beamerPosition");
+    kinectScaleFact=&Settings::getFloat("Kinect/kinectScaleFact");
+
+    ofAddListener(APPC->oscmanager.onMessageReceived, this, &ofApp::onMessageReceived);
+
+    
+    
 
     soundStream.printDeviceList();
     //if you want to set a different device id
@@ -77,8 +86,7 @@ void ofApp::draw(){
     info += "FPS: "+ofToString(ofGetFrameRate())+"\n";
     // info += "FPS: "+ofToString(APPC->ofGetFrameRate())+"\n";
     
-    ofSetHexColor(0x444342);
-    ofDrawBitmapString(info, 30, 30);
+  
     
     // draw the average volume:
     ofPushStyle();
@@ -270,3 +278,111 @@ void ofApp::audioIn(float * input, int bufferSize, int nChannels){
     bufferCounter++;
     
 }
+
+
+void ofApp::onMessageReceived(ofxOscMessage &msg){
+    
+    // Beamerpos
+    if(msg.getAddress() == "/Settings/fader21")
+    {
+        float x = msg.getArgAsFloat(0);
+        float mappedX=ofMap(x,0,1,0,300);
+        ofxOscMessage m;
+        m.addFloatArg(mappedX);
+        m.setAddress("/Settings/label86");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        ofVec3f p;
+        p.set(mappedX,APPC->gui->beamerPosition->y,APPC->gui->beamerPosition->z);
+        APPC->gui->beamerPosition.set(p);
+    }
+    if(msg.getAddress() == "/Settings/fader22")
+    {
+        float y = msg.getArgAsFloat(0);
+        float mappedY=ofMap(y,0,1,0,300);
+        ofxOscMessage m;
+        m.addFloatArg(mappedY);
+        m.setAddress("/Settings/label85");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        ofVec3f p;
+        p.set(APPC->gui->beamerPosition->x,mappedY,APPC->gui->beamerPosition->z);
+        APPC->gui->beamerPosition.set(p);
+    }
+    if(msg.getAddress() == "/Settings/fader23")
+    {
+        float z = msg.getArgAsFloat(0);
+        float mappedZ=ofMap(z,0,1,500,10000);
+        ofxOscMessage m;
+        m.addFloatArg(mappedZ);
+        m.setAddress("/Settings/label84");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        ofVec3f p;
+        p.set(APPC->gui->beamerPosition->x,APPC->gui->beamerPosition->y,mappedZ);
+        APPC->gui->beamerPosition.set(p);
+    }
+    
+    
+    //Kinectpos
+    if(msg.getAddress() == "/Settings/fader26")
+    {
+        float x = msg.getArgAsFloat(0);
+        float mappedX=ofMap(x,-1,1,-200,200);
+        ofxOscMessage m;
+        m.addFloatArg(mappedX);
+        m.setAddress("/Settings/label89");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        ofVec3f p;
+        p.set(mappedX,APPC->gui->kinectPosition->y,APPC->gui->kinectPosition->z);
+        APPC->gui->kinectPosition.set(p);
+    }
+    if(msg.getAddress() == "/Settings/fader25")
+    {
+        float y = msg.getArgAsFloat(0);
+        float mappedY=ofMap(y,-1,1,-150,150);
+        ofxOscMessage m;
+        m.addFloatArg(mappedY);
+        m.setAddress("/Settings/label88");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        ofVec3f p;
+        p.set(APPC->gui->kinectPosition->x,mappedY,APPC->gui->kinectPosition->z);
+        APPC->gui->kinectPosition.set(p);
+    }
+    if(msg.getAddress() == "/Settings/fader24")
+    {
+        float z = msg.getArgAsFloat(0);
+        float mappedZ=ofMap(z,0,1,0,5000);
+        ofxOscMessage m;
+        m.addFloatArg(mappedZ);
+        m.setAddress("/Settings/label87");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        ofVec3f p;
+        p.set(APPC->gui->kinectPosition->x,APPC->gui->kinectPosition->y,mappedZ);
+        APPC->gui->kinectPosition.set(p);
+    }
+    
+    
+    
+    //LOAD
+    if(msg.getAddress() == "/Settings/push51")
+    {
+        //loadSettings();
+    }
+    
+    //SAVE
+    
+    if(msg.getAddress() == "/Settings/push52")
+    {
+        saveSettings();
+    }
+    
+    
+    
+}
+
+void ofApp::saveSettings(){
+    
+}
+
+void ofApp::loadSettings(){
+    APPC->gui->gui.saveToFile("settings.xml");
+}
+
