@@ -36,7 +36,6 @@ public:
     void draw();
     void exit();
     void keyPressed(ofKeyEventArgs &e);
-    
     void mouseMoved(ofMouseEventArgs &a );
 
      void mouseDragged(ofMouseEventArgs &a);
@@ -67,9 +66,14 @@ public:
     
     ofVec2f *anchorStartPositionTop;
     ofVec2f *anchorStartPositionBottom;
+
+    
+    ofVec2f *anchorExplodeStartPositionTop;
+    ofVec2f *anchorExplodeStartPositionBottom;
     
     
     ofVec2f *finalCirclePosition;
+    
 
     
     
@@ -133,6 +137,13 @@ public:
     void startFadeEndCircle();
     bool bStartFade=false;
     
+    
+    
+    
+    void reset();
+    void explode();
+    void stopExplosion();
+    bool bIsExploding=false;
     
 private:
     ofxBox2d                                  box2d;   // the box2d world

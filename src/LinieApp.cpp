@@ -43,6 +43,10 @@ void LinieApp::init(){
     
     anchorStartPositionTop=&Settings::getVec2("LinieApp/anchorStartPositionTop");
     anchorStartPositionBottom=&Settings::getVec2("LinieApp/anchorStartPositionBottom");
+    
+    
+    anchorExplodeStartPositionTop=&Settings::getVec2("LinieApp/anchorExplodeStartPositionTop");
+    anchorExplodeStartPositionBottom=&Settings::getVec2("LinieApp/anchorExplodeStartPositionBottom");
 
     
     finalCirclePosition=&Settings::getVec2("LinieApp/finalCirclePosition");
@@ -90,124 +94,69 @@ void LinieApp::init(){
     joint.get()->setLength(jointlength);
     joints.push_back(joint);
     
-    
     mover1.setup();
-    
     mover1.actualRadius=0.2;
     mover1.radiusTarget=10;
     mover1.scaleDuration=20;
-    
     moverCircleCenter.set(finalCirclePosition->x,finalCirclePosition->y);
 
-    
     mover1.setPosition(moverCircleCenter);
     mover1.setTarget(ofVec2f(ofGetWidth()/3,ofGetHeight()/3));
-
     mover1.setSeekForce(10);
     mover1.setMaxSpeed(100);
-    
     mover1.bSeekTarget=true;
     moverCircleRadius.set(200,0);
-    
     damping=1;
-    
-    
     
     initAlpha=0;
     actualAlpha=0;
     alphaTarget=255;
     alphaEasingDuration=1;
-    
 }
 
 void LinieApp::update(){
-    
-    
     auto now = ofGetElapsedTimef();
     auto alphaEndTime = alphaEasingInitTime + alphaEasingDuration;
     actualAlpha = ofxeasing::map_clamp(now, alphaEasingInitTime, alphaEndTime, initAlpha, alphaTarget, &ofxeasing::linear::easeIn);
-
-    
-    
     box2d.update();
+    
+    if(bIsExploding){
+        anchor.addAttractionPoint((*anchorStartPositionTop),100);
+        anchor2.addAttractionPoint((*anchorStartPositionBottom),100);
+    }
+    
     if(bMakeCircle){
         moverCircleRadius.rotate(moverCircleSpeed);
         mover1.setTarget(moverCircleCenter+moverCircleRadius);
         mover1.update();
         anchor.setPosition(mover1.getPosition());
-      //  anchor.addAttractionPoint((moverCircleCenter+moverCircleRadius),circleAttractionForce);
-
-
         float ang=(360/(circles.size()));
         ofVec2f r=moverCircleRadius.getRotated(-ang);
-
-       /* if(circleBoundindex>circles.size()){
-            circleBoundindex=circles.size();
-            circlePositionBoundIndex++;
-            if(circlePositionBoundIndex>circles.size())circlePositionBoundIndex=circles.size();
-        }*/
         for(int i=0; i<circleBoundindex; i++) {
-            /* float dis = mouse.distance(circles[i].get()->getPosition());
-             if(dis < minDis && bIsMouseActive) circles[i].get()->addRepulsionForce(mouse,10);
-             if(mskel.size()>0){
-             float handDist = leftHand.distance(circles[i].get()->getPosition());
-             if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
-             }*/
-            // circles[i].get()->setDamping(generalDamping);
             ofVec2f r=moverCircleRadius.getRotated(-ang*(i));
-         // circles[i].get()->setDamping(damping);
-             circles[i]->addAttractionPoint((moverCircleCenter+r),circleAttractionForce);
-            //circles[i]->setPosition((moverCircleCenter+r));
-            
+            circles[i]->addAttractionPoint((moverCircleCenter+r),circleAttractionForce);
         }
-        
-         ang=(360/(circles.size()));
+        ang=(360/(circles.size()));
         for(int i=0; i<circlePositionBoundIndex; i++) {
-            /* float dis = mouse.distance(circles[i].get()->getPosition());
-             if(dis < minDis && bIsMouseActive) circles[i].get()->addRepulsionForce(mouse,10);
-             if(mskel.size()>0){
-             float handDist = leftHand.distance(circles[i].get()->getPosition());
-             if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
-             }*/
-            // circles[i].get()->setDamping(generalDamping);
             ofVec2f r=moverCircleRadius.getRotated(-ang*(i));
-            // circles[i].get()->setDamping(damping);
-            //circles[i]->addAttractionPoint((moverCircleCenter+r),circleAttractionForce);
             circles[i]->setPosition((moverCircleCenter+r));
-            
         }
-        
-        
-        
         if(circleBoundindex>=circles.size()){
-           // anchor2.addAttractionPoint((moverCircleCenter+moverCircleRadius),circleAttractionForce*5);
             anchor2.setPosition(mover1.getPosition());
-
         }
-       // if(ofGetFrameNum()%10==0)circleBoundindex++;
-    }
+    } // circle
     
-    ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
+   /* ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
     float minDis = ofGetMousePressed() ? 200 : 100;
     
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     ofVec2f leftHand;
     if(mskel.size()>0){
          leftHand=mskel[0].leftHand;
-    }
+    }*/
     
     for(int i=0; i<circles.size(); i++) {
-       /* float dis = mouse.distance(circles[i].get()->getPosition());
-        if(dis < minDis && bIsMouseActive) circles[i].get()->addRepulsionForce(mouse,10);
-            if(mskel.size()>0){
-                float handDist = leftHand.distance(circles[i].get()->getPosition());
-                if(dis < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
-            }*/
-      // circles[i].get()->setDamping(generalDamping);
-    //   if(!bMakeCircle) circles[i].get()->setDamping(0.98);
        circles[i].get()->setDamping(damping);
-
-
     }
     
     if(!bMakeCircle){
@@ -217,36 +166,19 @@ void LinieApp::update(){
     }else{
         anchor.setDamping(1);
         anchor2.setDamping(1);
-
-
     }
     
     float mV=ofMap(APPC->audioInVolume,0,0.05,0,50);
    // cout<<mV<<endl;
     int c=0;
- /* for(int i=0;i<circles.size();i+=5){
-        if(c%2==0 || circles[i].get()->getPosition().y>ofGetHeight()-100)mV*=-1;
-        circles[i].get()->setPosition(circles[i].get()->getPosition().x, circles[i].get()->getPosition().y+mV);
-        c++;
-    }*/
-  
-    
-    
- /*  for(int i=0;i<4;i++){
-     if(circles[i].get()->getPosition().y>ofGetHeight()-300)mV*=-1;
-     circles[i].get()->setPosition(circles[i].get()->getPosition().x, circles[i].get()->getPosition().y+mV);
-     }*/
-    
-   // circles[0].get()->addRepulsionForce(ofGetWidth()/2,ofGetHeight()/2,mV);
-   // cout<<mV<<endl;
-  
-    if(!bMakeCircle){
-    if(mV>10 && !bHasStartWave)startWave(mV,mV,10*PI);
-   // if(bHasStartWave && mV<15){
-    if( mV<10){
-       endWave();
-    bHasStartWave=false;
-    }
+ 
+    if(!bMakeCircle && !bIsExploding){
+        if(mV>10 && !bHasStartWave)startWave(mV,mV,10*PI);
+       // if(bHasStartWave && mV<15){
+        if( mV<10){
+           endWave();
+            bHasStartWave=false;
+        }
         if(bMakeWave){
             waveAmplitude=maxWaveVol(mV);
             wave();
@@ -254,89 +186,45 @@ void LinieApp::update(){
     }
 
     
-    if( bUseHand){
-        if(mskel.size()>0 ){
-            for(int i=0; i<circles.size(); i++) {
-                float handDist = leftHand.distance(circles[i].get()->getPosition());
-                if(repulse){
-                    //anchor.addRepulsionForce(leftHand,10);
-                    if(handDist < minDis) circles[i].get()->addRepulsionForce(leftHand,10);
-                }else{
-                   // anchor.addAttractionPoint(leftHand,1000);
-                    if(handDist < minDis) circles[i].get()->addRepulsionForce(leftHand,-10);
-                }
-            }
-        }
-    }else{
-        for(int i=0; i<circles.size(); i++) {
-             float dis = mouse.distance(circles[i].get()->getPosition());
-
-            if(repulse){
-                if(dis < minDis) circles[i].get()->addRepulsionForce(mouse,30);
-
-                //anchor.addRepulsionForce(mouse,50);
-            }else{
-                if(dis < minDis) circles[i].get()->addAttractionPoint(mouse,100);
-
-                //anchor.addAttractionPoint(mouse,50);
-            }
-        }
-    }
+   
     
-   // anchor2.setDamping(0.9);
-
-    //ofVec2f distance=mouse-anchor.getPosition();
-  //  anchor2.setVelocity(distance.normalize()*-1);
     ofPolyline cur;
-    
     cur.addVertex(anchor.getPosition());
-    
     for(int i=0; i<circles.size(); i++) {
         cur.addVertex( circles[i].get()->getPosition());
     }
-    
     cur.addVertex(anchor2.getPosition());
-    
     line=cur;
     line.getSmoothed(5);
 }
 
 
 void LinieApp::draw(){
-   /// ofSetColor(0);
-   // ofDrawRectangle(0,0,ofGetWidth(),ofGetHeight());
-    
-    
-    
     if(APPC->debug){
         ofSetColor(0,0,255);
-    ofPushMatrix();
-    ofDrawCircle(moverCircleCenter+moverCircleRadius, 10);
-    ofPopMatrix();
+        ofPushMatrix();
+        ofDrawCircle(moverCircleCenter+moverCircleRadius, 10);
+        ofPopMatrix();
     }
     ofPushStyle();
     ofSetColor(255);
     ofSetLineWidth(15);
     line.draw();
-    
-   // ofDrawCircle(anchor.getPosition().x,anchor.getPosition().y,50);
+
     if(bEndCircle){
         ofSetColor(255,actualAlpha);
         ofDrawCircle(moverCircleCenter,moverCircleRadius.length()+5);
     }
     ofPopStyle();
     
-    
     ofSetHexColor(0xf2ab01);
 
 
     if(APPC->debug){
         ofPushStyle();
-        
         mover1.draw();
         
         vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
-
         ofVec2f leftHand;
         if(mskel.size()>0){
             leftHand=mskel[0].leftHand;
@@ -345,7 +233,7 @@ void LinieApp::draw(){
         anchor2.draw();
         ofDrawEllipse(leftHand,20,20);
         
-            for(int i=0; i<circles.size(); i++) {
+        for(int i=0; i<circles.size(); i++) {
             ofFill();
             ofSetHexColor(0x01b1f2);
              circles[i].get()->draw();
@@ -353,7 +241,7 @@ void LinieApp::draw(){
         
         for(int i=0; i<joints.size(); i++) {
             ofSetHexColor(0x444342);
-              joints[i].get()->draw();
+            joints[i].get()->draw();
         }
         ofPopStyle();
 
@@ -442,7 +330,9 @@ void LinieApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='e'){
-        startFadeEndCircle();
+        //startFadeEndCircle();
+        
+        stopExplosion();
     }
     
     
@@ -467,29 +357,35 @@ void LinieApp::keyPressed(ofKeyEventArgs &e){
     if(e.key=='u'){
         anchorStartPositionTop->set(ofGetMouseX(),ofGetMouseY());
         anchor.setPosition(ofGetMouseX(), ofGetMouseY());
-
         Settings::get().save("data.json");
     }
-    
-    
-    
-    
-    
-    
+
     if(e.key=='i'){
         anchorStartPositionBottom->set(ofGetMouseX(),ofGetMouseY());
         anchor2.setPosition(ofGetMouseX(), ofGetMouseY());
-
         Settings::get().save("data.json");
     }
+    
+    
+    
+    if(e.key=='U'){
+        anchorExplodeStartPositionTop->set(ofGetMouseX(),ofGetMouseY());
+        anchor.setPosition(ofGetMouseX(), ofGetMouseY());
+        Settings::get().save("data.json");
+        cout<<"mouse"<<ofGetMouseX()<<endl;
+    }
+    if(e.key=='I'){
+        anchorExplodeStartPositionBottom->set(ofGetMouseX(),ofGetMouseY());
+        anchor2.setPosition(ofGetMouseX(), ofGetMouseY());
+        Settings::get().save("data.json");
+    }
+    
     
     
     if(e.key=='C'){
         finalCirclePosition->set(ofGetMouseX(),ofGetMouseY());
-        
         Settings::get().save("data.json");
         moverCircleCenter.set(finalCirclePosition->x,finalCirclePosition->y);
-
     }
     
     
@@ -590,6 +486,66 @@ void LinieApp::mouseEntered(ofMouseEventArgs &a){
 
 //--------------------------------------------------------------
 void LinieApp::mouseExited(ofMouseEventArgs &a){
+    
+}
+
+
+void LinieApp::explode(){
+    anchor.setPosition( anchorExplodeStartPositionTop->x, anchorExplodeStartPositionTop->y);
+    anchor.setPhysics(1, 0.5, 0.9);
+    anchor.body->SetType(b2_dynamicBody);
+    anchor.setVelocity(-100, -500);
+    
+    anchor2.setPosition(anchorExplodeStartPositionTop->x, anchorExplodeStartPositionTop->y);
+    anchor2.setPhysics(1, 0.5, 0.9);
+    anchor2.body->SetType(b2_dynamicBody);
+    anchor2.setVelocity(-100, -500);
+
+    
+    for(int i=0; i<circles.size(); i++) {
+        circles[i].get()->setPosition(anchorExplodeStartPositionTop->x, anchorExplodeStartPositionTop->y);
+        circles[i].get()->addRepulsionForce(anchorExplodeStartPositionTop->x, anchorExplodeStartPositionTop->y+50,100);
+        circles[i].get()->setVelocity(-30, -10);
+    }
+    bIsExploding=true;
+}
+
+void LinieApp::stopExplosion(){
+    bIsExploding=false;
+
+    
+    
+    anchor.setPosition( anchorExplodeStartPositionTop->x, anchorExplodeStartPositionTop->y);
+    anchor.setPhysics(0, 0.5, 0.9);
+    anchor.body->SetType(b2_staticBody);
+    
+    anchor2.setPosition(anchorStartPositionBottom->x, anchorStartPositionBottom->y);
+    anchor2.setPhysics(0, 0.5, 0.9);
+    anchor2.body->SetType(b2_staticBody);
+    
+
+}
+
+
+void LinieApp::reset(){
+    
+    anchor.setPosition( anchorExplodeStartPositionTop->x, anchorExplodeStartPositionTop->y);
+    anchor.setPhysics(0, 0.5, 0.9);
+    anchor.body->SetType(b2_staticBody);
+    
+    anchor2.setPosition(anchorStartPositionBottom->x, anchorStartPositionBottom->y);
+    anchor2.setPhysics(0, 0.5, 0.9);
+    anchor2.body->SetType(b2_staticBody);
+    
+    circleBoundindex=0;
+    circlePositionBoundIndex=0;
+    bMakeCircle=false;
+    actualAlpha=0;
+    alphaTarget=255;
+    bStartFade=false;
+    bEndCircle=false;
+    
+    bIsExploding=false;
     
 }
 
@@ -743,26 +699,14 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         
     }
     
+    
+    // RESET
     if(msg.getAddress() == "/4/push36")
     {
        // anchor.setup(box2d.getWorld(), anchorStartPositionTop->x, anchorStartPositionTop->y, 10);
        // anchor2.setup(box2d.getWorld(), anchorStartPositionBottom->x, anchorStartPositionBottom->y, 10);
         
-        anchor.setPosition( anchorStartPositionTop->x, anchorStartPositionTop->y);
-        anchor.setPhysics(0, 0.5, 0.9);
-        anchor.body->SetType(b2_staticBody);
-        
-        anchor2.setPosition(anchorStartPositionBottom->x, anchorStartPositionBottom->y);
-        anchor2.setPhysics(0, 0.5, 0.9);
-        anchor2.body->SetType(b2_staticBody);
-        
-        circleBoundindex=0;
-        circlePositionBoundIndex=0;
-        bMakeCircle=false;
-        actualAlpha=0;
-        alphaTarget=255;
-        bStartFade=false;
-        bEndCircle=false;
+        reset();
         
         
     }
@@ -869,6 +813,7 @@ void LinieApp::turnOn(){
         addListeners();
     }
     bAddedListeners=true;
+    explode();
 }
 
 void LinieApp::turnOff(){
@@ -876,4 +821,5 @@ void LinieApp::turnOff(){
         removeListeners();
     }
     bAddedListeners=false;
+    reset();
 }

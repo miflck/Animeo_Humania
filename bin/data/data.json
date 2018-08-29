@@ -3,9 +3,14 @@
       "addPosition" : [ 0, 842 ],
       "mainAvatarOffset" : [ -314.6213989257812, -44.38644409179688 ]
    },
+   "Kinect" : {
+      "beamerPosition" : [ 0, 0 ],
+      "kinectPosition" : [ 0, 0 ],
+      "kinectScaleFact" : 0
+   },
    "LightPointApp" : {
-      "cabindimension" : [ 488, 448 ],
-      "cabinposition" : [ 1254, 545 ],
+      "cabindimension" : [ 507, 470 ],
+      "cabinposition" : [ 1243, 536 ],
       "homeposition" : [ 1733, 438 ],
       "insidePoisiton" : [ 1538, 754 ],
       "scaredposition" : [ 702, 208 ],
@@ -13,7 +18,9 @@
       "watchposition" : [ 1669, 656 ]
    },
    "LinieApp" : {
-      "anchorStartPositionBottom" : [ 1813, 556 ],
+      "anchorExplodeStartPositionBottom" : [ 1301, 709 ],
+      "anchorExplodeStartPositionTop" : [ 1327, 589 ],
+      "anchorStartPositionBottom" : [ 1894, 506 ],
       "anchorStartPositionTop" : [ 89, 544 ],
       "finalCirclePosition" : [ 968, 513 ]
    },
