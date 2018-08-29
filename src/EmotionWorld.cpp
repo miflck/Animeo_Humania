@@ -1242,7 +1242,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         hearts.back().get()->setPhysics(3.0, 0.53, 0.1);
         hearts.back().get()->setup(box2d.getWorld(), anchorposition.x, anchorposition.y, r);
         hearts.back().get()->setVelocity(ofRandom(5,20), ofRandom(0,-20));
-        playRandomPlopp();
+       // playRandomPlopp();
 
     }
     
