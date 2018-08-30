@@ -40,7 +40,7 @@ void ofApp::setup(){
     
     KINECTMANAGER->initialize();
     
-    ofSetVerticalSync(false);
+    ofSetVerticalSync(true);
     //ofDisableAntiAliasing();
     ofSetFrameRate(60);
     ofEnableAntiAliasing();

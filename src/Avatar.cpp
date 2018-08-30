@@ -480,12 +480,12 @@ void Avatar::drawAvatar(){
    
     
     // Hair
-  /*  ofSetColor(0);
+   ofSetColor(0);
     ofNoFill();
     ofSetLineWidth(3);
     ofDrawBezier(headCenter.x,headCenter.y-80,headCenter.x,headCenter.y-40,headCenter.x-40,headCenter.y-20,headCenter.x-80,headCenter.y-20);
     ofDrawBezier(headCenter.x,headCenter.y-80,headCenter.x,headCenter.y-40,headCenter.x+40,headCenter.y-20,headCenter.x+80,headCenter.y-20);
-   */
+   
 
     ofVec2f dist;
     ofVec2f cp1;
@@ -493,7 +493,7 @@ void Avatar::drawAvatar(){
     ofPolyline rough;
     ofMesh smooth;
     
-    /*ofPushMatrix();
+    ofPushMatrix();
     ofTranslate(headCenter);
     
     dist=(leftMouthPosition-mouthCenterPosition);
@@ -523,9 +523,9 @@ void Avatar::drawAvatar(){
      
     
     ofPopMatrix();
-     */
     
     
+
     
     dist=ofVec2f(80,0);
     dist.rotate(-20);
@@ -540,7 +540,7 @@ void Avatar::drawAvatar(){
     }
    
  
-    
+  
 
     float rotation=40;
     if(head.x-spineBase.x>0){
@@ -550,25 +550,20 @@ void Avatar::drawAvatar(){
     }
     
     ofVec2f mid=spineBase-neck;
-     cp1=mid.getRotated(rotation);
+    cp1=mid.getRotated(rotation);
     cp1/=3;
     cp1+=neck;
     
-     cp2=mid.getRotated(-rotation);
+    cp2=mid.getRotated(-rotation);
     cp2/=-3;
     cp2+=spineBase;
     
-    
-    
-    ofNoFill();
-    
-
+    //ofNoFill();
     
     rough.clear();
     smooth.clear();
     rough.addVertex(neck);
     rough.bezierTo(spineCP1Mover.getPosition(), spineCP2Mover.getPosition(), spineBase);
-    
     
     ofxPolyToMesh(smooth, rough, 4);
     smooth.draw();
@@ -756,7 +751,7 @@ void Avatar::drawAvatar(){
     rightfootpath.close();
     rightfootpath.draw();
  
- */
+ 
     ofPopStyle();
     ofPopMatrix();
     
