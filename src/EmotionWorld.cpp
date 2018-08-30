@@ -1028,7 +1028,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
         ofVec2f pos=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
         if(mskel.size()>0 && f){
-            pos=mskel[0].head;
+            pos=mskel[0].head-200;
         }
         balloon.setPosition(pos.x,-30);
         balloon.setTarget(ofVec2f(pos.x,pos.y));
@@ -1253,7 +1253,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         hearts.push_back(shared_ptr<Heart>(new Heart));
         hearts.back().get()->setPhysics(3.0, 0.53, 0.1);
         hearts.back().get()->setup(box2d.getWorld(), anchorposition.x, anchorposition.y, r);
-        hearts.back().get()->setVelocity(ofRandom(5,20), ofRandom(0,-20));
+        hearts.back().get()->setVelocity(ofRandom(-1,1), ofRandom(-1,1));
        // playRandomPlopp();
 
     }

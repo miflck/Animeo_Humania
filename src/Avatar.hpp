@@ -30,6 +30,8 @@ public:
     virtual void update();
     
     virtual void updateSkeletton();
+    virtual void updateSkeletton(vector<MappedPoints> _mskel);
+
     virtual void updateSkelettonMovers();
     virtual void updateBonesPositions();
 
@@ -181,6 +183,9 @@ protected:
     ofVec2f leftMouthPosition;
     ofVec2f rightMouthPosition;
     ofVec2f mouthCenterPosition;
+    
+    
+    vector<MappedPoints> mskel;
 
    
 };

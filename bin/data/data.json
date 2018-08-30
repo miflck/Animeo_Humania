@@ -26,12 +26,12 @@
       "finalCirclePosition" : [ 968, 513 ]
    },
    "emotions" : {
-      "anchorposition" : [ 1291, 336 ],
+      "anchorposition" : [ 1545, 361 ],
       "anchorpositionBottom" : [ 1345, 822 ],
       "emitterposition" : [ 783, 560 ],
       "repulsionbottomposition" : [ 1499, 720 ],
       "repulsioncenterposition" : [ 378, 953 ],
-      "repulsionposition" : [ 1418, 995 ],
+      "repulsionposition" : [ 1555, 997 ],
       "repulsiontopposition" : [ 1302, 184 ],
       "startposition" : [ 1226, 598 ]
    },

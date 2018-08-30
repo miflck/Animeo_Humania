@@ -113,7 +113,7 @@ void Avatar::update(){
     for(int i=0;i<movers.size();i++){
         movers[i]->move();
     }
-    updateSkeletton();
+   // updateSkeletton();
     play();
     imitate();
     updateSkelettonMovers();
@@ -206,6 +206,52 @@ void Avatar::updateSkeletton(){
 //    neckP=head+ofVec2f(0,80);
     neckP=head+ofVec2f(0,0);
 
+    spineBaseP=neck+ofVec2f(0,120);
+    leftEllbowP=neck+ofVec2f(60,60);
+    leftHandP=leftEllbow+ofVec2f(60,-60);
+    rightEllbowP=neck+ofVec2f(-60,60);
+    rightHandP=rightEllbow+ofVec2f(0,60);
+    rightKneeP=spineBase+ofVec2f(-30,60);
+    leftKneeP=spineBase+ofVec2f(30,60);
+    rightFootP=rightKnee+ofVec2f(10,60);
+    leftFootP=leftKnee+ofVec2f(-10,60);
+    
+    if(mskel.size()>0 && bIsBound){
+        headP=ofVec2f(mskel[skelettonId].neckLocal*scaler);
+        neckP=mskel[skelettonId].neckLocal*scaler;
+        spineBaseP=mskel[skelettonId].spineBaseLocal*scaler;
+        leftEllbowP=mskel[skelettonId].leftEllbowLocal*1.5*scaler;
+        leftHandP=mskel[skelettonId].leftHandLocal*1.5*scaler;
+        rightEllbowP=mskel[skelettonId].rightEllbowLocal*1.5*scaler;
+        rightHandP=mskel[skelettonId].rightHandLocal*1.5*scaler;
+        rightKneeP=mskel[skelettonId].rightKneeLocal*1.5*scaler;
+        leftKneeP=mskel[skelettonId].leftKneeLocal*1.5*scaler;
+        rightFootP=mskel[skelettonId].rightFootLocal*1.5*scaler;
+        leftFootP=mskel[skelettonId].leftFootLocal*1.5*scaler;
+    }
+}
+
+
+
+void Avatar::updateSkeletton(   vector<MappedPoints> _mskel){
+    vector<MappedPoints> mskel=_mskel;
+    
+    if(mskel.size()>0&&bRecord){
+        recordedBonesPositions.push_back(mskel[skelettonId]);
+        recordedAvatarPositions.push_back(getPosition());
+    }
+    
+    if(mskel.size()>0 && bRecordHistory){
+        bonesHistory.push_back(mskel[skelettonId]);
+        if( bonesHistory.size() > historyLength){
+            bonesHistory.erase(bonesHistory.begin(), bonesHistory.begin()+1);
+        }
+    }
+    
+    headP=ofVec2f(0,0);
+    //    neckP=head+ofVec2f(0,80);
+    neckP=head+ofVec2f(0,0);
+    
     spineBaseP=neck+ofVec2f(0,120);
     leftEllbowP=neck+ofVec2f(60,60);
     leftHandP=leftEllbow+ofVec2f(60,-60);
@@ -422,11 +468,8 @@ void Avatar::drawAvatar(){
     ofSetColor(0);
     
  // EYES
-    //ofPushMatrix();
-    //ofTranslate(headCenter);
     ofDrawCircle(headCenter+leftEyePosition,10);
     ofDrawCircle(headCenter+rightEyePosition,10);
-   // ofPopMatrix();
 
     //Cheeks
     ofSetColor(255,0,0);
@@ -434,30 +477,28 @@ void Avatar::drawAvatar(){
     ofDrawCircle(headCenter.x+50,headCenter.y+30,20);
     ofSetColor(0);
     ofDrawTriangle(headCenter.x, headCenter.y, headCenter.x+20, headCenter.y+40,headCenter.x-20, headCenter.y+40);
+   
+    
     // Hair
-    ofSetColor(0);
+  /*  ofSetColor(0);
     ofNoFill();
     ofSetLineWidth(3);
     ofDrawBezier(headCenter.x,headCenter.y-80,headCenter.x,headCenter.y-40,headCenter.x-40,headCenter.y-20,headCenter.x-80,headCenter.y-20);
     ofDrawBezier(headCenter.x,headCenter.y-80,headCenter.x,headCenter.y-40,headCenter.x+40,headCenter.y-20,headCenter.x+80,headCenter.y-20);
-    
-    ofSetColor(255);
-    ofFill();
-    
-   
-    
+   */
+
     ofVec2f dist;
     ofVec2f cp1;
     ofVec2f cp2;
     ofPolyline rough;
     ofMesh smooth;
     
-    ofPushMatrix();
+    /*ofPushMatrix();
     ofTranslate(headCenter);
-  
-     dist=(leftMouthPosition-mouthCenterPosition);
-     cp1=ofVec2f(leftMouthPosition.x,leftMouthPosition.y-dist.y/2);
-     cp2=ofVec2f(mouthCenterPosition.x+(dist.x/2),mouthCenterPosition.y);
+    
+    dist=(leftMouthPosition-mouthCenterPosition);
+    cp1=ofVec2f(leftMouthPosition.x,leftMouthPosition.y-dist.y/2);
+    cp2=ofVec2f(mouthCenterPosition.x+(dist.x/2),mouthCenterPosition.y);
     ofSetColor(0);
     
 
@@ -468,7 +509,6 @@ void Avatar::drawAvatar(){
     rough.bezierTo(cp1,cp2, mouthCenterPosition);
     ofxPolyToMesh(smooth, rough, 2);
     smooth.draw();
-    
     
     dist=(rightMouthPosition-mouthCenterPosition);
     cp1=ofVec2f(rightMouthPosition.x,rightMouthPosition.y-dist.y/2);
@@ -483,6 +523,9 @@ void Avatar::drawAvatar(){
      
     
     ofPopMatrix();
+     */
+    
+    
     
     dist=ofVec2f(80,0);
     dist.rotate(-20);
@@ -498,8 +541,7 @@ void Avatar::drawAvatar(){
    
  
     
- //   ofSetLineWidth(avatarLineWidth);
-    
+
     float rotation=40;
     if(head.x-spineBase.x>0){
         rotation=-40;
@@ -520,15 +562,20 @@ void Avatar::drawAvatar(){
     
     ofNoFill();
     
-     rough;
-     smooth;
+
     
     rough.clear();
     smooth.clear();
     rough.addVertex(neck);
     rough.bezierTo(spineCP1Mover.getPosition(), spineCP2Mover.getPosition(), spineBase);
+    
+    
     ofxPolyToMesh(smooth, rough, 4);
     smooth.draw();
+    
+    
+    
+    
     
     
     if(APPC->debug){
@@ -708,7 +755,8 @@ void Avatar::drawAvatar(){
     rightfootpath.setStrokeWidth(1);
     rightfootpath.close();
     rightfootpath.draw();
-    
+ 
+ */
     ofPopStyle();
     ofPopMatrix();
     

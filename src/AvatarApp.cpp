@@ -111,23 +111,24 @@ void AvatarApp::update(){
         }
     }
     
+    humania.updateSkeletton(mskel);
     humania.update();
   
     if(avatars.size()>0){
         avatars[0]->setTarget(humania.getPosition()-avatarOffset);
         avatars[0]->setSiblingBones(humania.getBonesPositions());
+        avatars[0]->updateSkeletton(mskel);
         avatars[0]->update();
 
         for(int i=1;i<avatars.size();i++){
             avatars[i]->setTarget(avatars[i-1]->getPosition()-avatarOffset);
             avatars[i]->setSiblingBones(avatars[i-1]->getBonesPositions());
+            avatars[i]->updateSkeletton(mskel);
             avatars[i]->update();
         }
     }
-  
     if(bRemoveAvatar)removeAvatar();
-  
-}
+  }
 
 
 void AvatarApp::draw(){
@@ -155,10 +156,12 @@ void AvatarApp::draw(){
     if(leftEye.getState()!=FADEOUT){leftEye.draw();}
     if(rightEye.getState()!=FADEOUT){rightEye.draw();}
 
+    
+    
     for(int i=0;i<avatars.size();i++){
         avatars[i]->draw();
     }
-    
+   
   
     if(APPC->debug){
         ofPushStyle();
@@ -181,8 +184,6 @@ void AvatarApp::addAvatar(){
     a->setTarget(ofVec2f(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
     //a->setPosition(humania.getPosition().x,humania.getPosition().y);
     a->setPosition(avatarAddPosition);
-
-    
     a->setLeftEyePosition(humania.getLeftEyePosition());
     a->setRightEyePosition(humania.getRightEyePosition());
     a->setLeftMouthPosition(humania.getLeftMouthPosition());
@@ -210,7 +211,6 @@ void AvatarApp::removeAvatar(){
 void AvatarApp::setSkelettonId(int id){
     skelettonId= id;
     humania.setSkelettonId(skelettonId);
-    
     for(int i=0;i<avatars.size();i++){
         avatars[i]->setSkelettonId(skelettonId);
     }
@@ -763,14 +763,12 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         rightEye.setSlowDownDistance(800);
         rightEye.color=ofColor(200);
         rightEye.setScaleDuration(0.3);
-        
-        
+                
         rightEye.startColor=ofColor(255);
         rightEye.startLerp=0;
         rightEye.actualLerp=0;
         rightEye.lerpToColor=ofColor(255);
         rightEye.lerpDuration=1;
-        
         
         playRandomPlopp();
 

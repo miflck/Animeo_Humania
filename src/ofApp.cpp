@@ -40,13 +40,14 @@ void ofApp::setup(){
     
     KINECTMANAGER->initialize();
     
-    ofSetVerticalSync(true);
+    ofSetVerticalSync(false);
     //ofDisableAntiAliasing();
+    ofSetFrameRate(60);
     ofEnableAntiAliasing();
 
     
     
-    ofSetCircleResolution(100);
+    ofSetCircleResolution(50);
 
 
     //mClient.setup();
