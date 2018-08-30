@@ -575,7 +575,9 @@ private:
     
     void emitMultiShapes(int n);
     void emitMultiShapes(int n, ofVec2f pos);
+    void emitMultiShapesNoFreq(int n, ofVec2f pos);
 
+    int nShapes=20;
 
     void emitFlashes(int n);
     

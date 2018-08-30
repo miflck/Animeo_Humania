@@ -218,7 +218,7 @@ void EmotionWorld::update(){
     
     for(int i=0;i<ellipsen.size();i++){
         ellipsen[i]->update();
-        if(ellipsen[i]->bShouldRemove)emitMultiShapes(20,ofVec2f(ellipsen[i]->getPosition().x,50));
+        if(ellipsen[i]->bShouldRemove)emitMultiShapesNoFreq(nShapes,ofVec2f(ellipsen[i]->getPosition().x,50));
     }
     
 
@@ -528,12 +528,12 @@ void EmotionWorld::bindEmitterToHands(bool _b){
     // turn off automatic
     if(_b){
         bIsEllipseAutomated=false;
-        if(APPC->oscmanager.bIsInitialized){
+       // if(APPC->oscmanager.bIsInitialized){
             ofxOscMessage m;
             m.addFloatArg(0);
             m.setAddress("/EmotionWorld/toggle27");
             APPC->oscmanager.touchOscSender.sendMessage(m);
-        }
+        //}
         
     }
     
@@ -672,6 +672,34 @@ void EmotionWorld::emitMultiShapes(int _n,ofVec2f pos){
     playRandomMultiplopp();
 }
 
+void EmotionWorld::emitMultiShapesNoFreq(int _n,ofVec2f pos){
+    
+    
+    for(int i=0;i<_n;i++){
+        float rAdd=ofRandom(-1,1);
+        if(rAdd>0){
+            float r =0;        // a random radius 4px - 20px
+            shapes.push_back(shared_ptr<Shape>(new Shape));
+            shapes.back().get()->setPhysics(1, 0.6, 0.3);
+            shapes.back().get()->setup(box2d.getWorld(), pos.x, pos.y,r);
+            shapes.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,10));
+        }
+        
+        if(rAdd<0){
+            float r=ofRandom(30,70);
+            ofVec2f a =ofVec2f(pos.x-r/2,pos.y);
+            ofVec2f b =ofVec2f(pos.x+r/2,pos.y);
+            ofVec2f c =ofVec2f(pos.x,pos.y+r);
+            triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
+            triangles.back().get()->setWorld(box2d.getWorld());
+            triangles.back().get()->setPhysics(1, 0.6, 0.3);
+            triangles.back().get()->create(box2d.getWorld());
+            triangles.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,10));
+            triangles.back().get()->setAngularVelocity(2);
+        }
+    }
+    playRandomMultiplopp();
+}
 
 
 
@@ -1588,6 +1616,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         }
     }
 
+  //  SetGravity for Stars
     if(msg.getAddress() == "/EmotionWorld/toggle28")
     {
         float m=msg.getArgAsBool(0);
@@ -1595,6 +1624,26 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         for(int i=0;i<sterne.size();i++){
             sterne[i]->setGravity(m);
         }
+        
+        
+        // if make stars gravity, reduce actual gravity
+        if(m){
+        gravityY=0;
+        gravityX=0;
+
+        box2d.setGravity(gravityX, gravityY);
+        
+        ofxOscMessage mB;
+        mB.addFloatArg(0);
+        mB.setAddress("/EmotionWorld/fader2");
+        APPC->oscmanager.touchOscSender.sendMessage(mB);
+        
+        mB.clear();
+        mB.addFloatArg(0);
+        mB.setAddress("/EmotionWorld/fader4");
+        APPC->oscmanager.touchOscSender.sendMessage(mB);
+        }
+        
     }
     
     
@@ -1637,6 +1686,22 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         float m=msg.getArgAsBool(0);
         bIsEllipseAutomated=m;
     }
+    
+    
+    if(msg.getAddress() == "/EmotionWorld/fader33")
+    {
+        int f=int(msg.getArgAsFloat(0));
+        nShapes=f;
+        
+        ofxOscMessage m;
+        m.addIntArg(f);
+        m.setAddress("/EmotionWorld/label106");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+        
+    }
+    
+    
     
 }
 

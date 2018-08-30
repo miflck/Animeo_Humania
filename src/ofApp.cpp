@@ -327,7 +327,7 @@ void ofApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Settings/fader26")
     {
         float x = msg.getArgAsFloat(0);
-        float mappedX=ofMap(x,-1,1,-500,500);
+        float mappedX=ofMap(x,-1,1,-700,700);
         ofxOscMessage m;
         m.addFloatArg(mappedX);
         m.setAddress("/Settings/label89");
@@ -339,7 +339,7 @@ void ofApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Settings/fader25")
     {
         float y = msg.getArgAsFloat(0);
-        float mappedY=ofMap(y,-1,1,-500,500);
+        float mappedY=ofMap(y,-1,1,-700,700);
         ofxOscMessage m;
         m.addFloatArg(mappedY);
         m.setAddress("/Settings/label88");
@@ -435,14 +435,14 @@ void ofApp::loadSettings(){
     
     
     //kinect
-    mappedV=ofMap(APPC->gui->kinectPosition->x,-500,500,-1,1);
+    mappedV=ofMap(APPC->gui->kinectPosition->x,-700,700,-1,1);
 
      m.clear();
     m.addFloatArg(mappedV);
     m.setAddress("/Settings/fader26");
     APPC->oscmanager.touchOscSender.sendMessage(m);
     
-    mappedV=ofMap(APPC->gui->kinectPosition->y,-500,500,-1,1);
+    mappedV=ofMap(APPC->gui->kinectPosition->y,-700,700,-1,1);
 
     m.clear();
     m.addFloatArg(mappedV);
