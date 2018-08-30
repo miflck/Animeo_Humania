@@ -37,6 +37,7 @@ void OscManager::update(){
             touchOscSender.setup(remoteIp, TOUCHOSCPORT);
             cout<<m.getRemoteIp()<<endl;
             ofNotifyEvent(onOSCSetup, m, this);
+                bIsInitialized=true;
             }
         }
         //This will be the message we send back from our game

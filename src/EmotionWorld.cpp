@@ -97,7 +97,9 @@ void EmotionWorld::init(){
     
     savedRepulsionPosition=&Settings::getVec2("emotions/repulsionposition");
 
-
+    savedemitterTopposition=&Settings::getVec2("emotions/emitterTopPosition");
+    emitterTopPosition.set(*savedemitterTopposition);
+   
     
     
     ofDirectory dir;
@@ -332,6 +334,13 @@ void EmotionWorld::update(){
         anchorRightHand.setPosition(mskel[0].rightHand.x, mskel[0].rightHand.y);
     }
     
+    if(mskel.size()>0 && bBindEmitterToHands){
+        emitterLeftHand.set(mskel[0].leftHand.x, mskel[0].leftHand.y);
+        emitterRightHand.set(mskel[0].leftHand.x, mskel[0].leftHand.y);
+        emitShapes(emitterLeftHand);
+        emitShapes(emitterRightHand);
+    }
+    
     
     
 
@@ -513,6 +522,24 @@ void EmotionWorld::bindToSkeletton(bool _b){
 
 }
 
+void EmotionWorld::bindEmitterToHands(bool _b){
+    bBindEmitterToHands= _b;
+    
+    // turn off automatic
+    if(_b){
+        bIsEllipseAutomated=false;
+        if(APPC->oscmanager.bIsInitialized){
+            ofxOscMessage m;
+            m.addFloatArg(0);
+            m.setAddress("/EmotionWorld/toggle27");
+            APPC->oscmanager.touchOscSender.sendMessage(m);
+        }
+        
+    }
+    
+    
+}
+
 
 void EmotionWorld::bindToHands(bool _b){
     bBindHands=_b;
@@ -581,6 +608,7 @@ void EmotionWorld::emitShapes(){
         triangles.back().get()->setAngularVelocity(2);
         playRandomPlopp();
     }
+    
 }
 
 
@@ -645,6 +673,53 @@ void EmotionWorld::emitMultiShapes(int _n,ofVec2f pos){
 }
 
 
+
+
+void EmotionWorld::emitShapes(ofVec2f pos){
+            float rAdd=ofRandom(-1,1);
+        if(rAdd>emitShapeFrequency){
+            float r =0;        // a random radius 4px - 20px
+            shapes.push_back(shared_ptr<Shape>(new Shape));
+            shapes.back().get()->setPhysics(1, 0.6, 0.3);
+            shapes.back().get()->setup(box2d.getWorld(), pos.x, pos.y,r);
+            shapes.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,10));
+            playRandomPlopp();
+        }
+        
+        rAdd=ofRandom(-1,1);
+        if(rAdd<-emitShapeFrequency){
+            float r=ofRandom(30,70);
+            ofVec2f a =ofVec2f(pos.x-r/2,pos.y);
+            ofVec2f b =ofVec2f(pos.x+r/2,pos.y);
+            ofVec2f c =ofVec2f(pos.x,pos.y+r);
+            triangles.push_back(shared_ptr<Triangle>(new Triangle(a,b,c)));
+            triangles.back().get()->setWorld(box2d.getWorld());
+            triangles.back().get()->setPhysics(1, 0.6, 0.3);
+            triangles.back().get()->create(box2d.getWorld());
+            triangles.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,10));
+            triangles.back().get()->setAngularVelocity(2);
+            playRandomPlopp();
+        }
+    }
+
+
+
+
+void EmotionWorld::emitFlashes(int n){
+    for(int i=0;i<n;i++){
+        ofVec2f r=ofVec2f(-1,0);
+        r.rotate(180/10*(i+1));
+        r*=ofGetWidth()*3;
+        cout<<"Add Flashes"<<endl;
+        flashes.push_back(shared_ptr<Flash>(new Flash));
+        flashes.back().get()->setup();
+        flashes.back().get()->setPosition(headposition.x, headposition.y);
+        flashes.back().get()->setTarget(r);
+        flashes.back().get()->bSeekTarget=true;
+    }
+}
+
+
 void EmotionWorld::toggleHearts(){
     bEmitHearts=!bEmitHearts;
 }
@@ -705,6 +780,12 @@ void EmotionWorld::playRandomPlopp(){
 }
 
 
+void EmotionWorld::saveEmitterTopPosition(){
+    savedemitterTopposition->set(ofGetMouseX(),ofGetMouseY());
+    Settings::get().save("data.json");
+    emitterTopPosition.set(*savedemitterTopposition);
+
+}
 
 void EmotionWorld::saveRepulsionTopPosition(){
     savedRepulsionTopPosition->set(ofGetMouseX(),ofGetMouseY());
@@ -833,7 +914,7 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='g'){
-
+/*
         for(int i=0;i<10;i++){
             ofVec2f r=ofVec2f(-1,0);
             r.rotate(180/10*(i+1));
@@ -845,7 +926,7 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
             flashes.back().get()->setTarget(r);
            flashes.back().get()->bSeekTarget=true;
         }
-
+*/
    // circles.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
    // circles.back().get()->setVelocity(ofRandom(-5,5), ofRandom(-1,-5));
     }
@@ -960,11 +1041,8 @@ void EmotionWorld::makeStars(int num){
      sterne.back().get()->setWorld(box2d.getWorld());
      sterne.back().get()->bSeekTarget=true;
     // sterne.back().get()->setPosition(emitterposition.x,emitterposition.y);
-        sterne.back().get()->setPosition(anchorposition.x,anchorposition.y);
-
-    // sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,emitterposition.y)));
+    sterne.back().get()->setPosition(emitterTopPosition);
     sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,(ofGetHeight()/3)*2)));
-
      sterne.back().get()->setup(sternImg);
      sterne.back().get()->setTargetRadius(ofRandom(15,25));
      }
@@ -1193,6 +1271,23 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         saveRepulsionPosition();
     }
     
+    
+    if(msg.getAddress() == "/EmotionWorld/push61")
+    {
+        saveEmitterTopPosition();
+    }
+    
+    
+    
+    if(msg.getAddress() == "/EmotionWorld/push62")
+    {
+        emitFlashes(20);
+    }
+    
+    
+    
+    
+    
     //-------------------------------------------
     // GRAVITY
     if(msg.getAddress() == "/EmotionWorld/fader4")
@@ -1205,7 +1300,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     }
     
     
-    if(msg.getAddress() == "/EmotionWorld/fader14")
+    if(msg.getAddress() == "/EmotionWorld/fader32")
     {
         float f=msg.getArgAsFloat(0);
         f=ofMap(f, -1.f, 1.f, -1, 1);
@@ -1213,13 +1308,10 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         box2d.setGravity(gravityX, gravityY);
         
         float mG=ofMap(gravityY,-10,10,-1,1);
-        
         ofxOscMessage m;
         m.addFloatArg(mG);
         m.setAddress("/EmotionWorld/fader2");
         APPC->oscmanager.touchOscSender.sendMessage(m);
-        
-        
     }
     
     
@@ -1252,11 +1344,11 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         float r = ofRandom(10, 40);        // a random radius 4px - 20px
         hearts.push_back(shared_ptr<Heart>(new Heart));
         hearts.back().get()->setPhysics(3.0, 0.53, 0.1);
-        hearts.back().get()->setup(box2d.getWorld(), anchorposition.x, anchorposition.y, r);
+        hearts.back().get()->setup(box2d.getWorld(), emitterTopPosition.x, emitterTopPosition.y, r);
         hearts.back().get()->setVelocity(ofRandom(-1,1), ofRandom(-1,1));
        // playRandomPlopp();
-
     }
+    
     
     if(msg.getAddress() == "/EmotionWorld/push5")
     {
@@ -1275,11 +1367,8 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
             box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
           //  leftbox.setup(box2d.getWorld(), 0, ofGetHeight()/2,20,ofGetHeight());
          //   rightbox.setup(box2d.getWorld(), ofGetWidth(),ofGetHeight()/2, 20,ofGetHeight());
-            
             leftbox.setup(box2d.getWorld(), 0, 450,20,900);
             rightbox.setup(box2d.getWorld(), ofGetWidth(),450, 20,900);
-            
-            
         }else{
             box.destroy();
             leftbox.destroy();
@@ -1527,6 +1616,12 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     {
         float m=msg.getArgAsBool(0);
         bindToHands(m);
+    }
+    
+    if(msg.getAddress() == "/EmotionWorld/toggle32")
+    {
+        float m=msg.getArgAsBool(0);
+        bindEmitterToHands(m);
     }
     
     

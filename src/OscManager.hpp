@@ -20,8 +20,8 @@
 #define MUSICHOST "169.254.69.200"
 #define MUSICPORT 9000
 
-#define TOUCHOSCHOST "169.254.112.125"
-//#define TOUCHOSCHOST "192.168.1.167"
+//#define TOUCHOSCHOST "169.254.112.125"
+#define TOUCHOSCHOST "192.168.1.167"
 
 
 #define TOUCHOSCPORT 9000
@@ -32,6 +32,9 @@ public:
     void setup();
     void update();
     void draw();
+    
+    
+    bool bIsInitialized=false;
     
    // ofxOscSender sender;
     

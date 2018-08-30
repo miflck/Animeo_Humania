@@ -567,16 +567,24 @@ private:
     float emitShapeFrequency=0.1;
     
     void emitShapes();
+    void emitShapes(ofVec2f pos);
+
+    
+    
+    
     
     void emitMultiShapes(int n);
     void emitMultiShapes(int n, ofVec2f pos);
 
 
+    void emitFlashes(int n);
+    
+    
     void addEllipse();
     void releaseEllipse();
     
     bool bEmitHearts=false;
-    float emitFrequency=0.9;
+    float emitFrequency=0.99;
     
     
     bool bShowSun=false;
@@ -614,6 +622,13 @@ private:
     
     
     
+    ofVec2f *savedemitterTopposition;
+    ofVec2f emitterTopPosition;
+    void saveEmitterTopPosition();
+
+    
+    
+    
     ofVec2f *savedRepulsionTopPosition;
     ofVec2f *savedRepulsionBottomPosition;
     ofVec2f *savedRepulsionCenterPosition;
@@ -633,7 +648,13 @@ private:
     bool bBindToHead=false;
     
     bool bBindHands=false;
-
+    
+    
+    ofVec2f emitterLeftHand;
+    ofVec2f emitterRightHand;
+    
+    bool bBindEmitterToHands=false;
+    void bindEmitterToHands(bool _b);
     
     void bindToSkeletton(bool _b);
     void bindToHands(bool _b);

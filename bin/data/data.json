@@ -1,7 +1,7 @@
 {
    "Avatar" : {
       "addPosition" : [ 0, 842 ],
-      "mainAvatarOffset" : [ -271.5404663085938, -44.38644409179688 ]
+      "mainAvatarOffset" : [ -298.9556274414062, -148.8250732421875 ]
    },
    "Kinect" : {
       "beamerFOV" : 0,
@@ -26,8 +26,9 @@
       "finalCirclePosition" : [ 968, 513 ]
    },
    "emotions" : {
-      "anchorposition" : [ 1545, 361 ],
+      "anchorposition" : [ 1398, 314 ],
       "anchorpositionBottom" : [ 1345, 822 ],
+      "emitterTopPosition" : [ 1557, 334 ],
       "emitterposition" : [ 783, 560 ],
       "repulsionbottomposition" : [ 1499, 720 ],
       "repulsioncenterposition" : [ 378, 953 ],
