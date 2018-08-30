@@ -526,7 +526,7 @@ void Avatar::drawAvatar(){
     
     
 
-    
+    ofFill();
     dist=ofVec2f(80,0);
     dist.rotate(-20);
     for(int i=0;i<6;i++){

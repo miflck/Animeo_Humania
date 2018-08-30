@@ -439,7 +439,7 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
         mover.setSeekForce(5);
     }
     if(e.key=='w'){
-        mover.setSeekForce(0.9);
+        //mover.setSeekForce(0.9);
     }
     
     if(e.key=='e'){

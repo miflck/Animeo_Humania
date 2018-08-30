@@ -179,6 +179,7 @@ void AvatarApp::exit(){
 }
 
 void AvatarApp::addAvatar(){
+    if(avatars.size()<20){
     Avatar * a =new Avatar();
     a->setup();
     a->setTarget(ofVec2f(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
@@ -197,6 +198,7 @@ void AvatarApp::addAvatar(){
 
     if(bIsImitating)a->startImitate();
     avatars.push_back(a);
+    }
 }
 
 
