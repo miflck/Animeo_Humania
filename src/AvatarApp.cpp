@@ -225,7 +225,6 @@ void AvatarApp::setSkelettonId(int id){
 
 int AvatarApp::cycleSkelettonId(){
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
-
     int actId=skelettonId;
     int tempId=0;
     if(mskel.size()>actId+1){

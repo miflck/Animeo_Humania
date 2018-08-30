@@ -82,27 +82,28 @@ bool ApplicationController::isInitialized(){
 }
 
 void ApplicationController::_update(ofEventArgs &e) {
+    // Check for Skelettons
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+    numSkel=mskel.size();
+    if(mskel.size()-1<getSkelettonIndex()){
+        setSkelettonIndex(mskel.size()-1);
+    }
     
-
+    
     
     string id;
     if(activeApplication!=NULL){
     id=activeApplication->getId();
     }
     
-    
     if(bUseOSC)oscmanager.update();
-
 }
 
 void ApplicationController::_draw(ofEventArgs &e) {
     KINECTMANAGER->draw();
-
     if(activeApplication!=NULL){
-
-    activeApplication->draw();
-
-    }
+        activeApplication->draw();
+        }
     }
 
 
@@ -157,5 +158,32 @@ void ApplicationController::gotMessage(ofMessage &msg){
 
 void ApplicationController::toggleDebug(){
     debug=!debug;
+}
+
+
+
+void ApplicationController::cycleSkelettonIndex(){
+    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+    int actId=getSkelettonIndex();
+    int tempId=0;
+    if(mskel.size()>actId+1){
+        tempId=actId+1;
+    }
+    setSkelettonIndex(tempId);
+}
+
+int ApplicationController::getNumberOfSkelettons(){
+    return numSkel;
+}
+
+
+void ApplicationController::setSkelettonIndex(int index){
+    skelettonIndex= index;
+    ofxOscMessage m;
+    m.addIntArg(skelettonIndex);
+    m.setAddress("/avatar/label21");
+    if(APPC->oscmanager.bRemoteIpIsSet){
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
 }
 

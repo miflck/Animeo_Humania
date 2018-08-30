@@ -25,11 +25,6 @@ public:
     
 
     
-
-    
-    ofxPanel box2dPanel;
-
-    
     ofParameterGroup box2dbasics;
 
     ofParameter<float>emotionsgravity;
@@ -43,6 +38,9 @@ public:
 	ofParameter<ofColor> color;
 	ofxPanel gui;
     
+    
+    ofTrueTypeFont    font;
+
 
     
 

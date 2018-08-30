@@ -21,14 +21,7 @@ void GuiApp::setup(){
     parameters.add(rayPosition.set("rayPosition", ofVec3f(100),ofVec3f(0),ofVec3f(50000) )); // this will create a slider group for your vec3 in the gui.
     parameters.add(kinectManagerDebug.set("kinectManagerDebug",false));
 
-    box2dPanel.setup("EMOTIONS","emotionssettings.xml",250,0);
-    box2dPanel.setName("Box2d");
-    box2dbasics.add(emotionsgravity.set("gravity",-3,-10,10));
-    box2dbasics.add(drag.set("drag",0.95,0.5,1));
-
-    
-    box2dPanel.add(box2dbasics);
-
+   
 	gui.setup(parameters);
 
 	ofBackground(0);
@@ -37,6 +30,10 @@ void GuiApp::setup(){
     gui.loadFromFile("settings.xml");
     
     ofBackground(0);
+    
+    font.load("verdana.ttf", 30, true, true);
+    font.setLineHeight(34.0f);
+    font.setLetterSpacing(1.035);
 
 
 }
@@ -64,13 +61,14 @@ void GuiApp::draw(){
 
     
 	gui.draw();
-    box2dPanel.draw();
     
     string info = "";
     info += "FPS: "+ofToString(ofGetFrameRate())+"\n";
 
     ofSetColor(255);
     ofDrawBitmapString(info, 10, 10);
+    font.drawString("Skeletton Index: "+ofToString(APPC->getSkelettonIndex())+" from "+ofToString(APPC->getNumberOfSkelettons()), 250, 229);
+    
     
 }
 

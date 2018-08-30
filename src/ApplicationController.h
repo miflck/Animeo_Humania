@@ -79,8 +79,14 @@ public:
     ofxSyphonClient mClient;
     
     float audioInVolume=0;
-    int getSkelettonIndex();
+   
     
+    // Skeletton choose
+    void setSkelettonIndex(int id);
+    void cycleSkelettonIndex();
+    int getSkelettonIndex();
+    int getNumberOfSkelettons();
+
     
 private:
 	ApplicationController();
@@ -93,6 +99,7 @@ private:
 	map<string,ApplicationBase*>::iterator app;
     
     int skelettonIndex=0;
+    int numSkel=0;
     
 };
 

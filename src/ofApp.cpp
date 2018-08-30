@@ -138,29 +138,18 @@ void ofApp::keyPressed(int key){
             
      
             
-        case 'v':
-            cout<<"set app"<<endl;
-            APPC->setAppById("arm");
-            break;
+
             
-        case 'n':
-            cout<<"set app"<<endl;
-            APPC->setAppById("physicsworld");
-            break;
+   
             
         case 'm':
             cout<<"set app"<<endl;
             APPC->setAppById("emotionworld");
             break;
             
-        case ',':
-            cout<<"set app"<<endl;
-            APPC->setAppById("face");
-            break;
-            
+  
         case '.':
-            cout<<"set app"<<endl;
-            APPC->setAppById("line");
+            APPC->cycleSkelettonIndex();
             break;
             
         case 'f':

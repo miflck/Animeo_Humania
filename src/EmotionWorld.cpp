@@ -139,7 +139,7 @@ void EmotionWorld::update(){
     repulsionPosition.set(*savedRepulsionPosition);
     
     if(mskel.size()>0){
-        repulsionPosition.set(mskel[0].rightKnee);
+        repulsionPosition.set(mskel[APPC->getSkelettonIndex()].rightKnee);
     }
     
     
@@ -246,9 +246,9 @@ void EmotionWorld::update(){
         Hand hr = KINECTMANAGER->skeletons->at(0).getRightHand();
         Joint handJointright =KINECTMANAGER->skeletons->at(0).getHandRight();
         
-        ofVec2f lefthand=mskel[0].leftHand;
-        ofVec2f righthand=mskel[0].rightHand;
-        ofVec2f spineBase=mskel[0].spineBase;
+        ofVec2f lefthand=mskel[APPC->getSkelettonIndex()].leftHand;
+        ofVec2f righthand=mskel[APPC->getSkelettonIndex()].rightHand;
+        ofVec2f spineBase=mskel[APPC->getSkelettonIndex()].spineBase;
 
         ofVec2f dist=lefthand-righthand;
         ofVec2f ldist=lefthand-spineBase;
@@ -276,8 +276,8 @@ void EmotionWorld::update(){
     if(mskel.size()>0){
         ofVec2f epos;
         
-        ofVec2f lefthand=mskel[0].leftHand;
-        ofVec2f righthand=mskel[0].rightHand;
+        ofVec2f lefthand=mskel[APPC->getSkelettonIndex()].leftHand;
+        ofVec2f righthand=mskel[APPC->getSkelettonIndex()].rightHand;
         ofVec2f middle=(lefthand-righthand)/2;
         epos.set(righthand+middle);
         
@@ -298,7 +298,7 @@ void EmotionWorld::update(){
     sun.setTarget(ofVec2f(ofGetMouseX(),ofGetMouseY()));
         
     }else{
-        hand=mskel[0].leftHand;
+        hand=mskel[APPC->getSkelettonIndex()].leftHand;
         hand=ofVec2f(hand.x, hand.y);
         sun.setTarget(hand);
 
@@ -321,22 +321,22 @@ void EmotionWorld::update(){
 
     
     if(mskel.size()>0 && bBindToHead){
-        headposition=mskel[0].head;
+        headposition=mskel[APPC->getSkelettonIndex()].head;
         headposition=ofVec2f(headposition.x, headposition.y);
         emitterposition=headposition;
-       // anchorLeftHand.setPosition(mskel[0].leftHand.x, mskel[0].leftHand.y);
-       // anchorRightHand.setPosition(mskel[0].rightHand.x, mskel[0].rightHand.y);
+       // anchorLeftHand.setPosition(mskel[APPC->getSkelettonIndex()].leftHand.x, mskel[APPC->getSkelettonIndex()].leftHand.y);
+       // anchorRightHand.setPosition(mskel[APPC->getSkelettonIndex()].rightHand.x, mskel[APPC->getSkelettonIndex()].rightHand.y);
 
     }
     
     if(mskel.size()>0 && bBindHands){
-        anchorLeftHand.setPosition(mskel[0].leftHand.x, mskel[0].leftHand.y);
-        anchorRightHand.setPosition(mskel[0].rightHand.x, mskel[0].rightHand.y);
+        anchorLeftHand.setPosition(mskel[APPC->getSkelettonIndex()].leftHand.x, mskel[APPC->getSkelettonIndex()].leftHand.y);
+        anchorRightHand.setPosition(mskel[APPC->getSkelettonIndex()].rightHand.x, mskel[APPC->getSkelettonIndex()].rightHand.y);
     }
     
     if(mskel.size()>0 && bBindEmitterToHands){
-        emitterLeftHand.set(mskel[0].leftHand.x, mskel[0].leftHand.y);
-        emitterRightHand.set(mskel[0].leftHand.x, mskel[0].leftHand.y);
+        emitterLeftHand.set(mskel[APPC->getSkelettonIndex()].leftHand.x, mskel[APPC->getSkelettonIndex()].leftHand.y);
+        emitterRightHand.set(mskel[APPC->getSkelettonIndex()].leftHand.x, mskel[APPC->getSkelettonIndex()].leftHand.y);
         emitShapes(emitterLeftHand);
         emitShapes(emitterRightHand);
     }
@@ -415,14 +415,14 @@ void EmotionWorld::draw(){
                 ofFill();
                 if(hl.isOpen()) ofSetColor(ofColor::blue);
                 else ofSetColor(ofColor::red);
-                ofDrawCircle(mskel[0].leftHand, 25);
+                ofDrawCircle(mskel[APPC->getSkelettonIndex()].leftHand, 25);
             }
           
           if(hr.isConfidentlyDetected()) {
               ofFill();
               if(hr.isOpen()) ofSetColor(ofColor::blue);
               else ofSetColor(ofColor::red);
-              ofDrawCircle(mskel[0].rightHand, 25);
+              ofDrawCircle(mskel[APPC->getSkelettonIndex()].rightHand, 25);
           }
       }
         
@@ -556,8 +556,8 @@ void EmotionWorld::addEllipse(){
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
 
     if(mskel.size()>0){
-        ofVec2f lefthand=mskel[0].leftHand;
-        ofVec2f righthand=mskel[0].rightHand;
+        ofVec2f lefthand=mskel[APPC->getSkelettonIndex()].leftHand;
+        ofVec2f righthand=mskel[APPC->getSkelettonIndex()].rightHand;
         ofVec2f middle=(lefthand-righthand)/2;
         epos.set(righthand+middle);
     }
@@ -842,7 +842,7 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
         vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
         ofVec2f head=ofVec2f(ofGetMouseX(), ofGetMouseY());
         if(mskel.size()>0){
-            head=mskel[0].head;
+            head=mskel[APPC->getSkelettonIndex()].head;
             head=ofVec2f(head.x, head.y);
         }
         float r = ofRandom(10, 40);        // a random radius 4px - 20px
@@ -1119,7 +1119,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         ofVec2f pos=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
         
         if(mskel.size()>0 && f){
-           pos=mskel[0].head;
+           pos=mskel[APPC->getSkelettonIndex()].head;
         }
         balloon.setPosition(pos.x,-30);
         showBalloon(f);
@@ -1130,11 +1130,10 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         float f=msg.getArgAsBool(0);
        // balloon.setPosition(emitterposition.x,emitterposition.y);
        // balloon.setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
-        
         vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
         ofVec2f pos=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
         if(mskel.size()>0 && f){
-            pos=mskel[0].head-200;
+            pos=mskel[APPC->getSkelettonIndex()].head-200;
         }
         balloon.setPosition(pos.x,-30);
         balloon.setTarget(ofVec2f(pos.x,pos.y));
