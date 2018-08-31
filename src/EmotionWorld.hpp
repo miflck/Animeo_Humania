@@ -619,6 +619,8 @@ private:
     ofVec2f emitteroffset;
     
     
+    
+    
     ofVec2f *savedeanchorposition;
     ofVec2f anchorposition;
 
@@ -637,7 +639,6 @@ private:
     ofVec2f *savedRepulsionTopPosition;
     ofVec2f *savedRepulsionBottomPosition;
     ofVec2f *savedRepulsionCenterPosition;
-    
     ofVec2f *savedRepulsionPosition;
 
 
@@ -646,9 +647,19 @@ private:
     void saveRepulsionTopPosition();
     void saveRepulsionBottomPosition();
     void saveRepulsionCenterPosition();
-
     void saveRepulsionPosition();
     
+    
+    ofVec2f *savedAnimeoMaskPosition;
+    ofVec2f animeoMaskPosition;
+    void saveAnimeoMaskPosition();
+    float *savedAnimeoMaskedRadius;
+    float animeoMaskRadius;
+    void saveAnimeoMaskRadius(float r);
+    
+    bool bIsAnimeoMasked=false;
+    
+    void setIsAnimeoMasked(bool _b);
     
     bool bBindToHead=false;
     
@@ -701,6 +712,7 @@ private:
     bool bIsEllipseAutomated=false;
     
     
+    ofColor maskcolor;
 };
 
 

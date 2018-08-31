@@ -90,6 +90,12 @@ void EmotionWorld::init(){
    
     
     
+    savedAnimeoMaskPosition=&Settings::getVec2("emotions/animeomaskposition");
+    animeoMaskPosition.set(*savedAnimeoMaskPosition);
+    
+    savedAnimeoMaskedRadius =&Settings::getFloat("emotions/animeomaskradius");
+    animeoMaskRadius=Settings::getFloat("emotions/animeomaskradius");
+    
     ofDirectory dir;
     dir.listDir("Sounds/Multiplopp");
     dir.sort();
@@ -114,6 +120,12 @@ void EmotionWorld::init(){
     
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &EmotionWorld::onMessageReceived);
     
+    
+    ofColor c=ofColor(255,0,0);
+    c.setHueAngle(139);
+    c.setBrightness(100);
+    
+    maskcolor=c;
     
 }
 
@@ -502,6 +514,12 @@ void EmotionWorld::draw(){
         flashes[i]->draw();
     }
     
+    if(bIsAnimeoMasked){
+        ofPushStyle();
+        ofSetColor(maskcolor);
+        ofDrawCircle(animeoMaskPosition, animeoMaskRadius);
+        ofPopStyle();
+    }
 
     
 }
@@ -510,6 +528,9 @@ void EmotionWorld::exit(){
     cout<<"exit EmotionWorld"<<endl;
 }
 
+void EmotionWorld::setIsAnimeoMasked(bool _b){
+    bIsAnimeoMasked=_b;
+}
 
 
 void EmotionWorld::bindToSkeletton(bool _b){
@@ -789,6 +810,19 @@ void EmotionWorld::saveEmitterposition(ofVec2f _p){
     emitterposition.set(savedemitterposition->x,savedemitterposition->y);
 }
 
+void EmotionWorld::saveAnimeoMaskPosition(){
+    savedAnimeoMaskPosition->set(ofGetMouseX(),ofGetMouseY());
+    Settings::get().save("data.json");
+    animeoMaskPosition.set(savedAnimeoMaskPosition->x,savedAnimeoMaskPosition->y);
+}
+
+void EmotionWorld::saveAnimeoMaskRadius(float r){
+    //savedAnimeoMaskedRadius=r;
+    animeoMaskRadius=r;
+    Settings::getFloat("emotions/animeomaskradius")=r;
+    Settings::get().save("data.json");
+
+}
 
 void EmotionWorld::playRandomMultiplopp(){
     int randNum;
@@ -894,8 +928,8 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
         }*/
       //  bCircleFollowMouse=!bCircleFollowMouse;
         
-        makeStars(100);
-
+       // makeStars(100);
+        saveAnimeoMaskRadius(200);
         
     }
     
@@ -1326,11 +1360,15 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     }
     
     
-    if(msg.getAddress() == "/EmotionWorld/push61")
+    if(msg.getAddress() == "/EmotionWorld/push63")//63?
     {
         saveEmitterTopPosition();
     }
     
+    if(msg.getAddress() == "/EmotionWorld/push64")
+    {
+        saveAnimeoMaskPosition();
+    }
     
     
     if(msg.getAddress() == "/EmotionWorld/push62")
@@ -1700,6 +1738,11 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         bindEmitterToHands(m);
     }
     
+    if(msg.getAddress() == "/EmotionWorld/toggle34")
+    {
+        float m=msg.getArgAsBool(0);
+        setIsAnimeoMasked(m);
+    }
     
 
     if(msg.getAddress() == "/EmotionWorld/toggle26")

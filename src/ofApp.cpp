@@ -55,6 +55,12 @@ void ofApp::setup(){
     //using Syphon app Simple Server, found at http://syphon.v002.info/
     //mClient.set("","Simple Server");
     
+    
+    ofColor c=ofColor(255,0,0);
+    c.setHueAngle(139);
+    c.setBrightness(100);
+    
+    maskcolor=c;
 
 }
 

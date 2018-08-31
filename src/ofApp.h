@@ -42,6 +42,8 @@ class ofApp : public ofBaseApp{
     
     ofSoundStream soundStream;
 
+    ofColor maskcolor;
+
     bool bGreenScreen=true;
     
     

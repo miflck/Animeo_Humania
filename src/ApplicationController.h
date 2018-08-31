@@ -88,6 +88,8 @@ public:
     int getNumberOfSkelettons();
 
     
+    
+    
 private:
 	ApplicationController();
 	static ApplicationController* instance;
