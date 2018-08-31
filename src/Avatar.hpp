@@ -37,7 +37,10 @@ public:
 
     virtual void draw();
     virtual void drawAvatar();
-    
+    virtual void drawAvatarMesh();
+    virtual void drawAvatarPath();
+
+
     MappedPoints getBonesPositions();
     virtual void setSiblingBones(MappedPoints _bones);
 

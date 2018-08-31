@@ -168,9 +168,6 @@ void AvatarApp::draw(){
         ofSetColor(255,0,0,150);
         ofDrawCircle(startposition,20);
         ofPopStyle();
-        
-     
-        
     }
 }
 
@@ -179,7 +176,7 @@ void AvatarApp::exit(){
 }
 
 void AvatarApp::addAvatar(){
-    if(avatars.size()<20){
+   // if(avatars.size()<20){
     Avatar * a =new Avatar();
     a->setup();
     a->setTarget(ofVec2f(ofRandom(ofGetWidth()),ofRandom(ofGetHeight())));
@@ -198,7 +195,7 @@ void AvatarApp::addAvatar(){
 
     if(bIsImitating)a->startImitate();
     avatars.push_back(a);
-    }
+  //  }
 }
 
 
@@ -469,7 +466,9 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/avatar/push19")
     {
+        for(int i=0;i<50;i++){
         addAvatar();
+        }
     }
     if(msg.getAddress() == "/avatar/fader6")
     {
