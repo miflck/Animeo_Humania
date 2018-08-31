@@ -32,7 +32,8 @@ void IAKreis::setup(){
      fadeInitTime= ofGetElapsedTimef();
     fadeTarget=255;
     fadeDuration=3.0f;
-    setMaxSpeed(10);
+    setMaxSpeed(20);
+    setSeekForce(5);
     
 }
 
@@ -146,6 +147,7 @@ void IAKreis::setState(int _state){
            /* anchor.setPosition(getPosition());
             anchor.setPhysics(50, 0.5, 0.4);
             anchor.body->SetType(b2_dynamicBody);*/
+            setMaxSpeed(10);
             setSpeed(getSpeedBefore());
             setTarget(ofVec2f(getPosition().x,-200));
             break;

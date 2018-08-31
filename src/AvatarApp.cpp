@@ -664,6 +664,8 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         faceCircle.setSlowDownDistance(800);
         faceCircle.setScaleDuration(1);
         faceCircle.color=ofColor(255);
+        faceCircle.setSeekForce(3);
+        faceCircle.setMaxSpeed(50);
 
         
     }

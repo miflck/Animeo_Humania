@@ -15,7 +15,7 @@ void OscManager::setup(){
     touchOscReceiver.setup(7000);
     /*this is the port your game will receive data on.
      For us this is the important one! Set your mobile device to send on this port.*/
-    //touchOscSender.setup(TOUCHOSCHOST, TOUCHOSCPORT);
+    touchOscSender.setup(TOUCHOSCHOST, TOUCHOSCPORT);
 }
 
 void OscManager::update(){

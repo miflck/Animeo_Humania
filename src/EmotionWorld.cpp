@@ -210,7 +210,7 @@ void EmotionWorld::update(){
     
     for(int i=0;i<ellipsen.size();i++){
         ellipsen[i]->update();
-        if(ellipsen[i]->bShouldRemove)emitMultiShapesNoFreq(nShapes,ofVec2f(ellipsen[i]->getPosition().x,50));
+        if(ellipsen[i]->bShouldRemove)emitMultiShapesNoFreq(nShapes,ofVec2f(ellipsen[i]->getPosition().x,ellipsen[i]->actualRadius));
     }
     
 

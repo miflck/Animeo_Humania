@@ -766,6 +766,18 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
         getWatch();
     }
     
+    
+    if(msg.getAddress() == "/Light/toggle33")
+    {
+        //  mover.setState(WATCH);
+       // setMute(!bIsMute);
+        float f=msg.getArgAsBool(0);
+        setMute(f);
+    }
+    
+
+    
+    
 }
 
 
