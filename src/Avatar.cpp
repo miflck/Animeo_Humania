@@ -113,7 +113,7 @@ void Avatar::update(){
     for(int i=0;i<movers.size();i++){
         movers[i]->move();
     }
-   // updateSkeletton();
+    updateSkeletton();
     play();
     imitate();
     updateSkelettonMovers();

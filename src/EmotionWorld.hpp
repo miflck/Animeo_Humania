@@ -489,6 +489,7 @@ public:
     Balloon balloon;
     bool bShowBalloon=false;
     void showBalloon(bool _s);
+   bool bIsBalloonBound=true;
     
     
     Bird bird;

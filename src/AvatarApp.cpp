@@ -117,13 +117,13 @@ void AvatarApp::update(){
     if(avatars.size()>0){
         avatars[0]->setTarget(humania.getPosition()-avatarOffset);
         avatars[0]->setSiblingBones(humania.getBonesPositions());
-        avatars[0]->updateSkeletton(mskel);
+      //  avatars[0]->updateSkeletton(mskel);
         avatars[0]->update();
 
         for(int i=1;i<avatars.size();i++){
             avatars[i]->setTarget(avatars[i-1]->getPosition()-avatarOffset);
             avatars[i]->setSiblingBones(avatars[i-1]->getBonesPositions());
-            avatars[i]->updateSkeletton(mskel);
+        //    avatars[i]->updateSkeletton(mskel);
             avatars[i]->update();
         }
     }
@@ -466,9 +466,9 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/avatar/push19")
     {
-        for(int i=0;i<50;i++){
+        //for(int i=0;i<50;i++){
         addAvatar();
-        }
+        //}
     }
     if(msg.getAddress() == "/avatar/fader6")
     {

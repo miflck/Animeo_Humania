@@ -296,6 +296,14 @@ void EmotionWorld::update(){
 
     }
     sun.update();
+    
+    
+    if(mskel.size()>0 && bShowBalloon && bIsBalloonBound){
+        ofVec2f target;
+        target=mskel[APPC->getSkelettonIndex()].head;
+        balloon.setTarget(ofVec2f(target.x,target.y-300));
+    }
+    
     balloon.update();
     bird.update();
     
@@ -342,7 +350,7 @@ void EmotionWorld::update(){
             hearts.push_back(shared_ptr<Heart>(new Heart));
             hearts.back().get()->setPhysics(3.0, 0.53, 0.5);
             hearts.back().get()->setup(box2d.getWorld(), emitterposition.x, emitterposition.y, 0);
-            hearts.back().get()->setVelocity(ofRandom(-10,10), ofRandom(0,-10));
+            hearts.back().get()->setVelocity(ofRandom(-1,1), ofRandom(0,-1));
             hearts.back().get()->setAngularVelocity(ofRandom(1));
             playRandomPlopp();
 
@@ -1142,11 +1150,17 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
        // balloon.setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
         vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
         ofVec2f pos=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
-        if(mskel.size()>0 && f){
+        /*if(mskel.size()>0 && f){
             pos=mskel[APPC->getSkelettonIndex()].head-200;
-        }
+        }*/
         balloon.setPosition(pos.x,-30);
         balloon.setTarget(ofVec2f(pos.x,pos.y));
+        
+        ofVec2f target;
+        if(mskel.size()>0 && f){
+            target=mskel[APPC->getSkelettonIndex()].head;
+            balloon.setTarget(ofVec2f(target.x,target.y-200));
+         }
         
 
         if(f)balloon.startEasingIn();
@@ -1164,7 +1178,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/Balloon/toggle25")
     {
-        float f=msg.getArgAsBool(0);
+       /* float f=msg.getArgAsBool(0);
         bird.setPosition(emitterposition.x,emitterposition.y);
         bird.setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
         
@@ -1178,6 +1192,9 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         m.addFloatArg(ofMap(emitterposition.x+emitteroffset.x,0,ofGetWidth(),0,1));
         m.setAddress("/Balloon/xy3");
         APPC->oscmanager.touchOscSender.sendMessage(m);
+        */
+        float f=msg.getArgAsBool(0);
+        bIsBalloonBound=f;
     }
     
     
@@ -1444,10 +1461,11 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     
 
        // anchors.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
-        ofVec2f dir = ofVec2f(-150,-100);
+        //ofVec2f dir = ofVec2f(-150,-100);
+        ofVec2f dir = ofVec2f(-150,-150);
+
         dir.normalize();
-        dir*=10;
- 
+        dir*=ofRandom(2,15);
         r=150;
         ofVec2f a =ofVec2f(anchorposition.x-r/2,anchorposition.y);
         ofVec2f b =ofVec2f(anchorposition.x+r/2,anchorposition.y);

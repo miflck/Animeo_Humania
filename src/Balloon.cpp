@@ -29,7 +29,8 @@ void Balloon::setup(){
     
     setSpeed(0,-1);
     setMaxSpeed(8);
-
+    actualTriangleAngle=0;
+    
 }
 
 void Balloon::update(){

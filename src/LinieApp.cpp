@@ -169,7 +169,7 @@ void LinieApp::update(){
     }
     
     float mV=ofMap(APPC->audioInVolume,0,0.05,0,50);
-   // cout<<mV<<endl;
+   cout<<mV<<endl;
     int c=0;
  
     if(!bMakeCircle && !bIsExploding){
