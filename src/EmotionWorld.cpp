@@ -23,11 +23,9 @@ EmotionWorld::~EmotionWorld(){
 void EmotionWorld::init(){
     cout<<"init EmotionWorld"<<endl;
     bAddedListeners = false;
-    
     gravityY=0;
     gravityX=0;
 
-    
     box2d.init();
     box2d.setIterations(40, 20);
     box2d.enableEvents();   // <-- turn on the event listener
@@ -44,34 +42,24 @@ void EmotionWorld::init(){
     anchorLeftHand.setPhysics(50, 0.5, 0.9);
     anchorLeftHand.setup(box2d.getWorld(), 0, 0, 70);
     anchorLeftHand.setPosition(-200,-200);
-
     
     anchorRightHand.setPhysics(50, 0.5, 0.9);
     anchorRightHand.setup(box2d.getWorld(), 0, 0, 70);
     anchorRightHand.setPosition(-200,-200);
 
-    
     anchorAnimeoTop.setPhysics(0, 0.5, 0.9);
     anchorAnimeoTop.setup(box2d.getWorld(), 0, 0, 120);
     anchorAnimeoTop.setPosition(-200,-200);
 
 
-  /*  box.setup(box2d.getWorld(), ofGetWidth()/2, -20, ofGetWidth(), 20);
-    leftbox.setup(box2d.getWorld(), 0, 150,20,300);
-    rightbox.setup(box2d.getWorld(), ofGetWidth(),150, 20,300);
-*/
-    
-    screen.allocate(1920,1080, GL_RGB);
-    screen.begin();
-    ofClear(0,0,0,0);
-    screen.end();
     
     herz.load("herz.png");
     sternImg.load("bilder/stern.png");
+    flashImg.load("bilder/flash.png");
+
 
     sun.setup();
     sun.bSeekTarget=true;
-    
     
     balloon.setup();
     bird.setup();
@@ -84,7 +72,7 @@ void EmotionWorld::init(){
     
     
     savedeanchorposition=&Settings::getVec2("emotions/anchorposition");
-   anchorposition.set(savedeanchorposition->x,savedeanchorposition->y);
+    anchorposition.set(savedeanchorposition->x,savedeanchorposition->y);
    
     
     savedeanchorpositionBottom=&Settings::getVec2("emotions/anchorpositionBottom");
@@ -135,11 +123,9 @@ void EmotionWorld::update(){
     ofVec2f knee;
 
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
-    
     repulsionPosition.set(*savedRepulsionPosition);
-    
     if(mskel.size()>0){
-        repulsionPosition.set(mskel[APPC->getSkelettonIndex()].rightKnee);
+        repulsionPosition.set(mskel[APPC->getSkelettonIndex()].spineBase);
     }
     
     
@@ -149,7 +135,9 @@ void EmotionWorld::update(){
     for(int i=0;i<shapes.size();i++){
         float dis = repulsionPosition.distance(shapes[i].get()->getPosition());
         if(dis < minDis && bIsRepulsionActive){
-            shapes[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
+            float f = ofMap(dis,0,minDis,repulsionForce,0);
+            shapes[i].get()->addRepulsionForce(repulsionPosition,f);
+           // shapes[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
         }
         
        /* if(bIsTopRepulsionActive){
@@ -167,7 +155,9 @@ void EmotionWorld::update(){
     for(int i=0;i<triangles.size();i++){
         float dis = repulsionPosition.distance(triangles[i].get()->getPosition());
         if(dis < minDis && bIsRepulsionActive){
-            triangles[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
+            float f = ofMap(dis,0,minDis,repulsionForce,0);
+            triangles[i].get()->addRepulsionForce(repulsionPosition,f);
+            //triangles[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
         }
         triangles[i]->update();
     }
@@ -175,7 +165,9 @@ void EmotionWorld::update(){
     for(int i=0;i<hearts.size();i++){
         float dis = repulsionPosition.distance(hearts[i].get()->getPosition());
         if(dis < minDis && bIsRepulsionActive){
-            hearts[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
+            float f = ofMap(dis,0,minDis,repulsionForce,0);
+            hearts[i].get()->addRepulsionForce(repulsionPosition,f);
+           // hearts[i].get()->addRepulsionForce(repulsionPosition,repulsionForce);
         }
         hearts[i]->update();
     }
@@ -189,12 +181,10 @@ void EmotionWorld::update(){
 
         float dis = repulsionPosition.distance(kreise[i].get()->getPosition());
         if(dis < minDis && bIsRepulsionActive){
+            float f = ofMap(dis,0,minDis,repulsionForce,0);
+            //kreise[i].get()->anchor.addRepulsionForce(repulsionPosition,f);
             kreise[i].get()->anchor.addRepulsionForce(repulsionPosition,repulsionForce);
         }
-        
-        
-        
-        
         
         
         
@@ -210,7 +200,9 @@ void EmotionWorld::update(){
     for(int i=0;i<sterne.size();i++){
         float dis = repulsionPosition.distance(sterne[i].get()->getPosition());
         if(dis < minDis && bIsRepulsionActive){
-            sterne[i].get()->anchor.addRepulsionForce(repulsionPosition,repulsionForce);
+            float f = ofMap(dis,0,minDis,repulsionForce,0);
+            sterne[i].get()->anchor.addRepulsionForce(repulsionPosition,f);
+            //sterne[i].get()->anchor.addRepulsionForce(repulsionPosition,repulsionForce);
         }
         sterne[i]->update();
     }
@@ -496,17 +488,13 @@ void EmotionWorld::draw(){
         movingObjects[i].draw();
     }*/
     
-   if(bShowFeeling)drawFeeling();
+  // if(bShowFeeling)drawFeeling();
     
-   /*   screen.begin();
+    for(int i=0;i<flashes.size();i++){
+        flashes[i]->draw();
+    }
+    
 
-  ofPushStyle();
-    ofSetColor(255,100);
-    ofDrawCircle(ofGetMouseX(), ofGetMouseY(), 10);
-    screen.end();
-   
-    screen.draw(0,0);
-   */
     
 }
 
@@ -740,7 +728,7 @@ void EmotionWorld::emitFlashes(int n){
         r*=ofGetWidth()*3;
         cout<<"Add Flashes"<<endl;
         flashes.push_back(shared_ptr<Flash>(new Flash));
-        flashes.back().get()->setup();
+        flashes.back().get()->setup(&flashImg);
         flashes.back().get()->setPosition(headposition.x, headposition.y);
         flashes.back().get()->setTarget(r);
         flashes.back().get()->bSeekTarget=true;
@@ -896,7 +884,10 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
                 break;
             }
         }*/
-        bCircleFollowMouse=!bCircleFollowMouse;
+      //  bCircleFollowMouse=!bCircleFollowMouse;
+        
+        makeStars(100);
+
         
     }
     
@@ -921,20 +912,10 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
     
     
     if(e.key=='s'){
-       // toggleSun();
-        
-       // bEmitShapes=!bEmitShapes;
-        
         saveEmitterposition(ofVec2f(ofGetMouseX(),ofGetMouseY()));
     }
     
-    if(e.key=='q'){
-        sun.scaleTo(100,20.f);
-    }
-    
-    if(e.key=='w'){
-        sun.scaleTo(500,20.f);
-    }
+
     
     if(e.key=='e'){
         //sun.scaleTo(2000,20.f);
@@ -942,6 +923,7 @@ void EmotionWorld::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='g'){
+        emitFlashes(20);
 /*
         for(int i=0;i<10;i++){
             ofVec2f r=ofVec2f(-1,0);
@@ -1071,7 +1053,7 @@ void EmotionWorld::makeStars(int num){
     // sterne.back().get()->setPosition(emitterposition.x,emitterposition.y);
     sterne.back().get()->setPosition(emitterTopPosition);
     sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,(ofGetHeight()/3)*2)));
-     sterne.back().get()->setup(sternImg);
+     sterne.back().get()->setup(&sternImg);
      sterne.back().get()->setTargetRadius(ofRandom(15,25));
      }
     
@@ -1097,6 +1079,34 @@ void EmotionWorld::turnOff(){
     bAddedListeners=false;
 }
 
+
+
+
+
+void EmotionWorld::reset(){
+    
+    savedemitterposition=&Settings::getVec2("emotions/emitterposition");
+    emitterposition.set(savedemitterposition->x,savedemitterposition->y);
+    emitteroffset.set(400,0);
+    
+    
+    savedeanchorposition=&Settings::getVec2("emotions/anchorposition");
+    anchorposition.set(savedeanchorposition->x,savedeanchorposition->y);
+    
+    savedeanchorpositionBottom=&Settings::getVec2("emotions/anchorpositionBottom");
+    anchorpositionBottom.set(savedeanchorpositionBottom->x,savedeanchorpositionBottom->y);
+    
+    savedRepulsionTopPosition=&Settings::getVec2("emotions/repulsiontopposition");
+    savedRepulsionBottomPosition=&Settings::getVec2("emotions/repulsionbottomposition");
+    savedRepulsionCenterPosition=&Settings::getVec2("emotions/repulsioncenterposition");
+    
+    savedRepulsionPosition=&Settings::getVec2("emotions/repulsionposition");
+    
+    savedemitterTopposition=&Settings::getVec2("emotions/emitterTopPosition");
+    emitterTopPosition.set(*savedemitterTopposition);
+    
+    
+}
 
 
 void EmotionWorld::onMessageReceived(ofxOscMessage &msg){

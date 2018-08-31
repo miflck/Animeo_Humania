@@ -21,6 +21,12 @@ void Flash::setup(){
     flashImage.load("flash.png");
 }
 
+
+void Flash::setup(ofImage *img){
+    actualRadius=200;
+    flashImage=*img;
+}
+
 void Flash::update(){
     
     auto endTime = easingInitTime + scaleDuration;

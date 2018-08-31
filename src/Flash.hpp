@@ -21,6 +21,8 @@ public:
     
     
     void setup();
+    void setup(ofImage *img);
+
     void update();
     void draw();
     

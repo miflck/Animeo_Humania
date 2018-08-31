@@ -471,6 +471,9 @@ public:
      void mouseScrolled(ofMouseEventArgs &a);
      void mouseEntered(ofMouseEventArgs &a);
      void mouseExited(ofMouseEventArgs &a);
+    
+    
+    void reset();
 
     
     //events
@@ -478,7 +481,6 @@ public:
     bool bIsRunning;
     
     void toggleMouseActive();
-    ofFbo screen;
     
     
     Sun sun;
@@ -505,7 +507,7 @@ public:
 
     ofImage herz;
     ofImage sternImg;
-    
+    ofImage flashImg;
     
     Kreis kreis;
     

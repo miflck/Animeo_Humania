@@ -29,6 +29,9 @@ public:
     
     void setup(ofImage img);
     
+    void setup(ofImage *img);
+
+    
     int strokeWeight=6;
     
     b2World* world;
