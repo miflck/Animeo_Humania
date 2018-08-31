@@ -137,6 +137,7 @@ void Avatar::draw(){
     ofTranslate(-spineBase);
     
     drawAvatar();
+   // drawAvatarPath();
     ofPopStyle();
     ofPopMatrix();
 }
@@ -756,6 +757,518 @@ void Avatar::drawAvatar(){
     ofPopMatrix();
     
 }
+
+
+void Avatar::drawAvatarMesh(){
+    headOffset=ofVec2f(0,-80);
+    ofPushMatrix();
+    ofPushStyle();
+    ofVec2f headCenter=head+headOffset;
+    
+    ofSetColor(255);
+    ofDrawCircle(headCenter,80);
+    ofSetColor(0);
+    
+    // EYES
+    ofDrawCircle(headCenter+leftEyePosition,10);
+    ofDrawCircle(headCenter+rightEyePosition,10);
+    
+    //Cheeks
+    ofSetColor(255,0,0);
+    ofDrawCircle(headCenter.x-50,headCenter.y+30,20);
+    ofDrawCircle(headCenter.x+50,headCenter.y+30,20);
+    ofSetColor(0);
+    ofDrawTriangle(headCenter.x, headCenter.y, headCenter.x+20, headCenter.y+40,headCenter.x-20, headCenter.y+40);
+    
+    
+    // Hair
+    ofSetColor(0);
+    ofNoFill();
+    ofSetLineWidth(3);
+    ofDrawBezier(headCenter.x,headCenter.y-80,headCenter.x,headCenter.y-40,headCenter.x-40,headCenter.y-20,headCenter.x-80,headCenter.y-20);
+    ofDrawBezier(headCenter.x,headCenter.y-80,headCenter.x,headCenter.y-40,headCenter.x+40,headCenter.y-20,headCenter.x+80,headCenter.y-20);
+    
+    
+    ofVec2f dist;
+    ofVec2f cp1;
+    ofVec2f cp2;
+    ofPolyline rough;
+    ofMesh smooth;
+    ofMesh combinedMesh;
+
+    
+    ofPushMatrix();
+    ofTranslate(headCenter);
+    
+    dist=(leftMouthPosition-mouthCenterPosition);
+    cp1=ofVec2f(leftMouthPosition.x,leftMouthPosition.y-dist.y/2);
+    cp2=ofVec2f(mouthCenterPosition.x+(dist.x/2),mouthCenterPosition.y);
+    ofSetColor(0);
+    
+    
+    
+    rough.clear();
+    smooth.clear();
+    rough.addVertex(leftMouthPosition);
+    rough.bezierTo(cp1,cp2, mouthCenterPosition);
+    ofxPolyToMesh(smooth, rough, 2);
+    smooth.draw();
+    
+    
+    dist=(rightMouthPosition-mouthCenterPosition);
+    cp1=ofVec2f(rightMouthPosition.x,rightMouthPosition.y-dist.y/2);
+    cp2=ofVec2f(mouthCenterPosition.x+(dist.x/2),mouthCenterPosition.y);
+    
+    rough.clear();
+    smooth.clear();
+    rough.addVertex(rightMouthPosition);
+    rough.bezierTo(cp1,cp2, mouthCenterPosition);
+    ofxPolyToMesh(smooth, rough, 2);
+    smooth.draw();
+    
+    
+    ofPopMatrix();
+    
+    
+    
+    ofFill();
+    dist=ofVec2f(80,0);
+    dist.rotate(-20);
+    for(int i=0;i<6;i++){
+        ofVec2f pos=headCenter;
+        pos+=dist;
+        ofSetColor(0);
+        ofDrawCircle(pos,20);
+        ofSetColor(255);
+        ofDrawCircle(pos,17);
+        dist.rotate(-180/6);
+    }
+    
+    
+    
+    
+    float rotation=40;
+    if(head.x-spineBase.x>0){
+        rotation=-40;
+    }else{
+        rotation=40;
+    }
+    
+    ofVec2f mid=spineBase-neck;
+    cp1=mid.getRotated(rotation);
+    cp1/=3;
+    cp1+=neck;
+    
+    cp2=mid.getRotated(-rotation);
+    cp2/=-3;
+    cp2+=spineBase;
+    
+    //ofNoFill();
+    
+    rough.clear();
+    smooth.clear();
+    rough.addVertex(neck);
+    rough.bezierTo(spineCP1Mover.getPosition(), spineCP2Mover.getPosition(), spineBase);
+    
+    ofxPolyToMesh(smooth, rough, 4);
+    //smooth.draw();
+    combinedMesh.append(smooth);
+
+    
+    
+    
+    
+    
+    
+    if(APPC->debug){
+        ofSetColor(255,0,0);
+        ofFill();
+        ofDrawCircle( spineCP1Mover.getPosition(),5);
+        ofSetColor(255);
+        ofSetColor(255,0,255);
+        ofDrawCircle( spineCP2Mover.getPosition(),5);
+        ofSetColor(255);
+    }
+    
+    
+    
+    mid=leftKnee-spineBase;
+    cp1=mid;//.getRotated(-40);
+    cp1*=0.75;
+    cp1+=spineBase;
+    
+    mid=leftKnee-leftFoot;
+    cp2=mid;//.getRotated(40);
+    cp2*=0.75;
+    cp2+=leftFoot;
+    
+    ofNoFill();
+    // ofSetLineWidth(avatarLineWidth);
+    
+    
+    rough.clear();
+    smooth.clear();
+    rough.addVertex(spineBase);
+    rough.bezierTo(leftLegCP1Mover.getPosition(), leftLegCP2Mover.getPosition(), leftFoot);
+    ofxPolyToMesh(smooth, rough, 4);
+    combinedMesh.append(smooth);
+    //smooth.draw();
+    
+    
+    if(APPC->debug){
+        ofFill();
+        ofSetColor(255,0,0);
+        ofSetLineWidth(1);
+        ofDrawLine(cp1,spineBase);
+        ofDrawCircle(cp1,5);
+        ofSetColor(255);
+        ofSetColor(255,0,255);
+        ofDrawCircle(cp2,5);
+        ofDrawLine(cp2,leftFoot);
+        ofSetColor(0,0,255);
+        ofDrawCircle(leftKnee,5);
+        ofSetColor(255);
+    }
+    
+    ofNoFill();
+    //  ofSetLineWidth(avatarLineWidth);
+    
+    mid=rightKnee-spineBase;
+    cp1=mid;//.getRotated(-40);
+    cp1*=0.75;
+    cp1+=spineBase;
+    
+    mid=rightKnee-rightFoot;
+    cp2=mid;//.getRotated(40);
+    cp2*=0.75;
+    cp2+=rightFoot;
+    
+    rough.clear();
+    smooth.clear();
+    rough.addVertex(spineBase);
+    rough.bezierTo(rightLegCP1Mover.getPosition(), rightLegCP2Mover.getPosition(), rightFoot);
+    ofxPolyToMesh(smooth, rough, 4);
+    combinedMesh.append(smooth);
+
+    //smooth.draw();
+    
+    if(APPC->debug){
+        ofFill();
+        ofSetColor(255,0,0);
+        ofSetLineWidth(1);
+        ofDrawLine(cp1,spineBase);
+        ofDrawCircle(cp1,5);
+        ofSetColor(255);
+        ofSetColor(255,0,255);
+        ofDrawCircle(cp2,5);
+        ofDrawLine(cp2,rightFoot);
+        ofSetColor(0,0,255);
+        ofDrawCircle(rightKnee,5);
+        ofSetColor(255);
+    }
+    
+    mid=leftEllbow-neck;
+    cp1=mid;//.getRotated(-40);
+    cp1*=0.7;
+    cp1+=neck;
+    
+    mid=leftEllbow-leftHand;
+    cp2=mid;//.getRotated(40);
+    cp2*=0.7;
+    cp2+=leftHand;
+    
+    if(APPC->debug){
+        ofFill();
+        ofSetColor(255,0,0);
+        ofSetLineWidth(1);
+        ofDrawLine(cp1,neck);
+        ofDrawCircle(cp1,5);
+        ofSetColor(255);
+        ofSetColor(255,0,255);
+        ofDrawCircle(cp2,5);
+        ofDrawLine(cp2,leftHand);
+        ofSetColor(0,0,255);
+        ofDrawCircle(leftEllbow,5);
+        ofSetColor(255);
+    }
+    
+    
+    //   ofSetLineWidth(avatarLineWidth);
+    ofNoFill();
+    ofSetColor(255);
+    
+    rough.clear();
+    smooth.clear();
+    rough.addVertex(neck);
+    rough.bezierTo(leftArmCP1Mover.getPosition(), leftArmCP2Mover.getPosition(), leftHand);
+    ofxPolyToMesh(smooth, rough, 4);
+    //smooth.draw();
+    combinedMesh.append(smooth);
+
+    ofFill();
+    ofDrawCircle(leftHand,15);
+    
+    mid=rightEllbow-neck;
+    cp1=mid;//.getRotated(-40);
+    cp1*=0.5;
+    cp1+=neck;
+    
+    mid=rightEllbow-rightHand;
+    cp2=mid;//.getRotated(40);
+    cp2*=0.5;
+    cp2+=rightHand;
+    
+    if(APPC->debug){
+        ofFill();
+        ofSetColor(255,0,0);
+        ofSetLineWidth(1);
+        ofDrawLine(cp1,neck);
+        ofDrawCircle(cp1,5);
+        ofSetColor(255);
+        ofSetColor(255,0,255);
+        ofDrawCircle(cp2,5);
+        ofDrawLine(cp2,rightHand);
+        ofSetColor(0,0,255);
+        ofDrawCircle(rightEllbow,5);
+        ofSetColor(255);
+    }
+    //  ofSetLineWidth(avatarLineWidth);
+    
+    ofNoFill();
+    
+    rough.clear();
+    smooth.clear();
+    rough.addVertex(neck);
+    rough.bezierTo(rightArmCP1Mover.getPosition(), rightArmCP2Mover.getPosition(), rightHand);
+    ofxPolyToMesh(smooth, rough, 4);
+    //smooth.draw();
+    combinedMesh.append(smooth);
+
+    
+    ofFill();
+    ofDrawCircle(rightHand,15);
+    
+    ofPath leftfootpath;
+    leftfootpath.moveTo(leftFoot.x+10,leftFoot.y);
+    leftfootpath.arc(leftFoot.x+10,leftFoot.y, 20, 20, 180, 0);
+    leftfootpath.setFilled(true);
+    leftfootpath.setStrokeWidth(1);
+    leftfootpath.close();
+    leftfootpath.draw();
+    
+    ofPath rightfootpath;
+    rightfootpath.moveTo(rightFoot.x-10,rightFoot.y);
+    rightfootpath.arc(rightFoot.x-10,rightFoot.y, 20, 20, 180, 0);
+    rightfootpath.setFilled(true);
+    rightfootpath.setStrokeWidth(1);
+    rightfootpath.close();
+    rightfootpath.draw();
+    
+    
+    combinedMesh.draw();
+    ofPopStyle();
+    ofPopMatrix();
+    
+}
+
+void Avatar::drawAvatarPath(){
+    headOffset=ofVec2f(0,-80);
+    ofPushMatrix();
+    ofPushStyle();
+    ofVec2f headCenter=head+headOffset;
+    
+    ofSetColor(255);
+    ofDrawCircle(headCenter,80);
+    ofSetColor(0);
+    
+    // EYES
+    ofDrawCircle(headCenter+leftEyePosition,10);
+    ofDrawCircle(headCenter+rightEyePosition,10);
+    
+    //Cheeks
+    ofSetColor(255,0,0);
+    ofDrawCircle(headCenter.x-50,headCenter.y+30,20);
+    ofDrawCircle(headCenter.x+50,headCenter.y+30,20);
+    ofSetColor(0);
+    ofDrawTriangle(headCenter.x, headCenter.y, headCenter.x+20, headCenter.y+40,headCenter.x-20, headCenter.y+40);
+    
+    
+    ofVec2f dist;
+    ofVec2f cp1;
+    ofVec2f cp2;
+    ofPolyline rough;
+    ofMesh smooth;
+    ofMesh combinedMesh;
+    
+    
+      /*
+  // Hair
+    ofSetColor(0);
+    ofNoFill();
+    ofSetLineWidth(3);
+    ofDrawBezier(headCenter.x,headCenter.y-80,headCenter.x,headCenter.y-40,headCenter.x-40,headCenter.y-20,headCenter.x-80,headCenter.y-20);
+    ofDrawBezier(headCenter.x,headCenter.y-80,headCenter.x,headCenter.y-40,headCenter.x+40,headCenter.y-20,headCenter.x+80,headCenter.y-20);
+    
+  
+    */
+    
+    ofPushMatrix();
+    ofTranslate(headCenter);
+    
+    dist=(leftMouthPosition-mouthCenterPosition);
+    cp1=ofVec2f(leftMouthPosition.x,leftMouthPosition.y-dist.y/2);
+    cp2=ofVec2f(mouthCenterPosition.x+(dist.x/2),mouthCenterPosition.y);
+    ofSetColor(0);
+    
+    
+    
+    rough.clear();
+    smooth.clear();
+    rough.addVertex(leftMouthPosition);
+    rough.bezierTo(cp1,cp2, mouthCenterPosition);
+    ofxPolyToMesh(smooth, rough, 2);
+    smooth.draw();
+    
+    
+    dist=(rightMouthPosition-mouthCenterPosition);
+    cp1=ofVec2f(rightMouthPosition.x,rightMouthPosition.y-dist.y/2);
+    cp2=ofVec2f(mouthCenterPosition.x+(dist.x/2),mouthCenterPosition.y);
+    
+    rough.clear();
+    smooth.clear();
+    rough.addVertex(rightMouthPosition);
+    rough.bezierTo(cp1,cp2, mouthCenterPosition);
+    ofxPolyToMesh(smooth, rough, 2);
+    smooth.draw();
+    
+    
+    ofPopMatrix();
+    
+    
+   
+    
+    ofFill();
+    dist=ofVec2f(80,0);
+    dist.rotate(-20);
+    for(int i=0;i<6;i++){
+        ofVec2f pos=headCenter;
+        pos+=dist;
+        ofSetColor(0);
+        ofDrawCircle(pos,20);
+        ofSetColor(255);
+        ofDrawCircle(pos,17);
+        dist.rotate(-180/6);
+    }
+    
+    
+    
+    
+    float rotation=40;
+    if(head.x-spineBase.x>0){
+        rotation=-40;
+    }else{
+        rotation=40;
+    }
+    
+    ofVec2f mid=spineBase-neck;
+    cp1=mid.getRotated(rotation);
+    cp1/=3;
+    cp1+=neck;
+    
+    cp2=mid.getRotated(-rotation);
+    cp2/=-3;
+    cp2+=spineBase;
+    
+    //ofNoFill();
+    
+    rough.clear();
+    smooth.clear();
+    ofPath p;
+    p.moveTo(neck);
+    p.bezierTo(spineCP1Mover.getPosition(), spineCP2Mover.getPosition(), spineBase);
+    
+    mid=leftKnee-spineBase;
+    cp1=mid;//.getRotated(-40);
+    cp1*=0.75;
+    cp1+=spineBase;
+    
+    mid=leftKnee-leftFoot;
+    cp2=mid;//.getRotated(40);
+    cp2*=0.75;
+    cp2+=leftFoot;
+   
+    p.moveTo(spineBase);
+    p.bezierTo(leftLegCP1Mover.getPosition(), leftLegCP2Mover.getPosition(), leftFoot);
+    
+    mid=rightKnee-spineBase;
+    cp1=mid;//.getRotated(-40);
+    cp1*=0.75;
+    cp1+=spineBase;
+    
+    mid=rightKnee-rightFoot;
+    cp2=mid;//.getRotated(40);
+    cp2*=0.75;
+    cp2+=rightFoot;
+    
+    p.moveTo(spineBase);
+    p.bezierTo(rightLegCP1Mover.getPosition(), rightLegCP2Mover.getPosition(), rightFoot);
+   
+    mid=leftEllbow-neck;
+    cp1=mid;//.getRotated(-40);
+    cp1*=0.7;
+    cp1+=neck;
+    
+    mid=leftEllbow-leftHand;
+    cp2=mid;//.getRotated(40);
+    cp2*=0.7;
+    cp2+=leftHand;
+
+    p.moveTo(neck);
+    p.bezierTo(leftArmCP1Mover.getPosition(), leftArmCP2Mover.getPosition(), leftHand);
+
+    mid=rightEllbow-neck;
+    cp1=mid;//.getRotated(-40);
+    cp1*=0.5;
+    cp1+=neck;
+    
+    mid=rightEllbow-rightHand;
+    cp2=mid;//.getRotated(40);
+    cp2*=0.5;
+    cp2+=rightHand;
+    
+    p.moveTo(neck);
+    p.bezierTo(rightArmCP1Mover.getPosition(), rightArmCP2Mover.getPosition(), rightHand);
+  
+    
+    ofFill();
+    ofDrawCircle(leftHand,15);
+    ofDrawCircle(rightHand,15);
+    
+    ofPath leftfootpath;
+    leftfootpath.moveTo(leftFoot.x+10,leftFoot.y);
+    leftfootpath.arc(leftFoot.x+10,leftFoot.y, 20, 20, 180, 0);
+    leftfootpath.setFilled(true);
+    leftfootpath.setStrokeWidth(1);
+    leftfootpath.close();
+    leftfootpath.draw();
+    
+    ofPath rightfootpath;
+    rightfootpath.moveTo(rightFoot.x-10,rightFoot.y);
+    rightfootpath.arc(rightFoot.x-10,rightFoot.y, 20, 20, 180, 0);
+    rightfootpath.setFilled(true);
+    rightfootpath.setStrokeWidth(1);
+    rightfootpath.close();
+    rightfootpath.draw();
+    
+    p.setStrokeWidth(5);
+    p.setFilled(false);
+    p.draw();
+    ofPopStyle();
+    ofPopMatrix();
+    
+}
+
+
 
 void Avatar::setLeftEyePosition(ofVec2f p){
     leftEyePosition=p;
