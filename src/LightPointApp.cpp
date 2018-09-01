@@ -89,17 +89,11 @@ void LightPointApp::init(){
 
 void LightPointApp::update(){
    
-    ofSoundUpdate();
+    
 
     
-    screen.begin();
-    ofEnableBlendMode(OF_BLENDMODE_SUBTRACT);
-    ofSetColor(3);
-    ofSetRectMode(OF_RECTMODE_CORNER);
-    ofFill();
-    ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
-    ofDisableBlendMode();
-    screen.end();
+    ofSoundUpdate();
+
     
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
     
@@ -783,8 +777,16 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
 
 void LightPointApp::setMute(bool m){
     bIsMute=m;
+    
+    ofxOscMessage mM;
+    mM.addBoolArg(m);
+    mM.setAddress("/Light/toggle33");
+    APPC->oscmanager.touchOscSender.sendMessage(mM);
 }
 
+bool LightPointApp::getIsMute(){
+    return bIsMute;
+}
 
 
 void LightPointApp::onOSCSetup(ofxOscMessage &msg){

@@ -53,10 +53,10 @@ void GuiApp::draw(){
         mskel[i].drawSkeletton();
     }
     
-    for(int i=0;i<uskel.size();i++){
+   /* for(int i=0;i<uskel.size();i++){
         ofSetColor(0, 255, 0);
         uskel[i].drawSkeletton();
-    }
+    }*/
     ofPopMatrix();
 
     
@@ -68,8 +68,9 @@ void GuiApp::draw(){
     ofSetColor(255);
     ofDrawBitmapString(info, 10, 10);
     font.drawString("Skeletton Index: "+ofToString(APPC->getSkelettonIndex())+" from "+ofToString(APPC->getNumberOfSkelettons()), 250, 229);
-    
-    
+//font.drawString("Audio "+ofToString(APPC-> applications["lightpoint"]->getIsMute()), 250, 229);
+
+
 }
 
 

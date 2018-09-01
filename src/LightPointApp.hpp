@@ -139,6 +139,7 @@ public:
     bool bIsMute=false;
     
     void setMute(bool m);
+    bool getIsMute();
     
 };
 

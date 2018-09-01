@@ -150,6 +150,11 @@ void AvatarApp::draw(){
     ofScale(scaleAvatar,scaleAvatar);
     ofTranslate(-humania.getPosition());
     humania.draw();
+    
+    for(int i=0;i<avatars.size();i++){
+        avatars[i]->draw();
+    }
+    
     ofPopMatrix();
     
     if(faceCircle.getState()!=FADEOUT){faceCircle.draw();}
@@ -158,9 +163,9 @@ void AvatarApp::draw(){
 
     
     
-    for(int i=0;i<avatars.size();i++){
+   /* for(int i=0;i<avatars.size();i++){
         avatars[i]->draw();
-    }
+    }*/
    
   
     if(APPC->debug){
