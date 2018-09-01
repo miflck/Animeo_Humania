@@ -71,7 +71,7 @@ void IAKreis::update(){
         case PHYSICS:
             //setPosition(anchor.getPosition().x, anchor.getPosition().y);
             move();
-            if(getPosition().y<actualRadius){
+            if(getPosition().y<actualRadius/2){
                 bShouldRemove=true;
             }
             break;

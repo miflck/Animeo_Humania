@@ -28,8 +28,8 @@
    "emotions" : {
       "anchorposition" : [ 1254, 336 ],
       "anchorpositionBottom" : [ 1345, 822 ],
-      "animeomaskposition" : [ 1275, 338 ],
-      "animeomaskradius" : 250,
+      "animeomaskposition" : [ 1315, 337 ],
+      "animeomaskradius" : 150,
       "emitterTopPosition" : [ 1491, 371 ],
       "emitterposition" : [ 783, 560 ],
       "repulsionbottomposition" : [ 1499, 720 ],
