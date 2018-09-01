@@ -1374,6 +1374,11 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/EmotionWorld/push62")
     {
         emitFlashes(20);
+        bIsEllipseAutomated=false;
+        ofxOscMessage m;
+        m.addFloatArg(0);
+        m.setAddress("/EmotionWorld/toggle27");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
     }
     
     

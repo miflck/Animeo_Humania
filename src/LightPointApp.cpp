@@ -595,6 +595,7 @@ void LightPointApp::setMoverToStartPosition(){
     m.addFloatArg(ofMap(startposition->x,0,ofGetWidth(),0,1));
     m.setAddress("/Light/xy1");
    if (APPC->oscmanager.bIsInitialized) APPC->oscmanager.touchOscSender.sendMessage(m);
+    mover.setRadius(size2);
         
     
 }

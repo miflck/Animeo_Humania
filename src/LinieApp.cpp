@@ -105,7 +105,7 @@ void LinieApp::init(){
     mover1.setSeekForce(10);
     mover1.setMaxSpeed(100);
     mover1.bSeekTarget=true;
-    moverCircleRadius.set(200,0);
+    moverCircleRadius.set(195,0);
     damping=1;
     
     initAlpha=0;
@@ -355,9 +355,9 @@ void LinieApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='u'){
-        anchorStartPositionTop->set(ofGetMouseX(),ofGetMouseY());
-        anchor.setPosition(ofGetMouseX(), ofGetMouseY());
-        Settings::get().save("data.json");
+       // anchorStartPositionTop->set(ofGetMouseX(),ofGetMouseY());
+      //  anchor.setPosition(ofGetMouseX(), ofGetMouseY());
+      //  Settings::get().save("data.json");
     }
 
     if(e.key=='i'){
@@ -719,13 +719,13 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
         circleBoundindex+=3;
         if(circleBoundindex>circles.size()){
             circleBoundindex=circles.size();
-            circlePositionBoundIndex+=3;
+            circlePositionBoundIndex+=5;
         }
         if(circlePositionBoundIndex>circles.size()){
             circlePositionBoundIndex=circles.size();
             if(!bStartFade){
                 bStartFade=true;
-                startFadeEndCircle();
+              //  startFadeEndCircle();
             }
         }
     }

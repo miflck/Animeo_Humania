@@ -132,7 +132,7 @@ private:
     void setSkelettonId(int id);
     int cycleSkelettonId();
     
-    bool bindPositionToSkeletton=false;
+    bool bindPositionToSkeletton=true;
     
     AvatarKreis faceCircle;
     AvatarKreis leftEye;

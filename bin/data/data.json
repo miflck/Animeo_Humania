@@ -21,8 +21,8 @@
    "LinieApp" : {
       "anchorExplodeStartPositionBottom" : [ 1301, 709 ],
       "anchorExplodeStartPositionTop" : [ 1327, 589 ],
-      "anchorStartPositionBottom" : [ 1894, 506 ],
-      "anchorStartPositionTop" : [ 89, 544 ],
+      "anchorStartPositionBottom" : [ 1802, 548 ],
+      "anchorStartPositionTop" : [ 113, 535 ],
       "finalCirclePosition" : [ 968, 513 ]
    },
    "emotions" : {

@@ -518,7 +518,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/avatar/fader7")
     {
         float x=msg.getArgAsFloat(0);
-        x=ofMap(x,-1,1,-500,500);
+        x=ofMap(x,-1,1,-800,800);
         mainAvatarOffset.set(x,mainAvatarOffset.y);
     }
     
