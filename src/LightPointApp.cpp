@@ -56,6 +56,11 @@ void LightPointApp::init(){
     cabindimension=&Settings::getVec2("LightPointApp/cabindimension");
     watchposition=&Settings::getVec2("LightPointApp/watchposition");
     insidepositon=&Settings::getVec2("LightPointApp/insidePoisiton");
+    
+    
+    
+    cabinpositionInside=&Settings::getVec2("LightPointApp/cabinpositioninside");
+    cabindimensionInside=&Settings::getVec2("LightPointApp/cabindimensioninside");
 
     setMoverToStartPosition();
     mover.bSeekTarget=true;
@@ -131,14 +136,9 @@ void LightPointApp::update(){
                 mover.setTarget(mskel[skelettId].rightHand);
                 break;
                 
-       
-                
             default:
                 break;
         }
-     
-        
-   // }
     }
     
     
@@ -209,13 +209,29 @@ bool LightPointApp::bounceFromCabin(){
     float radius=mover.getRadius();
     ofVec2f speed=mover.getSpeed();
     
+    
+   /* bIsInside=false;
+    if(lastPosition.x+radius>=cabinposition->x && lastPosition.x-radius<=cabinposition->x+cabindimension->x){
+        if(lastPosition.y+radius>=cabinposition->y && lastPosition.y+radius<=cabinposition->y+cabindimension->y){
+            bIsInside=true;
+        }
+    }*/
+
+        
+    
+  
+    
+    ofVec2f cabin(cabinposition->x,cabinposition->y);
+    if(bIsInside)cabin.set(*cabinpositionInside);
+    
+    ofVec2f cabindim(cabindimension->x,cabindimension->y);
+    if(bIsInside)cabindim.set(*cabindimensionInside);
+    
    // cout<<speed.length()<<endl;
     //check for top collision:
     if(position.x+radius>=
-       cabinposition->x && position.x-radius<=cabinposition->x+cabindimension->x){
-        float ball2topEdge = abs(position.y - cabinposition->y); //look up abs()
-        float ball2topEdgeBalanced = position.y - cabinposition->y; //look up abs()
-        
+       cabin.x && position.x-radius<=cabin.x+cabindim.x){
+        float ball2topEdge = abs(position.y - cabin.y); //look up abs()
         float dist=ball2topEdge-radius;
 
 
@@ -225,7 +241,7 @@ bool LightPointApp::bounceFromCabin(){
            // cout<<" dist "<<ball2topEdge-radius<<endl;
 
             // anti-warp
-            if(position.x+radius>=cabinposition->x){
+            if(position.x+radius>=cabin.x){
             mover.setPosition(lastPosition.x,lastPosition.y);
             }
           
@@ -236,15 +252,17 @@ bool LightPointApp::bounceFromCabin(){
         }
     }
     
+ 
+    
     //check for left collision:
-    if(position.y+radius>=
-       cabinposition->y && position.y+radius<=cabinposition->y+cabindimension->y){
-        float ball2leftEdge = abs(position.x - cabinposition->x);
+    if(position.y+radius>=cabin.y && position.y+radius<=cabin.y+cabindim.y){
+        
+        float ball2leftEdge = abs(position.x - cabin.x);
         //check for left collision:
         if(ball2leftEdge <= radius)
         {
-          
-                if(position.x+radius>=cabinposition->x){
+
+                if(position.x+radius>=cabin.x){
                     mover.setPosition(lastPosition.x,lastPosition.y);
                     
                 }
@@ -303,6 +321,10 @@ void LightPointApp::draw(){
 
     }
     
+    
+
+    
+    
     ofPushStyle();
     mover.draw();
     vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
@@ -317,16 +339,37 @@ void LightPointApp::draw(){
     ofPopMatrix();
     ofPopStyle();
     
+    
     if(APPC->debug){
-       // cout<<cabinposition<<endl;
+        // cout<<cabinposition<<endl;
         ofPushStyle();
         ofSetColor(255, 0, 0);
         ofPushMatrix();
         ofTranslate(cabinposition->x,cabinposition->y);
         ofDrawRectangle(0,0, cabindimension->x, cabindimension->y);
         ofPopMatrix();
+        
+        ofSetColor(255, 255, 0);
+        ofPushMatrix();
+        ofTranslate(cabinpositionInside->x,cabinpositionInside->y);
+        ofDrawRectangle(0,0, cabindimensionInside->x, cabindimensionInside->y);
+        ofPopMatrix();
+        
+        
+        
+        if(bIsInside){
+            
+            ofSetColor(0,0,255);
+            
+        }else{
+            ofSetColor(0, 255, 0);
+        }
+        mover.draw();
         ofPopStyle();
+        
     }
+    
+   
     
     
 }
@@ -343,6 +386,15 @@ void LightPointApp::playRandomSound(){
     if(!bIsMute)bouncesounds[randNum].play();
 }
 
+
+void LightPointApp::setInside(bool b){
+    bIsInside=b;
+    
+    ofxOscMessage mM;
+    mM.addBoolArg(bIsInside);
+    mM.setAddress("/Light/toggle35");
+    APPC->oscmanager.touchOscSender.sendMessage(mM);
+}
 
 //KEY LISTENER
 //--------------------------------------------------------------
@@ -417,7 +469,7 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     }
     
     
-    if(e.key=='s'){
+  /*  if(e.key=='s'){
         mover.scaleTo(150,2.f);
     }
     
@@ -428,13 +480,11 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
     if(e.key=='d'){
         mover.scaleTo(50,0.5f);
     }
-    
+    */
     if(e.key=='q'){
         mover.setSeekForce(5);
     }
-    if(e.key=='w'){
-        //mover.setSeekForce(0.9);
-    }
+
     
     if(e.key=='e'){
         mover.setSeekForce(0.5);
@@ -462,9 +512,7 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
         Settings::get().save("data.json");
     }
     
-    if(e.key=='o'){
-        //mover.setSlowDown(false);
-    }
+ 
     
    
     if(e.key =='S'){
@@ -503,6 +551,24 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
         ofVec2f cD=ofVec2f(ofGetMouseX(),ofGetMouseY());
         cD-=*cabinposition;
         cabindimension->set(cD);
+        Settings::get().save("data.json");
+    }
+    
+    
+    if(e.key=='i'){
+        //  mover.setSlowDown(true);
+        insidepositon->set(ofGetMouseX(),ofGetMouseY());
+        Settings::get().save("data.json");
+    }
+    
+    if(e.key=='o'){
+        cabinpositionInside->set(ofGetMouseX(),ofGetMouseY());
+        Settings::get().save("data.json");    }
+    
+    if(e.key=='O'){
+        ofVec2f cD=ofVec2f(ofGetMouseX(),ofGetMouseY());
+        cD-=*cabinpositionInside;
+        cabindimensionInside->set(cD);
         Settings::get().save("data.json");
     }
     
@@ -587,6 +653,10 @@ void LightPointApp::toggleRepulsion(){
 
 
 void LightPointApp::setMoverToStartPosition(){
+    
+    setInside(false);
+    setMute(false);
+    
     mover.setPosition(startposition->x, startposition->y);
     mover.setTarget(ofVec2f(startposition->x, startposition->y));
     
@@ -770,7 +840,11 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
         setMute(f);
     }
     
-
+    if(msg.getAddress() == "/Light/toggle35")
+    {
+        float f=msg.getArgAsBool(0);
+        setInside(f);
+    }
     
     
 }

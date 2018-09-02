@@ -108,6 +108,14 @@ public:
     bool bBounceFromCabin=true;
     ofVec2f *cabinposition;
     ofVec2f *cabindimension;
+    
+    
+    bool bIsInside=false;
+    void setInside(bool b);
+    ofVec2f *cabinpositionInside;
+    ofVec2f *cabindimensionInside;
+    
+    
     ofVec2f lastPosition;
     ofRectangle cabinRect;
     
