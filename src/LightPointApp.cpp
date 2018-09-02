@@ -95,7 +95,8 @@ void LightPointApp::init(){
 void LightPointApp::update(){
    
     
-
+    lastPosition=mover.getPosition();
+    mover.update();
     
     ofSoundUpdate();
 
@@ -170,8 +171,7 @@ void LightPointApp::update(){
     
     bounceFromWalls();
     cabinRect=ofRectangle(cabinposition->x,cabinposition->y, cabindimension->x, cabindimension->y);
-    lastPosition=mover.getPosition();
-    mover.update();
+ 
     
  // if(bSendOSCPosition)APPC->oscmanager.sendPositionToLayer(m8layer,mover.getPosition().x-ofGetWidth()/2,-mover.getPosition().y+ofGetHeight()/2);
     
