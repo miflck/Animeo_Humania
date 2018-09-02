@@ -89,7 +89,7 @@ void Humania::setup(){
     leftEyeTarget=ofVec2f(-80,-40)/s;
     rightEyeTarget=ofVec2f(150,40)/s;
     
-   leftEyeMover.setTarget(leftEyeTarget);
+    leftEyeMover.setTarget(leftEyeTarget);
     rightEyeMover.setTarget(rightEyeTarget);
     
  
@@ -406,7 +406,7 @@ void Humania::setState(int _state){
             
         case FACE:
             resetToStart();
-          headEasingInitTime= ofGetElapsedTimef();
+            headEasingInitTime= ofGetElapsedTimef();
             headRadiusTarget=headRadiusBig;
             headEasingDuration=20;
             actualHeadRadius=headRadiusBig;
@@ -516,6 +516,7 @@ void Humania::showNose(bool _b){
     if(_b){
         bHasNose=true;
         noseInitTime=ofGetElapsedTimef();
+        actualNoseAlpha=0;
         noseAlphaTarget=255;
         noseEasingDuration=10;
     }else{
@@ -571,11 +572,8 @@ void Humania::showBody(bool _b){
         ofVec2f p=getPosition();
         p-=headRadiusShift;
         setPosition(p);
-
-        
     }else{
         bHasBody=false;
-
     }
 }
 
@@ -585,10 +583,8 @@ void Humania::bindPosition(bool _b){
 }
 
 void Humania::saveStartposition(ofVec2f _p){
-    
     startposition->set(_p.x,_p.y);
     Settings::get().save("data.json");
-    
 }
 
 
@@ -600,6 +596,15 @@ void Humania::resetToStart(){
     leftEyeMover.setTarget(leftEyeTarget);
     rightEyeMover.setTarget(rightEyeTarget);
     
+    showCheeks(false);
+    showNose(false);
+    bHasMouth=false;
+    bMouthIsBound=false;
+    bEyesAreBound=false;
+    showHair(false);
+    bHasBody=false;
+    
+   // setState(IDLE);
     
 }
 

@@ -351,7 +351,7 @@ public:
     float actualRadius=0.1;
     float easingInitTime;
     float radiusTarget=1;
-    float scaleDuration=2.f;
+    float scaleDuration=0.5f;
     ofVec2f a,b,c;
     ofVec2f center;
     b2World* world;
@@ -699,6 +699,10 @@ private:
     void playRandomMultiplopp();
 
     ofSoundPlayer anchorSound;
+    
+    
+    vector<ofSoundPlayer>anchorSounds;
+    void playRandomAnchor();
 
     // this is the function for contacts
     void contactStart(ofxBox2dContactArgs &e);

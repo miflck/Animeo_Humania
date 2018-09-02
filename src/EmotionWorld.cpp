@@ -115,11 +115,24 @@ void EmotionWorld::init(){
         ploppsounds[i].load(dir.getPath(i));
         ofLog(OF_LOG_NOTICE,"songs loaded")<<i<<" path "<<dir.getPath(i);
     }
-    anchorSound.load("Sounds/Anker0.wav");
-    anchorSound.setMultiPlay(true);
+    
+    
+    
+    dir.listDir("Sounds/Anchor");
+    dir.sort();
+    anchorSounds.resize(dir.size());
+    
+    for(int i=0; i<dir.size(); i++ ){
+        anchorSounds[i].load(dir.getPath(i));
+        ofLog(OF_LOG_NOTICE,"songs loaded")<<i<<" path "<<dir.getPath(i);
+    }
+    
+    
+    
+  //  anchorSound.load("Sounds/Anker0.wav");
+   // anchorSound.setMultiPlay(true);
     
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &EmotionWorld::onMessageReceived);
-    
     
     ofColor c=ofColor(255,0,0);
     c.setHueAngle(139);
@@ -838,6 +851,12 @@ void EmotionWorld::playRandomPlopp(){
 }
 
 
+void EmotionWorld::playRandomAnchor(){
+    int randNum;
+    randNum=(int)(ofRandom(0,anchorSounds.size()));
+    anchorSounds[randNum].play();
+}
+
 void EmotionWorld::saveEmitterTopPosition(){
     savedemitterTopposition->set(ofGetMouseX(),ofGetMouseY());
     Settings::get().save("data.json");
@@ -1059,7 +1078,8 @@ void EmotionWorld::contactStart(ofxBox2dContactArgs &e) {
                bData->bHit = true;
                 //sound[bData->soundID].play();
                 //playRandomPlopp();
-                anchorSound.play();
+               // anchorSound.play();
+                playRandomAnchor();
 
             }
         }
@@ -1502,13 +1522,11 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     {
         float r = 400;        // a random radius 4px - 20px
     
-
        // anchors.back().get()->setup(box2d.getWorld(), ofGetMouseX(), ofGetMouseY(), r);
         //ofVec2f dir = ofVec2f(-150,-100);
-        ofVec2f dir = ofVec2f(-150,-150);
-
+        ofVec2f dir = ofVec2f(-1,0);
         dir.normalize();
-        dir*=ofRandom(2,15);
+        dir*=ofRandom(2,10);
         r=150;
         ofVec2f a =ofVec2f(anchorposition.x-r/2,anchorposition.y);
         ofVec2f b =ofVec2f(anchorposition.x+r/2,anchorposition.y);

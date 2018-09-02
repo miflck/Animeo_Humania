@@ -123,6 +123,8 @@ private:
     ofVec2f mainAvatarOffset;
 
     
+    void sendAllOSCControlls();
+    
     
     void onMessageReceived(ofxOscMessage &msg);
     
@@ -132,7 +134,7 @@ private:
     void setSkelettonId(int id);
     int cycleSkelettonId();
     
-    bool bindPositionToSkeletton=true;
+    bool bindPositionToSkeletton=false;
     
     AvatarKreis faceCircle;
     AvatarKreis leftEye;
@@ -146,6 +148,11 @@ private:
     
     vector<ofSoundPlayer>ploppsounds;
     void playRandomPlopp();
+    
+    
+    void reset();
+    void resetHumania();
+    
     
 };
 

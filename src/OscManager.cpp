@@ -26,19 +26,19 @@ void OscManager::update(){
         //we set up above using the getNextMessage function in the OSC add on.
         touchOscReceiver.getNextMessage(&m);
         
-        remoteIp=m.getRemoteIp();
 
      //   cout<<"--------- ip "<<m.getAddress()<<" "<<remoteIp<<m.getRemotePort()<<endl;
 
         if(!bRemoteIpIsSet){
             remoteIp=m.getRemoteIp();
-            if(remoteIp!=TOUCHOSCHOST){
+            cout<<"------------ Set remote Ip ----------"<<remoteIp<<" old Ip "<<TOUCHOSCHOST<<endl;
+           // if(remoteIp!=TOUCHOSCHOST){
             bRemoteIpIsSet=true;
             touchOscSender.setup(remoteIp, TOUCHOSCPORT);
             cout<<m.getRemoteIp()<<endl;
             ofNotifyEvent(onOSCSetup, m, this);
                 bIsInitialized=true;
-            }
+            //}
         }
         //This will be the message we send back from our game
         //to our device letting it know what value we received

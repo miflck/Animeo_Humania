@@ -91,7 +91,7 @@ public:
     
     bool bIsBound=false;
     void bindSkeletton(bool _b);
-    
+    bool getIsSkelettonbound();
     
     
     

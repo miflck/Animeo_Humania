@@ -20,6 +20,7 @@ void IAKreis::setup(){
     radiusTarget=100;
     anchor.setPhysics(0, 0.5, 0.9);
     anchor.setup(world, 0, 0, radiusTarget);
+   
     actualRadius=0;
     easingInitTime = ofGetElapsedTimef();
     actualRadius=20;
@@ -29,11 +30,21 @@ void IAKreis::setup(){
     fadeAlpha=255;
     
     
-     fadeInitTime= ofGetElapsedTimef();
+    fadeInitTime= ofGetElapsedTimef();
     fadeTarget=255;
     fadeDuration=3.0f;
-    setMaxSpeed(20);
-    setSeekForce(5);
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
     
 }
 

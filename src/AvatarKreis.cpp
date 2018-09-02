@@ -16,7 +16,8 @@ AvatarKreis::~AvatarKreis(){
 }
 
 void AvatarKreis::setup(){
-    radiusTarget=100;
+    startRadius=0;
+    radiusTarget=0;
     actualRadius=0;
     easingInitTime = ofGetElapsedTimef();
     state=MOVINGOBJECT;
@@ -32,15 +33,22 @@ void AvatarKreis::setup(){
     startRadius=0;
     
     
-     startLerp=0;
-    actualLerp=0;
+   startLerp=0;
+    actualLerp=1;
      lerpInitTime= ofGetElapsedTimef();
      lerpTarget=1;
-     lerpDuration;
-    
+     lerpDuration=0.1;
+   
     
      lerpToColor=ofColor(0,255,0);;
     startColor=ofColor(255,0,0);
+    
+    
+    
+
+    
+    cout<<"HEllo avatarkreis"<<endl;
+
     
     
 }
@@ -55,20 +63,12 @@ void AvatarKreis::update(){
     actualRadius = ofxeasing::map_clamp(now, easingInitTime, endTime, startRadius, radiusTarget, &ofxeasing::linear::easeIn);
     
     actualLerp=ofxeasing::map_clamp(now, lerpInitTime, endLerpTime, startLerp, lerpTarget, &ofxeasing::linear::easeIn);
-    //color=ofColor(color,fadeAlpha);
-
-    
-    //cout<<"fade"<<fadeAlpha<<endl;
-   // move();
-    //position+=speed;
-    //skeletons=KINECTMANAGER->getSkelettons();
-    
+   
     // check if reached
     ofVec2f distance=getTarget()-getPosition();
     if(distance.length()<1 && getSpeed().length()< 0.1)setReached(true);
     
     
- 
     ofColor c=startColor;
     c.lerp(lerpToColor, actualLerp); // now purple!
     
@@ -111,14 +111,6 @@ void AvatarKreis::update(){
         default:
             break;
     }
-    
-  /*  if(bPhysics) {
-        setPosition(anchor.getPosition().x, anchor.getPosition().y);
-    }else{
-        move();
-        anchor.setPosition(getPosition());
-    }*/
-
 }
 
 void AvatarKreis::draw(){

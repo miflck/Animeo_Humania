@@ -1269,6 +1269,10 @@ void Avatar::drawAvatarPath(){
 }
 
 
+bool Avatar::getIsSkelettonbound(){
+    return bIsBound;
+}
+
 
 void Avatar::setLeftEyePosition(ofVec2f p){
     leftEyePosition=p;

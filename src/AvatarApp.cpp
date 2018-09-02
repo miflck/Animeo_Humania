@@ -45,9 +45,24 @@ void AvatarApp::init(){
     mainAvatarOffset.set(*savedMainAvatarOffset);
     avatarOffset.set(250,0);
     
+    
+    faceCircle.setup();
+    leftEye.setup();
+    rightEye.setup();
+    
     faceCircle.bSeekTarget=true;
     leftEye.bSeekTarget=true;
     rightEye.bSeekTarget=true;
+    
+  /*
+    faceCircle.setPosition(startposition);
+    rightEye.setPosition(startposition);
+    leftEye.setPosition(startposition);
+   
+    leftEye.setState(IDLE);
+    rightEye.setState(IDLE);
+    faceCircle.setState(IDLE);
+   */
     
     ofDirectory dir;
     dir.listDir("Sounds/Plopp");
@@ -541,21 +556,17 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     
     //--------------------------
     //Humania FAce
-    if(msg.getAddress() == "/Face/toggle8")
+    if(msg.getAddress() == "/Face/push66")
     {
-        float m=msg.getArgAsBool(0);
-        if(m){
-            cout<<"set Big Eyes"<<endl;
-            //humania.setBigEyes();
-            humania.openEyes();
-            
-        }else{
-            //humania.setSmallEyes();
-            humania.closeEyes();
-            cout<<"set Small Eyes"<<endl;
-        }
-    
+        humania.openEyes();
+        humania.bEyesAreBound=false;
+        
+        ofxOscMessage m;
+        m.addBoolArg(humania.bEyesAreBound);
+        m.setAddress("/Face/toggle10");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
     }
+    
     
     if(msg.getAddress() == "/Face/toggle10")
     {
@@ -578,7 +589,6 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     }
     
     
-    
     if(msg.getAddress() == "/Face/toggle14")
     {
         float m=msg.getArgAsBool(0);
@@ -596,11 +606,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         float m=msg.getArgAsBool(0);
         humania.showBody(m);
        
-        //make body reactive
         bindPositionToSkeletton=m;
-        //humania.bindSkeletton(m);
-
-
     }
     
     if(msg.getAddress() == "/Face/toggle13")
@@ -670,7 +676,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         faceCircle.setScaleDuration(1);
         faceCircle.color=ofColor(255);
         faceCircle.setSeekForce(3);
-        faceCircle.setMaxSpeed(50);
+        faceCircle.setMaxSpeed(30);
 
         
     }
@@ -683,15 +689,16 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         leftEye.setState(RELEASED);
         leftEye.setTarget(ofVec2f(humania.getPosition().x-80,humania.getPosition().y-40));
         leftEye.setSlowDownDistance(800);
+        leftEye.setMaxSpeed(30);
+
       
         leftEye.startColor=ofColor(255);
         leftEye.startLerp=0;
         leftEye.actualLerp=0;
         leftEye.lerpToColor=ofColor(0);
         leftEye.lerpDuration=1;
-        
+        leftEye.setMaxSpeed(30);
         leftEye.setScaleDuration(1);
-
         
     }
     
@@ -705,7 +712,8 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         rightEye.setSlowDownDistance(800);
         rightEye.color=ofColor(50);
         rightEye.setScaleDuration(1);
-        
+        rightEye.setMaxSpeed(30);
+
         
         rightEye.startColor=ofColor(255);
         rightEye.startLerp=0;
@@ -784,24 +792,159 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     
     if(msg.getAddress() == "/Face/push50")
     {
-        faceCircle.setPosition(startposition);
-        rightEye.setPosition(startposition);
-        leftEye.setPosition(startposition);
-
-        humania.resetToStart();
-        humania.setState(IDLE);
-        humania.closeEyes();
-        
-        leftEye.setState(IDLE);
-        rightEye.setState(IDLE);
-        faceCircle.setState(IDLE);
+        reset();
+        resetHumania();
+        sendAllOSCControlls();
 
         
     }
     
     
-    
+    if(msg.getAddress() == "/avatar/push65"){
+        sendAllOSCControlls();
+    }
+
     
     
 }
+
+void::AvatarApp::sendAllOSCControlls(){
+    
+    if(APPC->oscmanager.bRemoteIpIsSet){
+    float x=avatarOffset.x;
+    x=ofMap(x,0,500,0,1);
+        
+    ofxOscMessage m;
+    m.addFloatArg(x);
+    m.setAddress("/avatar/fader6");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+    float y=mainAvatarOffset.y;
+    y=ofMap(y,-500,500,-1,1);
+        
+    m.clear();
+    m.addFloatArg(y);
+    m.setAddress("/avatar/fader10");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+
+    x=mainAvatarOffset.x;
+    x=ofMap(x,-800,800,-1,1);
+    m.clear();
+    m.addFloatArg(x);
+    m.setAddress("/avatar/fader7");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+  
+    m.clear();
+    m.addBoolArg(bindPositionToSkeletton);
+    m.setAddress("/avatar/toggle7");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+
+    bool b=humania.getIsSkelettonbound();
+    m.clear();
+    m.addBoolArg(b);
+    m.setAddress("/Face/toggle13");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+        
+        
+        
+        m.clear();
+        m.addBoolArg(humania.bEyesAreBound);
+        m.setAddress("/Face/toggle10");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+        
+    m.clear();
+
+    m.addBoolArg(humania.bHasMouth);
+    m.setAddress("/Face/toggle9");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+
+    m.clear();
+    m.addBoolArg( humania.bMouthIsBound);
+    m.setAddress("/Face/toggle11");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
+
+        m.clear();
+        m.addBoolArg( humania.bHasNose);
+        m.setAddress("/Face/toggle16");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    
+        
+        m.clear();
+        m.addBoolArg(humania.bHasHair);
+        m.setAddress("/Face/toggle19");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+        m.clear();
+        m.addBoolArg( humania.bHasCheecks);
+        m.setAddress("/Face/toggle14");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    
+        cout<<"bHasBody"<<humania.bHasBody<<endl;
+
+        m.clear();
+        m.addBoolArg( humania.bHasBody);
+        m.setAddress("/Face/toggle12");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+        
+        
+    }
+    
+}
+
+void AvatarApp::reset(){
+    
+    facePosition=ofVec2f(ofGetWidth()/3,ofGetHeight()/2);
+    mouthCenterPosition=ofVec2f(0,150);
+    leftMouth=ofVec2f(200,0);
+    rightMouth=ofVec2f(-200,0);
+    
+    savedMainAvatarOffset=&Settings::getVec2("Avatar/mainAvatarOffset");
+    mainAvatarOffset.set(*savedMainAvatarOffset);
+    avatarOffset.set(250,0);
+    
+    bindPositionToSkeletton=false;
+    humania.bindSkeletton(true);
+    
+    
+    
+    
+    faceCircle.setPosition(startposition);
+    rightEye.setPosition(startposition);
+    leftEye.setPosition(startposition);
+    
+    humania.resetToStart();
+    humania.setState(IDLE);
+    humania.closeEyes();
+    
+    leftEye.setState(IDLE);
+    rightEye.setState(IDLE);
+    faceCircle.setState(IDLE);
+    
+    
+   
+    
+    sendAllOSCControlls();
+}
+
+
+void AvatarApp::resetHumania(){
+    
+    faceCircle.setPosition(startposition);
+    rightEye.setPosition(startposition);
+    leftEye.setPosition(startposition);
+    
+    humania.resetToStart();
+    humania.setState(IDLE);
+    humania.closeEyes();
+    
+    leftEye.setState(IDLE);
+    rightEye.setState(IDLE);
+    faceCircle.setState(IDLE);
+    
+    
+}
+
 

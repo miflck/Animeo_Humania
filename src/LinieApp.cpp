@@ -355,9 +355,9 @@ void LinieApp::keyPressed(ofKeyEventArgs &e){
     }
     
     if(e.key=='u'){
-       // anchorStartPositionTop->set(ofGetMouseX(),ofGetMouseY());
-      //  anchor.setPosition(ofGetMouseX(), ofGetMouseY());
-      //  Settings::get().save("data.json");
+        anchorStartPositionTop->set(ofGetMouseX(),ofGetMouseY());
+        anchor.setPosition(ofGetMouseX(), ofGetMouseY());
+        Settings::get().save("data.json");
     }
 
     if(e.key=='i'){
@@ -512,10 +512,7 @@ void LinieApp::explode(){
 
 void LinieApp::stopExplosion(){
     bIsExploding=false;
-
-    
-    
-    anchor.setPosition( anchorExplodeStartPositionTop->x, anchorExplodeStartPositionTop->y);
+    anchor.setPosition( anchorStartPositionTop->x, anchorStartPositionTop->y);
     anchor.setPhysics(0, 0.5, 0.9);
     anchor.body->SetType(b2_staticBody);
     
@@ -528,7 +525,6 @@ void LinieApp::stopExplosion(){
 
 
 void LinieApp::reset(){
-    
     anchor.setPosition( anchorExplodeStartPositionTop->x, anchorExplodeStartPositionTop->y);
     anchor.setPhysics(0, 0.5, 0.9);
     anchor.body->SetType(b2_staticBody);
