@@ -154,6 +154,10 @@ private:
     void resetHumania();
     
     
+    ofSoundPlayer leftEyeSound;
+    ofSoundPlayer rightEyeSound;
+    
+    
 };
 
 

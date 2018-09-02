@@ -717,6 +717,14 @@ private:
     
     
     ofColor maskcolor;
+    
+    
+    ofSoundPlayer starSound;
+
+
+    
+    
+    
 };
 
 

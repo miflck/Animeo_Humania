@@ -123,6 +123,16 @@ void Humania::setup(){
     
     
     
+     noseSound.load("Sounds/Nase.wav");
+     cheekSound.load("Sounds/Backen.wav");
+     mouthSound.load("Sounds/Mund.wav");
+
+    bodySound.load("Sounds/Körper.wav");
+    hairSound.load("Sounds/Haare,wav");
+
+    
+
+    
 }
 
 
@@ -485,7 +495,7 @@ void Humania::showCheeks(bool _b){
         cheeksAlphaTarget=255;
         cheeksEasingDuration=10;
         actualCheeksAlpha=0;
-        
+        cheekSound.play();
    
         
     }else{
@@ -519,6 +529,7 @@ void Humania::showNose(bool _b){
         actualNoseAlpha=0;
         noseAlphaTarget=255;
         noseEasingDuration=10;
+        noseSound.play();
     }else{
         bHasNose=false;
         noseInitTime=ofGetElapsedTimef();
@@ -534,6 +545,8 @@ void Humania::showHair(bool _b){
         hairAlphaTarget=255;
         hairEasingDuration=10;
         hairRotationTarget=-180;
+        hairSound.play();
+
     }else{
         bHasHair=false;
         hairInitTime=ofGetElapsedTimef();
@@ -572,6 +585,8 @@ void Humania::showBody(bool _b){
         ofVec2f p=getPosition();
         p-=headRadiusShift;
         setPosition(p);
+        bodySound.play();
+
     }else{
         bHasBody=false;
     }

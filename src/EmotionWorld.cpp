@@ -128,6 +128,11 @@ void EmotionWorld::init(){
     }
     
     
+    starSound.load("Sounds/Sternstreu0.wav");
+    starSound.setMultiPlay(true);
+    
+  
+
     
   //  anchorSound.load("Sounds/Anker0.wav");
    // anchorSound.setMultiPlay(true);
@@ -1118,6 +1123,8 @@ void EmotionWorld::makeStars(int num){
      sterne.back().get()->setup(&sternImg);
      sterne.back().get()->setTargetRadius(ofRandom(15,25));
      }
+    
+    starSound.play();
     
 }
 

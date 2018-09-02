@@ -181,7 +181,13 @@ public:
 
     AvatarKreis faceCircle;
 
-    
+    ofSoundPlayer noseSound;
+    ofSoundPlayer cheekSound;
+    ofSoundPlayer mouthSound;
+ 
+    ofSoundPlayer hairSound;
+    ofSoundPlayer bodySound;
+
     
 };
 

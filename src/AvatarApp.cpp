@@ -75,6 +75,12 @@ void AvatarApp::init(){
     }
     
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &AvatarApp::onMessageReceived);
+    
+    
+    
+    leftEyeSound.load("Sounds/Auge1.wav");
+    rightEyeSound.load("Sounds/Auge2.wav");
+    
 
 }
 
@@ -580,6 +586,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
     {
         float m=msg.getArgAsBool(0);
         humania.bHasMouth=m;
+        humania.mouthSound.play();
     }
     
     if(msg.getAddress() == "/Face/toggle11")
