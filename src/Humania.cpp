@@ -128,7 +128,7 @@ void Humania::setup(){
      mouthSound.load("Sounds/Mund.wav");
 
     bodySound.load("Sounds/Körper.wav");
-    hairSound.load("Sounds/Haare,wav");
+    hairSound.load("Sounds/Haare.wav");
 
     
 

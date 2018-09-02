@@ -167,9 +167,13 @@ void AvatarApp::draw(){
         }
     }*/
     ofPushMatrix();
-    ofTranslate(humania.getPosition());
+    //ofTranslate(humania.getPosition());
+    ofTranslate(ofGetWidth()/2,ofGetHeight()/2);
+
     ofScale(scaleAvatar,scaleAvatar);
-    ofTranslate(-humania.getPosition());
+    //ofTranslate(-humania.getPosition());
+    ofTranslate(-ofGetWidth()/2,-ofGetHeight()/2);
+
     humania.draw();
     
     for(int i=0;i<avatars.size();i++){

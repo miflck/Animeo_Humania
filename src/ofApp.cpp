@@ -61,7 +61,7 @@ void ofApp::setup(){
     c.setBrightness(100);
     
     maskcolor=c;
-    APPC->setAppById("avatarapp");
+    //APPC->setAppById("avatarapp");
 
 }
 
