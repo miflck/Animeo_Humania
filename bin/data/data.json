@@ -24,11 +24,11 @@
       "anchorExplodeStartPositionBottom" : [ 1301, 709 ],
       "anchorExplodeStartPositionTop" : [ 1210, 575 ],
       "anchorStartPositionBottom" : [ 1802, 548 ],
-      "anchorStartPositionTop" : [ 20, 483 ],
-      "finalCirclePosition" : [ 968, 513 ]
+      "anchorStartPositionTop" : [ 108, 469 ],
+      "finalCirclePosition" : [ 960, 519 ]
    },
    "Settings" : {
-      "leftpos" : [ 95, 0 ],
+      "leftpos" : [ 87, 0 ],
       "rightpos" : [ 1841, 0 ]
    },
    "emotions" : {

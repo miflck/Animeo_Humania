@@ -14,8 +14,6 @@ void ofApp::setup(){
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &ofApp::onMessageReceived);
 
     
-    leftpos=&Settings::getVec2("Settings/leftpos");
-    rightpos=&Settings::getVec2("Settings/rightpos");
 
     soundStream.printDeviceList();
     //if you want to set a different device id
@@ -126,23 +124,7 @@ void ofApp::draw(){
     ofPopMatrix();
     ofPopStyle();
     
-    ofPushStyle();
-    if(APPC->debug){
-        ofSetColor(255,0,0);
-    }else{
-        ofSetColor(0);
-
-    }
-    ofPushMatrix();
-    ofTranslate(leftpos->x-300,leftpos->y);
-    ofDrawRectangle(0, 0, 300, ofGetHeight());
-    ofPopMatrix();
-
-    ofPushMatrix();
-    ofTranslate(*rightpos);
-    ofDrawRectangle(0, 0, 300, ofGetHeight());
-    ofPopMatrix();
-    ofPopStyle();
+   
 }
 
 
@@ -166,13 +148,13 @@ void ofApp::keyPressed(int key){
      
             
    case '1':
-            leftpos->set(ofGetMouseX(),ofGetMouseY());
+            APPC->leftpos->set(ofGetMouseX(),ofGetMouseY());
             Settings::get().save("data.json");
         break;
             
             
         case '2':
-            rightpos->set(ofGetMouseX(),ofGetMouseY());
+           APPC->rightpos->set(ofGetMouseX(),ofGetMouseY());
             Settings::get().save("data.json");
             break;
    

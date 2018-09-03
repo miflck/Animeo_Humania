@@ -89,6 +89,8 @@ public:
 
     
     
+    ofVec2f *leftpos;
+    ofVec2f *rightpos;
     
 private:
 	ApplicationController();

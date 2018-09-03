@@ -105,7 +105,7 @@ void LinieApp::init(){
     mover1.setSeekForce(10);
     mover1.setMaxSpeed(100);
     mover1.bSeekTarget=true;
-    moverCircleRadius.set(195,0);
+    moverCircleRadius.set(202,0);
     damping=1;
     
     initAlpha=0;

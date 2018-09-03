@@ -38,7 +38,7 @@ void MovingObject::update(){
     // check if reached
     ofVec2f distance=target-position;
     if(distance.length()<1 && velocity.length()< 0.1)bHasReached=true;
-    cout<<distance.length()<<" vel "<<velocity.length()<<" reached "<<bHasReached<<endl;
+  //  cout<<distance.length()<<" vel "<<velocity.length()<<" reached "<<bHasReached<<endl;
     }
 
 

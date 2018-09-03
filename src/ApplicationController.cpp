@@ -69,6 +69,10 @@ void ApplicationController::initialize() {
 
     
     
+    leftpos=&Settings::getVec2("Settings/leftpos");
+    rightpos=&Settings::getVec2("Settings/rightpos");
+
+    
     
 }
 
@@ -104,6 +108,29 @@ void ApplicationController::_draw(ofEventArgs &e) {
     if(activeApplication!=NULL){
         activeApplication->draw();
         }
+    
+    
+    
+    ofPushStyle();
+    if(debug){
+        ofSetColor(255,0,0);
+    }else{
+        ofSetColor(0);
+        
+    }
+    ofPushMatrix();
+    ofTranslate(leftpos->x-300,leftpos->y);
+    ofDrawRectangle(0, 0, 300, ofGetHeight());
+    ofPopMatrix();
+    
+    ofPushMatrix();
+    ofTranslate(*rightpos);
+    ofDrawRectangle(0, 0, 300, ofGetHeight());
+    ofPopMatrix();
+    ofPopStyle();
+    
+    
+    
     }
 
 

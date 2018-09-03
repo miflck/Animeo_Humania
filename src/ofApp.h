@@ -60,9 +60,7 @@ class ofApp : public ofBaseApp{
     void saveSettings();
 
 
-    
-    ofVec2f *leftpos;
-    ofVec2f *rightpos;
+
 
 
     

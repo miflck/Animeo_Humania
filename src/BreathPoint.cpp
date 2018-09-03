@@ -123,7 +123,7 @@ void BreathPoint::draw(){
     
     ofPushMatrix();
     ofPushStyle();
-   // ofSetColor(255);
+    ofSetColor(255);
     ofTranslate(getPosition().x, getPosition().y);
     //ofDrawEllipse(getPosition().x, getPosition().y, actualRadius+r, actualRadius+v);
     ofDrawEllipse(0,0, actualRadius+r, actualRadius+v);
