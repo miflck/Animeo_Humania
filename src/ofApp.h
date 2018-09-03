@@ -59,4 +59,11 @@ class ofApp : public ofBaseApp{
     void loadSettings();
     void saveSettings();
 
+
+    
+    ofVec2f *leftpos;
+    ofVec2f *rightpos;
+
+
+    
 };

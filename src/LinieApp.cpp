@@ -169,7 +169,7 @@ void LinieApp::update(){
     }
     
     float mV=ofMap(APPC->audioInVolume,0,0.05,0,50);
-   cout<<mV<<endl;
+   //cout<<mV<<endl;
     int c=0;
  
     if(!bMakeCircle && !bIsExploding){
@@ -729,18 +729,17 @@ void LinieApp::onMessageReceived(ofxOscMessage &msg){
     // Release and make Circle
     if(msg.getAddress() == "/4/push38")
     {
-        bMakeCircle=!bMakeCircle;
+        bMakeCircle= true;//!bMakeCircle;
 
         anchor.setPhysics(1, 0.5, 0.9);
         anchor.body->SetType(b2_dynamicBody);
         
         anchor.addAttractionPoint((moverCircleCenter+moverCircleRadius),circleAttractionForce);
-
         
         anchor2.setPhysics(1, 0.5, 0.9);
         anchor2.body->SetType(b2_dynamicBody);
         
-        circleBoundindex+=20;
+        circleBoundindex=20;
 
         
         float freq=12;

@@ -10,9 +10,9 @@
       "kinectScaleFact" : 0
    },
    "LightPointApp" : {
-      "cabindimension" : [ 513, 464 ],
+      "cabindimension" : [ 667, 459 ],
       "cabindimensioninside" : [ 465, 420 ],
-      "cabinposition" : [ 1231, 544 ],
+      "cabinposition" : [ 1256, 548 ],
       "cabinpositioninside" : [ 1278, 578 ],
       "homeposition" : [ 1733, 438 ],
       "insidePoisiton" : [ 1579, 896 ],
@@ -26,6 +26,10 @@
       "anchorStartPositionBottom" : [ 1802, 548 ],
       "anchorStartPositionTop" : [ 20, 483 ],
       "finalCirclePosition" : [ 968, 513 ]
+   },
+   "Settings" : {
+      "leftpos" : [ 95, 0 ],
+      "rightpos" : [ 1841, 0 ]
    },
    "emotions" : {
       "anchorposition" : [ 1254, 336 ],

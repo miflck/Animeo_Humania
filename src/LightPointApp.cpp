@@ -248,7 +248,8 @@ bool LightPointApp::bounceFromCabin(){
             ofVec2f sReflected=speed;
             sReflected*=-1;
              mover.setSpeed(speed.x, sReflected.y);
-           playRandomSound();
+          playRandomSound();
+            
         }
     }
     
@@ -455,7 +456,7 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
         skelettonNodeId=5;
     }
     if(e.key=='2'){
-        skelettonNodeId=2;
+       // skelettonNodeId=2;
     }
     
     
@@ -465,7 +466,7 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
         skelettId=0;
     }
     if(e.key=='1'){
-        skelettId=1;
+      //  skelettId=1;
     }
     
     
