@@ -138,12 +138,21 @@ void EmotionWorld::init(){
    // anchorSound.setMultiPlay(true);
     
     ofAddListener(APPC->oscmanager.onMessageReceived, this, &EmotionWorld::onMessageReceived);
-    
+    ofAddListener(APPC->oscmanager.onOSCSetup, this, &EmotionWorld::onOSCSetup);
+
     ofColor c=ofColor(255,0,0);
     c.setHueAngle(139);
     c.setBrightness(100);
     
     maskcolor=c;
+    
+}
+
+void EmotionWorld::onOSCSetup(ofxOscMessage &msg){
+    ofxOscMessage m;
+    m.addBoolArg(1);
+    m.setAddress("/Balloon/toggle25");
+    APPC->oscmanager.touchOscSender.sendMessage(m);
     
 }
 
@@ -1207,13 +1216,9 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
     if(msg.getAddress() == "/Balloon/toggle24")
     {
         float f=msg.getArgAsBool(0);
-       // balloon.setPosition(emitterposition.x,emitterposition.y);
-       // balloon.setTarget(ofVec2f(emitterposition.x+emitteroffset.x,emitterposition.y+emitteroffset.y));
         vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
         ofVec2f pos=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
-        /*if(mskel.size()>0 && f){
-            pos=mskel[APPC->getSkelettonIndex()].head-200;
-        }*/
+    
         balloon.setPosition(pos.x,-30);
         balloon.setTarget(ofVec2f(pos.x,pos.y));
         
@@ -1226,7 +1231,7 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
 
         if(f)balloon.startEasingIn();
         showBalloon(f);
-        playRandomPlopp();
+        if(f)playRandomPlopp();
 
         
         ofxOscMessage m;
@@ -1234,6 +1239,14 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         m.addFloatArg(ofMap(emitterposition.x+emitteroffset.x,0,ofGetWidth(),0,1));
         m.setAddress("/Balloon/xy3");
         APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+        
+        m.clear();
+        m.addBoolArg(f);
+        m.setAddress("/EmotionWorld/toggle36");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+        
     }
     
     
@@ -1774,6 +1787,15 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         setIsAnimeoMasked(m);
     }
     
+    if(msg.getAddress() == "/Balloon/push68")
+    {
+        setIsAnimeoMasked(false);
+        ofxOscMessage m;
+        m.addBoolArg(0);
+        m.setAddress("/EmotionWorld/toggle34");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+    }
+    
 
     if(msg.getAddress() == "/EmotionWorld/toggle26")
     {
@@ -1801,6 +1823,49 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         
     }
     
+    
+    if(msg.getAddress() =="/EmotionWorld/toggle36"){
+        
+        
+        
+        
+        float f=msg.getArgAsBool(0);
+        vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
+        ofVec2f pos=ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
+        
+        balloon.setPosition(pos.x,-30);
+        balloon.setTarget(ofVec2f(pos.x,pos.y));
+        
+        ofVec2f target;
+        if(mskel.size()>0 && f){
+            target=mskel[APPC->getSkelettonIndex()].head;
+            balloon.setTarget(ofVec2f(target.x,target.y-200));
+        }
+        
+        
+        if(f)balloon.startEasingIn();
+        showBalloon(f);
+        if(f)playRandomPlopp();
+        
+        
+        ofxOscMessage m;
+        m.addFloatArg(ofMap(emitterposition.y+emitteroffset.y,0,ofGetHeight(),0,1));
+        m.addFloatArg(ofMap(emitterposition.x+emitteroffset.x,0,ofGetWidth(),0,1));
+        m.setAddress("/Balloon/xy3");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+        
+   
+        
+
+        m.clear();
+        m.addBoolArg(f);
+        m.setAddress("/Balloon/toggle24");
+        APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+    }
+        
+
     
     
 }

@@ -61,6 +61,9 @@ void ofApp::setup(){
     
     maskcolor=c;
     //APPC->setAppById("avatarapp");
+    
+    ofHideCursor();
+
 
 }
 
@@ -179,10 +182,12 @@ void ofApp::keyPressed(int key){
             
             
         case 'l':
-            ofShowCursor();
+            ofHideCursor();
+
             break;
         case 'L':
-            ofHideCursor();
+            ofShowCursor();
+
             break;
             
             

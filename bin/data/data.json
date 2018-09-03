@@ -1,7 +1,7 @@
 {
    "Avatar" : {
       "addPosition" : [ 1, 801 ],
-      "mainAvatarOffset" : [ -298.9556274414062, -100.5221862792969 ]
+      "mainAvatarOffset" : [ -298.9556274414062, -141.8919067382812 ]
    },
    "Kinect" : {
       "beamerFOV" : 0,
@@ -10,9 +10,9 @@
       "kinectScaleFact" : 0
    },
    "LightPointApp" : {
-      "cabindimension" : [ 667, 459 ],
+      "cabindimension" : [ 487, 430 ],
       "cabindimensioninside" : [ 465, 420 ],
-      "cabinposition" : [ 1256, 548 ],
+      "cabinposition" : [ 1253, 556 ],
       "cabinpositioninside" : [ 1278, 578 ],
       "homeposition" : [ 1733, 438 ],
       "insidePoisiton" : [ 1579, 896 ],
@@ -28,8 +28,8 @@
       "finalCirclePosition" : [ 960, 519 ]
    },
    "Settings" : {
-      "leftpos" : [ 87, 0 ],
-      "rightpos" : [ 1841, 0 ]
+      "leftpos" : [ 96, 0 ],
+      "rightpos" : [ 1881, 0 ]
    },
    "emotions" : {
       "anchorposition" : [ 1254, 336 ],

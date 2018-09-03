@@ -847,6 +847,11 @@ void LightPointApp::onMessageReceived(ofxOscMessage &msg){
         setInside(f);
     }
     
+    if(msg.getAddress() == "/Light/push67")
+    {
+        setMoverToStartPosition();
+        
+    }
     
 }
 

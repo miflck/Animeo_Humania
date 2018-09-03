@@ -721,6 +721,7 @@ private:
     
     ofSoundPlayer starSound;
 
+    void onOSCSetup(ofxOscMessage &msg);
 
     
     
