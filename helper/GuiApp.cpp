@@ -44,13 +44,21 @@ void GuiApp::update(){
 
 void GuiApp::draw(){
    vector<MappedPoints> mskel=KINECTMANAGER->getMappedSkelettons();
-    vector<UnMappedPoints> uskel=KINECTMANAGER->getUnMappedSkelettons();
+   // vector<UnMappedPoints> uskel=KINECTMANAGER->getUnMappedSkelettons();
 
     ofPushMatrix();
+    ofTranslate(220,100);
+
     ofScale(0.3,0.3);
+    ofDrawRectangle(0, 0, 1920, 1080);
     for(int i=0;i<mskel.size();i++){
         ofSetColor(255, 0, 0);
         mskel[i].drawSkeletton();
+        string id = "";
+        id += "ID: "+ofToString(i)+"\n";
+        ofSetColor(0);
+        ofTranslate(mskel[i].head);
+        ofDrawBitmapString(id, 10, 10);
     }
     
    /* for(int i=0;i<uskel.size();i++){
@@ -67,7 +75,7 @@ void GuiApp::draw(){
 
     ofSetColor(255);
     ofDrawBitmapString(info, 10, 10);
-    font.drawString("Skeletton Index: "+ofToString(APPC->getSkelettonIndex())+" from "+ofToString(APPC->getNumberOfSkelettons()), 250, 229);
+    font.drawString("Skeletton Index: "+ofToString(APPC->getSkelettonIndex())+" from "+ofToString(APPC->getNumberOfSkelettons()), 250, 50);
 //font.drawString("Audio "+ofToString(APPC-> applications["lightpoint"]->getIsMute()), 250, 229);
 
 

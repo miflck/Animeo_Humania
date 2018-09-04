@@ -683,11 +683,11 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         faceCircle.setRadiusTarget(300);
         faceCircle.setState(RELEASED);
         faceCircle.setTarget(humania.getPosition());
-        faceCircle.setSlowDownDistance(800);
+        faceCircle.setSlowDownDistance(300);
         faceCircle.setScaleDuration(1);
         faceCircle.color=ofColor(255);
         faceCircle.setSeekForce(3);
-        faceCircle.setMaxSpeed(30);
+        faceCircle.setMaxSpeed(50);
 
         
     }
@@ -699,8 +699,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         leftEye.setRadiusTarget(40);
         leftEye.setState(RELEASED);
         leftEye.setTarget(ofVec2f(humania.getPosition().x-80,humania.getPosition().y-40));
-        leftEye.setSlowDownDistance(800);
-        leftEye.setMaxSpeed(30);
+        leftEye.setSlowDownDistance(300);
 
       
         leftEye.startColor=ofColor(255);
@@ -708,7 +707,7 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         leftEye.actualLerp=0;
         leftEye.lerpToColor=ofColor(0);
         leftEye.lerpDuration=1;
-        leftEye.setMaxSpeed(30);
+        leftEye.setMaxSpeed(50);
         leftEye.setScaleDuration(1);
         
     }
@@ -720,10 +719,10 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         rightEye.setRadiusTarget(40);
         rightEye.setState(RELEASED);
         rightEye.setTarget(ofVec2f(humania.getPosition().x+150,humania.getPosition().y+40));
-        rightEye.setSlowDownDistance(800);
+        rightEye.setSlowDownDistance(300);
         rightEye.color=ofColor(50);
         rightEye.setScaleDuration(1);
-        rightEye.setMaxSpeed(30);
+        rightEye.setMaxSpeed(50);
 
         
         rightEye.startColor=ofColor(255);

@@ -1,6 +1,6 @@
 {
    "Avatar" : {
-      "addPosition" : [ 1, 801 ],
+      "addPosition" : [ -50, 801],
       "mainAvatarOffset" : [ -298.9556274414062, -141.8919067382812 ]
    },
    "Kinect" : {

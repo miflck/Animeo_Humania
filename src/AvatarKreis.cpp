@@ -29,7 +29,7 @@ void AvatarKreis::setup(){
     fadeInitTime= ofGetElapsedTimef();
     fadeTarget=255;
     fadeDuration=3.0f;
-    setMaxSpeed(10);
+    setMaxSpeed(50);
     startRadius=0;
     
     
