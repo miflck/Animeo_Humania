@@ -18,13 +18,14 @@ Flash::~Flash(){
 
 void Flash::setup(){
     actualRadius=200;
-    flashImage.load("flash.png");
+    //flashImage.load("flash.png");
 }
 
 
 void Flash::setup(ofImage *img){
-    actualRadius=200;
-    flashImage=*img;
+    actualRadius=10;
+    flashImage=img;
+    setSeekForce(70);
 }
 
 void Flash::update(){
@@ -54,7 +55,7 @@ void Flash::draw(){
     float angle = atan2(s.y, s.x) + PI/2;
     ofPushMatrix();
     ofRotate(ofRadToDeg(angle));
-    flashImage.draw(-flashImage.getWidth()/2,-flashImage.getHeight());
+    flashImage->draw(-flashImage->getWidth()/2,-flashImage->getHeight());
     ofPopMatrix();
       ofPopStyle();
     ofPopMatrix();

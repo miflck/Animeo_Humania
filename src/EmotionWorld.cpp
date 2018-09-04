@@ -782,7 +782,6 @@ void EmotionWorld::emitFlashes(int n){
         ofVec2f r=ofVec2f(-1,0);
         r.rotate(180/10*(i+1));
         r*=ofGetWidth()*3;
-        cout<<"Add Flashes"<<endl;
         flashes.push_back(shared_ptr<Flash>(new Flash));
         flashes.back().get()->setup(&flashImg);
         flashes.back().get()->setPosition(headposition.x, headposition.y);
@@ -1419,6 +1418,11 @@ void EmotionWorld::onMessageReceived(ofxOscMessage &msg){
         m.addFloatArg(0);
         m.setAddress("/EmotionWorld/toggle27");
         APPC->oscmanager.touchOscSender.sendMessage(m);
+        
+        
+        releaseEllipse();
+
+        
     }
     
     

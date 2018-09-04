@@ -50,6 +50,8 @@ void AvatarApp::init(){
     leftEye.setup();
     rightEye.setup();
     
+    faceCircle.setPosition(-200,-200);
+    
     faceCircle.bSeekTarget=true;
     leftEye.bSeekTarget=true;
     rightEye.bSeekTarget=true;
@@ -920,10 +922,16 @@ void AvatarApp::reset(){
     
     
     
-    
+    /*
     faceCircle.setPosition(startposition);
     rightEye.setPosition(startposition);
     leftEye.setPosition(startposition);
+    */
+    
+    
+    faceCircle.setPosition(-200,-200);
+    rightEye.setPosition(-200,-200);
+    leftEye.setPosition(-200,-200);
     
     humania.resetToStart();
     humania.setState(IDLE);

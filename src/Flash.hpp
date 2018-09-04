@@ -26,7 +26,7 @@ public:
     void update();
     void draw();
     
-    ofImage flashImage;
+    ofImage *flashImage;
     
     
     int strokeWeight=6;
