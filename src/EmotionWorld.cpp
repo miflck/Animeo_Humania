@@ -128,7 +128,7 @@ void EmotionWorld::init(){
     }
     
     
-    starSound.load("Sounds/Sternstreu0.wav");
+    starSound.load("Sounds/SternstreuNeu1.wav");
     starSound.setMultiPlay(true);
     
   

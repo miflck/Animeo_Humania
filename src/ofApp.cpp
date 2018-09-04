@@ -38,10 +38,10 @@ void ofApp::setup(){
     APPC->gui=gui;
     
     KINECTMANAGER->initialize();
-    
+    ofSetFrameRate(60);
+
     ofSetVerticalSync(true);
     //ofDisableAntiAliasing();
-    ofSetFrameRate(60);
     ofEnableAntiAliasing();
 
     
