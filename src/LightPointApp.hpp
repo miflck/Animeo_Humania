@@ -132,7 +132,7 @@ public:
    void onMessageReceived(ofxOscMessage &msg);
     
     int size1=20;
-    int size2=75;
+    int size2=76;
     int size3=150;
     int sizeWatch=30;
     

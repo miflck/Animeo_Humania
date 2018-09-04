@@ -56,6 +56,11 @@ void AvatarApp::init(){
     leftEye.bSeekTarget=true;
     rightEye.bSeekTarget=true;
     
+    
+    leftEye.setState(IDLE);
+    rightEye.setState(IDLE);
+    faceCircle.setState(IDLE);
+    
   /*
     faceCircle.setPosition(startposition);
     rightEye.setPosition(startposition);
@@ -690,6 +695,13 @@ void AvatarApp::onMessageReceived(ofxOscMessage &msg){
         faceCircle.color=ofColor(255);
         faceCircle.setSeekForce(3);
         faceCircle.setMaxSpeed(50);
+        
+        faceCircle.startColor=ofColor(255);
+        faceCircle.startLerp=1;
+        faceCircle.actualLerp=1;
+        faceCircle.lerpToColor=ofColor(255);
+        faceCircle.lerpDuration=1;
+
 
         
     }
@@ -929,7 +941,7 @@ void AvatarApp::reset(){
     */
     
     
-    faceCircle.setPosition(-200,-200);
+    faceCircle.setPosition(500,500);
     rightEye.setPosition(-200,-200);
     leftEye.setPosition(-200,-200);
     

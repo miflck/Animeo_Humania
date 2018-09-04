@@ -1,6 +1,6 @@
 {
    "Avatar" : {
-      "addPosition" : [ -50, 801],
+      "addPosition" : [ -50, 801 ],
       "mainAvatarOffset" : [ -298.9556274414062, -141.8919067382812 ]
    },
    "Kinect" : {
@@ -12,12 +12,12 @@
    "LightPointApp" : {
       "cabindimension" : [ 487, 430 ],
       "cabindimensioninside" : [ 465, 420 ],
-      "cabinposition" : [ 1253, 556 ],
+      "cabinposition" : [ 1252, 554 ],
       "cabinpositioninside" : [ 1278, 578 ],
       "homeposition" : [ 1733, 438 ],
       "insidePoisiton" : [ 1579, 896 ],
       "scaredposition" : [ 1389, 171 ],
-      "startposition" : [ 677, 713 ],
+      "startposition" : [ 677, 710 ],
       "watchposition" : [ 1614, 650 ]
    },
    "LinieApp" : {

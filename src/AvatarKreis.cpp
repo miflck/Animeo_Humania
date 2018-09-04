@@ -70,7 +70,7 @@ void AvatarKreis::update(){
     
     
     ofColor c=startColor;
-    c.lerp(lerpToColor, actualLerp); // now purple!
+    c.lerp(lerpToColor, actualLerp); 
     
     switch (state) {
             
@@ -114,6 +114,7 @@ void AvatarKreis::update(){
 }
 
 void AvatarKreis::draw(){
+    
     ofPushMatrix();
     ofPushStyle();
     ofTranslate(getPosition().x, getPosition().y);

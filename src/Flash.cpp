@@ -55,7 +55,10 @@ void Flash::draw(){
     float angle = atan2(s.y, s.x) + PI/2;
     ofPushMatrix();
     ofRotate(ofRadToDeg(angle));
-    flashImage->draw(-flashImage->getWidth()/2,-flashImage->getHeight());
+    //flashImage->draw(-flashImage->getWidth()/2,-flashImage->getHeight());
+    
+    flashImage->draw(-204/2,-809);
+    
     ofPopMatrix();
       ofPopStyle();
     ofPopMatrix();
