@@ -159,7 +159,7 @@ public:
     Shape() {
         //col=ofColor(220+ofRandom(-30,30),37+ofRandom(-30,30),151+ofRandom(-30,30));
        // col=ofColor(220+ofRandom(-30,30),100+ofRandom(-200,200),151+ofRandom(-30,30));
-        col=ofColor(ofRandom(100,255),ofRandom(100,255),ofRandom(100,255));
+        col=ofColor(ofRandom(10,255),ofRandom(10,255),ofRandom(10,255));
 
         screen.set(0,0,ofGetWidth(),ofGetHeight());
         actualRadius=0;
