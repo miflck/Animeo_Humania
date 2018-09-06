@@ -25,7 +25,7 @@ void Flash::setup(){
 void Flash::setup(ofImage *img){
     actualRadius=10;
     flashImage=img;
-    setSeekForce(70);
+    setSeekForce(1);//70
 }
 
 void Flash::update(){

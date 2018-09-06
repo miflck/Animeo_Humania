@@ -1,7 +1,7 @@
 <parameters>
 	<radius>50</radius>
 	<color>100, 100, 100, 255</color>
-	<kinectPosition>-4.0816, -478.947, 6532.26</kinectPosition>
+	<kinectPosition>9.74377, -398.906, 6532.26</kinectPosition>
 	<beamerPosition>-49.0645, -530.157, 9347.73</beamerPosition>
 	<beamerFov>6.65277</beamerFov>
 <parameters/>

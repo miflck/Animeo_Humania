@@ -1,0 +1,12 @@
+<parameters>
+	<radius>50</radius>
+	<color>100, 100, 100, 255</color>
+	<kinectPosition>-4.0816, -478.947, 6532.26</kinectPosition>
+	<beamerPosition>-49.0645, -530.157, 9347.73</beamerPosition>
+	<beamerFov>6.65277</beamerFov>
+<parameters/>
+<testPosition>0, 0, 91.8367</testPosition>
+<kinectscalefact>1</kinectscalefact>
+<rayPosition>0, 0, 50000</rayPosition>
+<kinectManagerDebug>0</kinectManagerDebug>
+</parameters>
