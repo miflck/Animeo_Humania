@@ -54,8 +54,11 @@ void EmotionWorld::init(){
 
     
     herz.load("herz.png");
-    sternImg.load("bilder/stern.png");
-    flashImg.load("bilder/flash.png");
+    
+    sternImg=new ofImage;
+    sternImg->load("bilder/stern.png");
+    flashImg=new ofImage;
+    flashImg->load("bilder/flash.png");
 
 
     sun.setup();
@@ -407,7 +410,7 @@ void EmotionWorld::update(){
     //ofRemove(circles, ofxBox2dBaseShape::shouldRemoveOffScreen);
     ofRemove(shapes, Shape::shouldRemoveOffScreen);
     ofRemove(hearts, Heart::shouldRemoveOffScreen);
-    ofRemove(flashes, MovingObject::shouldRemoveOffScreen);
+    ofRemove(flashes, Flash::shouldRemoveOffScreen);
     ofRemove(triangles, Triangle::shouldRemoveOffScreen);
     ofRemove(anchors, AnchorTriangle::shouldRemoveOffScreen);    
     ofRemove(kreise, Kreis::shouldRemoveFromScreen);
@@ -783,7 +786,7 @@ void EmotionWorld::emitFlashes(int n){
         r.rotate(180/10*(i+1));
         r*=ofGetWidth()*3;
         flashes.push_back(shared_ptr<Flash>(new Flash));
-        flashes.back().get()->setup(&flashImg);
+        flashes.back().get()->setup(flashImg);
         flashes.back().get()->setPosition(headposition.x, headposition.y);
         flashes.back().get()->setTarget(r);
         flashes.back().get()->bSeekTarget=true;
@@ -1128,7 +1131,7 @@ void EmotionWorld::makeStars(int num){
     // sterne.back().get()->setPosition(emitterposition.x,emitterposition.y);
     sterne.back().get()->setPosition(emitterTopPosition);
     sterne.back().get()->setTarget(ofVec2f(ofRandom(0,ofGetWidth()),ofRandom(0,(ofGetHeight()/3)*2)));
-     sterne.back().get()->setup(&sternImg);
+     sterne.back().get()->setup(sternImg);
      sterne.back().get()->setTargetRadius(ofRandom(15,25));
      }
     

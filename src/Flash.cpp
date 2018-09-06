@@ -26,6 +26,9 @@ void Flash::setup(ofImage *img){
     actualRadius=10;
     flashImage=img;
     setSeekForce(1);//70
+    
+    screen.set(0,0,ofGetWidth(),ofGetHeight());
+
 }
 
 void Flash::update(){

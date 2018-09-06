@@ -19,6 +19,8 @@ public:
     Flash();
     virtual ~Flash();
     
+    ofRectangle screen;
+
     
     void setup();
     void setup(ofImage *img);
@@ -30,6 +32,10 @@ public:
     
     
     int strokeWeight=6;
+    
+    static bool shouldRemoveOffScreen(shared_ptr<Flash> shape) {
+        return !ofRectangle(0, 0, shape.get()->screen.getWidth(), shape.get()->screen.getHeight()).inside(shape.get()->getPosition());
+    }
     
 private:
    
