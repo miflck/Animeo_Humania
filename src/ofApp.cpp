@@ -290,6 +290,8 @@ void ofApp::audioIn(float * input, int bufferSize, int nChannels){
     
     bufferCounter++;
     
+    //cout<<smoothedVol<<endl;
+    
 }
 
 

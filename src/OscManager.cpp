@@ -16,6 +16,8 @@ void OscManager::setup(){
     /*this is the port your game will receive data on.
      For us this is the important one! Set your mobile device to send on this port.*/
     touchOscSender.setup(TOUCHOSCHOST, TOUCHOSCPORT);
+    cout<<"--- Setup USC ---"<<TOUCHOSCHOST<<endl;
+
 }
 
 void OscManager::update(){

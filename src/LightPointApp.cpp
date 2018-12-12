@@ -521,6 +521,11 @@ void LightPointApp::keyPressed(ofKeyEventArgs &e){
         Settings::get().save("data.json");
     }
     
+    if(e.key =='s'){
+        scaredposition->set(ofGetMouseX(),ofGetMouseY());
+        Settings::get().save("data.json");
+    }
+    
     
     if(e.key=='P'){
         getScared();

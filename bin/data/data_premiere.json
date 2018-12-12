@@ -1,0 +1,51 @@
+{
+   "Avatar" : {
+      "addPosition" : [ -50, 801 ],
+      "mainAvatarOffset" : [ -298.9556274414062, -67.56771850585938 ]
+   },
+   "Kinect" : {
+      "beamerFOV" : 0,
+      "beamerPosition" : [ 0, 0 ],
+      "kinectPosition" : [ 0, 0 ],
+      "kinectScaleFact" : 0
+   },
+   "LightPointApp" : {
+      "cabindimension" : [ 487, 430 ],
+      "cabindimensioninside" : [ 465, 420 ],
+      "cabinposition" : [ 1252, 554 ],
+      "cabinpositioninside" : [ 1278, 578 ],
+      "homeposition" : [ 1733, 438 ],
+      "insidePoisiton" : [ 1579, 896 ],
+      "scaredposition" : [ 1389, 171 ],
+      "startposition" : [ 677, 710 ],
+      "watchposition" : [ 1614, 650 ]
+   },
+   "LinieApp" : {
+      "anchorExplodeStartPositionBottom" : [ 1301, 709 ],
+      "anchorExplodeStartPositionTop" : [ 1210, 575 ],
+      "anchorStartPositionBottom" : [ 1802, 548 ],
+      "anchorStartPositionTop" : [ 108, 469 ],
+      "finalCirclePosition" : [ 960, 519 ]
+   },
+   "Settings" : {
+      "leftpos" : [ 96, 0 ],
+      "rightpos" : [ 1881, 0 ]
+   },
+   "emotions" : {
+      "anchorposition" : [ 1254, 336 ],
+      "anchorpositionBottom" : [ 1345, 822 ],
+      "animeomaskposition" : [ 1359, 423 ],
+      "animeomaskradius" : 150,
+      "emitterTopPosition" : [ 1587, 338 ],
+      "emitterposition" : [ 783, 560 ],
+      "repulsionbottomposition" : [ 1499, 720 ],
+      "repulsioncenterposition" : [ 378, 953 ],
+      "repulsionposition" : [ 1555, 997 ],
+      "repulsiontopposition" : [ 1302, 184 ],
+      "startposition" : [ 1226, 598 ]
+   },
+   "humania" : {
+      "startposition" : [ 513, 391 ]
+   }
+}
+

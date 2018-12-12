@@ -1,7 +1,7 @@
 {
    "Avatar" : {
       "addPosition" : [ -50, 801 ],
-      "mainAvatarOffset" : [ -298.9556274414062, -67.56771850585938 ]
+      "mainAvatarOffset" : [ -455.3525085449219, -92.34249877929688 ]
    },
    "Kinect" : {
       "beamerFOV" : 0,
@@ -10,38 +10,38 @@
       "kinectScaleFact" : 0
    },
    "LightPointApp" : {
-      "cabindimension" : [ 487, 430 ],
+      "cabindimension" : [ 511, 456 ],
       "cabindimensioninside" : [ 465, 420 ],
-      "cabinposition" : [ 1252, 554 ],
-      "cabinpositioninside" : [ 1278, 578 ],
-      "homeposition" : [ 1733, 438 ],
-      "insidePoisiton" : [ 1579, 896 ],
-      "scaredposition" : [ 1389, 171 ],
-      "startposition" : [ 677, 710 ],
-      "watchposition" : [ 1614, 650 ]
+      "cabinposition" : [ 1200, 536 ],
+      "cabinpositioninside" : [ 1210, 580 ],
+      "homeposition" : [ 1507, 406 ],
+      "insidePoisiton" : [ 1463, 884 ],
+      "scaredposition" : [ 1494, 483 ],
+      "startposition" : [ 642, 689 ],
+      "watchposition" : [ 1588, 665 ]
    },
    "LinieApp" : {
       "anchorExplodeStartPositionBottom" : [ 1301, 709 ],
       "anchorExplodeStartPositionTop" : [ 1210, 575 ],
-      "anchorStartPositionBottom" : [ 1802, 548 ],
-      "anchorStartPositionTop" : [ 108, 469 ],
-      "finalCirclePosition" : [ 960, 519 ]
+      "anchorStartPositionBottom" : [ 1789, 544 ],
+      "anchorStartPositionTop" : [ 63, 496 ],
+      "finalCirclePosition" : [ 936, 525 ]
    },
    "Settings" : {
-      "leftpos" : [ 96, 0 ],
-      "rightpos" : [ 1881, 0 ]
+      "leftpos" : [ 88, 0 ],
+      "rightpos" : [ 1808, 2 ]
    },
    "emotions" : {
-      "anchorposition" : [ 1254, 336 ],
+      "anchorposition" : [ 1225, 322 ],
       "anchorpositionBottom" : [ 1345, 822 ],
-      "animeomaskposition" : [ 1359, 423 ],
+      "animeomaskposition" : [ 1259, 391 ],
       "animeomaskradius" : 150,
-      "emitterTopPosition" : [ 1587, 338 ],
-      "emitterposition" : [ 783, 560 ],
-      "repulsionbottomposition" : [ 1499, 720 ],
-      "repulsioncenterposition" : [ 378, 953 ],
-      "repulsionposition" : [ 1555, 997 ],
-      "repulsiontopposition" : [ 1302, 184 ],
+      "emitterTopPosition" : [ 1474, 360 ],
+      "emitterposition" : [ 1517, 810 ],
+      "repulsionbottomposition" : [ 1408, 672 ],
+      "repulsioncenterposition" : [ 306, 927 ],
+      "repulsionposition" : [ 1505, 939 ],
+      "repulsiontopposition" : [ 1233, 159 ],
       "startposition" : [ 1226, 598 ]
    },
    "humania" : {

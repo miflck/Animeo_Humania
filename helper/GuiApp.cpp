@@ -57,8 +57,10 @@ void GuiApp::draw(){
         string id = "";
         id += "ID: "+ofToString(i)+"\n";
         ofSetColor(0);
+        ofPushMatrix();
         ofTranslate(mskel[i].head);
         ofDrawBitmapString(id, 10, 10);
+        ofPopMatrix();
     }
     
    /* for(int i=0;i<uskel.size();i++){

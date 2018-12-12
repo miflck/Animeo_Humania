@@ -90,46 +90,31 @@ public:
     bool bSlowDown=true;
     void toggleRepulsion();
     
-    
     ofVec2f *homeposition;
     ofVec2f *startposition;
     ofVec2f *scaredposition;
     ofVec2f *insidepositon;
-    
     ofVec2f *watchposition;
-
 
   //  bool keyIsDown[255];
     
-    
     void bounceFromWalls();
-    
     bool bounceFromCabin();
     bool bBounceFromCabin=true;
     ofVec2f *cabinposition;
     ofVec2f *cabindimension;
-    
     
     bool bIsInside=false;
     void setInside(bool b);
     ofVec2f *cabinpositionInside;
     ofVec2f *cabindimensionInside;
     
-    
     ofVec2f lastPosition;
     ofRectangle cabinRect;
     
     bool goInside=false;
-
-
-    
-    
-
     void onOSCSetup(ofxOscMessage &msg);
-
-    
-    
-   void onMessageReceived(ofxOscMessage &msg);
+    void onMessageReceived(ofxOscMessage &msg);
     
     int size1=20;
     int size2=76;
@@ -141,11 +126,8 @@ public:
     */
     vector<ofSoundPlayer>bouncesounds;
 
-
     void playRandomSound();
-    
     bool bIsMute=false;
-    
     void setMute(bool m);
     bool getIsMute();
     
